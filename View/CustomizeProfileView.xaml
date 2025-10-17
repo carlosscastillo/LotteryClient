@@ -1,0 +1,212 @@
+﻿<Window x:Class="Lottery.View.CustomizeProfileView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lottery.View"
+        mc:Ignorable="d"
+        xmlns:language="clr-namespace:Lottery.Properties.Langs"
+        Title="CustomizeProfileView" Height="770" Width="550"
+        Background="#F5F5F5"
+        WindowStartupLocation="CenterScreen">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,40,0,20">
+            <Border Width="60" Height="60" CornerRadius="8" Margin="0,0,15,0">
+                <Border.Background>
+                    <ImageBrush ImageSource="https://i.pinimg.com/originals/73/b7/10/73b71051c82f0fe336893fbafe81277a.jpg"/>
+                </Border.Background>
+            </Border>
+            <Button x:Name="EditProfileButton" Click="EditProfileButton_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" Cursor="Hand">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <TextBlock Text="xXCarCasXx" FontSize="28" FontWeight="Bold" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <Border Grid.Row="1" BorderBrush="#DDDDDD" BorderThickness="1" Background="White" CornerRadius="12" Padding="40" MaxWidth="450" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,0,40">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="1" Color="Black" Opacity="0.1" BlurRadius="10"/>
+            </Border.Effect>
+
+            <Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="ProfileDataPanel" Visibility="Visible">
+                        <TextBlock Text="{x:Static language:Lang.CustomizeProfileLabelTitle}" Style="{StaticResource TitleTextStyle}"/>
+                        <TextBlock Text="{x:Static language:Lang.CustomizeProfileLabelEditDetails}" Style="{StaticResource SubtitleTextStyle}"/>
+                        <Label Content="{x:Static language:Lang.GlobalLabelName}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=NameTextBox}"/>
+                        <Grid>
+                            <TextBox x:Name="NameTextBox" Text="Carlos"/>
+                            <TextBlock Text="&#xE77B;" Style="{StaticResource IconStyle}"/>
+                        </Grid>
+                        <Label Content="{x:Static language:Lang.GlobalLabelPaternalLastName}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=PaternalLastNameTextBox}"/>
+                        <Grid>
+                            <TextBox x:Name="PaternalLastNameTextBox" Text="Castillo"/>
+                            <TextBlock Text="&#xE77B;" Style="{StaticResource IconStyle}"/>
+                        </Grid>
+                        <Label Content="{x:Static language:Lang.GlobalLabelMaternalLastName}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=MaternalLastNameTextBox}"/>
+                        <Grid>
+                            <TextBox x:Name="MaternalLastNameTextBox" Text="Barradas"/>
+                            <TextBlock Text="&#xE77B;" Style="{StaticResource IconStyle}"/>
+                        </Grid>
+                        <Label Content="{x:Static language:Lang.GlobalLabelNickname}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=NicknameTextBox}"/>
+                        <Grid>
+                            <TextBox x:Name="NicknameTextBox" Text="xXCarCasXx"/>
+                            <TextBlock Text="&#xE77B;" Style="{StaticResource IconStyle}"/>
+                        </Grid>
+                        <Label Content="{x:Static language:Lang.GlobalLabelEmail}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=EmailTextBox}"/>
+                        <Grid>
+                            <TextBox x:Name="EmailTextBox" Text="carlos@gmail.com" IsReadOnly="True"/>
+                            <TextBlock Text="&#xE715;" Style="{StaticResource IconStyle}"/>
+                        </Grid>
+                        <Button x:Name="SaveChangesButton" Click="SaveChangesButton_Click" Content="{x:Static language:Lang.GlobalButtonSaveChanges}" Margin="0,20,0,10" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="8"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                        <Button x:Name="ChangePasswordButton" Click="ChangePasswordButton_Click" Content="{x:Static language:Lang.GlobalTagPassword}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Foreground="Gray" HorizontalAlignment="Center"/>
+                        <Button x:Name="ChangeEmailButton" Click="ChangeEmailButton_Click" Content="{x:Static language:Lang.GlobalTagChangeEmail}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Foreground="Gray" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <StackPanel x:Name="AvatarSelectionPanel" Visibility="Collapsed">
+                    <TextBlock Text="{x:Static language:Lang.CustomizeProfileLabelTitle}" Style="{StaticResource TitleTextStyle}" Margin="0,0,0,5"/>
+                    <TextBlock Text="{x:Static language:Lang.CustomizeProfileLabelSelectAvatar}" Style="{StaticResource SubtitleTextStyle}" Margin="0,0,0,25"/>
+                    <Label Content="{x:Static language:Lang.CustomizeProfileLabelAvatar}" Style="{StaticResource LabelStyle}"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Margin="5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <Image Source="https://i.pinimg.com/originals/73/b7/10/73b71051c82f0fe336893fbafe81277a.jpg" Width="50"/>
+                        </Button>
+                        <Button Margin="5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <Image Source="https://i.pinimg.com/236x/94/20/c2/9420c247dfe92c3ef322eec99654abac.jpg" Width="50"/>
+                        </Button>
+                        <Button Margin="5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <Image Source="https://wallpapers.com/images/hd/xbox-360-profile-pictures-lhsi6jgychy82r61.jpg" Width="50"/>
+                        </Button>
+                        <Button Margin="5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <Image Source="https://wallpapers.com/images/hd/xbox-360-profile-pictures-glvjkc137tsrudsw.jpg" Width="50"/>
+                        </Button>
+                        <Button Margin="5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <Image Source="https://wallpapers.com/images/hd/xbox-360-profile-pictures-nvesht0v7k3j254s.jpg" Width="50"/>
+                        </Button>
+                    </StackPanel>
+                    <Label Content="{x:Static language:Lang.CustomizeProfileLabelBackground}" Style="{StaticResource LabelStyle}" Margin="0,20,0,5"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Margin="5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <Border Width="40" Height="40" Background="Yellow" CornerRadius="4"/>
+                        </Button>
+                        <Button Margin="5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <Border Width="40" Height="40" Background="Red" CornerRadius="4"/>
+                        </Button>
+                        <Button Margin="5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <Border Width="40" Height="40" Background="Blue" CornerRadius="4"/>
+                        </Button>
+                        <Button Margin="5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <Border Width="40" Height="40" Background="Magenta" CornerRadius="4"/>
+                        </Button>
+                        <Button Margin="5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <Border Width="40" Height="40" Background="LimeGreen" CornerRadius="4"/>
+                        </Button>
+                    </StackPanel>
+                    <Button x:Name="SaveCustomizationButton" Click="SaveCustomizationButton_Click" Content="{x:Static language:Lang.GlobalButtonSaveChanges}" Margin="0,40,0,0" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="8"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel x:Name="ChangeEmailPanel" Visibility="Collapsed">
+                    <TextBlock Text="{x:Static language:Lang.GlobalTagChangeEmail}" Style="{StaticResource TitleTextStyle}" Cursor="Hand"/>
+                    <TextBlock Text="{x:Static language:Lang.GlobalLabelDetailsToContinue}" Style="{StaticResource SubtitleTextStyle}"/>
+
+                    <Label Content="{x:Static language:Lang.GlobalLabelPassword}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=CurrentPasswordBox}"/>
+                    <Grid>
+                        <PasswordBox x:Name="CurrentPasswordBox" Password="Password"/>
+                        <TextBlock Text="&#xE72E;" Style="{StaticResource IconStyle}"/>
+                    </Grid>
+
+                    <Label Content="{x:Static language:Lang.CustomizeProfileLabelNewEmailAddress}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=NewEmailTextBox}"/>
+                    <Grid>
+                        <TextBox x:Name="NewEmailTextBox" Text="carlos@gmail.com"/>
+                        <TextBlock Text="&#xE715;" Style="{StaticResource IconStyle}"/>
+                    </Grid>
+
+                    <TextBlock Text="{x:Static language:Lang.CustomizeProfileLabelDescription}" FontSize="12" Foreground="Gray" TextWrapping="Wrap" Margin="0,20,0,0"/>
+
+                    <Button x:Name="ContinueEmailChangeButton" Click="ContinueEmailChangeButton_Click" Content="{x:Static language:Lang.GlobalButtonContinue}" Margin="0,20,0,0" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="8"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                    <Button x:Name="BackEmailChangeButton" Click="BackEmailChangeButton_Click" Content="{x:Static language:Lang.GlobalButtonBack}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Foreground="Gray" Margin="0,15,0,0" HorizontalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel x:Name="VerifyEmailChangePanel" Visibility="Collapsed">
+                    <TextBlock Text="{x:Static language:Lang.GlobalTagChangeEmail}" Style="{StaticResource TitleTextStyle}"/>
+
+                    <TextBlock Text="{x:Static language:Lang.GlobalLabelVerificationCode}" Style="{StaticResource SubtitleTextStyle}" Margin="0,20,0,2"/>
+                    <TextBlock x:Name="VerificationCodeEmailTextBlock" Text="carlos@gmail.com" FontSize="14" Foreground="Gray" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+                    <Label Style="{StaticResource LabelStyle}" Target="{Binding ElementName=VerificationCodeTextBox}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{x:Static language:Lang.GlobalButtonVerificationCode}" FontWeight="SemiBold"/>
+                            <TextBlock Text="&#xE72E;" FontFamily="Segoe MDL2 Assets" FontSize="12" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Label>
+                    <Grid>
+                        <TextBox x:Name="VerificationCodeTextBox" Style="{StaticResource CodeInputFieldStyle}" Text="000000"/>
+                    </Grid>
+
+                    <Button x:Name="VerifyCodeButton" Click="VerifyCodeButton_Click" Content="{x:Static language:Lang.GlobalButtonVerifyCode}" Margin="0,20,0,0" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="8"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                    <Button x:Name="GoBackButton" Click="GoBackButton_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Foreground="Gray" Margin="0,15,0,0" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{x:Static language:Lang.GlobalButtonBack}"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel x:Name="EmailChangeSuccessPanel" Visibility="Collapsed">
+                    <TextBlock Text="{x:Static language:Lang.GlobalTagChangeEmail}" Style="{StaticResource TitleTextStyle}"/>
+
+                    <TextBlock Text="{x:Static language:Lang.CustomizeProfileLabelEmailUpdated}" 
+                           Style="{StaticResource SubtitleTextStyle}" Margin="0,20,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
+
+                    <Grid Height="60" Width="60" Margin="0,25,0,25">
+                        <Border Background="#28a745" CornerRadius="30"/>
+                        <TextBlock Text="&#xE73E;" FontFamily="Segoe MDL2 Assets" Foreground="White" 
+                               FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <Button x:Name="AcceptButton" Click="AcceptButton_Click" Content="{x:Static language:Lang.GlobalButtonAccept}" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="8"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

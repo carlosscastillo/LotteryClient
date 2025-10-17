@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ChangePasswordButtonCreateNewPassword" xml:space="preserve">
+    <value>Crear nueva contraseña</value>
+  </data>
+  <data name="ChangePasswordLabelCurrentPassword" xml:space="preserve">
+    <value>Contraseña anterior</value>
+  </data>
+  <data name="ChangePasswordLabelSuccessfullyChanged" xml:space="preserve">
+    <value>Tu contraseña se ha modificado correctamente</value>
+  </data>
+  <data name="GlobalTagPassword" xml:space="preserve">
+    <value>Cambiar Contraseña</value>
+  </data>
+  <data name="CreateLobbyLabelCardDisplayOneSecond" xml:space="preserve">
+    <value>1 Segundo</value>
+  </data>
+  <data name="CreateLobbyLabelCardDisplayThreeSeconds" xml:space="preserve">
+    <value>3 Segundos</value>
+  </data>
+  <data name="CreateLobbyLabelCardDisplayTime" xml:space="preserve">
+    <value>Tiempo de aparición de las cartas</value>
+  </data>
+  <data name="CreateLobbyLabelCardDisplayTwoSeconds" xml:space="preserve">
+    <value>2 Segundos</value>
+  </data>
+  <data name="CreateLobbyLabelCardImage" xml:space="preserve">
+    <value>Imagen de cartas</value>
+  </data>
+  <data name="CreateLobbyLabelGameMode" xml:space="preserve">
+    <value>Modo de juego</value>
+  </data>
+  <data name="CreateLobbyLabelGameModeCenter" xml:space="preserve">
+    <value>Centro</value>
+  </data>
+  <data name="CreateLobbyLabelGameModeCorners" xml:space="preserve">
+    <value>Esquinas</value>
+  </data>
+  <data name="CreateLobbyLabelGameModeDiagonals" xml:space="preserve">
+    <value>Diagonales</value>
+  </data>
+  <data name="CreateLobbyLabelGameModeFrame" xml:space="preserve">
+    <value>Marco</value>
+  </data>
+  <data name="CreateLobbyLabelGameModeMegaLottery" xml:space="preserve">
+    <value>Mega Lotería</value>
+  </data>
+  <data name="CreateLobbyLabelGameModeStandard" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="CreateLobbyLabelGameModeUnfairLottery" xml:space="preserve">
+    <value>Lotería Injusta</value>
+  </data>
+  <data name="CreateLobbyLabelMarkers" xml:space="preserve">
+    <value>Fichas</value>
+  </data>
+  <data name="CreateLobbyLabelMarkersBeans" xml:space="preserve">
+    <value>Frijoles</value>
+  </data>
+  <data name="CreateLobbyLabelMarkersBottleCaps" xml:space="preserve">
+    <value>Corcholatas</value>
+  </data>
+  <data name="CreateLobbyLabelMarkersCoins" xml:space="preserve">
+    <value>Monedas</value>
+  </data>
+  <data name="CreateLobbyLabelMarkersCorn" xml:space="preserve">
+    <value>Maíz</value>
+  </data>
+  <data name="CreateLobbyLabelMarkersPaperBalls" xml:space="preserve">
+    <value>Bolitas de Papel</value>
+  </data>
+  <data name="CreateLobbyLabelSound" xml:space="preserve">
+    <value>Sonido</value>
+  </data>
+  <data name="CreateLobbyLabelTitle" xml:space="preserve">
+    <value>Crear Sala</value>
+  </data>
+  <data name="GlobalTagChangeEmail" xml:space="preserve">
+    <value>Cambiar correo electrónico</value>
+  </data>
+  <data name="CustomizeProfileLabelAvatar" xml:space="preserve">
+    <value>Foto de Perfil</value>
+  </data>
+  <data name="CustomizeProfileLabelBackground" xml:space="preserve">
+    <value>Color de Fondo</value>
+  </data>
+  <data name="CustomizeProfileLabelDescription" xml:space="preserve">
+    <value>Al presionar “Continuar”, se enviará un código de verificación a la dirección de correo electrónico proporcionada.</value>
+  </data>
+  <data name="CustomizeProfileLabelEditDetails" xml:space="preserve">
+    <value>Edita y actualiza la información de tu perfil.</value>
+  </data>
+  <data name="CustomizeProfileLabelEmailUpdated" xml:space="preserve">
+    <value>Tu correo electrónico se ha modificado correctamente</value>
+  </data>
+  <data name="CustomizeProfileLabelNewEmailAddress" xml:space="preserve">
+    <value>Nueva dirección de correo electrónico</value>
+  </data>
+  <data name="CustomizeProfileLabelProfileDetails" xml:space="preserve">
+    <value>Datos del Perfil</value>
+  </data>
+  <data name="CustomizeProfileLabelSelectAvatar" xml:space="preserve">
+    <value>Selecciona tu avatar</value>
+  </data>
+  <data name="CustomizeProfileLabelTitle" xml:space="preserve">
+    <value>Personalizar Perfil</value>
+  </data>
+  <data name="en" xml:space="preserve">
+    <value>Inglés</value>
+  </data>
+  <data name="es" xml:space="preserve">
+    <value>Español</value>
+  </data>
+  <data name="exit" xml:space="preserve">
+    <value>Salir</value>
+  </data>
+  <data name="GlobalButtonAccept" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
+  <data name="GlobalButtonBack" xml:space="preserve">
+    <value>Regresar</value>
+  </data>
+  <data name="GlobalButtonContinue" xml:space="preserve">
+    <value>Continuar</value>
+  </data>
+  <data name="GlobalButtonSaveChanges" xml:space="preserve">
+    <value>Guardar Cambios</value>
+  </data>
+  <data name="GlobalButtonSignUp" xml:space="preserve">
+    <value>Registrarme</value>
+  </data>
+  <data name="GlobalButtonStart" xml:space="preserve">
+    <value>Iniciar</value>
+  </data>
+  <data name="GlobalButtonVerificationCode" xml:space="preserve">
+    <value>Código de Verificación</value>
+  </data>
+  <data name="GlobalButtonVerifyCode" xml:space="preserve">
+    <value>Verificar Código</value>
+  </data>
+  <data name="GlobalLabelChat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="GlobalLabelConfirmPassword" xml:space="preserve">
+    <value>Confirmar Contraseña</value>
+  </data>
+  <data name="GlobalLabelDetailsToContinue" xml:space="preserve">
+    <value>Ingresa tus datos para continuar</value>
+  </data>
+  <data name="GlobalLabelEmail" xml:space="preserve">
+    <value>Correo Electrónico</value>
+  </data>
+  <data name="GlobalLabelLobby" xml:space="preserve">
+    <value>Sala</value>
+  </data>
+  <data name="GlobalLabelMaternalLastName" xml:space="preserve">
+    <value>Apellido Materno</value>
+  </data>
+  <data name="GlobalLabelName" xml:space="preserve">
+    <value>Nombre(s)</value>
+  </data>
+  <data name="GlobalLabelNewPassword" xml:space="preserve">
+    <value>Nueva Contraseña</value>
+  </data>
+  <data name="GlobalLabelNickname" xml:space="preserve">
+    <value>Apodo</value>
+  </data>
+  <data name="GlobalLabelPassword" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="GlobalLabelPaternalLastName" xml:space="preserve">
+    <value>Apellido Paterno</value>
+  </data>
+  <data name="GlobalLabelPlayers" xml:space="preserve">
+    <value>Jugadores</value>
+  </data>
+  <data name="GlobalLabelVerificationCode" xml:space="preserve">
+    <value>Hemos enviado un código a</value>
+  </data>
+  <data name="GlobalTagNo" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="GlobalTagYes" xml:space="preserve">
+    <value>Si</value>
+  </data>
+  <data name="GuestSignUpLabelNickname" xml:space="preserve">
+    <value>Ingresa tu apodo</value>
+  </data>
+  <data name="GuestSignUpLabelTitle" xml:space="preserve">
+    <value>Iniciar como invitado</value>
+  </data>
+  <data name="InviteFriendsButtonCopy" xml:space="preserve">
+    <value>Copiar</value>
+  </data>
+  <data name="InviteFriendsButtonInviteCode" xml:space="preserve">
+    <value>Código de Invitación</value>
+  </data>
+  <data name="InviteFriendsButtonSend" xml:space="preserve">
+    <value>Enviar</value>
+  </data>
+  <data name="InviteFriendsLabelCopyInviteCode" xml:space="preserve">
+    <value>Copia tu código de invitación</value>
+  </data>
+  <data name="InviteFriendsLabelSendEmail" xml:space="preserve">
+    <value>Enviar por correo electrónico</value>
+  </data>
+  <data name="InviteFriendsLabelTitle" xml:space="preserve">
+    <value>Invita a tu amigo</value>
+  </data>
+  <data name="JoinLobbyButtonJoin" xml:space="preserve">
+    <value>Unirme a la sala</value>
+  </data>
+  <data name="JoinLobbyLabelDetails" xml:space="preserve">
+    <value>Ingresa el código de la sala</value>
+  </data>
+  <data name="JoinLobbyLabelLobbyCode" xml:space="preserve">
+    <value>Código de la sala</value>
+  </data>
+  <data name="JoinLobbyLabelTittle" xml:space="preserve">
+    <value>Unirse a una sala</value>
+  </data>
+  <data name="KickPlayerButtonKick" xml:space="preserve">
+    <value>Expulsar</value>
+  </data>
+  <data name="KickPlayerLabelKickOut" xml:space="preserve">
+    <value>Expulsión</value>
+  </data>
+  <data name="KickPlayerLabelMessage" xml:space="preserve">
+    <value>¿Estas seguro que deseas expulsar a</value>
+  </data>
+  <data name="KickPlayerTextFieldChat" xml:space="preserve">
+    <value>Escribe un mensaje</value>
+  </data>
+  <data name="loadMain" xml:space="preserve">
+    <value>Ir a inicio</value>
+  </data>
+  <data name="LoginButtonForgotMyPassword" xml:space="preserve">
+    <value>Olvidé mi contraseña</value>
+  </data>
+  <data name="LoginButtonSignUp" xml:space="preserve">
+    <value>Soy nuevo, quiero registrarme</value>
+  </data>
+  <data name="LoginLabelEnterDetail" xml:space="preserve">
+    <value>Ingresa tus datos para iniciar</value>
+  </data>
+  <data name="LoginLabelTitle" xml:space="preserve">
+    <value>Inicio de Sesión</value>
+  </data>
+  <data name="RecoverPasswordButtonConfirm" xml:space="preserve">
+    <value>Confirmar</value>
+  </data>
+  <data name="RecoverPasswordButtonGoToLogin" xml:space="preserve">
+    <value>Ir a inicio de sesión</value>
+  </data>
+  <data name="RecoverPasswordButtonRecoverPassword" xml:space="preserve">
+    <value>Recuperar contraseña</value>
+  </data>
+  <data name="RecoverPasswordLabelDescription" xml:space="preserve">
+    <value>Al presionar “Recuperar contraseña”, se enviará un código de verificación a la dirección de correo electrónico proporcionada.</value>
+  </data>
+  <data name="RecoverPasswordLabelNewPassword" xml:space="preserve">
+    <value>Ingresa tu nueva contraseña para continuar</value>
+  </data>
+  <data name="RecoverPasswordLabelPasswordUpdated" xml:space="preserve">
+    <value>Tu contraseña se ha actualizado correctamente, ya puedes iniciar sesión</value>
+  </data>
+  <data name="RecoverPasswordLabelTitle" xml:space="preserve">
+    <value>Recuperar Contraseña</value>
+  </data>
+  <data name="UserSignUpLabelDetails" xml:space="preserve">
+    <value>Ingresa tus datos para registrarte</value>
+  </data>
+  <data name="UserSignUpLabelRegistrationComplete" xml:space="preserve">
+    <value>Tu registro ha sido completado exitosamente. Bienvenido</value>
+  </data>
+  <data name="UserSignUpLabelTitle" xml:space="preserve">
+    <value>Registro de Usuario</value>
+  </data>
+</root>

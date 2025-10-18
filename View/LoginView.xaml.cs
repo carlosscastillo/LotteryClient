@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lottery.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,23 +23,23 @@ namespace Lottery.View
         public LoginView()
         {
             InitializeComponent();
+            var viewModel = new LoginViewModel();
+            this.DataContext = viewModel;
+
+            viewModel.LoginSuccess += () =>
+            {
+                var createLobbyView = new CreateLobbyView();
+                createLobbyView.Show();
+                this.Close();
+            };
+
+            viewModel.NavigateToSignUp += () =>
+            {
+                var registrationWindow = new UserRegisterView();
+                registrationWindow.Show();
+                this.Close();
+            };
         }
 
-        private void StartButton_Click(object sender, RoutedEventArgs e)
-        {
-            string email = EmailTextBox.Text;
-            string password = PasswordBox.Password;
-
-
-        }
-
-        private void SignUpButton_Click(object sender, RoutedEventArgs e)
-        {
-            UserRegisterView registrationWindow = new UserRegisterView();
-
-            registrationWindow.Show();
-
-            this.Close();
-        }
     }
 }

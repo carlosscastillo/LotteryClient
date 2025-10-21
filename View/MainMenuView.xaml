@@ -55,19 +55,19 @@
                         <Button Style="{StaticResource SideIconButtonStyle}">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                                 <TextBlock Text="&#xE713;" Style="{StaticResource SideIconTextStyle}" Margin="21,0,0,0"/>
-                                <TextBlock Text="Configuración" FontSize="10"/>
+                                <TextBlock Text="{x:Static language:Lang.MainMenuButtonSettings}" FontSize="10"/>
                             </StackPanel>
                         </Button>
                         <Button Style="{StaticResource SideIconButtonStyle}">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                                 <TextBlock Text="&#xE716;" Style="{StaticResource SideIconTextStyle}" Margin="6,0,0,0"/>
-                                <TextBlock Text="Amigos" FontSize="10"/>
+                                <TextBlock Text="{x:Static language:Lang.MainMenuButtonFriends}" FontSize="10"/>
                             </StackPanel>
                         </Button>
                         <Button Style="{StaticResource SideIconButtonStyle}">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                                 <TextBlock Text="&#xE77B;" Style="{StaticResource SideIconTextStyle}" Margin="1,0,0,0"/>
-                                <TextBlock Text="Perfil" FontSize="10"/>
+                                <TextBlock Text="{x:Static language:Lang.MainMenuButtonProfile}" FontSize="10"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>

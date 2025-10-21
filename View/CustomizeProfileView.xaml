@@ -44,17 +44,17 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <Button Grid.Row="0" Grid.Column="0"  x:Name="ChangeAvatarButton" Click="ChangeAvatarButton_Click" Content="Cambiar Avatar"
+                        <Button Grid.Row="0" Grid.Column="0"  x:Name="ChangeAvatarButton" Click="ChangeAvatarButton_Click" Content="{x:Static language:Lang.CustomizeProfileButtonChangeAvatar}"
                         Style="{StaticResource PrimaryButtonStyle}"/>
 
-                        <Button Grid.Row="0" Grid.Column="1" x:Name="ChangeNicknameButton" Click="ChangeNicknameButton_Click" Content="Cambiar Apodo" 
+                        <Button Grid.Row="0" Grid.Column="1" x:Name="ChangeNicknameButton" Click="ChangeNicknameButton_Click" Content="{x:Static language:Lang.CustomizeProfileButtonChangeNickname}" 
                         Style="{StaticResource PrimaryButtonStyle}"
                         Margin="20,10,0,10"/>
 
-                        <Button Grid.Row="1" Grid.Column="0" x:Name="ChangeEmailButton" Click="NavigateToChangeEmail_Click" Content="Cambiar correo" 
+                        <Button Grid.Row="1" Grid.Column="0" x:Name="ChangeEmailButton" Click="NavigateToChangeEmail_Click" Content="{x:Static language:Lang.CustomizeProfileButtonChangeEmail}" 
                         Style="{StaticResource PrimaryButtonStyle}"/>
 
-                        <Button Grid.Row="1" Grid.Column="1" x:Name="ChangePasswordButton" Click="NavigateToChangePassword_Click" Content="Cambiar contraseña" 
+                        <Button Grid.Row="1" Grid.Column="1" x:Name="ChangePasswordButton" Click="NavigateToChangePassword_Click" Content="{x:Static language:Lang.CustomizeProfileButtonChangePassword}" 
                         Style="{StaticResource PrimaryButtonStyle}"
                         Margin="20,0,0,0"/>
                     </Grid>
@@ -70,7 +70,7 @@
                         
                         <Label Content="{x:Static language:Lang.GlobalLabelNickname}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=NicknameTextBox}"/>
                         <Grid>
-                            <TextBox x:Name="NicknameTextBox" Text="xXCarCasXx"/>
+                            <TextBox x:Name="NicknameTextBox"/>
                             <TextBlock Text="&#xE77B;" Style="{StaticResource IconStyle}"/>
                         </Grid>
 

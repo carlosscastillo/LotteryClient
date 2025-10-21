@@ -411,4 +411,25 @@
   <data name="DeleteFriendButton" xml:space="preserve">
     <value>Eliminar amigo</value>
   </data>
+  <data name="CustomizeProfileButtonChangeAvatar" xml:space="preserve">
+    <value>Cambiar Avatar</value>
+  </data>
+  <data name="CustomizeProfileButtonChangeNickname" xml:space="preserve">
+    <value>Cambiar Apodo</value>
+  </data>
+  <data name="CustomizeProfileButtonChangeEmail" xml:space="preserve">
+    <value>Cambiar Correo</value>
+  </data>
+  <data name="CustomizeProfileButtonChangePassword" xml:space="preserve">
+    <value>Cambiar Contraseña</value>
+  </data>
+  <data name="MainMenuButtonProfile" xml:space="preserve">
+    <value>Perfil</value>
+  </data>
+  <data name="MainMenuButtonFriends" xml:space="preserve">
+    <value>Amigos</value>
+  </data>
+  <data name="MainMenuButtonSettings" xml:space="preserve">
+    <value>Configuración</value>
+  </data>
 </root>

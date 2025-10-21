@@ -32,7 +32,6 @@
                    Target="{Binding ElementName=LobbyCodeTextBox}"/>
 
                 <TextBox x:Name="LobbyCodeTextBox" 
-                     Text="0000      " 
                      TextAlignment="Center"
                      FontSize="16"
                      FontWeight="SemiBold"/>

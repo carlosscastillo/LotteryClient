@@ -277,6 +277,42 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Cambiar Avatar.
+        /// </summary>
+        public static string CustomizeProfileButtonChangeAvatar {
+            get {
+                return ResourceManager.GetString("CustomizeProfileButtonChangeAvatar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cambiar Correo.
+        /// </summary>
+        public static string CustomizeProfileButtonChangeEmail {
+            get {
+                return ResourceManager.GetString("CustomizeProfileButtonChangeEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cambiar Apodo.
+        /// </summary>
+        public static string CustomizeProfileButtonChangeNickname {
+            get {
+                return ResourceManager.GetString("CustomizeProfileButtonChangeNickname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cambiar Contraseña.
+        /// </summary>
+        public static string CustomizeProfileButtonChangePassword {
+            get {
+                return ResourceManager.GetString("CustomizeProfileButtonChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Foto de Perfil.
         /// </summary>
         public static string CustomizeProfileLabelAvatar {
@@ -849,6 +885,33 @@ namespace Lottery.Properties.Langs {
         public static string LoginLabelTitle {
             get {
                 return ResourceManager.GetString("LoginLabelTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Amigos.
+        /// </summary>
+        public static string MainMenuButtonFriends {
+            get {
+                return ResourceManager.GetString("MainMenuButtonFriends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Perfil.
+        /// </summary>
+        public static string MainMenuButtonProfile {
+            get {
+                return ResourceManager.GetString("MainMenuButtonProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Configuración.
+        /// </summary>
+        public static string MainMenuButtonSettings {
+            get {
+                return ResourceManager.GetString("MainMenuButtonSettings", resourceCulture);
             }
         }
         

@@ -91,8 +91,8 @@
     <Compile Include="View\RecoverPasswordView.xaml.cs">
       <DependentUpon>RecoverPasswordView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ScoreboardView.xaml.cs">
-      <DependentUpon>ScoreboardView.xaml</DependentUpon>
+    <Compile Include="View\LeaderboardView.xaml.cs">
+      <DependentUpon>LeaderboardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SelectLanguage.xaml.cs">
       <DependentUpon>SelectLanguage.xaml</DependentUpon>
@@ -148,7 +148,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ScoreboardView.xaml">
+    <Page Include="View\LeaderboardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

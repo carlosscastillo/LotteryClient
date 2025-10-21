@@ -18,9 +18,9 @@ namespace Lottery.View
     /// <summary>
     /// Lógica de interacción para ScoreboardView.xaml
     /// </summary>
-    public partial class ScoreboardView : Page
+    public partial class LeaderboardView : Page
     {
-        public ScoreboardView()
+        public LeaderboardView()
         {
             InitializeComponent();
         }

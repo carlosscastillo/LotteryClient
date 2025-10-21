@@ -358,6 +358,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Eliminar amigo.
+        /// </summary>
+        public static string DeleteFriendButton {
+            get {
+                return ResourceManager.GetString("DeleteFriendButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Inglés.
         /// </summary>
         public static string en {
@@ -381,6 +390,15 @@ namespace Lottery.Properties.Langs {
         public static string exit {
             get {
                 return ResourceManager.GetString("exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Lista de amigos.
+        /// </summary>
+        public static string FriendsListLabelTitle {
+            get {
+                return ResourceManager.GetString("FriendsListLabelTitle", resourceCulture);
             }
         }
         
@@ -628,6 +646,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Invitar a un amigo.
+        /// </summary>
+        public static string InviteFriendButton {
+            get {
+                return ResourceManager.GetString("InviteFriendButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Copiar.
         /// </summary>
         public static string InviteFriendsButtonCopy {
@@ -750,6 +777,33 @@ namespace Lottery.Properties.Langs {
         public static string KickPlayerTextFieldChat {
             get {
                 return ResourceManager.GetString("KickPlayerTextFieldChat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tabla de clasificación.
+        /// </summary>
+        public static string LeaderboardLabelTitle {
+            get {
+                return ResourceManager.GetString("LeaderboardLabelTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Posición.
+        /// </summary>
+        public static string LeaderboardRankLabel {
+            get {
+                return ResourceManager.GetString("LeaderboardRankLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Puntuación.
+        /// </summary>
+        public static string LeaderboardScoreLabel {
+            get {
+                return ResourceManager.GetString("LeaderboardScoreLabel", resourceCulture);
             }
         }
         

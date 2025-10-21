@@ -3,124 +3,57 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Lottery.View"
       mc:Ignorable="d" 
       xmlns:language="clr-namespace:Lottery.Properties.Langs"
       d:DesignHeight="450" d:DesignWidth="800"
       Background="#F0F0F0"
       Title="FriendsListView">
 
-    <Page.Resources>
-        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#000000"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Width" Value="80"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                            CornerRadius="5">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="BlueLargeButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#0078D7"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Height" Value="45"/>
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" 
-                    CornerRadius="8">
-                            <ContentPresenter HorizontalAlignment="Center" 
-                                  VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="StyledTextBox" TargetType="TextBox">
-            <Setter Property="Background" Value="#E0E0E0"/>
-            <Setter Property="BorderBrush" Value="#CCC"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="10,0,10,0"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
-                        <Border Background="{TemplateBinding Background}" 
-                            BorderBrush="{TemplateBinding BorderBrush}" 
-                            BorderThickness="{TemplateBinding BorderThickness}" 
-                            CornerRadius="5">
-                            <ScrollViewer x:Name="PART_ContentHost" 
-                                      Margin="0" 
-                                      Padding="{TemplateBinding Padding}" 
-                                      Background="Transparent"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Page.Resources>
-
     <Grid>
         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Width="500">
-            <TextBlock 
-                   FontSize="28" 
-                   FontWeight="Bold" 
-                   TextAlignment="Center" 
-                   Margin="0 0 0 20"><Run Language="es-mx" Text="Amigos"/></TextBlock>
-            <Button Content="Invitar amigo"
-                Style="{StaticResource BlueLargeButtonStyle}"
-                HorizontalAlignment="Center"
-                Margin="0 0 0 20" />
 
-            <StackPanel x:Name="FriendsListPanel" Orientation="Vertical">
+            <TextBlock Text="{x:Static language:Lang.FriendsListLabelTitle}"
+                FontSize="28"
+                FontWeight="Bold"                   
+                TextAlignment="Center"
+                Margin="0 0 0 60"/>
 
-                <Grid Height="40" Margin="0,0,0,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+            <Button Content="{x:Static language:Lang.InviteFriendButton}"
+                    Style="{StaticResource BlueLargeButtonStyle}"
+                    HorizontalAlignment="Center"
+                    Margin="0 0 0 20"/>
+            
+            <ItemsControl ItemsSource="{Binding Friends}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Height="40" Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <TextBlock Text="{Binding Name}"
+                                       VerticalAlignment="Center"
+                                       FontSize="14"/>
 
-                    <TextBlock Text="Amigo 1" VerticalAlignment="Center" FontSize="14"/>
-                    <Button Content="Eliminar" Grid.Column="1" Style="{StaticResource PrimaryButtonStyle}" />
-                </Grid>
+                            <Button Content="{x:Static language:Lang.DeleteFriendButton}"
+                                    Grid.Column="1"
+                                    Style="{StaticResource PrimaryButtonStyle}"
+                                    Width="80"
+                                    Height="30"
+                                    Command="{Binding DataContext.DeleteFriendCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                    CommandParameter="{Binding}" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
-                <Grid Height="40" Margin="0,0,0,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="Amigo 2" VerticalAlignment="Center" FontSize="14"/>
-                    <Button Content="Eliminar" Grid.Column="1" Style="{StaticResource PrimaryButtonStyle}" />
-                </Grid>
-
-            </StackPanel>
-
-
-            <Button Content="Regresar"
-                Style="{StaticResource PrimaryButtonStyle}"
-                HorizontalAlignment="Center"
-                Margin="0 150 0 0" />
+            <Button Content="{x:Static language:Lang.GlobalButtonBack}"
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    HorizontalAlignment="Center"
+                    Width="80"
+                    Height="30"
+                    Margin="0 150 0 0"/>
         </StackPanel>
     </Grid>
 </Page>

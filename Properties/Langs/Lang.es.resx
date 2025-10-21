@@ -393,4 +393,22 @@
   <data name="UserSignUpLabelTitle" xml:space="preserve">
     <value>Registro de Usuario</value>
   </data>
+  <data name="LeaderboardLabelTitle" xml:space="preserve">
+    <value>Tabla de clasificación</value>
+  </data>
+  <data name="LeaderboardRankLabel" xml:space="preserve">
+    <value>Posición</value>
+  </data>
+  <data name="LeaderboardScoreLabel" xml:space="preserve">
+    <value>Puntuación</value>
+  </data>
+  <data name="FriendsListLabelTitle" xml:space="preserve">
+    <value>Lista de amigos</value>
+  </data>
+  <data name="InviteFriendButton" xml:space="preserve">
+    <value>Invitar a un amigo</value>
+  </data>
+  <data name="DeleteFriendButton" xml:space="preserve">
+    <value>Eliminar amigo</value>
+  </data>
 </root>

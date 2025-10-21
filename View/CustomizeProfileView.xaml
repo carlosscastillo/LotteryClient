@@ -22,25 +22,47 @@
             </Border.Effect>
 
             <Grid>
-                <StackPanel x:Name="ProfileDataPanel" Visibility="Visible">
+                <StackPanel x:Name="InitialProfileViewPanel" Visibility="Visible" HorizontalAlignment="Center">
 
                     <TextBlock Text="Perfil" Style="{StaticResource TitleTextStyle}"/>
-                    
-                    <Border Width="60" Height="60" CornerRadius="8" Margin="15,10,15,10">
+
+                    <Border Width="100" Height="100" CornerRadius="50" Margin="15,10,15,10" HorizontalAlignment="Center">
                         <Border.Background>
-                            <ImageBrush ImageSource="https://i.pinimg.com/originals/73/b7/10/73b71051c82f0fe336893fbafe81277a.jpg"/>
+                            <ImageBrush ImageSource="https://i.pinimg.com/originals/73/b7/10/73b71051c82f0fe336893fbafe81277a.jpg" Stretch="UniformToFill"/>
                         </Border.Background>
                     </Border>
 
-                    <TextBlock Text="xXCarCasXx" Style="{StaticResource TitleTextStyle}"/>
+                    <TextBlock Text="xXCarCasXx" Style="{StaticResource TitleTextStyle}" FontSize="24" Margin="0,0,0,20"/>
 
-                    <Button Content="Cambiar Avatar" Margin="0,20,0,10" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand"/>
-                    <Button Content="Cambiar Apodo" Margin="0,20,0,10" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand"/>
-                    <Button Content="Cambiar Correo" Margin="0,20,0,10" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand"/>
-                    <Button Content="Cambiar Contraseña" Margin="0,20,0,10" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand"/>
+                    <Grid MaxWidth="400">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Button Grid.Row="0" Grid.Column="0"  x:Name="ChangeAvatarButton" Click="ChangeAvatarButton_Click" Content="Cambiar Avatar"
+                        Style="{StaticResource PrimaryButtonStyle}"/>
+
+                        <Button Grid.Row="0" Grid.Column="1" x:Name="ChangeNicknameButton" Click="ChangeNicknameButton_Click" Content="Cambiar Apodo" 
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        Margin="20,10,0,10"/>
+
+                        <Button Grid.Row="1" Grid.Column="0" x:Name="ChangeEmailButton" Click="NavigateToChangeEmail_Click" Content="Cambiar correo" 
+                        Style="{StaticResource PrimaryButtonStyle}"/>
+
+                        <Button Grid.Row="1" Grid.Column="1" x:Name="ChangePasswordButton" Click="NavigateToChangePassword_Click" Content="Cambiar contraseña" 
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        Margin="20,0,0,0"/>
+                    </Grid>
+
+                    <Button x:Name="BackButton" Content="{x:Static language:Lang.GlobalButtonBack}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Foreground="Gray" Margin="0,20,0,0" HorizontalAlignment="Center" Click="BackButton_Click"/>
 
                 </StackPanel>
-                
+
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel x:Name="NicknameSelectionPanel" Visibility="Collapsed">
                         <TextBlock Text="{x:Static language:Lang.CustomizeProfileLabelTitle}" Style="{StaticResource TitleTextStyle}"/>
@@ -51,16 +73,15 @@
                             <TextBox x:Name="NicknameTextBox" Text="xXCarCasXx"/>
                             <TextBlock Text="&#xE77B;" Style="{StaticResource IconStyle}"/>
                         </Grid>
-                        
-                        <Button x:Name="SaveChangesButton" Click="SaveChangesButton_Click" Content="{x:Static language:Lang.GlobalButtonSaveChanges}" Margin="0,20,0,10" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand">
+
+                        <Button x:Name="SaveChangesButton" Click="SaveChangesNicknameButton_Click" Content="{x:Static language:Lang.GlobalButtonSaveChanges}" Margin="0,20,0,10" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand">
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="8"/>
                                 </Style>
                             </Button.Resources>
                         </Button>
-                        <Button x:Name="ChangePasswordButton" Click="ChangePasswordButton_Click" Content="{x:Static language:Lang.GlobalTagPassword}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Foreground="Gray" HorizontalAlignment="Center"/>
-                        <Button x:Name="ChangeEmailButton" Click="ChangeEmailButton_Click" Content="{x:Static language:Lang.GlobalTagChangeEmail}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Foreground="Gray" HorizontalAlignment="Center"/>
+                        <Button x:Name="BackFromNicknameButton" Click="BackToInitialView_Click" Content="{x:Static language:Lang.GlobalButtonBack}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Foreground="Gray" HorizontalAlignment="Center"/>
                     </StackPanel>
                 </ScrollViewer>
 
@@ -110,6 +131,7 @@
                             </Style>
                         </Button.Resources>
                     </Button>
+                    <Button x:Name="BackFromAvatarButton" Click="BackToInitialView_Click" Content="{x:Static language:Lang.GlobalButtonBack}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Foreground="Gray" HorizontalAlignment="Center" Margin="0,20,0,0"/>
                 </StackPanel>
 
                 <StackPanel x:Name="ChangeEmailPanel" Visibility="Collapsed">
@@ -138,7 +160,7 @@
                         </Button.Resources>
                     </Button>
 
-                    <Button x:Name="BackEmailChangeButton" Click="BackEmailChangeButton_Click" Content="{x:Static language:Lang.GlobalButtonBack}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Foreground="Gray" Margin="0,15,0,0" HorizontalAlignment="Center"/>
+                    <Button x:Name="BackEmailChangeButton" Click="BackToInitialView_Click" Content="{x:Static language:Lang.GlobalButtonBack}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Foreground="Gray" Margin="0,15,0,0" HorizontalAlignment="Center"/>
                 </StackPanel>
 
                 <StackPanel x:Name="VerifyEmailChangePanel" Visibility="Collapsed">
@@ -154,7 +176,7 @@
                         </StackPanel>
                     </Label>
                     <Grid>
-                        <TextBox x:Name="VerificationCodeTextBox" Style="{StaticResource CodeInputFieldStyle}" Text="000000"/>
+                        <TextBox x:Name="VerificationCodeTextBox" Text="000000"/>
                     </Grid>
 
                     <Button x:Name="VerifyCodeButton" Click="VerifyCodeButton_Click" Content="{x:Static language:Lang.GlobalButtonVerifyCode}" Margin="0,20,0,0" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand">

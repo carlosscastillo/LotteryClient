@@ -18,7 +18,7 @@ namespace Lottery.View
     /// <summary>
     /// Lógica de interacción para ChangePasswordView.xaml
     /// </summary>
-    public partial class ChangePasswordView : Page
+    public partial class ChangePasswordView : Window
     {
         public ChangePasswordView()
         {

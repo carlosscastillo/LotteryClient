@@ -1,22 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Lottery.View;
 
 namespace Lottery.View
 {
-    /// <summary>
-    /// Lógica de interacción para CustomizeProfileView.xaml
-    /// </summary>
     public partial class CustomizeProfileView : Window
     {
         public CustomizeProfileView()
@@ -24,66 +12,98 @@ namespace Lottery.View
             InitializeComponent();
         }
 
-        private void EditProfileButton_Click(object sender, RoutedEventArgs e)
+        // --- Helper Method to Switch Panels ---
+        private void ShowPanel(Panel panelToShow)
         {
-            ProfileDataPanel.Visibility = Visibility.Collapsed;
-            AvatarSelectionPanel.Visibility = Visibility.Visible;
-        }
-
-        private void SaveChangesButton_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("¡Cambios de datos guardados exitosamente!");
-        }
-
-        private void ChangeEmailButton_Click(object sender, RoutedEventArgs e)
-        {
-            ProfileDataPanel.Visibility = Visibility.Collapsed;
-            ChangeEmailPanel.Visibility = Visibility.Visible;
-        }
-
-        private void ChangePasswordButton_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Navegando a la pantalla de cambio de contraseña...");
-        }
-
-        private void SaveCustomizationButton_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("¡Avatar y color guardados!");
+            // Hide all panels first
+            InitialProfileViewPanel.Visibility = Visibility.Collapsed;
+            NicknameSelectionPanel.Visibility = Visibility.Collapsed;
             AvatarSelectionPanel.Visibility = Visibility.Collapsed;
-            ProfileDataPanel.Visibility = Visibility.Visible;
+            ChangeEmailPanel.Visibility = Visibility.Collapsed;
+            // Add other panels here if they exist (VerifyEmailChangePanel, etc.)
+            VerifyEmailChangePanel.Visibility = Visibility.Collapsed;
+            EmailChangeSuccessPanel.Visibility = Visibility.Collapsed;
+
+
+            // Show the requested panel
+            panelToShow.Visibility = Visibility.Visible;
         }
 
+        // --- Event Handlers for Initial View Buttons ---
+        private void ChangeAvatarButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShowPanel(AvatarSelectionPanel);
+        }
+
+        private void ChangeNicknameButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShowPanel(NicknameSelectionPanel);
+        }
+
+        // Renamed from original ChangeEmailButton_Click to avoid conflict
+        private void NavigateToChangeEmail_Click(object sender, RoutedEventArgs e)
+        {
+            ShowPanel(ChangeEmailPanel);
+        }
+
+        // Renamed from original ChangePasswordButton_Click to avoid conflict
+        private void NavigateToChangePassword_Click(object sender, RoutedEventArgs e)
+        {
+            var changePasswordWindow = new ChangePasswordView();
+            changePasswordWindow.Show();
+            this.Close(); // Close current window
+        }
+
+        // Back button on the initial panel (goes back to main menu, presumably)
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Example: Navigate back to Main Menu
+            var mainMenuView = new MainMenuView();
+            mainMenuView.Show();
+            this.Close();
+        }
+
+        // --- Event Handlers for Sub-Panels ---
+
+        // Back button inside Nickname, Avatar, Email panels
+        private void BackToInitialView_Click(object sender, RoutedEventArgs e)
+        {
+            ShowPanel(InitialProfileViewPanel);
+        }
+
+        private void SaveChangesNicknameButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Nickname changes saved!"); // Placeholder
+            ShowPanel(InitialProfileViewPanel); // Go back after saving
+        }
+
+        // --- Keep your existing event handlers for email change flow ---
         private void ContinueEmailChangeButton_Click(object sender, RoutedEventArgs e)
         {
-
             VerificationCodeEmailTextBlock.Text = NewEmailTextBox.Text;
-            ChangeEmailPanel.Visibility = Visibility.Collapsed;
-            VerifyEmailChangePanel.Visibility = Visibility.Visible;
-        }
-
-        private void BackEmailChangeButton_Click(object sender, RoutedEventArgs e)
-        {
-            ChangeEmailPanel.Visibility = Visibility.Collapsed;
-            ProfileDataPanel.Visibility = Visibility.Visible;
+            ShowPanel(VerifyEmailChangePanel);
         }
 
         private void VerifyCodeButton_Click(object sender, RoutedEventArgs e)
         {
-
-            VerifyEmailChangePanel.Visibility = Visibility.Collapsed;
-            EmailChangeSuccessPanel.Visibility = Visibility.Visible;
+            ShowPanel(EmailChangeSuccessPanel);
         }
 
         private void GoBackButton_Click(object sender, RoutedEventArgs e)
         {
-            VerifyEmailChangePanel.Visibility = Visibility.Collapsed;
-            ChangeEmailPanel.Visibility = Visibility.Visible;
+            ShowPanel(ChangeEmailPanel); // Go back within email flow
         }
 
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
-            EmailChangeSuccessPanel.Visibility = Visibility.Collapsed;
-            ProfileDataPanel.Visibility = Visibility.Visible;
+            ShowPanel(InitialProfileViewPanel); // Go back after success
+        }
+
+        // Add handlers for Avatar selection buttons if needed
+        private void SaveCustomizationButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Avatar saved!"); // Placeholder
+            ShowPanel(InitialProfileViewPanel);
         }
     }
 }

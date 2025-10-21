@@ -63,7 +63,7 @@
                     <TextBlock Text="&#xE72E;" Style="{StaticResource IconStyle}"/>
                 </Grid>
 
-                <Button Content="{x:Static language:Lang.GlobalButtonSignUp}" Click="RegisterButton_Click" Margin="0,15,0,0" Padding="12" FontSize="15" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand">
+                <Button Content="{x:Static language:Lang.GlobalButtonSignUp}" Command="{Binding RegisterCommand}" CommandParameter="{Binding ElementName=PasswordBox}" Margin="0,15,0,0" Padding="12" FontSize="15" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="8"/>
@@ -83,19 +83,28 @@
                     <TextBox x:Name="VerificationCodeTextBox" Style="{StaticResource CodeInputFieldStyle}" Text="000000" />
                     <TextBlock Text="&#xE72E;" Style="{StaticResource IconStyle}" Margin="10,0,0,0"/>
                 </Grid>
-                <Button Content="{x:Static language:Lang.GlobalButtonVerifyCode}" Click="VerifyButton_Click" Margin="0,25,0,0" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand">
+                <Button Content="{x:Static language:Lang.GlobalButtonVerifyCode}"
+                    Command="{Binding VerifyCommand}"
+                    Margin="0,25,0,0"
+                    Padding="12"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Foreground="White"
+                    Background="Black"
+                    BorderThickness="0"
+                    Cursor="Hand">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="8"/>
                         </Style>
                     </Button.Resources>
                 </Button>
-                <Button x:Name="BackButton" Click="BackButton_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Background="Transparent" BorderThickness="0" Margin="0,20,0,0" HorizontalAlignment="Center" Cursor="Hand">
+                <!--<Button x:Name="BackButton" Click="BackButton_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Background="Transparent" BorderThickness="0" Margin="0,20,0,0" HorizontalAlignment="Center" Cursor="Hand">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE72B;" Style="{StaticResource BackIconStyle}"/>
                         <TextBlock Text="{x:Static language:Lang.GlobalButtonBack}" Foreground="Gray" FontSize="13"/>
                     </StackPanel>
-                </Button>
+                </Button>-->
             </StackPanel>
 
 
@@ -107,13 +116,13 @@
                     <Border Background="#28a745" CornerRadius="30"/>
                     <TextBlock Text="&#xE73E;" FontFamily="Segoe MDL2 Assets" Foreground="White" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
-                <Button x:Name="ContinueButton" Click="ContinueButton_Click" Content="{x:Static language:Lang.GlobalButtonContinue}" Margin="0,25,0,0" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand">
+                <!--<Button x:Name="ContinueButton" Click="ContinueButton_Click" Content="{x:Static language:Lang.GlobalButtonContinue}" Margin="0,25,0,0" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="8"/>
                         </Style>
                     </Button.Resources>
-                </Button>
+                </Button>-->
             </StackPanel>
 
         </Grid>

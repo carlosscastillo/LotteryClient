@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs" />
   <xs:element name="SendMessage">
     <xs:complexType>
       <xs:sequence>
@@ -22,7 +23,7 @@
   <xs:element name="AddFriend">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="friendshipRequestId" type="xs:int" />
+        <xs:element minOccurs="0" name="requesterId" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -55,7 +56,9 @@
   </xs:element>
   <xs:element name="UpdateGameSettings">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="settings" nillable="true" type="q1:GameSettingsDTO" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="UpdateGameSettingsResponse">
@@ -124,7 +127,9 @@
   </xs:element>
   <xs:element name="RegisterUser">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="userData" nillable="true" type="q2:UserRegisterDTO" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RegisterUserResponse">
@@ -149,6 +154,7 @@
   <xs:element name="ChangePassword">
     <xs:complexType>
       <xs:sequence>
+        <xs:element minOccurs="0" name="currentUserId" type="xs:int" />
         <xs:element minOccurs="0" name="oldPassword" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="newPassword" nillable="true" type="xs:string" />
       </xs:sequence>
@@ -156,7 +162,9 @@
   </xs:element>
   <xs:element name="ChangePasswordResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ChangePasswordResult" type="xs:boolean" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RecoverPassword">
@@ -173,12 +181,46 @@
   </xs:element>
   <xs:element name="UpdateProfile">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="currentUserId" type="xs:int" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="profileData" nillable="true" type="q3:UserProfileDTO" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="UpdateProfileResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UpdateProfileResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendVerificationCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="email" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendVerificationCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SendVerificationCodeResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VerifyCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="email" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VerifyCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="VerifyCodeResult" type="xs:boolean" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
 </xs:schema>

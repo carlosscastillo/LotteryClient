@@ -33,6 +33,7 @@
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="ILotteryService_SendMessage_InputMessage">
@@ -128,6 +129,18 @@
   <wsdl:message name="ILotteryService_UpdateProfile_OutputMessage">
     <wsdl:part name="parameters" element="tns:UpdateProfileResponse" />
   </wsdl:message>
+  <wsdl:message name="ILotteryService_SendVerificationCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendVerificationCode" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_SendVerificationCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendVerificationCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_VerifyCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:VerifyCode" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_VerifyCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:VerifyCodeResponse" />
+  </wsdl:message>
   <wsdl:portType name="ILotteryService">
     <wsdl:operation name="SendMessage">
       <wsdl:input wsaw:Action="http://tempuri.org/IChatService/SendMessage" message="tns:ILotteryService_SendMessage_InputMessage" />
@@ -191,6 +204,14 @@
     <wsdl:operation name="UpdateProfile">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/UpdateProfile" message="tns:ILotteryService_UpdateProfile_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/UpdateProfileResponse" message="tns:ILotteryService_UpdateProfile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendVerificationCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IVerificationService/SendVerificationCode" message="tns:ILotteryService_SendVerificationCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IVerificationService/SendVerificationCodeResponse" message="tns:ILotteryService_SendVerificationCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IVerificationService/VerifyCode" message="tns:ILotteryService_VerifyCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IVerificationService/VerifyCodeResponse" message="tns:ILotteryService_VerifyCode_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_ILotteryService" type="tns:ILotteryService">
@@ -337,6 +358,24 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="SendVerificationCode">
+      <soap12:operation soapAction="http://tempuri.org/IVerificationService/SendVerificationCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCode">
+      <soap12:operation soapAction="http://tempuri.org/IVerificationService/VerifyCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="LotteryService">
     <wsdl:port name="NetTcpBinding_ILotteryService" binding="tns:NetTcpBinding_ILotteryService">
@@ -344,7 +383,7 @@
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8080/Lottery/LotteryService</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
-          <Upn>USUARIO\carlo</Upn>
+          <Upn>DD\edgar</Upn>
         </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>

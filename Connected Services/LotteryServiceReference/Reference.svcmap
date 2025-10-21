@@ -25,6 +25,7 @@
     <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="31267ddc-61ea-4b2d-a3a7-2a5da9c56575" SourceId="1" SourceUrl="http://localhost:8733/Lottery/?xsd=xsd0" />
     <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="07af8f8c-b451-412d-9efa-e6942bfa73dd" SourceId="1" SourceUrl="http://localhost:8733/Lottery/?xsd=xsd1" />
     <MetadataFile FileName="item.disco" MetadataType="Disco" ID="93011eb6-00f4-4ab5-8dec-8141c527c010" SourceId="1" SourceUrl="http://localhost:8733/Lottery/?disco" />
+    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="735e4758-bf70-4372-8203-bf67992b23cd" SourceId="1" SourceUrl="http://localhost:8733/Lottery/?xsd=xsd2" />
     <MetadataFile FileName="LotteryService.wsdl" MetadataType="Wsdl" ID="33422f44-aefd-4c17-82c5-1849a25da72d" SourceId="1" SourceUrl="http://localhost:8733/Lottery/?wsdl" />
   </Metadata>
   <Extensions>

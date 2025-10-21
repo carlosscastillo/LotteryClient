@@ -63,8 +63,12 @@
                         Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Center" Cursor="Hand">
                     <TextBlock Text="{x:Static language:Lang.LoginButtonSignUp}" Foreground="Gray" FontWeight="SemiBold" FontSize="14"/>
                 </Button>
+
+                <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Margin="0,20,0,0" HorizontalAlignment="Center" Cursor="Hand">
+                    <TextBlock Text="Iniciar como invitado" Foreground="Gray" FontSize="13"/>
+                </Button>
+
             </StackPanel>
         </Border>
-
     </Grid>
 </Window>

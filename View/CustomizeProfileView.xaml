@@ -16,55 +16,42 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,40,0,20">
-            <Border Width="60" Height="60" CornerRadius="8" Margin="0,0,15,0">
-                <Border.Background>
-                    <ImageBrush ImageSource="https://i.pinimg.com/originals/73/b7/10/73b71051c82f0fe336893fbafe81277a.jpg"/>
-                </Border.Background>
-            </Border>
-            <Button x:Name="EditProfileButton" Click="EditProfileButton_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" Cursor="Hand">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                    <TextBlock Text="xXCarCasXx" FontSize="28" FontWeight="Bold" VerticalAlignment="Center"/>
-                </StackPanel>
-            </Button>
-        </StackPanel>
-
         <Border Grid.Row="1" BorderBrush="#DDDDDD" BorderThickness="1" Background="White" CornerRadius="12" Padding="40" MaxWidth="450" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,0,40">
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="1" Color="Black" Opacity="0.1" BlurRadius="10"/>
             </Border.Effect>
 
             <Grid>
+                <StackPanel x:Name="ProfileDataPanel" Visibility="Visible">
+
+                    <TextBlock Text="Perfil" Style="{StaticResource TitleTextStyle}"/>
+                    
+                    <Border Width="60" Height="60" CornerRadius="8" Margin="15,10,15,10">
+                        <Border.Background>
+                            <ImageBrush ImageSource="https://i.pinimg.com/originals/73/b7/10/73b71051c82f0fe336893fbafe81277a.jpg"/>
+                        </Border.Background>
+                    </Border>
+
+                    <TextBlock Text="xXCarCasXx" Style="{StaticResource TitleTextStyle}"/>
+
+                    <Button Content="Cambiar Avatar" Margin="0,20,0,10" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand"/>
+                    <Button Content="Cambiar Apodo" Margin="0,20,0,10" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand"/>
+                    <Button Content="Cambiar Correo" Margin="0,20,0,10" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand"/>
+                    <Button Content="Cambiar Contraseña" Margin="0,20,0,10" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand"/>
+
+                </StackPanel>
+                
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel x:Name="ProfileDataPanel" Visibility="Visible">
+                    <StackPanel x:Name="NicknameSelectionPanel" Visibility="Collapsed">
                         <TextBlock Text="{x:Static language:Lang.CustomizeProfileLabelTitle}" Style="{StaticResource TitleTextStyle}"/>
                         <TextBlock Text="{x:Static language:Lang.CustomizeProfileLabelEditDetails}" Style="{StaticResource SubtitleTextStyle}"/>
-                        <Label Content="{x:Static language:Lang.GlobalLabelName}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=NameTextBox}"/>
-                        <Grid>
-                            <TextBox x:Name="NameTextBox" Text="Carlos"/>
-                            <TextBlock Text="&#xE77B;" Style="{StaticResource IconStyle}"/>
-                        </Grid>
-                        <Label Content="{x:Static language:Lang.GlobalLabelPaternalLastName}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=PaternalLastNameTextBox}"/>
-                        <Grid>
-                            <TextBox x:Name="PaternalLastNameTextBox" Text="Castillo"/>
-                            <TextBlock Text="&#xE77B;" Style="{StaticResource IconStyle}"/>
-                        </Grid>
-                        <Label Content="{x:Static language:Lang.GlobalLabelMaternalLastName}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=MaternalLastNameTextBox}"/>
-                        <Grid>
-                            <TextBox x:Name="MaternalLastNameTextBox" Text="Barradas"/>
-                            <TextBlock Text="&#xE77B;" Style="{StaticResource IconStyle}"/>
-                        </Grid>
+                        
                         <Label Content="{x:Static language:Lang.GlobalLabelNickname}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=NicknameTextBox}"/>
                         <Grid>
                             <TextBox x:Name="NicknameTextBox" Text="xXCarCasXx"/>
                             <TextBlock Text="&#xE77B;" Style="{StaticResource IconStyle}"/>
                         </Grid>
-                        <Label Content="{x:Static language:Lang.GlobalLabelEmail}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=EmailTextBox}"/>
-                        <Grid>
-                            <TextBox x:Name="EmailTextBox" Text="carlos@gmail.com" IsReadOnly="True"/>
-                            <TextBlock Text="&#xE715;" Style="{StaticResource IconStyle}"/>
-                        </Grid>
+                        
                         <Button x:Name="SaveChangesButton" Click="SaveChangesButton_Click" Content="{x:Static language:Lang.GlobalButtonSaveChanges}" Margin="0,20,0,10" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand">
                             <Button.Resources>
                                 <Style TargetType="Border">

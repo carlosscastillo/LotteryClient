@@ -12,24 +12,19 @@ namespace Lottery.View
             InitializeComponent();
         }
 
-        // --- Helper Method to Switch Panels ---
         private void ShowPanel(Panel panelToShow)
         {
-            // Hide all panels first
             InitialProfileViewPanel.Visibility = Visibility.Collapsed;
             NicknameSelectionPanel.Visibility = Visibility.Collapsed;
             AvatarSelectionPanel.Visibility = Visibility.Collapsed;
             ChangeEmailPanel.Visibility = Visibility.Collapsed;
-            // Add other panels here if they exist (VerifyEmailChangePanel, etc.)
             VerifyEmailChangePanel.Visibility = Visibility.Collapsed;
             EmailChangeSuccessPanel.Visibility = Visibility.Collapsed;
 
 
-            // Show the requested panel
             panelToShow.Visibility = Visibility.Visible;
         }
 
-        // --- Event Handlers for Initial View Buttons ---
         private void ChangeAvatarButton_Click(object sender, RoutedEventArgs e)
         {
             ShowPanel(AvatarSelectionPanel);
@@ -40,32 +35,26 @@ namespace Lottery.View
             ShowPanel(NicknameSelectionPanel);
         }
 
-        // Renamed from original ChangeEmailButton_Click to avoid conflict
         private void NavigateToChangeEmail_Click(object sender, RoutedEventArgs e)
         {
             ShowPanel(ChangeEmailPanel);
         }
 
-        // Renamed from original ChangePasswordButton_Click to avoid conflict
         private void NavigateToChangePassword_Click(object sender, RoutedEventArgs e)
         {
             var changePasswordWindow = new ChangePasswordView();
             changePasswordWindow.Show();
-            this.Close(); // Close current window
+            this.Close();
         }
 
-        // Back button on the initial panel (goes back to main menu, presumably)
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            // Example: Navigate back to Main Menu
             var mainMenuView = new MainMenuView();
             mainMenuView.Show();
             this.Close();
         }
 
-        // --- Event Handlers for Sub-Panels ---
 
-        // Back button inside Nickname, Avatar, Email panels
         private void BackToInitialView_Click(object sender, RoutedEventArgs e)
         {
             ShowPanel(InitialProfileViewPanel);
@@ -73,11 +62,10 @@ namespace Lottery.View
 
         private void SaveChangesNicknameButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Nickname changes saved!"); // Placeholder
-            ShowPanel(InitialProfileViewPanel); // Go back after saving
+            MessageBox.Show("Nickname changes saved!");
+            ShowPanel(InitialProfileViewPanel);
         }
 
-        // --- Keep your existing event handlers for email change flow ---
         private void ContinueEmailChangeButton_Click(object sender, RoutedEventArgs e)
         {
             VerificationCodeEmailTextBlock.Text = NewEmailTextBox.Text;
@@ -91,18 +79,17 @@ namespace Lottery.View
 
         private void GoBackButton_Click(object sender, RoutedEventArgs e)
         {
-            ShowPanel(ChangeEmailPanel); // Go back within email flow
+            ShowPanel(ChangeEmailPanel);
         }
 
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
-            ShowPanel(InitialProfileViewPanel); // Go back after success
+            ShowPanel(InitialProfileViewPanel);
         }
 
-        // Add handlers for Avatar selection buttons if needed
         private void SaveCustomizationButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Avatar saved!"); // Placeholder
+            MessageBox.Show("Avatar saved!");
             ShowPanel(InitialProfileViewPanel);
         }
     }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Lottery.View"
         mc:Ignorable="d"
         xmlns:language="clr-namespace:Lottery.Properties.Langs"
-        Title="CustomizeProfileView" Height="770" Width="550"
+        Title="CustomizeProfileView" Height="470" Width="550"
         Background="#F5F5F5"
         WindowStartupLocation="CenterScreen">
     

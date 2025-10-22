@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Lottery.View"
         mc:Ignorable="d"
         xmlns:language="clr-namespace:Lottery.Properties.Langs"
+        xmlns:helpers="clr-namespace:Lottery.Helpers"
         Title="LoginView" Height="550" Width="400"
         Background="#F5F5F5"
         WindowStartupLocation="CenterScreen">
@@ -21,13 +22,14 @@
 
                 <Label Content="{x:Static language:Lang.GlobalLabelNickname}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=NicknameTextBox}"/>
                 <Grid>
-                    <TextBox x:Name="NicknameTextBox" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox x:Name="NicknameTextBox" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBlock Text="&#xE77B;" Style="{StaticResource IconStyle}"/>
                 </Grid>
 
                 <Label Content="{x:Static language:Lang.GlobalLabelPassword}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=PasswordBox}"/>
                 <Grid>
-                    <PasswordBox x:Name="PasswordBox"/>
+                    <PasswordBox x:Name="PasswordBox"
+                                 helpers:PasswordBoxHelper.BoundPassword="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBlock Text="&#xE72E;" Style="{StaticResource IconStyle}"/>
                 </Grid>
 

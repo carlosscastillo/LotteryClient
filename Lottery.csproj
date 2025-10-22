@@ -62,6 +62,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\PasswordBoxHelper.cs" />
     <Compile Include="SessionManager.cs" />
     <Compile Include="ViewModel\Base\ObservableObject.cs" />
     <Compile Include="ViewModel\Base\RelayCommand.cs" />

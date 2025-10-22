@@ -45,17 +45,35 @@
   <wsdl:message name="ILotteryService_SendRequestFriendship_OutputMessage">
     <wsdl:part name="parameters" element="tns:SendRequestFriendshipResponse" />
   </wsdl:message>
-  <wsdl:message name="ILotteryService_AddFriend_InputMessage">
-    <wsdl:part name="parameters" element="tns:AddFriend" />
+  <wsdl:message name="ILotteryService_AcceptFriendRequest_InputMessage">
+    <wsdl:part name="parameters" element="tns:AcceptFriendRequest" />
   </wsdl:message>
-  <wsdl:message name="ILotteryService_AddFriend_OutputMessage">
-    <wsdl:part name="parameters" element="tns:AddFriendResponse" />
+  <wsdl:message name="ILotteryService_AcceptFriendRequest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AcceptFriendRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RejectFriendRequest_InputMessage">
+    <wsdl:part name="parameters" element="tns:RejectFriendRequest" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RejectFriendRequest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RejectFriendRequestResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RemoveFriend_InputMessage">
     <wsdl:part name="parameters" element="tns:RemoveFriend" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RemoveFriend_OutputMessage">
     <wsdl:part name="parameters" element="tns:RemoveFriendResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetFriends_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFriends" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetFriends_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFriendsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetPendingRequests_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPendingRequests" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetPendingRequests_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPendingRequestsResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_StartGame_InputMessage">
     <wsdl:part name="parameters" element="tns:StartGame" />
@@ -129,6 +147,12 @@
   <wsdl:message name="ILotteryService_UpdateProfile_OutputMessage">
     <wsdl:part name="parameters" element="tns:UpdateProfileResponse" />
   </wsdl:message>
+  <wsdl:message name="ILotteryService_FindUserByNickname_InputMessage">
+    <wsdl:part name="parameters" element="tns:FindUserByNickname" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_FindUserByNickname_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindUserByNicknameResponse" />
+  </wsdl:message>
   <wsdl:message name="ILotteryService_SendVerificationCode_InputMessage">
     <wsdl:part name="parameters" element="tns:SendVerificationCode" />
   </wsdl:message>
@@ -149,13 +173,25 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/SendRequestFriendship" message="tns:ILotteryService_SendRequestFriendship_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/SendRequestFriendshipResponse" message="tns:ILotteryService_SendRequestFriendship_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="AddFriend">
-      <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/AddFriend" message="tns:ILotteryService_AddFriend_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/AddFriendResponse" message="tns:ILotteryService_AddFriend_OutputMessage" />
+    <wsdl:operation name="AcceptFriendRequest">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/AcceptFriendRequest" message="tns:ILotteryService_AcceptFriendRequest_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/AcceptFriendRequestResponse" message="tns:ILotteryService_AcceptFriendRequest_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RejectFriendRequest">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/RejectFriendRequest" message="tns:ILotteryService_RejectFriendRequest_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/RejectFriendRequestResponse" message="tns:ILotteryService_RejectFriendRequest_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="RemoveFriend">
       <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/RemoveFriend" message="tns:ILotteryService_RemoveFriend_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/RemoveFriendResponse" message="tns:ILotteryService_RemoveFriend_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFriends">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/GetFriends" message="tns:ILotteryService_GetFriends_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/GetFriendsResponse" message="tns:ILotteryService_GetFriends_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPendingRequests">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/GetPendingRequests" message="tns:ILotteryService_GetPendingRequests_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/GetPendingRequestsResponse" message="tns:ILotteryService_GetPendingRequests_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="StartGame">
       <wsdl:input wsaw:Action="http://tempuri.org/IGameService/StartGame" message="tns:ILotteryService_StartGame_InputMessage" />
@@ -205,6 +241,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/UpdateProfile" message="tns:ILotteryService_UpdateProfile_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/UpdateProfileResponse" message="tns:ILotteryService_UpdateProfile_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="FindUserByNickname">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/FindUserByNickname" message="tns:ILotteryService_FindUserByNickname_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/FindUserByNicknameResponse" message="tns:ILotteryService_FindUserByNickname_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="SendVerificationCode">
       <wsdl:input wsaw:Action="http://tempuri.org/IVerificationService/SendVerificationCode" message="tns:ILotteryService_SendVerificationCode_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IVerificationService/SendVerificationCodeResponse" message="tns:ILotteryService_SendVerificationCode_OutputMessage" />
@@ -232,8 +272,17 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="AddFriend">
-      <soap12:operation soapAction="http://tempuri.org/IFriendService/AddFriend" style="document" />
+    <wsdl:operation name="AcceptFriendRequest">
+      <soap12:operation soapAction="http://tempuri.org/IFriendService/AcceptFriendRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RejectFriendRequest">
+      <soap12:operation soapAction="http://tempuri.org/IFriendService/RejectFriendRequest" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -243,6 +292,24 @@
     </wsdl:operation>
     <wsdl:operation name="RemoveFriend">
       <soap12:operation soapAction="http://tempuri.org/IFriendService/RemoveFriend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFriends">
+      <soap12:operation soapAction="http://tempuri.org/IFriendService/GetFriends" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPendingRequests">
+      <soap12:operation soapAction="http://tempuri.org/IFriendService/GetPendingRequests" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -358,6 +425,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="FindUserByNickname">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/FindUserByNickname" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="SendVerificationCode">
       <soap12:operation soapAction="http://tempuri.org/IVerificationService/SendVerificationCode" style="document" />
       <wsdl:input>
@@ -383,7 +459,7 @@
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8080/Lottery/LotteryService</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
-          <Upn>DD\edgar</Upn>
+          <Upn>USUARIO\carlo</Upn>
         </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>

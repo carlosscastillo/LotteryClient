@@ -11,6 +11,7 @@
   <xs:element name="SendRequestFriendship">
     <xs:complexType>
       <xs:sequence>
+        <xs:element minOccurs="0" name="currentUserId" type="xs:int" />
         <xs:element minOccurs="0" name="targetUserId" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
@@ -20,14 +21,28 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
-  <xs:element name="AddFriend">
+  <xs:element name="AcceptFriendRequest">
     <xs:complexType>
       <xs:sequence>
+        <xs:element minOccurs="0" name="currentUserId" type="xs:int" />
         <xs:element minOccurs="0" name="requesterId" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="AddFriendResponse">
+  <xs:element name="AcceptFriendRequestResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RejectFriendRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="currentUserId" type="xs:int" />
+        <xs:element minOccurs="0" name="requesterId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RejectFriendRequestResponse">
     <xs:complexType>
       <xs:sequence />
     </xs:complexType>
@@ -35,6 +50,7 @@
   <xs:element name="RemoveFriend">
     <xs:complexType>
       <xs:sequence>
+        <xs:element minOccurs="0" name="currentUserId" type="xs:int" />
         <xs:element minOccurs="0" name="friendUserId" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
@@ -42,6 +58,34 @@
   <xs:element name="RemoveFriendResponse">
     <xs:complexType>
       <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFriends">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="currentUserId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFriendsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="GetFriendsResult" nillable="true" type="q1:ArrayOfFriendDTO" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPendingRequests">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="currentUserId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPendingRequestsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="GetPendingRequestsResult" nillable="true" type="q2:ArrayOfFriendRequestDTO" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="StartGame">
@@ -57,7 +101,7 @@
   <xs:element name="UpdateGameSettings">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="settings" nillable="true" type="q1:GameSettingsDTO" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="settings" nillable="true" type="q3:GameSettingsDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -111,7 +155,7 @@
   <xs:element name="LoginUserResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="LoginUserResult" type="xs:boolean" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="LoginUserResult" nillable="true" type="q4:UserSessionDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -128,7 +172,7 @@
   <xs:element name="RegisterUser">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="userData" nillable="true" type="q2:UserRegisterDTO" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="userData" nillable="true" type="q5:UserRegisterDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -183,7 +227,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="currentUserId" type="xs:int" />
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="profileData" nillable="true" type="q3:UserProfileDTO" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="profileData" nillable="true" type="q6:UserProfileDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -191,6 +235,20 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="UpdateProfileResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="FindUserByNickname">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nickname" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="FindUserByNicknameResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="FindUserByNicknameResult" nillable="true" type="q7:FriendDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

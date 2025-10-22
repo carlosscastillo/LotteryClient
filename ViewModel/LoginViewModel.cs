@@ -1,128 +1,85 @@
 ﻿using Lottery.LotteryServiceReference;
+using Lottery.View;
+using Lottery.ViewModel.Base;
 using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Lottery.ViewModel
 {
-    public class LoginViewModel : INotifyPropertyChanged
+    public class LoginViewModel : ObservableObject
     {
-        private string _userName;
-        private bool _isLoggingIn;
-        private readonly LotteryServiceClient _serviceClient;
+        private readonly ILotteryService _serviceClient;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public event Action LoginSuccess;
-        public event Action NavigateToSignUp;
-
-        public string UserName
+        private string _username;
+        public string Username
         {
-            get { return _userName; }
-            set
-            {
-                _userName = value;
-                OnPropertyChanged();
-            }
+            get => _username;
+            set => SetProperty(ref _username, value);
         }
 
+        private string _password;
+        public string Password
+        {
+            get => _password;
+            set => SetProperty(ref _password, value);
+        }
+
+        private string _errorMessage;
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set => SetProperty(ref _errorMessage, value);
+        }
+
+        private bool _isLoggingIn;
         public bool IsLoggingIn
         {
-            get { return _isLoggingIn; }
-            set
-            {
-                _isLoggingIn = value;
-                OnPropertyChanged();
-                ((RelayCommand)LoginCommand).RaiseCanExecuteChanged();
-            }
+            get => _isLoggingIn;
+            set => SetProperty(ref _isLoggingIn, value);
         }
 
-        public ICommand LoginCommand { get; private set; }
-
-        public ICommand SignUpCommand { get; private set; }
+        public ICommand LoginCommand { get; }
 
         public LoginViewModel()
         {
             _serviceClient = new LotteryServiceClient();
-            LoginCommand = new RelayCommand(
-                async (param) => await Login(param),
-                (param) => !IsLoggingIn
-            );
-
-            SignUpCommand = new RelayCommand(
-                (param) => NavigateToSignUp?.Invoke(),
-                (param) => true
-            );
+            LoginCommand = new RelayCommand<Window>(async (window) => await Login(window));
         }
 
-        private async Task Login(object parameter)
+        public async Task Login(Window window)
         {
-            var passwordBox = parameter as PasswordBox;
-            if (passwordBox == null)
-            {
-                return;
-            }
-            string password = passwordBox.Password;
-
-            if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(password))
-            {
-                MessageBox.Show("Por favor ingresa tu Apodo y Contraseña");
-                return;
-            }
+            if (IsLoggingIn) return;
 
             IsLoggingIn = true;
+            ErrorMessage = string.Empty;
 
             try
             {
-                bool isLoginSuccessful = await _serviceClient.LoginUserAsync(UserName, password);
+                UserSessionDTO user = await _serviceClient.LoginUserAsync(Username, Password);
 
-                if (isLoginSuccessful)
+                if (user != null)
                 {
-                    LoginSuccess?.Invoke();
+                    SessionManager.Login(user);
+
+                    MainMenuView mainMenuView = new MainMenuView();
+                    mainMenuView.Show();
+                    window.Close();
                 }
                 else
                 {
-                    MessageBox.Show("Contraseña o Apodo incorrecto");
+                    ErrorMessage = "Usuario o contraseña incorrectos.";
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"No se pudo conectar con el servidor {ex.Message}");
+                ErrorMessage = "Error de conexión con el servidor.";
             }
             finally
             {
                 IsLoggingIn = false;
             }
         }
-
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-    }
-
-    public class RelayCommand : ICommand
-    {
-        private readonly Action<object> _execute;
-        private readonly Predicate<object> _canExecute;
-
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-
-        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
-        {
-            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            _canExecute = canExecute;
-        }
-
-        public bool CanExecute(object parameter) => _canExecute == null || _canExecute(parameter);
-        public void Execute(object parameter) => _execute(parameter);
-        public void RaiseCanExecuteChanged() => CommandManager.InvalidateRequerySuggested();
     }
 }

@@ -62,6 +62,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="SessionManager.cs" />
+    <Compile Include="ViewModel\Base\ObservableObject.cs" />
+    <Compile Include="ViewModel\Base\RelayCommand.cs" />
     <Compile Include="ViewModel\CustomizeProfileViewModel.cs" />
     <Compile Include="ViewModel\FriendsListViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
@@ -207,6 +210,15 @@
     </None>
     <None Include="Connected Services\LotteryServiceReference\item2.xsd">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.FriendDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.FriendRequestDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.UserSessionDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\LotteryServiceReference\LotteryService.wsdl" />
     <None Include="Properties\Settings.settings">

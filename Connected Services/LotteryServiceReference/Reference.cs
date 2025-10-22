@@ -15,6 +15,144 @@ namespace Lottery.LotteryServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="FriendDTO", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
+    [System.SerializableAttribute()]
+    public partial class FriendDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NicknameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string StatusField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int UserIdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Nickname {
+            get {
+                return this.NicknameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NicknameField, value) != true)) {
+                    this.NicknameField = value;
+                    this.RaisePropertyChanged("Nickname");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Status {
+            get {
+                return this.StatusField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.StatusField, value) != true)) {
+                    this.StatusField = value;
+                    this.RaisePropertyChanged("Status");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int UserId {
+            get {
+                return this.UserIdField;
+            }
+            set {
+                if ((this.UserIdField.Equals(value) != true)) {
+                    this.UserIdField = value;
+                    this.RaisePropertyChanged("UserId");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="FriendRequestDTO", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
+    [System.SerializableAttribute()]
+    public partial class FriendRequestDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NicknameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int RequesterIdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Nickname {
+            get {
+                return this.NicknameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NicknameField, value) != true)) {
+                    this.NicknameField = value;
+                    this.RaisePropertyChanged("Nickname");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int RequesterId {
+            get {
+                return this.RequesterIdField;
+            }
+            set {
+                if ((this.RequesterIdField.Equals(value) != true)) {
+                    this.RequesterIdField = value;
+                    this.RaisePropertyChanged("RequesterId");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="GameSettingsDTO", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
     [System.SerializableAttribute()]
     public partial class GameSettingsDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -60,6 +198,83 @@ namespace Lottery.LotteryServiceReference {
                 if ((this.MaxPlayersField.Equals(value) != true)) {
                     this.MaxPlayersField = value;
                     this.RaisePropertyChanged("MaxPlayers");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UserSessionDTO", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
+    [System.SerializableAttribute()]
+    public partial class UserSessionDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int AvatarIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NicknameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int UserIdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int AvatarId {
+            get {
+                return this.AvatarIdField;
+            }
+            set {
+                if ((this.AvatarIdField.Equals(value) != true)) {
+                    this.AvatarIdField = value;
+                    this.RaisePropertyChanged("AvatarId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Nickname {
+            get {
+                return this.NicknameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NicknameField, value) != true)) {
+                    this.NicknameField = value;
+                    this.RaisePropertyChanged("Nickname");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int UserId {
+            get {
+                return this.UserIdField;
+            }
+            set {
+                if ((this.UserIdField.Equals(value) != true)) {
+                    this.UserIdField = value;
+                    this.RaisePropertyChanged("UserId");
                 }
             }
         }
@@ -335,22 +550,40 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task SendMessageAsync(string message);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/SendRequestFriendship", ReplyAction="http://tempuri.org/IFriendService/SendRequestFriendshipResponse")]
-        void SendRequestFriendship(int targetUserId);
+        void SendRequestFriendship(int currentUserId, int targetUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/SendRequestFriendship", ReplyAction="http://tempuri.org/IFriendService/SendRequestFriendshipResponse")]
-        System.Threading.Tasks.Task SendRequestFriendshipAsync(int targetUserId);
+        System.Threading.Tasks.Task SendRequestFriendshipAsync(int currentUserId, int targetUserId);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/AddFriend", ReplyAction="http://tempuri.org/IFriendService/AddFriendResponse")]
-        void AddFriend(int requesterId);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/AcceptFriendRequest", ReplyAction="http://tempuri.org/IFriendService/AcceptFriendRequestResponse")]
+        void AcceptFriendRequest(int currentUserId, int requesterId);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/AddFriend", ReplyAction="http://tempuri.org/IFriendService/AddFriendResponse")]
-        System.Threading.Tasks.Task AddFriendAsync(int requesterId);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/AcceptFriendRequest", ReplyAction="http://tempuri.org/IFriendService/AcceptFriendRequestResponse")]
+        System.Threading.Tasks.Task AcceptFriendRequestAsync(int currentUserId, int requesterId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/RejectFriendRequest", ReplyAction="http://tempuri.org/IFriendService/RejectFriendRequestResponse")]
+        void RejectFriendRequest(int currentUserId, int requesterId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/RejectFriendRequest", ReplyAction="http://tempuri.org/IFriendService/RejectFriendRequestResponse")]
+        System.Threading.Tasks.Task RejectFriendRequestAsync(int currentUserId, int requesterId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/RemoveFriend", ReplyAction="http://tempuri.org/IFriendService/RemoveFriendResponse")]
-        void RemoveFriend(int friendUserId);
+        void RemoveFriend(int currentUserId, int friendUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/RemoveFriend", ReplyAction="http://tempuri.org/IFriendService/RemoveFriendResponse")]
-        System.Threading.Tasks.Task RemoveFriendAsync(int friendUserId);
+        System.Threading.Tasks.Task RemoveFriendAsync(int currentUserId, int friendUserId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/GetFriends", ReplyAction="http://tempuri.org/IFriendService/GetFriendsResponse")]
+        Lottery.LotteryServiceReference.FriendDTO[] GetFriends(int currentUserId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/GetFriends", ReplyAction="http://tempuri.org/IFriendService/GetFriendsResponse")]
+        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDTO[]> GetFriendsAsync(int currentUserId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/GetPendingRequests", ReplyAction="http://tempuri.org/IFriendService/GetPendingRequestsResponse")]
+        Lottery.LotteryServiceReference.FriendRequestDTO[] GetPendingRequests(int currentUserId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/GetPendingRequests", ReplyAction="http://tempuri.org/IFriendService/GetPendingRequestsResponse")]
+        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendRequestDTO[]> GetPendingRequestsAsync(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/StartGame", ReplyAction="http://tempuri.org/IGameService/StartGameResponse")]
         void StartGame();
@@ -383,10 +616,10 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task JoinLobbyAsync(string lobbyCode);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/LoginUser", ReplyAction="http://tempuri.org/IAuthenticationService/LoginUserResponse")]
-        bool LoginUser(string username, string password);
+        Lottery.LotteryServiceReference.UserSessionDTO LoginUser(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/LoginUser", ReplyAction="http://tempuri.org/IAuthenticationService/LoginUserResponse")]
-        System.Threading.Tasks.Task<bool> LoginUserAsync(string username, string password);
+        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserSessionDTO> LoginUserAsync(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/LogoutUser", ReplyAction="http://tempuri.org/IAuthenticationService/LogoutUserResponse")]
         void LogoutUser();
@@ -423,6 +656,12 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/UpdateProfile", ReplyAction="http://tempuri.org/IUserService/UpdateProfileResponse")]
         System.Threading.Tasks.Task<bool> UpdateProfileAsync(int currentUserId, Lottery.LotteryServiceReference.UserProfileDTO profileData);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/FindUserByNickname", ReplyAction="http://tempuri.org/IUserService/FindUserByNicknameResponse")]
+        Lottery.LotteryServiceReference.FriendDTO FindUserByNickname(string nickname);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/FindUserByNickname", ReplyAction="http://tempuri.org/IUserService/FindUserByNicknameResponse")]
+        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDTO> FindUserByNicknameAsync(string nickname);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVerificationService/SendVerificationCode", ReplyAction="http://tempuri.org/IVerificationService/SendVerificationCodeResponse")]
         bool SendVerificationCode(string email);
@@ -472,28 +711,52 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.SendMessageAsync(message);
         }
         
-        public void SendRequestFriendship(int targetUserId) {
-            base.Channel.SendRequestFriendship(targetUserId);
+        public void SendRequestFriendship(int currentUserId, int targetUserId) {
+            base.Channel.SendRequestFriendship(currentUserId, targetUserId);
         }
         
-        public System.Threading.Tasks.Task SendRequestFriendshipAsync(int targetUserId) {
-            return base.Channel.SendRequestFriendshipAsync(targetUserId);
+        public System.Threading.Tasks.Task SendRequestFriendshipAsync(int currentUserId, int targetUserId) {
+            return base.Channel.SendRequestFriendshipAsync(currentUserId, targetUserId);
         }
         
-        public void AddFriend(int requesterId) {
-            base.Channel.AddFriend(requesterId);
+        public void AcceptFriendRequest(int currentUserId, int requesterId) {
+            base.Channel.AcceptFriendRequest(currentUserId, requesterId);
         }
         
-        public System.Threading.Tasks.Task AddFriendAsync(int requesterId) {
-            return base.Channel.AddFriendAsync(requesterId);
+        public System.Threading.Tasks.Task AcceptFriendRequestAsync(int currentUserId, int requesterId) {
+            return base.Channel.AcceptFriendRequestAsync(currentUserId, requesterId);
         }
         
-        public void RemoveFriend(int friendUserId) {
-            base.Channel.RemoveFriend(friendUserId);
+        public void RejectFriendRequest(int currentUserId, int requesterId) {
+            base.Channel.RejectFriendRequest(currentUserId, requesterId);
         }
         
-        public System.Threading.Tasks.Task RemoveFriendAsync(int friendUserId) {
-            return base.Channel.RemoveFriendAsync(friendUserId);
+        public System.Threading.Tasks.Task RejectFriendRequestAsync(int currentUserId, int requesterId) {
+            return base.Channel.RejectFriendRequestAsync(currentUserId, requesterId);
+        }
+        
+        public void RemoveFriend(int currentUserId, int friendUserId) {
+            base.Channel.RemoveFriend(currentUserId, friendUserId);
+        }
+        
+        public System.Threading.Tasks.Task RemoveFriendAsync(int currentUserId, int friendUserId) {
+            return base.Channel.RemoveFriendAsync(currentUserId, friendUserId);
+        }
+        
+        public Lottery.LotteryServiceReference.FriendDTO[] GetFriends(int currentUserId) {
+            return base.Channel.GetFriends(currentUserId);
+        }
+        
+        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDTO[]> GetFriendsAsync(int currentUserId) {
+            return base.Channel.GetFriendsAsync(currentUserId);
+        }
+        
+        public Lottery.LotteryServiceReference.FriendRequestDTO[] GetPendingRequests(int currentUserId) {
+            return base.Channel.GetPendingRequests(currentUserId);
+        }
+        
+        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendRequestDTO[]> GetPendingRequestsAsync(int currentUserId) {
+            return base.Channel.GetPendingRequestsAsync(currentUserId);
         }
         
         public void StartGame() {
@@ -536,11 +799,11 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.JoinLobbyAsync(lobbyCode);
         }
         
-        public bool LoginUser(string username, string password) {
+        public Lottery.LotteryServiceReference.UserSessionDTO LoginUser(string username, string password) {
             return base.Channel.LoginUser(username, password);
         }
         
-        public System.Threading.Tasks.Task<bool> LoginUserAsync(string username, string password) {
+        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserSessionDTO> LoginUserAsync(string username, string password) {
             return base.Channel.LoginUserAsync(username, password);
         }
         
@@ -590,6 +853,14 @@ namespace Lottery.LotteryServiceReference {
         
         public System.Threading.Tasks.Task<bool> UpdateProfileAsync(int currentUserId, Lottery.LotteryServiceReference.UserProfileDTO profileData) {
             return base.Channel.UpdateProfileAsync(currentUserId, profileData);
+        }
+        
+        public Lottery.LotteryServiceReference.FriendDTO FindUserByNickname(string nickname) {
+            return base.Channel.FindUserByNickname(nickname);
+        }
+        
+        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDTO> FindUserByNicknameAsync(string nickname) {
+            return base.Channel.FindUserByNicknameAsync(nickname);
         }
         
         public bool SendVerificationCode(string email) {

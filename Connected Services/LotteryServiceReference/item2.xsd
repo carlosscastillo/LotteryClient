@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Contracts.DTOs" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfFriendDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FriendDTO" nillable="true" type="tns:FriendDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFriendDTO" nillable="true" type="tns:ArrayOfFriendDTO" />
+  <xs:complexType name="FriendDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Nickname" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserId" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FriendDTO" nillable="true" type="tns:FriendDTO" />
+  <xs:complexType name="ArrayOfFriendRequestDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FriendRequestDTO" nillable="true" type="tns:FriendRequestDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFriendRequestDTO" nillable="true" type="tns:ArrayOfFriendRequestDTO" />
+  <xs:complexType name="FriendRequestDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Nickname" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RequesterId" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FriendRequestDTO" nillable="true" type="tns:FriendRequestDTO" />
   <xs:complexType name="GameSettingsDTO">
     <xs:sequence>
       <xs:element minOccurs="0" name="IsPrivate" type="xs:boolean" />
@@ -7,6 +34,14 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="GameSettingsDTO" nillable="true" type="tns:GameSettingsDTO" />
+  <xs:complexType name="UserSessionDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AvatarId" type="xs:int" />
+      <xs:element minOccurs="0" name="Nickname" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserId" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UserSessionDTO" nillable="true" type="tns:UserSessionDTO" />
   <xs:complexType name="UserRegisterDTO">
     <xs:sequence>
       <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />

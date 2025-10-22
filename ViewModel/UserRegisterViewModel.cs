@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Lottery.ViewModel.Base;
 
 namespace Lottery.ViewModel
 {
-    public class UserRegisterViewModel : INotifyPropertyChanged
+    public class UserRegisterViewModel : ObservableObject
     {
         private readonly LotteryServiceClient _serviceClient;
 
@@ -23,20 +24,19 @@ namespace Lottery.ViewModel
         private bool _isVerificationVisible;
         private bool _isCompletedVisible;
 
-        public event PropertyChangedEventHandler PropertyChanged;
         public event Action NavigateToLogin;
 
         // --- Propiedades bindables ---
-        public string Name { get => _name; set { _name = value; OnPropertyChanged(); } }
-        public string PaternalLastName { get => _paternalLastName; set { _paternalLastName = value; OnPropertyChanged(); } }
-        public string MaternalLastName { get => _maternalLastName; set { _maternalLastName = value; OnPropertyChanged(); } }
-        public string Nickname { get => _nickname; set { _nickname = value; OnPropertyChanged(); } }
-        public string Email { get => _email; set { _email = value; OnPropertyChanged(); } }
-        public string VerificationCode { get => _verificationCode; set { _verificationCode = value; OnPropertyChanged(); } }
+        public string Name { get => _name; set => SetProperty(ref _name, value); }
+        public string PaternalLastName { get => _paternalLastName; set => SetProperty(ref _paternalLastName, value); }
+        public string MaternalLastName { get => _maternalLastName; set => SetProperty(ref _maternalLastName, value); }
+        public string Nickname { get => _nickname; set => SetProperty(ref _nickname, value); }
+        public string Email { get => _email; set => SetProperty(ref _email, value); }
+        public string VerificationCode { get => _verificationCode; set => SetProperty(ref _verificationCode, value); }
 
-        public bool IsRegistering { get => _isRegistering; set { _isRegistering = value; OnPropertyChanged(); ((RelayCommand)RegisterCommand).RaiseCanExecuteChanged(); } }
-        public bool IsVerificationVisible { get => _isVerificationVisible; set { _isVerificationVisible = value; OnPropertyChanged(); } }
-        public bool IsCompletedVisible { get => _isCompletedVisible; set { _isCompletedVisible = value; OnPropertyChanged(); } }
+        public bool IsRegistering { get => _isRegistering; set => SetProperty(ref _isRegistering, value); }
+        public bool IsVerificationVisible { get => _isVerificationVisible; set => SetProperty(ref _isVerificationVisible, value); }
+        public bool IsCompletedVisible { get => _isCompletedVisible; set => SetProperty(ref _isCompletedVisible, value); }
 
         // --- Comandos ---
         public ICommand RegisterCommand { get; }
@@ -48,14 +48,17 @@ namespace Lottery.ViewModel
         {
             _serviceClient = new LotteryServiceClient();
 
-            RegisterCommand = new RelayCommand(async (param) => await Register(param), (param) => !IsRegistering);
-            VerifyCommand = new RelayCommand(async (param) => await VerifyCode(), (param) => !IsRegistering);
-            ContinueCommand = new RelayCommand((param) => NavigateToLogin?.Invoke(), (param) => true);
-            BackCommand = new RelayCommand((param) =>
+            RegisterCommand = new RelayCommand<object>(async (param) => await Register(param), (param) => !IsRegistering);
+
+            VerifyCommand = new RelayCommand(async () => await VerifyCode(), () => !IsRegistering);
+
+            ContinueCommand = new RelayCommand(() => NavigateToLogin?.Invoke(), () => true);
+
+            BackCommand = new RelayCommand(() =>
             {
                 IsVerificationVisible = false;
                 IsCompletedVisible = false;
-            },(param) => true);
+            }, () => true);
         }
 
         // --- Registro de usuario ---
@@ -145,10 +148,6 @@ namespace Lottery.ViewModel
                 IsRegistering = false;
             }
         }
-
-
-        // --- INotifyPropertyChanged ---
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));      
+   
     }
 }

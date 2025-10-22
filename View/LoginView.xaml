@@ -32,8 +32,10 @@
                 </Grid>
 
                 <Button x:Name="StartButton"
-                        Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=PasswordBox}"
-                        Content="{x:Static language:Lang.GlobalButtonStart}" Margin="0,30,0,0" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand">
+                        Content="{x:Static language:Lang.GlobalButtonStart}" Margin="0,30,0,0" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand"
+                        IsEnabled="{Binding IsLoggingIn, Converter={StaticResource InverseBooleanConverter}}"
+                        Command="{Binding LoginCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="8"/>

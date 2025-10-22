@@ -11,5 +11,10 @@ namespace Lottery.View
 
             DataContext = new LoginViewModel();
         }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

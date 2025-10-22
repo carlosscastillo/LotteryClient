@@ -8,7 +8,9 @@
         Title="Friends"
         WindowStartupLocation="CenterScreen"
         FontFamily="Segoe UI"
-        WindowState="Maximized">
+        WindowState="Maximized"
+        WindowStyle="None"
+        ResizeMode="NoResize">
 
     <Window.Background>
         <ImageBrush ImageSource="/Images/background.jpg" Stretch="UniformToFill"/>
@@ -58,6 +60,19 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
+            <Button x:Name="BackFromNicknameButton" 
+                Command="{Binding GoBackToMenuCommand}" 
+                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                Content="&#xE72B;"
+                FontFamily="Segoe MDL2 Assets"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,-5,0,0"
+                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                Foreground="White"
+                FontWeight="Bold"
+                FontSize="14"/>
+
             <GroupBox Header="Buscar Jugador" Grid.Row="0">
                 <StackPanel>
                     <DockPanel>
@@ -106,12 +121,7 @@
                     Margin="0,0,0,40"
                     VerticalAlignment="Bottom"/>
 
-            <Button x:Name="BackFromNicknameButton" Grid.Row="1"
-                    Command="{Binding GoBackToMenuCommand}" 
-                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
-                    Content="Regresar" Style="{StaticResource PrimaryButton}"
-                    HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,0"/>
-        </Grid>
+            </Grid>
 
     </Grid>
 </Window>

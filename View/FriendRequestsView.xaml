@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModel="clr-namespace:Lottery.ViewModel"
         mc:Ignorable="d"
-        Title="Solicitudes de Amistad" Height="300" Width="350"
-        WindowStartupLocation="CenterOwner"
+        Title="FriendRequestsView" Height="200" Width="300"
+        WindowStartupLocation="Manual"
+        Loaded="Window_Loaded"
         AllowsTransparency="True" WindowStyle="None">
 
     <Window.Background>
@@ -34,12 +35,12 @@
                                        VerticalAlignment="Center" 
                                        Grid.Column="0" FontWeight="Bold" Foreground="White"/>
 
-                            <Button Content="Aceptar" Grid.Column="1" Margin="5,0"
+                            <Button Content="Aceptar" Grid.Column="1" Margin="5,0,0,0"
                                     Command="{Binding DataContext.AcceptCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
                                     CommandParameter="{Binding RequesterId}"
-                                    Style="{StaticResource PrimaryButton}" Padding="8,3"/>
+                                    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Padding="8,3"/>
 
-                            <Button Content="Rechazar" Grid.Column="2"
+                            <Button Content="Rechazar" Grid.Column="2" Margin="5,0,35,0"
                                     Command="{Binding DataContext.RejectCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
                                     CommandParameter="{Binding RequesterId}"
                                     Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 

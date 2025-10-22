@@ -10,5 +10,10 @@ namespace Lottery.View
             InitializeComponent();
             DataContext = new InviteFriendsViewModel();
         }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

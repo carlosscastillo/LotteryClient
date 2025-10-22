@@ -41,12 +41,14 @@ namespace Lottery.ViewModel
         }
 
         public ICommand LoginCommand { get; }
+        public ICommand SignUpCommand { get; }
 
         public LoginViewModel()
         {
             _serviceClient = new LotteryServiceClient();
 
             LoginCommand = new RelayCommand<Window>(async (window) => await Login(window));
+            SignUpCommand = new RelayCommand<Window>(ExecuteSignUp);
         }
 
         public async Task Login(Window window)
@@ -83,6 +85,14 @@ namespace Lottery.ViewModel
             {
                 IsLoggingIn = false;
             }
+        }
+
+        private void ExecuteSignUp(Window loginWindow)
+        {
+            UserRegisterView registerView = new UserRegisterView();
+            registerView.Show();
+
+            loginWindow?.Close();
         }
     }
 }

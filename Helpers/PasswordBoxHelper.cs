@@ -27,7 +27,13 @@ namespace Lottery.Helpers
             if (d is PasswordBox box)
             {
                 box.PasswordChanged -= HandlePasswordChanged;
-                box.Password = (string)e.NewValue;
+
+                string newPassword = (string)e.NewValue ?? string.Empty;
+
+                if (box.Password != newPassword)
+                {
+                    box.Password = newPassword;
+                }
                 box.PasswordChanged += HandlePasswordChanged;
             }
         }

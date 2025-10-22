@@ -19,17 +19,17 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{Binding nickname}" 
+                        <TextBlock Text="{Binding Nickname}" 
                                    VerticalAlignment="Center" 
                                    Grid.Column="0" FontWeight="Bold"/>
 
                         <Button Content="Aceptar" Grid.Column="1" Margin="5,0"
                                 Command="{Binding DataContext.AcceptCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                CommandParameter="{Binding requesterId}"/>
+                                CommandParameter="{Binding RequesterId}"/>
 
                         <Button Content="Rechazar" Grid.Column="2"
                                 Command="{Binding DataContext.RejectCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                CommandParameter="{Binding requesterId}"
+                                CommandParameter="{Binding RequesterId}"
                                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
                     </Grid>
                 </DataTemplate>

@@ -21,7 +21,13 @@ namespace Lottery.ViewModel
 
         public FriendRequestsViewModel()
         {
-            _serviceClient = new LotteryServiceClient();
+            _serviceClient = SessionManager.ServiceClient;
+
+            if (_serviceClient == null)
+            {
+                MessageBox.Show("Error: No se pudo conectar con el servicio. Intente iniciar sesión de nuevo.");
+                return;
+            }
 
             _currentUserId = SessionManager.CurrentUser.UserId;
 

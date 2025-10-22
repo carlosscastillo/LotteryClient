@@ -6,11 +6,21 @@ namespace Lottery.ViewModel
 {
     public class MainMenuViewModel : ObservableObject
     {
+        public string Nickname { get; }
         public ICommand ShowFriendsViewCommand { get; }
-        // Aquí añadir comandos para los otros botones (Settings, Profile, CreateLobby, etc.)
+        // Aquí nos falta añadir comandos para los otros botones (Settings, Profile, CreateLobby, etc.)
 
         public MainMenuViewModel()
         {
+            if (SessionManager.CurrentUser != null)
+            {
+                Nickname = SessionManager.CurrentUser.Nickname;
+            }
+            else
+            {
+                Nickname = "Invitado";
+            }
+
             ShowFriendsViewCommand = new RelayCommand(ExecuteShowFriendsView);
         }
 

@@ -6,19 +6,20 @@
         xmlns:local="clr-namespace:Lottery.View"
         mc:Ignorable="d"
         xmlns:language="clr-namespace:Lottery.Properties.Langs"
-        Title="Main Menu" Height="350" Width="500"
+        Title="Main Menu" 
+        WindowState="Maximized"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <Style x:Key="SideIconButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
             <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Margin" Value="0,15,0,0"/>
+            <Setter Property="Margin" Value="0,25,0,0"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
         <Style x:Key="SideIconTextStyle" TargetType="TextBlock" BasedOn="{StaticResource IconStyle}">
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontSize" Value="30"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
     </Window.Resources>
@@ -28,9 +29,7 @@
             <ImageBrush ImageSource="/Images/background.jpg" Stretch="UniformToFill"/>
         </Grid.Background>
 
-        <Border BorderBrush="#55FFFFFF" BorderThickness="1" Background="#AA000000" CornerRadius="12" Padding="30"
-                MaxWidth="750" MaxHeight="500"
-                VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Border BorderBrush="#55FFFFFF" BorderThickness="1" Background="#AA000000" CornerRadius="12" Padding="60">
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="1" Color="Black" Opacity="0.3" BlurRadius="15"/>
             </Border.Effect>
@@ -45,30 +44,33 @@
                     <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,40,0">
                         <Button Content="{x:Static language:Lang.CreateLobbyLabelTitle}"
                                 Style="{StaticResource PrimaryButtonStyle}"
-                                Margin="50,0,0,20"/>
+                                MinWidth="300" MinHeight="60" FontSize="22"
+                                Margin="0,0,0,20"/>
                         <Button Content="{x:Static language:Lang.JoinLobbyLabelTittle}"
                                 Style="{StaticResource PrimaryButtonStyle}"
-                                Margin="50,0,0,0"/>
+                                MinWidth="300" MinHeight="60" FontSize="22"
+                                Margin="0,0,0,0"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="20,0,0,0">
+
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="40,0,0,0">
                         <Button Style="{StaticResource SideIconButtonStyle}">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                                <TextBlock Text="&#xE713;" Style="{StaticResource SideIconTextStyle}" Margin="21,0,0,0"/>
-                                <TextBlock Text="{x:Static language:Lang.MainMenuButtonSettings}" FontSize="10"/>
+                                <TextBlock Text="&#xE713;" Style="{StaticResource SideIconTextStyle}" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{x:Static language:Lang.MainMenuButtonSettings}" FontSize="14"/>
                             </StackPanel>
                         </Button>
                         <Button Style="{StaticResource SideIconButtonStyle}" Command="{Binding ShowFriendsViewCommand}">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                                 <TextBlock Text="&#xE716;"
-                                    Style="{StaticResource SideIconTextStyle}" Margin="6,0,0,0"/>
-                                <TextBlock Text="{x:Static language:Lang.MainMenuButtonFriends}" FontSize="10"/>
+                                    Style="{StaticResource SideIconTextStyle}" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{x:Static language:Lang.MainMenuButtonFriends}" FontSize="14"/>
                             </StackPanel>
                         </Button>
                         <Button Style="{StaticResource SideIconButtonStyle}">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                                <TextBlock Text="&#xE77B;" Style="{StaticResource SideIconTextStyle}" Margin="1,0,0,0"/>
-                                <TextBlock Text="{x:Static language:Lang.MainMenuButtonProfile}" FontSize="10"/>
+                                <TextBlock Text="&#xE77B;" Style="{StaticResource SideIconTextStyle}" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{x:Static language:Lang.MainMenuButtonProfile}" FontSize="14"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>

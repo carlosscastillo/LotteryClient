@@ -70,6 +70,7 @@ namespace Lottery.ViewModel
 
                     MainMenuView mainMenuView = new MainMenuView();
                     mainMenuView.Show();
+
                     window.Close();
                 }
                 else

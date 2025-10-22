@@ -260,5 +260,56 @@
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
 
+            <SolidColorBrush x:Key="TextBrush" Color="White"/>
+            <SolidColorBrush x:Key="OverlayBackgroundBrush" Color="#AA000000"/>
+            <SolidColorBrush x:Key="TextBoxBackgroundBrush" Color="#DDFFFFFF"/>
+            <SolidColorBrush x:Key="BorderBrush" Color="#FF888888"/>
+
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+            </Style>
+
+            <Style TargetType="GroupBox">
+                <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Padding" Value="8"/>
+                <Setter Property="Margin" Value="5,10,5,0"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Background" Value="{StaticResource OverlayBackgroundBrush}"/>
+            </Style>
+
+
+            <Style TargetType="Button" x:Key="PrimaryButton">
+                <Setter Property="Background" Value="#FF007ACC"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Padding" Value="10,5"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Margin" Value="5"/>
+            </Style>
+
+            <Style TargetType="Button" x:Key="SecondaryButton">
+                <Setter Property="Background" Value="#FF555555"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Padding" Value="10,5"/>
+                <Setter Property="Margin" Value="5,5,0,5"/>
+            </Style>
+
+            <Style TargetType="ListView">
+                <Setter Property="Background" Value="{StaticResource OverlayBackgroundBrush}"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+            </Style>
+
+            <Style TargetType="ListViewItem">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListViewItem">
+                            <ContentPresenter/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
     </Application.Resources>
 </Application>

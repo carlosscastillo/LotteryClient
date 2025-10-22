@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Lottery.View"
         mc:Ignorable="d"
         xmlns:language="clr-namespace:Lottery.Properties.Langs"
-        Title="Main Menu" 
+        Title="MainMenu" 
         WindowState="Maximized"
         WindowStartupLocation="CenterScreen">
 
@@ -41,7 +41,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,40,0">
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="40,0,0,0">
                         <Button Content="{x:Static language:Lang.CreateLobbyLabelTitle}"
                                 Style="{StaticResource PrimaryButtonStyle}"
                                 MinWidth="300" MinHeight="60" FontSize="22"
@@ -57,20 +57,25 @@
                         <Button Style="{StaticResource SideIconButtonStyle}">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                                 <TextBlock Text="&#xE713;" Style="{StaticResource SideIconTextStyle}" HorizontalAlignment="Center"/>
-                                <TextBlock Text="{x:Static language:Lang.MainMenuButtonSettings}" FontSize="14"/>
+                                <TextBlock Text="{x:Static language:Lang.MainMenuButtonSettings}" FontSize="14" HorizontalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-                        <Button Style="{StaticResource SideIconButtonStyle}" Command="{Binding ShowFriendsViewCommand}">
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                                <TextBlock Text="&#xE716;"
-                                    Style="{StaticResource SideIconTextStyle}" HorizontalAlignment="Center"/>
-                                <TextBlock Text="{x:Static language:Lang.MainMenuButtonFriends}" FontSize="14"/>
+
+                        <Button Style="{StaticResource SideIconButtonStyle}" 
+                            Command="{Binding ShowFriendsViewCommand}"
+                            VerticalAlignment="Center" HorizontalAlignment="Left" Margin="30,40,30,30"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+
+                            <StackPanel Orientation="Vertical" Width="70">
+                                <TextBlock Text="&#xE716;" Style="{StaticResource SideIconTextStyle}" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{x:Static language:Lang.MainMenuButtonFriends}" HorizontalAlignment="Center"/>
                             </StackPanel>
                         </Button>
+
                         <Button Style="{StaticResource SideIconButtonStyle}">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                                 <TextBlock Text="&#xE77B;" Style="{StaticResource SideIconTextStyle}" HorizontalAlignment="Center"/>
-                                <TextBlock Text="{x:Static language:Lang.MainMenuButtonProfile}" FontSize="14"/>
+                                <TextBlock Text="{x:Static language:Lang.MainMenuButtonProfile}" FontSize="14" HorizontalAlignment="Center"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>

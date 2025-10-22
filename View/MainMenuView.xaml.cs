@@ -13,5 +13,20 @@ namespace Lottery.View
             InitializeComponent();
             DataContext = new MainMenuViewModel();
         }
+
+        private void MainMenuView_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (SessionManager.ServiceClient != null)
+            {
+                try
+                {
+                    SessionManager.ServiceClient.LogoutUser();
+                }
+                catch (System.Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error during logout: {ex.Message}");
+                }
+            }
+        }
     }
 }

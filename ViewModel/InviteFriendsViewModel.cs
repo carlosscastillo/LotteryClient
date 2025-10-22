@@ -52,6 +52,7 @@ namespace Lottery.ViewModel
         public ICommand RemoveFriendCommand { get; }
         public ICommand ViewRequestsCommand { get; }
         public ICommand LoadFriendsCommand { get; }
+        public ICommand GoBackToMenuCommand { get; }
 
         public InviteFriendsViewModel()
         {
@@ -70,6 +71,7 @@ namespace Lottery.ViewModel
             RemoveFriendCommand = new RelayCommand<int>(async (userId) => await RemoveFriend(userId));
             ViewRequestsCommand = new RelayCommand(ViewRequests);
             LoadFriendsCommand = new RelayCommand(async () => await LoadFriends());
+            GoBackToMenuCommand = new RelayCommand<Window>(ExecuteGoBackToMenu);
 
             LoadFriendsCommand.Execute(null);
         }
@@ -138,6 +140,14 @@ namespace Lottery.ViewModel
             requestsView.ShowDialog();
 
             LoadFriendsCommand.Execute(null);
+        }
+
+        private void ExecuteGoBackToMenu(Window friendsWindow)
+        {
+            MainMenuView mainMenuView = new MainMenuView();
+            mainMenuView.Show();
+
+            friendsWindow?.Close();
         }
     }
 }

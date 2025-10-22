@@ -5,35 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModel="clr-namespace:Lottery.ViewModel"
         mc:Ignorable="d"
-        Title="FriendRequests" Height="300" Width="350"
-        WindowStartupLocation="CenterOwner">
+        Title="Solicitudes de Amistad" Height="300" Width="350"
+        WindowStartupLocation="CenterOwner"
+        AllowsTransparency="True" WindowStyle="None">
 
-    <Grid Margin="10">
-        <ListView ItemsSource="{Binding PendingRequests}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Width="300">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+    <Window.Background>
+        <ImageBrush ImageSource="/Images/background.jpg" Stretch="UniformToFill"/>
+    </Window.Background>
 
-                        <TextBlock Text="{Binding Nickname}" 
-                                   VerticalAlignment="Center" 
-                                   Grid.Column="0" FontWeight="Bold"/>
+    <Border BorderBrush="#55FFFFFF" BorderThickness="1" Background="#AA000000" CornerRadius="12" Padding="15">
+        <Grid>
+            <Button Content="X" HorizontalAlignment="Right" VerticalAlignment="Top" 
+                    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                    Foreground="White" FontWeight="Bold" FontSize="14" Margin="0,-10,-10,0"
+                    Click="CloseButton_Click"/>
 
-                        <Button Content="Aceptar" Grid.Column="1" Margin="5,0"
-                                Command="{Binding DataContext.AcceptCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                CommandParameter="{Binding RequesterId}"/>
+            <ListView ItemsSource="{Binding PendingRequests}" Background="Transparent" BorderThickness="0">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Width="300" Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
 
-                        <Button Content="Rechazar" Grid.Column="2"
-                                Command="{Binding DataContext.RejectCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                CommandParameter="{Binding RequesterId}"
-                                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </Grid>
+                            <TextBlock Text="{Binding Nickname}" 
+                                       VerticalAlignment="Center" 
+                                       Grid.Column="0" FontWeight="Bold" Foreground="White"/>
+
+                            <Button Content="Aceptar" Grid.Column="1" Margin="5,0"
+                                    Command="{Binding DataContext.AcceptCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                    CommandParameter="{Binding RequesterId}"
+                                    Style="{StaticResource PrimaryButton}" Padding="8,3"/>
+
+                            <Button Content="Rechazar" Grid.Column="2"
+                                    Command="{Binding DataContext.RejectCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                    CommandParameter="{Binding RequesterId}"
+                                    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                                    Foreground="#EF9A9A"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </Border>
 </Window>

@@ -45,6 +45,7 @@ namespace Lottery.ViewModel
         public LoginViewModel()
         {
             _serviceClient = new LotteryServiceClient();
+
             LoginCommand = new RelayCommand<Window>(async (window) => await Login(window));
         }
 
@@ -62,6 +63,8 @@ namespace Lottery.ViewModel
                 if (user != null)
                 {
                     SessionManager.Login(user);
+
+                    SessionManager.ServiceClient = _serviceClient;
 
                     MainMenuView mainMenuView = new MainMenuView();
                     mainMenuView.Show();

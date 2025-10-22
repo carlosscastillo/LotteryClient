@@ -70,6 +70,7 @@
     <Compile Include="ViewModel\FriendRequestsViewModel.cs" />
     <Compile Include="ViewModel\InviteFriendsViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\MainMenuViewModel.cs" />
     <Compile Include="ViewModel\UserRegisterViewModel.cs" />
     <Compile Include="View\ChangePasswordView.xaml.cs">
       <DependentUpon>ChangePasswordView.xaml</DependentUpon>

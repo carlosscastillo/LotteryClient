@@ -58,9 +58,10 @@
                                 <TextBlock Text="{x:Static language:Lang.MainMenuButtonSettings}" FontSize="10"/>
                             </StackPanel>
                         </Button>
-                        <Button Style="{StaticResource SideIconButtonStyle}">
+                        <Button Style="{StaticResource SideIconButtonStyle}" Command="{Binding ShowFriendsViewCommand}">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                                <TextBlock Text="&#xE716;" Style="{StaticResource SideIconTextStyle}" Margin="6,0,0,0"/>
+                                <TextBlock Text="&#xE716;"
+                                    Style="{StaticResource SideIconTextStyle}" Margin="6,0,0,0"/>
                                 <TextBlock Text="{x:Static language:Lang.MainMenuButtonFriends}" FontSize="10"/>
                             </StackPanel>
                         </Button>

@@ -11,7 +11,7 @@ using Lottery.View;
 namespace Lottery.ViewModel
 {
     // --- ViewModels Auxiliares ---
-    // Clases pequeñas para manejar los datos en las listas
+    // Estas clases pequeñas sirven para manejar los datos
 
     public class FriendViewModel : ObservableObject
     {
@@ -55,7 +55,13 @@ namespace Lottery.ViewModel
 
         public InviteFriendsViewModel()
         {
-            _serviceClient = new LotteryServiceClient();
+            _serviceClient = SessionManager.ServiceClient;
+
+            if (_serviceClient == null)
+            {
+                MessageBox.Show("Error: No se pudo conectar con el servicio. Intente iniciar sesión de nuevo.");
+                return;
+            }
 
             _currentUserId = SessionManager.CurrentUser.UserId;
 

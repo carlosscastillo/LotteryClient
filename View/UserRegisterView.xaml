@@ -23,43 +23,48 @@
 
                 <Label Content="{x:Static language:Lang.GlobalLabelName}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=NameTextBox}"/>
                 <Grid>
-                    <TextBox x:Name="NameTextBox" Text="Carlos"/>
+                    <TextBox x:Name="NameTextBox" 
+                             Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Text="&#xE77B;" Style="{StaticResource IconStyle}"/>
                 </Grid>
 
                 <Label Content="{x:Static language:Lang.GlobalLabelPaternalLastName}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=PaternalLastNameTextBox}"/>
                 <Grid>
-                    <TextBox x:Name="PaternalLastNameTextBox" Text="Castillo"/>
+                    <TextBox x:Name="PaternalLastNameTextBox" 
+                             Text="{Binding PaternalLastName, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Text="&#xE77B;" Style="{StaticResource IconStyle}"/>
                 </Grid>
 
                 <Label Content="{x:Static language:Lang.GlobalLabelMaternalLastName}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=MaternalLastNameTextBox}"/>
                 <Grid>
-                    <TextBox x:Name="MaternalLastNameTextBox" Text="Barradas"/>
+                    <TextBox x:Name="MaternalLastNameTextBox" 
+                             Text="{Binding MaternalLastName, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Text="&#xE77B;" Style="{StaticResource IconStyle}"/>
                 </Grid>
 
                 <Label Content="{x:Static language:Lang.GlobalLabelNickname}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=NicknameTextBox}"/>
                 <Grid>
-                    <TextBox x:Name="NicknameTextBox" Text="xXCarCasXx"/>
+                    <TextBox x:Name="NicknameTextBox" 
+                             Text="{Binding Nickname, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Text="&#xE77B;" Style="{StaticResource IconStyle}"/>
                 </Grid>
 
                 <Label Content="{x:Static language:Lang.GlobalLabelEmail}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=EmailTextBox}"/>
                 <Grid>
-                    <TextBox x:Name="EmailTextBox" Text="carlos@gmail.com"/>
+                    <TextBox x:Name="EmailTextBox" 
+                             Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Text="&#xE715;" Style="{StaticResource IconStyle}"/>
                 </Grid>
 
                 <Label Content="{x:Static language:Lang.GlobalLabelPassword}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=PasswordBox}"/>
                 <Grid>
-                    <PasswordBox x:Name="PasswordBox" Password="password"/>
+                    <PasswordBox x:Name="PasswordBox"/>
                     <TextBlock Text="&#xE72E;" Style="{StaticResource IconStyle}"/>
                 </Grid>
 
                 <Label Content="{x:Static language:Lang.GlobalLabelConfirmPassword}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=ConfirmPasswordBox}"/>
                 <Grid>
-                    <PasswordBox x:Name="ConfirmPasswordBox" Password="password"/>
+                    <PasswordBox x:Name="ConfirmPasswordBox"/>
                     <TextBlock Text="&#xE72E;" Style="{StaticResource IconStyle}"/>
                 </Grid>
 

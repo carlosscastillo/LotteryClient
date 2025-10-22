@@ -66,7 +66,8 @@
     <Compile Include="ViewModel\Base\ObservableObject.cs" />
     <Compile Include="ViewModel\Base\RelayCommand.cs" />
     <Compile Include="ViewModel\CustomizeProfileViewModel.cs" />
-    <Compile Include="ViewModel\FriendsListViewModel.cs" />
+    <Compile Include="ViewModel\FriendRequestsViewModel.cs" />
+    <Compile Include="ViewModel\InviteFriendsViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\UserRegisterViewModel.cs" />
     <Compile Include="View\ChangePasswordView.xaml.cs">
@@ -78,14 +79,14 @@
     <Compile Include="View\CustomizeProfileView.xaml.cs">
       <DependentUpon>CustomizeProfileView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FriendsListView.xaml.cs">
-      <DependentUpon>FriendsListView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\GuestRegisterView.xaml.cs">
-      <DependentUpon>GuestRegisterView.xaml</DependentUpon>
+    <Compile Include="View\FriendRequestsView.xaml.cs">
+      <DependentUpon>FriendRequestsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\InviteFriendsView.xaml.cs">
       <DependentUpon>InviteFriendsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GuestRegisterView.xaml.cs">
+      <DependentUpon>GuestRegisterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\JoinLobbyView.xaml.cs">
       <DependentUpon>JoinLobbyView.xaml</DependentUpon>
@@ -132,15 +133,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FriendsListView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\GuestRegisterView.xaml">
+    <Page Include="View\FriendRequestsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\InviteFriendsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GuestRegisterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -3,56 +3,158 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Lottery.View"
+        xmlns:viewModel="clr-namespace:Lottery.ViewModel"
         mc:Ignorable="d"
-        xmlns:language="clr-namespace:Lottery.Properties.Langs"
-        Title="InviteFriendsView" Height="400" Width="350"
-        Background="#F5F5F5"
-        WindowStartupLocation="CenterScreen">
-    
+        Title="FriendsAndRequests" Height="600" Width="400"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="Segoe UI">
+
+    <Window.Background>
+        <ImageBrush ImageSource="/Images/background.jpg" Stretch="UniformToFill"/>
+    </Window.Background>
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="TextBrush" Color="White"/>
+        <SolidColorBrush x:Key="OverlayBackgroundBrush" Color="#AA000000"/>
+        <SolidColorBrush x:Key="TextBoxBackgroundBrush" Color="#DDFFFFFF"/>
+        <SolidColorBrush x:Key="BorderBrush" Color="#FF888888"/>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+        </Style>
+
+        <Style TargetType="GroupBox">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="Margin" Value="5,10,5,0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="{StaticResource TextBoxBackgroundBrush}"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="Button" x:Key="PrimaryButton">
+            <Setter Property="Background" Value="#FF007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+
+        <Style TargetType="Button" x:Key="SecondaryButton">
+            <Setter Property="Background" Value="#FF555555"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5,5,0,5"/>
+        </Style>
+
+        <Style TargetType="ListView">
+            <Setter Property="Background" Value="{StaticResource OverlayBackgroundBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+        </Style>
+
+        <Style TargetType="ListViewItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <ContentPresenter/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Border BorderBrush="#DDDDDD" BorderThickness="1" Background="White" CornerRadius="12" Padding="40" MaxWidth="420" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="1" Color="Black" Opacity="0.1" BlurRadius="10"/>
-            </Border.Effect>
+        <Button x:Name="btnViewRequests" 
+                Grid.Row="0" 
+                Content="Ver Solicitudes Pendientes" 
+                Command="{Binding ViewRequestsCommand}"
+                Style="{StaticResource PrimaryButton}"/>
 
+        <GroupBox Header="Buscar Jugador" Grid.Row="1">
             <StackPanel>
-                <TextBlock Text="{x:Static language:Lang.InviteFriendsLabelTitle}" Style="{StaticResource TitleTextStyle}" Margin="0,40,0,30"/>
+                <DockPanel>
+                    <Button x:Name="btnSearch" 
+                            Content="Buscar" 
+                            DockPanel.Dock="Right" 
+                            Command="{Binding SearchCommand}"
+                            Style="{StaticResource SecondaryButton}"/>
 
-                <TextBlock Text="{x:Static language:Lang.InviteFriendsLabelCopyInviteCode}" Style="{StaticResource SubtitleTextStyle}" Margin="0,-10,0,20"/>
+                    <TextBox x:Name="txtNicknameSearch" 
+                             Text="{Binding SearchNickname, UpdateSourceTrigger=PropertyChanged}"/>
+                </DockPanel>
 
-                <Label Content="{x:Static language:Lang.InviteFriendsButtonInviteCode}" Style="{StaticResource LabelStyle}"/>
-
-                <TextBox x:Name="InvitationCodeTextBox" 
-                     Text="0000      " 
-                     IsReadOnly="True" 
-                     TextAlignment="Center"
-                     FontSize="16"
-                     FontWeight="SemiBold"/>
-
-                <Button x:Name="CopyButton"
-                    Click="CopyButton_Click"
-                    Content="{x:Static language:Lang.InviteFriendsButtonCopy}" 
-                    Margin="0,30,0,0" 
-                    Padding="12" 
-                    FontSize="16" 
-                    FontWeight="Bold" 
-                    Foreground="White" 
-                    Background="Black" 
-                    BorderThickness="0" 
-                    Cursor="Hand">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="8"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
+                <ListView x:Name="lvSearchResults" 
+                          ItemsSource="{Binding SearchResults}" 
+                          MinHeight="50" MaxHeight="100" 
+                          Margin="0,5,0,0">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="5">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Nickname}" VerticalAlignment="Center" Grid.Column="0"/>
+                                    <Button Content="Añadir" Grid.Column="1"
+                                            Command="{Binding DataContext.SendRequestCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                            CommandParameter="{Binding UserId}"
+                                            Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                            Foreground="LimeGreen" FontWeight="Bold"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </StackPanel>
-        </Border>
+        </GroupBox>
+
+        <GroupBox Header="Mis Amigos" Grid.Row="2">
+            <ListView x:Name="lvFriendsList" ItemsSource="{Binding FriendsList}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Ellipse Width="10" Height="10" 
+                                         Fill="{Binding StatusColor}" 
+                                         VerticalAlignment="Center" 
+                                         Margin="0,0,5,0" Grid.Column="0"/>
+
+                                <TextBlock Text="{Binding Nickname}" 
+                                           VerticalAlignment="Center" 
+                                           Grid.Column="1" Margin="5,0"/>
+
+                                <Button Content="Eliminar" Grid.Column="2"
+                                        Command="{Binding DataContext.RemoveFriendCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                        CommandParameter="{Binding UserId}"
+                                        Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                        Foreground="Red" FontWeight="Bold"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </GroupBox>
     </Grid>
 </Window>

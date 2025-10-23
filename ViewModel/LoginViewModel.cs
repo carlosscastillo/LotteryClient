@@ -12,6 +12,7 @@ namespace Lottery.ViewModel
     public class LoginViewModel : ObservableObject
     {
         private ILotteryService _serviceClient;
+        private ClientCallbackHandler _callbackHandler;
 
         private string _username;
         public string Username
@@ -46,10 +47,17 @@ namespace Lottery.ViewModel
 
         public LoginViewModel()
         {
-            _serviceClient = new LotteryServiceClient();
+            _callbackHandler = new ClientCallbackHandler();
+            RecreateClient();
 
             LoginCommand = new RelayCommand<Window>(async (window) => await Login(window));
             SignUpCommand = new RelayCommand<Window>(ExecuteSignUp);
+        }
+
+        private void RecreateClient()
+        {
+            var context = new InstanceContext(_callbackHandler);
+            _serviceClient = new LotteryServiceClient(context);
         }
 
         public async Task Login(Window window)
@@ -72,17 +80,12 @@ namespace Lottery.ViewModel
             }
             catch (FaultException<ServiceFault> ex)
             {
-                ErrorMessage = ex.Detail.Message;
-
                 MessageBox.Show(ex.Detail.Message, "Error de Inicio de Sesión", MessageBoxButton.OK, MessageBoxImage.Warning);
-
-                AbortAndRecreateClient();
             }
             catch (FaultException ex)
             {
                 ErrorMessage = "Error de conexión. No se pudo contactar al servidor.";
                 MessageBox.Show(ErrorMessage, "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
-                AbortAndRecreateClient();
             }
             catch (Exception ex)
             {
@@ -113,7 +116,7 @@ namespace Lottery.ViewModel
                 }
             }
 
-            _serviceClient = new LotteryServiceClient();
+            RecreateClient();
         }
 
         private void ExecuteSignUp(Window loginWindow)

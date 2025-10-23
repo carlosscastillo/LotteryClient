@@ -37,7 +37,6 @@
                      FontWeight="SemiBold"/>
 
                 <Button x:Name="JoinLobbyButton"
-                    Click="JoinLobbyButton_Click"
                     Content="{x:Static language:Lang.JoinLobbyButtonJoin}" 
                     Margin="0,30,0,0" 
                     Padding="12" 

@@ -38,6 +38,7 @@ namespace Lottery.ViewModel
         private readonly ILotteryService _serviceClient;
         private readonly int _currentUserId;
 
+        private bool _isInviteMode = false;
         private string _searchNickname;
         public string SearchNickname
         {
@@ -54,6 +55,7 @@ namespace Lottery.ViewModel
         public ICommand ViewRequestsCommand { get; }
         public ICommand LoadFriendsCommand { get; }
         public ICommand GoBackToMenuCommand { get; }
+        public ICommand InviteFriendCommand { get; private set; }
 
         public InviteFriendsViewModel()
         {
@@ -73,6 +75,7 @@ namespace Lottery.ViewModel
             ViewRequestsCommand = new RelayCommand(ViewRequests);
             LoadFriendsCommand = new RelayCommand(async () => await LoadFriends());
             GoBackToMenuCommand = new RelayCommand<Window>(ExecuteGoBackToMenu);
+            InviteFriendCommand = new RelayCommand<int>(async (id) => { }, (id) => _isInviteMode);
 
             LoadFriendsCommand.Execute(null);
         }
@@ -176,6 +179,29 @@ namespace Lottery.ViewModel
                 {
                     HandleUnexpectedError(ex, "eliminar al amigo");
                 }
+            }
+        }
+
+        public void SetInviteMode(string lobbyCode)
+        {
+            _isInviteMode = true;
+            InviteFriendCommand = new RelayCommand<int>(
+                async (friendId) => await InviteFriend(friendId),
+                (friendId) => _isInviteMode);
+
+            OnPropertyChanged(nameof(InviteFriendCommand));
+        }
+
+        private async Task InviteFriend(int friendId)
+        {
+            try
+            {
+                await _serviceClient.InviteFriendToLobbyAsync(friendId);
+                MessageBox.Show("Invitación enviada.");
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                MessageBox.Show(ex.Detail.Message, "Error al Invitar");
             }
         }
 

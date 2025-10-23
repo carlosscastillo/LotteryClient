@@ -2,6 +2,7 @@
 using Lottery.View;
 using Lottery.ViewModel.Base;
 using System;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -10,7 +11,7 @@ namespace Lottery.ViewModel
 {
     public class LoginViewModel : ObservableObject
     {
-        private readonly ILotteryService _serviceClient;
+        private ILotteryService _serviceClient;
 
         private string _username;
         public string Username
@@ -62,30 +63,57 @@ namespace Lottery.ViewModel
             {
                 UserSessionDTO user = await _serviceClient.LoginUserAsync(Username, Password);
 
-                if (user != null)
-                {
-                    SessionManager.Login(user);
+                SessionManager.Login(user);
+                SessionManager.ServiceClient = _serviceClient;
 
-                    SessionManager.ServiceClient = _serviceClient;
+                MainMenuView mainMenuView = new MainMenuView();
+                mainMenuView.Show();
+                window.Close();
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                ErrorMessage = ex.Detail.Message;
 
-                    MainMenuView mainMenuView = new MainMenuView();
-                    mainMenuView.Show();
+                MessageBox.Show(ex.Detail.Message, "Error de Inicio de Sesión", MessageBoxButton.OK, MessageBoxImage.Warning);
 
-                    window.Close();
-                }
-                else
-                {
-                    ErrorMessage = "Usuario o contraseña incorrectos.";
-                }
+                AbortAndRecreateClient();
+            }
+            catch (FaultException ex)
+            {
+                ErrorMessage = "Error de conexión. No se pudo contactar al servidor.";
+                MessageBox.Show(ErrorMessage, "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
+                AbortAndRecreateClient();
             }
             catch (Exception ex)
             {
-                ErrorMessage = "Error de conexión con el servidor.";
+                ErrorMessage = "Ha ocurrido un error inesperado.";
+                MessageBox.Show($"{ErrorMessage}\nDetalle: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                AbortAndRecreateClient();
             }
             finally
             {
                 IsLoggingIn = false;
             }
+        }
+
+        // Para que el usuario pueda intentar iniciar sesión de nuevo
+        private void AbortAndRecreateClient()
+        {
+            if (_serviceClient != null)
+            {
+                var clientChannel = _serviceClient as ICommunicationObject;
+                if (clientChannel.State == CommunicationState.Faulted)
+                {
+                    clientChannel.Abort();
+                }
+                else
+                {
+                    try { clientChannel.Close(); }
+                    catch { clientChannel.Abort(); }
+                }
+            }
+
+            _serviceClient = new LotteryServiceClient();
         }
 
         private void ExecuteSignUp(Window loginWindow)

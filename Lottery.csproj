@@ -214,6 +214,9 @@
     <None Include="Connected Services\LotteryServiceReference\item2.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Connected Services\LotteryServiceReference\item3.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.FriendDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

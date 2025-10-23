@@ -57,6 +57,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ClientCallbackHandler.cs" />
     <Compile Include="Connected Services\LotteryServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -69,6 +70,8 @@
     <Compile Include="ViewModel\CustomizeProfileViewModel.cs" />
     <Compile Include="ViewModel\FriendRequestsViewModel.cs" />
     <Compile Include="ViewModel\InviteFriendsViewModel.cs" />
+    <Compile Include="ViewModel\JoinLobbyViewModel.cs" />
+    <Compile Include="ViewModel\LobbyViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainMenuViewModel.cs" />
     <Compile Include="ViewModel\UserRegisterViewModel.cs" />
@@ -92,6 +95,9 @@
     </Compile>
     <Compile Include="View\JoinLobbyView.xaml.cs">
       <DependentUpon>JoinLobbyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LobbyView.xaml.cs">
+      <DependentUpon>LobbyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
@@ -148,6 +154,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\JoinLobbyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LobbyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -223,6 +233,9 @@
     <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.FriendRequestDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.LobbyStateDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.UserSessionDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -242,6 +255,9 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\background.jpg" />
+  </ItemGroup>
+  <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\LotteryServiceReference\" />
   </ItemGroup>
   <ItemGroup>
@@ -258,9 +274,6 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\background.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

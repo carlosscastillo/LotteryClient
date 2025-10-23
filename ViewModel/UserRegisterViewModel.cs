@@ -1,18 +1,19 @@
 ﻿using Lottery.LotteryServiceReference;
+using Lottery.ViewModel.Base;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Lottery.ViewModel.Base;
 
 namespace Lottery.ViewModel
 {
     public class UserRegisterViewModel : ObservableObject
     {
-        private readonly LotteryServiceClient _serviceClient;
+        private ILotteryService _serviceClient;
 
         private string _name;
         private string _paternalLastName;
@@ -46,7 +47,7 @@ namespace Lottery.ViewModel
 
         public UserRegisterViewModel()
         {
-            _serviceClient = new LotteryServiceClient();
+            _serviceClient = new LotteryServiceClient(new InstanceContext(new ClientCallbackHandler()));
 
             RegisterCommand = new RelayCommand<object>(async (param) => await Register(param), (param) => !IsRegistering);
 
@@ -103,9 +104,20 @@ namespace Lottery.ViewModel
                     MessageBox.Show("No se pudo registrar. Verifica tus datos.");
                 }
             }
+            catch (FaultException<ServiceFault> ex)
+            {
+                MessageBox.Show(ex.Detail.Message, "Error de Registro", MessageBoxButton.OK, MessageBoxImage.Warning);
+                AbortAndRecreateClient();
+            }
+            catch (FaultException ex)
+            {
+                MessageBox.Show($"Error de conexión: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                AbortAndRecreateClient();
+            }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al conectar con el servidor: {ex.Message}");
+                MessageBox.Show($"Error inesperado: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                AbortAndRecreateClient();
             }
             finally
             {
@@ -139,15 +151,43 @@ namespace Lottery.ViewModel
                     MessageBox.Show("Código incorrecto. Intenta de nuevo.");
                 }
             }
+            catch (FaultException<ServiceFault> ex)
+            {
+                MessageBox.Show(ex.Detail.Message, "Error de Verificación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                AbortAndRecreateClient();
+            }
+            catch (FaultException ex)
+            {
+                MessageBox.Show($"Error de conexión: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                AbortAndRecreateClient();
+            }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al verificar: {ex.Message}");
+                MessageBox.Show($"Error inesperado: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                AbortAndRecreateClient();
             }
             finally
             {
                 IsRegistering = false;
             }
         }
-   
+
+        private void AbortAndRecreateClient()
+        {
+            if (_serviceClient != null)
+            {
+                var clientChannel = _serviceClient as ICommunicationObject;
+                if (clientChannel.State == CommunicationState.Faulted)
+                {
+                    clientChannel.Abort();
+                }
+                else
+                {
+                    try { clientChannel.Close(); }
+                    catch { clientChannel.Abort(); }
+                }
+            }
+            _serviceClient = new LotteryServiceClient(new InstanceContext(new ClientCallbackHandler()));
+        }
     }
 }

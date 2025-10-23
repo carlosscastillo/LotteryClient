@@ -1,0 +1,25 @@
+﻿<Window x:Class="Lottery.View.LobbyView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lottery.View"
+        mc:Ignorable="d"
+        Title="Lobby del Juego" Height="600" Width="800"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <TextBlock Text="¡Bienvenido al Lobby!" 
+                   FontSize="24" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Top" 
+                   Margin="20"/>
+
+        <TextBlock Text="{Binding LobbyCode}" 
+                   FontSize="18" 
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Top" 
+                   Margin="0,60,0,0"/>
+
+    </Grid>
+</Window>

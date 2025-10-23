@@ -47,7 +47,6 @@ namespace Lottery.ViewModel
 
         public LoginViewModel()
         {
-            _callbackHandler = new ClientCallbackHandler();
             RecreateClient();
 
             LoginCommand = new RelayCommand<Window>(async (window) => await Login(window));
@@ -56,7 +55,10 @@ namespace Lottery.ViewModel
 
         private void RecreateClient()
         {
+            _callbackHandler = new ClientCallbackHandler();
+
             var context = new InstanceContext(_callbackHandler);
+
             _serviceClient = new LotteryServiceClient(context);
         }
 

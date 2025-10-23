@@ -24,9 +24,7 @@ namespace Lottery.ViewModel
         private bool _isVerificationVisible;
         private bool _isCompletedVisible;
 
-        public event Action NavigateToLogin;
-
-        // --- Propiedades bindables ---
+        public event Action NavigateToLogin;        
         public string Name { get => _name; set => SetProperty(ref _name, value); }
         public string PaternalLastName { get => _paternalLastName; set => SetProperty(ref _paternalLastName, value); }
         public string MaternalLastName { get => _maternalLastName; set => SetProperty(ref _maternalLastName, value); }
@@ -36,9 +34,7 @@ namespace Lottery.ViewModel
 
         public bool IsRegistering { get => _isRegistering; set => SetProperty(ref _isRegistering, value); }
         public bool IsVerificationVisible { get => _isVerificationVisible; set => SetProperty(ref _isVerificationVisible, value); }
-        public bool IsCompletedVisible { get => _isCompletedVisible; set => SetProperty(ref _isCompletedVisible, value); }
-
-        // --- Comandos ---
+        public bool IsCompletedVisible { get => _isCompletedVisible; set => SetProperty(ref _isCompletedVisible, value); }        
         public ICommand RegisterCommand { get; }
         public ICommand VerifyCommand { get; }
         public ICommand ContinueCommand { get; }
@@ -59,9 +55,7 @@ namespace Lottery.ViewModel
                 IsVerificationVisible = false;
                 IsCompletedVisible = false;
             }, () => true);
-        }
-
-        // --- Registro de usuario ---
+        }        
         private async Task Register(object parameter)
         {
             var passwordBox = parameter as PasswordBox;
@@ -111,9 +105,7 @@ namespace Lottery.ViewModel
             {
                 IsRegistering = false;
             }
-        }
-
-        // --- Verificación del código ---
+        }        
         private async Task VerifyCode()
         {
             if (string.IsNullOrWhiteSpace(VerificationCode))

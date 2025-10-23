@@ -689,8 +689,14 @@ namespace Lottery.LotteryServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/LogoutUser", ReplyAction="http://tempuri.org/IAuthenticationService/LogoutUserResponse")]
         System.Threading.Tasks.Task LogoutUserAsync();
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RequestUserVerification", ReplyAction="http://tempuri.org/IUserService/RequestUserVerificationResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IUserService/RequestUserVerificationServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        int RequestUserVerification(Lottery.LotteryServiceReference.UserRegisterDTO userData);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RequestUserVerification", ReplyAction="http://tempuri.org/IUserService/RequestUserVerificationResponse")]
+        System.Threading.Tasks.Task<int> RequestUserVerificationAsync(Lottery.LotteryServiceReference.UserRegisterDTO userData);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RegisterUser", ReplyAction="http://tempuri.org/IUserService/RegisterUserResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IUserService/RegisterUserServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         int RegisterUser(Lottery.LotteryServiceReference.UserRegisterDTO userData);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RegisterUser", ReplyAction="http://tempuri.org/IUserService/RegisterUserResponse")]
@@ -877,6 +883,14 @@ namespace Lottery.LotteryServiceReference {
         
         public System.Threading.Tasks.Task LogoutUserAsync() {
             return base.Channel.LogoutUserAsync();
+        }
+        
+        public int RequestUserVerification(Lottery.LotteryServiceReference.UserRegisterDTO userData) {
+            return base.Channel.RequestUserVerification(userData);
+        }
+        
+        public System.Threading.Tasks.Task<int> RequestUserVerificationAsync(Lottery.LotteryServiceReference.UserRegisterDTO userData) {
+            return base.Channel.RequestUserVerificationAsync(userData);
         }
         
         public int RegisterUser(Lottery.LotteryServiceReference.UserRegisterDTO userData) {

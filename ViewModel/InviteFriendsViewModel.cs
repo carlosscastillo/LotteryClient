@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Lottery.View;
+using System.ServiceModel;
 
 namespace Lottery.ViewModel
 {
@@ -90,7 +91,18 @@ namespace Lottery.ViewModel
                     }
                 }
             }
-            catch (Exception ex) { MessageBox.Show($"Error al cargar amigos: {ex.Message}"); }
+            catch (FaultException<ServiceFault> ex)
+            {
+                MessageBox.Show(ex.Detail.Message, "Error al Cargar Amigos", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (FaultException ex)
+            {
+                HandleConnectionError(ex, "cargar amigos");
+            }
+            catch (Exception ex)
+            {
+                HandleUnexpectedError(ex, "cargar amigos");
+            }
         }
 
         private async Task SearchUser()
@@ -107,7 +119,18 @@ namespace Lottery.ViewModel
                 }
                 else { MessageBox.Show("Usuario no encontrado."); }
             }
-            catch (Exception ex) { MessageBox.Show($"Error al buscar: {ex.Message}"); }
+            catch (FaultException<ServiceFault> ex)
+            {
+                MessageBox.Show(ex.Detail.Message, "Error de Búsqueda", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (FaultException ex)
+            {
+                HandleConnectionError(ex, "buscar usuario");
+            }
+            catch (Exception ex)
+            {
+                HandleUnexpectedError(ex, "buscar usuario");
+            }
         }
 
         private async Task SendRequest(int targetUserId)
@@ -118,7 +141,18 @@ namespace Lottery.ViewModel
                 MessageBox.Show("Solicitud de amistad enviada.");
                 SearchResults.Clear();
             }
-            catch (Exception ex) { MessageBox.Show($"Error al enviar solicitud: {ex.Message}"); }
+            catch (FaultException<ServiceFault> ex)
+            {
+                MessageBox.Show(ex.Detail.Message, "Error al Enviar Solicitud", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (FaultException ex)
+            {
+                HandleConnectionError(ex, "enviar la solicitud");
+            }
+            catch (Exception ex)
+            {
+                HandleUnexpectedError(ex, "enviar la solicitud");
+            }
         }
 
         private async Task RemoveFriend(int friendUserId)
@@ -130,7 +164,18 @@ namespace Lottery.ViewModel
                     await _serviceClient.RemoveFriendAsync(_currentUserId, friendUserId);
                     await LoadFriends();
                 }
-                catch (Exception ex) { MessageBox.Show($"Error al eliminar: {ex.Message}"); }
+                catch (FaultException<ServiceFault> ex)
+                {
+                    MessageBox.Show(ex.Detail.Message, "Error al Eliminar", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                catch (FaultException ex)
+                {
+                    HandleConnectionError(ex, "eliminar al amigo");
+                }
+                catch (Exception ex)
+                {
+                    HandleUnexpectedError(ex, "eliminar al amigo");
+                }
             }
         }
 
@@ -148,6 +193,22 @@ namespace Lottery.ViewModel
             mainMenuView.Show();
 
             friendsWindow?.Close();
+        }
+
+        private void HandleConnectionError(FaultException ex, string operation)
+        {
+            string message = $"Error de conexión al {operation}.\n" +
+                             "Es posible que se haya perdido la conexión con el servidor.\n" +
+                             "Si el problema persiste, reinicie la aplicación.\n\n" +
+                             $"Detalle: {ex.Message}";
+            MessageBox.Show(message, "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void HandleUnexpectedError(Exception ex, string operation)
+        {
+            string message = $"Error inesperado al {operation}.\n\n" +
+                             $"Detalle: {ex.Message}";
+            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

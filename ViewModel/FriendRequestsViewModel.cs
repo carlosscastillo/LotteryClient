@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.ServiceModel;
 
 namespace Lottery.ViewModel
 {
@@ -52,9 +53,17 @@ namespace Lottery.ViewModel
                     }
                 }
             }
+            catch (FaultException<ServiceFault> ex)
+            {
+                MessageBox.Show(ex.Detail.Message, "Error al Cargar Solicitudes", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (FaultException ex)
+            {
+                HandleConnectionError(ex, "cargar las solicitudes");
+            }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar solicitudes: {ex.Message}");
+                HandleUnexpectedError(ex, "cargar las solicitudes");
             }
         }
 
@@ -66,9 +75,18 @@ namespace Lottery.ViewModel
 
                 await LoadRequests();
             }
+            catch (FaultException<ServiceFault> ex)
+            {
+                MessageBox.Show(ex.Detail.Message, "Error al Aceptar", MessageBoxButton.OK, MessageBoxImage.Warning);
+                await LoadRequests();
+            }
+            catch (FaultException ex)
+            {
+                HandleConnectionError(ex, "aceptar la solicitud");
+            }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al aceptar: {ex.Message}");
+                HandleUnexpectedError(ex, "aceptar la solicitud");
             }
         }
 
@@ -80,10 +98,35 @@ namespace Lottery.ViewModel
 
                 await LoadRequests();
             }
+            catch (FaultException<ServiceFault> ex)
+            {
+                MessageBox.Show(ex.Detail.Message, "Error al Rechazar", MessageBoxButton.OK, MessageBoxImage.Warning);
+                await LoadRequests();
+            }
+            catch (FaultException ex)
+            {
+                HandleConnectionError(ex, "rechazar la solicitud");
+            }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al rechazar: {ex.Message}");
+                HandleUnexpectedError(ex, "rechazar la solicitud");
             }
+        }
+
+        private void HandleConnectionError(FaultException ex, string operation)
+        {
+            string message = $"Error de conexión al {operation}.\n" +
+                             "Es posible que se haya perdido la conexión con el servidor.\n" +
+                             "Si el problema persiste, reinicie la aplicación.\n\n" +
+                             $"Detalle: {ex.Message}";
+            MessageBox.Show(message, "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void HandleUnexpectedError(Exception ex, string operation)
+        {
+            string message = $"Error inesperado al {operation}.\n\n" +
+                             $"Detalle: {ex.Message}";
+            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

@@ -49,7 +49,7 @@ namespace Lottery.ViewModel
 
         public ObservableCollection<PlayerInfoDTO> Players { get; }
         public ObservableCollection<string> ChatHistory { get; } = new ObservableCollection<string>();
-        public List<string> AvailableGameModes { get; } = new List<string> { "Normal", "Diagonales, Marco, Centro, Mega Lotería, Lotería Injusta" };
+        public List<string> AvailableGameModes { get; } = new List<string> { "Normal", "Diagonales", "Marco", "Centro", "Mega Lotería", "Lotería Injusta" };
         private string _selectedGameMode;
         public string SelectedGameMode
         {

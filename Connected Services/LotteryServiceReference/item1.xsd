@@ -36,6 +36,7 @@
   <xs:element name="GameSettingsDTO" nillable="true" type="tns:GameSettingsDTO" />
   <xs:complexType name="LobbyStateDTO">
     <xs:sequence>
+      <xs:element minOccurs="0" name="HostNickname" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="LobbyCode" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Players" nillable="true" type="tns:ArrayOfPlayerInfoDTO" />
     </xs:sequence>

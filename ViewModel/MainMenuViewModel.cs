@@ -14,6 +14,9 @@ namespace Lottery.ViewModel
         private readonly ILotteryService _serviceClient;
         private readonly Window _mainMenuWindow;
 
+        ILotteryService myService = SessionManager.ServiceClient;
+        UserSessionDTO myUser = SessionManager.CurrentUser;
+
         public string Nickname { get; }
         public ICommand ShowFriendsViewCommand { get; }
         public ICommand CreateLobbyCommand { get; }
@@ -92,7 +95,7 @@ namespace Lottery.ViewModel
 
         private async Task ExecuteJoinLobby()
         {
-            var joinView = new JoinLobbyByCodeView();
+            var joinView = new JoinLobbyByCodeView(myService, myUser);
             string lobbyCode = "";
 
             if (joinView.ShowDialog() == true)
@@ -114,7 +117,7 @@ namespace Lottery.ViewModel
         {
             try
             {
-                LobbyStateDTO lobbyState = await _serviceClient.JoinLobbyAsync(lobbyCode);
+                LobbyStateDTO lobbyState = await _serviceClient.JoinLobbyAsync(myUser, lobbyCode);
 
                 _mainMenuWindow.Dispatcher.Invoke(() =>
                 {

@@ -72,6 +72,7 @@
     <Compile Include="ViewModel\CustomizeProfileViewModel.cs" />
     <Compile Include="ViewModel\FriendRequestsViewModel.cs" />
     <Compile Include="ViewModel\InviteFriendsViewModel.cs" />
+    <Compile Include="ViewModel\JoinLobbyByCodeViewModel.cs" />
     <Compile Include="ViewModel\JoinLobbyViewModel.cs" />
     <Compile Include="ViewModel\LobbyViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />

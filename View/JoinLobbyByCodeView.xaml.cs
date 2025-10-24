@@ -3,9 +3,9 @@ using System.Windows;
 
 namespace Lottery.View
 {
-    public partial class JoinLobbyView : Window
+    public partial class JoinLobbyByCodeView : Window
     {
-        public JoinLobbyView()
+        public JoinLobbyByCodeView()
         {
             InitializeComponent();
             DataContext = new JoinLobbyViewModel();

@@ -1,9 +1,11 @@
 ﻿using Lottery.LotteryServiceReference;
 using System;
+using System.ServiceModel;
 using System.Windows;
 
 namespace Lottery
 {
+    [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, UseSynchronizationContext = false)]
     public class ClientCallbackHandler : ILotteryServiceCallback
     {
         public static event Action<PlayerInfoDTO> PlayerJoinedReceived;
@@ -16,7 +18,7 @@ namespace Lottery
 
         private void RunOnUI(Action action)
         {
-            Application.Current?.Dispatcher.Invoke(action);
+            Application.Current?.Dispatcher.BeginInvoke(action);
         }
 
         public void PlayerJoined(PlayerInfoDTO newPlayer)

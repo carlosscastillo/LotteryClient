@@ -808,10 +808,10 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/InviteFriendToLobby", ReplyAction="http://tempuri.org/IFriendService/InviteFriendToLobbyResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IFriendService/InviteFriendToLobbyServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        void InviteFriendToLobby(int targetFriendId);
+        void InviteFriendToLobby(string lobbyCode, int targetFriendId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/InviteFriendToLobby", ReplyAction="http://tempuri.org/IFriendService/InviteFriendToLobbyResponse")]
-        System.Threading.Tasks.Task InviteFriendToLobbyAsync(int targetFriendId);
+        System.Threading.Tasks.Task InviteFriendToLobbyAsync(string lobbyCode, int targetFriendId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/StartGame", ReplyAction="http://tempuri.org/IGameService/StartGameResponse")]
         void StartGame();
@@ -1037,12 +1037,12 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.GetPendingRequestsAsync(currentUserId);
         }
         
-        public void InviteFriendToLobby(int targetFriendId) {
-            base.Channel.InviteFriendToLobby(targetFriendId);
+        public void InviteFriendToLobby(string lobbyCode, int targetFriendId) {
+            base.Channel.InviteFriendToLobby(lobbyCode, targetFriendId);
         }
         
-        public System.Threading.Tasks.Task InviteFriendToLobbyAsync(int targetFriendId) {
-            return base.Channel.InviteFriendToLobbyAsync(targetFriendId);
+        public System.Threading.Tasks.Task InviteFriendToLobbyAsync(string lobbyCode, int targetFriendId) {
+            return base.Channel.InviteFriendToLobbyAsync(lobbyCode, targetFriendId);
         }
         
         public void StartGame() {

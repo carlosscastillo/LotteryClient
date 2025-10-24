@@ -95,8 +95,8 @@
     <Compile Include="View\GuestRegisterView.xaml.cs">
       <DependentUpon>GuestRegisterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\JoinLobbyView.xaml.cs">
-      <DependentUpon>JoinLobbyView.xaml</DependentUpon>
+    <Compile Include="View\JoinLobbyByCodeView.xaml.cs">
+      <DependentUpon>JoinLobbyByCodeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\LobbyView.xaml.cs">
       <DependentUpon>LobbyView.xaml</DependentUpon>
@@ -155,7 +155,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\JoinLobbyView.xaml">
+    <Page Include="View\JoinLobbyByCodeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

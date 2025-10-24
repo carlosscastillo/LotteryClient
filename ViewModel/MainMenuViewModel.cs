@@ -69,25 +69,30 @@ namespace Lottery.ViewModel
             {
                 LobbyStateDTO lobbyState = await _serviceClient.CreateLobbyAsync();
 
-                NavigateToLobby(lobbyState);
+                _mainMenuWindow.Dispatcher.Invoke(() =>
+                {
+                    NavigateToLobby(lobbyState);
+                });
             }
             catch (FaultException<ServiceFault> ex)
             {
-                MessageBox.Show(ex.Detail.Message, "Error al Crear Lobby", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-            catch (FaultException ex)
-            {
-                MessageBox.Show($"Error de conexión: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                _mainMenuWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show(_mainMenuWindow, ex.Detail.Message, "Error al Crear Lobby", MessageBoxButton.OK, MessageBoxImage.Warning);
+                });
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error inesperado: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                _mainMenuWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show(_mainMenuWindow, $"Error inesperado: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                });
             }
         }
 
         private async Task ExecuteJoinLobby()
         {
-            var joinView = new JoinLobbyView();
+            var joinView = new JoinLobbyByCodeView();
             string lobbyCode = "";
 
             if (joinView.ShowDialog() == true)
@@ -111,19 +116,31 @@ namespace Lottery.ViewModel
             {
                 LobbyStateDTO lobbyState = await _serviceClient.JoinLobbyAsync(lobbyCode);
 
-                NavigateToLobby(lobbyState);
+                _mainMenuWindow.Dispatcher.Invoke(() =>
+                {
+                    NavigateToLobby(lobbyState);
+                });
             }
             catch (FaultException<ServiceFault> ex)
             {
-                MessageBox.Show(ex.Detail.Message, "Error al Unirse al Lobby", MessageBoxButton.OK, MessageBoxImage.Warning);
+                _mainMenuWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show(_mainMenuWindow, ex.Detail.Message, "Error al Unirse al Lobby", MessageBoxButton.OK, MessageBoxImage.Warning);
+                });
             }
             catch (FaultException ex)
             {
-                MessageBox.Show($"Error de conexión: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                _mainMenuWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show(_mainMenuWindow, $"Error del servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
+                });
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error inesperado: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                _mainMenuWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show(_mainMenuWindow, $"Error inesperado: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                });
             }
         }
 
@@ -141,16 +158,22 @@ namespace Lottery.ViewModel
 
         private void OnLobbyInvite(string inviterNickname, string lobbyCode)
         {
-            var result = MessageBox.Show(
-                $"{inviterNickname} te ha invitado a su lobby.\nCódigo: {lobbyCode}\n\n¿Quieres unirte?",
-                "¡Invitación de Lobby!",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
+            if (_mainMenuWindow == null) return;
 
-            if (result == MessageBoxResult.Yes)
+            _mainMenuWindow.Dispatcher.Invoke(async () =>
             {
-                _ = JoinLobby(lobbyCode);
-            }
+                var result = MessageBox.Show(
+                    _mainMenuWindow,
+                    $"{inviterNickname} te ha invitado a su lobby.\nCódigo: {lobbyCode}\n\n¿Quieres unirte?",
+                    "¡Invitación de Lobby!",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    await JoinLobby(lobbyCode);
+                }
+            });
         }
 
         private async Task ExecuteLogout()

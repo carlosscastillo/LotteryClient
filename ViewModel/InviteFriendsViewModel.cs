@@ -37,6 +37,7 @@ namespace Lottery.ViewModel
     {
         private readonly ILotteryService _serviceClient;
         private readonly int _currentUserId;
+        private string _inviteLobbyCode;
 
         private bool _isInviteMode = false;
         private string _searchNickname;
@@ -185,6 +186,8 @@ namespace Lottery.ViewModel
         public void SetInviteMode(string lobbyCode)
         {
             _isInviteMode = true;
+            _inviteLobbyCode = lobbyCode;
+
             InviteFriendCommand = new RelayCommand<int>(
                 async (friendId) => await InviteFriend(friendId),
                 (friendId) => _isInviteMode);
@@ -196,7 +199,7 @@ namespace Lottery.ViewModel
         {
             try
             {
-                await _serviceClient.InviteFriendToLobbyAsync(friendId);
+                await _serviceClient.InviteFriendToLobbyAsync(_inviteLobbyCode, friendId);
                 MessageBox.Show("Invitación enviada.");
             }
             catch (FaultException<ServiceFault> ex)
@@ -215,9 +218,6 @@ namespace Lottery.ViewModel
 
         private void ExecuteGoBackToMenu(Window friendsWindow)
         {
-            MainMenuView mainMenuView = new MainMenuView();
-            mainMenuView.Show();
-
             friendsWindow?.Close();
         }
 

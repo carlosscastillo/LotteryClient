@@ -8,6 +8,7 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Collections.Generic;
 
 namespace Lottery.ViewModel
 {
@@ -32,13 +33,43 @@ namespace Lottery.ViewModel
 
         public bool IsHost { get; }
 
+        private bool _isShowingFriendsList;
+        public bool IsShowingFriendsList
+        {
+            get => _isShowingFriendsList;
+            set => SetProperty(ref _isShowingFriendsList, value);
+        }
+
+        private ObservableCollection<FriendDTO> _friendsList;
+        public ObservableCollection<FriendDTO> FriendsList
+        {
+            get => _friendsList;
+            set => SetProperty(ref _friendsList, value);
+        }
+
         public ObservableCollection<PlayerInfoDTO> Players { get; }
         public ObservableCollection<string> ChatHistory { get; } = new ObservableCollection<string>();
+        public List<string> AvailableGameModes { get; } = new List<string> { "Normal", "Diagonales", "Marco", "Centro", "Mega Lotería", "Lotería Injusta" };
+        private string _selectedGameMode;
+        public string SelectedGameMode
+        {
+            get => _selectedGameMode;
+            set
+            {
+                if (SetProperty(ref _selectedGameMode, value))
+                {
+                    Console.WriteLine($"Modo de juego cambiado a: {_selectedGameMode}");
+                }
+            }
+        }
 
         public ICommand SendChatCommand { get; }
         public ICommand LeaveLobbyCommand { get; }
         public ICommand KickPlayerCommand { get; }
         public ICommand InviteFriendCommand { get; }
+        public ICommand StartGameCommand { get; }
+        public ICommand ToggleShowFriendsCommand { get; }
+        public ICommand InviteFriendToLobbyCommand { get; }
 
         private Window _lobbyWindow;
 
@@ -51,11 +82,17 @@ namespace Lottery.ViewModel
             LobbyCode = lobbyState.LobbyCode;
             Players = new ObservableCollection<PlayerInfoDTO>(lobbyState.Players);
             IsHost = Players.FirstOrDefault(p => p.UserId == _currentUserId)?.IsHost ?? false;
+            _selectedGameMode = AvailableGameModes.FirstOrDefault();
 
             SendChatCommand = new RelayCommand(SendChat, () => !string.IsNullOrWhiteSpace(ChatMessage));
             LeaveLobbyCommand = new RelayCommand(LeaveLobby);
             KickPlayerCommand = new RelayCommand<int>(async (id) => await KickPlayer(id));
             InviteFriendCommand = new RelayCommand(InviteFriend);
+            StartGameCommand = new RelayCommand(async () => await StartGame(), () => IsHost);
+
+            FriendsList = new ObservableCollection<FriendDTO>();
+            ToggleShowFriendsCommand = new RelayCommand(async () => await ExecuteToggleShowFriends());
+            InviteFriendToLobbyCommand = new RelayCommand(async (param) => await ExecuteInviteFriendToLobby(param));
 
             SubscribeToEvents();
         }
@@ -89,7 +126,10 @@ namespace Lottery.ViewModel
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al enviar mensaje: {ex.Message}");
+                _lobbyWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show(_lobbyWindow, $"Error al enviar mensaje: {ex.Message}");
+                });
             }
         }
 
@@ -109,7 +149,10 @@ namespace Lottery.ViewModel
             }
             catch (FaultException<ServiceFault> ex)
             {
-                MessageBox.Show(ex.Detail.Message, "Error al Expulsar");
+                _lobbyWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show(_lobbyWindow, ex.Detail.Message, "Error al Expulsar");
+                });
             }
         }
 
@@ -125,49 +168,153 @@ namespace Lottery.ViewModel
             friendsView.ShowDialog();
         }
 
+
         private void OnChatMessageReceived(string nickname, string message)
         {
-            ChatHistory.Add($"{nickname}: {message}");
+            _lobbyWindow.Dispatcher.Invoke(() =>
+            {
+                ChatHistory.Add($"{nickname}: {message}");
+            });
         }
 
         private void OnPlayerJoined(PlayerInfoDTO newPlayer)
         {
-            Players.Add(newPlayer);
-            ChatHistory.Add($"--- {newPlayer.Nickname} se ha unido. ---");
+            _lobbyWindow.Dispatcher.Invoke(() =>
+            {
+                Players.Add(newPlayer);
+                ChatHistory.Add($"--- {newPlayer.Nickname} se ha unido. ---");
+            });
         }
 
         private void OnPlayerLeft(int playerId)
         {
-            var player = Players.FirstOrDefault(p => p.UserId == playerId);
-            if (player != null)
+            _lobbyWindow.Dispatcher.Invoke(() =>
             {
-                Players.Remove(player);
-                ChatHistory.Add($"--- {player.Nickname} se ha ido. ---");
-            }
+                var player = Players.FirstOrDefault(p => p.UserId == playerId);
+                if (player != null)
+                {
+                    Players.Remove(player);
+                    ChatHistory.Add($"--- {player.Nickname} se ha ido. ---");
+                }
+            });
         }
 
         private void OnPlayerKicked(int playerId)
         {
-            var player = Players.FirstOrDefault(p => p.UserId == playerId);
-            if (player != null)
+            _lobbyWindow.Dispatcher.Invoke(() =>
             {
-                Players.Remove(player);
-                ChatHistory.Add($"--- {player.Nickname} ha sido expulsado. ---");
-            }
+                var player = Players.FirstOrDefault(p => p.UserId == playerId);
+                if (player != null)
+                {
+                    Players.Remove(player);
+                    ChatHistory.Add($"--- {player.Nickname} ha sido expulsado. ---");
+                }
+            });
         }
 
         private void OnYouWereKicked()
         {
-            UnsubscribeFromEvents();
-            MessageBox.Show("Has sido expulsado del lobby por el host.");
-            NavigateToMainMenu();
+            _lobbyWindow.Dispatcher.Invoke(() =>
+            {
+                UnsubscribeFromEvents();
+                MessageBox.Show(_lobbyWindow, "Has sido expulsado del lobby por el host.");
+                NavigateToMainMenu();
+            });
         }
 
         private void OnLobbyClosed()
         {
-            UnsubscribeFromEvents();
-            MessageBox.Show("El host ha cerrado el lobby.");
-            NavigateToMainMenu();
+            _lobbyWindow.Dispatcher.Invoke(() =>
+            {
+                UnsubscribeFromEvents();
+                MessageBox.Show(_lobbyWindow, "El host ha cerrado el lobby.");
+                NavigateToMainMenu();
+            });
+        }
+
+        private async Task StartGame()
+        {
+            if (!IsHost) return;
+
+            try
+            {
+                await _serviceClient.StartGameAsync();
+
+                _lobbyWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show(_lobbyWindow, "Iniciando partida...");
+                });
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                _lobbyWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show(_lobbyWindow, ex.Detail.Message, "Error al Iniciar Partida", MessageBoxButton.OK, MessageBoxImage.Warning);
+                });
+            }
+        }
+
+        private async Task ExecuteToggleShowFriends()
+        {
+            IsShowingFriendsList = !IsShowingFriendsList;
+
+            if (IsShowingFriendsList && FriendsList.Count == 0)
+            {
+                await LoadFriendsListAsync();
+            }
+        }
+
+        private async Task LoadFriendsListAsync()
+        {
+            try
+            {
+                var friends = await _serviceClient.GetFriendsAsync(_currentUserId);
+
+                _lobbyWindow.Dispatcher.Invoke(() =>
+                {
+                    FriendsList.Clear();
+                    if (friends != null)
+                    {
+                        foreach (var friend in friends)
+                        {
+                            FriendsList.Add(friend);
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                _lobbyWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show(_lobbyWindow, $"Error al cargar la lista de amigos: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                });
+            }
+        }
+
+        private async Task ExecuteInviteFriendToLobby(object parameter)
+        {
+            if (parameter is int userId)
+            {
+                try
+                {
+                    await _serviceClient.InviteFriendToLobbyAsync(LobbyCode, userId);
+
+                    var friend = FriendsList.FirstOrDefault(f => f.UserId == userId);
+                    string friendNickname = friend != null ? friend.Nickname : "tu amigo";
+
+                    _lobbyWindow.Dispatcher.Invoke(() =>
+                    {
+                        MessageBox.Show(_lobbyWindow, $"¡Invitación enviada a {friendNickname}!", "Invitación Enviada", MessageBoxButton.OK, MessageBoxImage.Information);
+                    });
+                }
+                catch (Exception ex)
+                {
+                    _lobbyWindow.Dispatcher.Invoke(() =>
+                    {
+                        MessageBox.Show(_lobbyWindow, $"No se pudo enviar la invitación: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    });
+                }
+            }
         }
 
         private void NavigateToMainMenu()

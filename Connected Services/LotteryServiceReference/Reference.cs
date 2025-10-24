@@ -283,6 +283,9 @@ namespace Lottery.LotteryServiceReference {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string HostNicknameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string LobbyCodeField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -295,6 +298,19 @@ namespace Lottery.LotteryServiceReference {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string HostNickname {
+            get {
+                return this.HostNicknameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.HostNicknameField, value) != true)) {
+                    this.HostNicknameField = value;
+                    this.RaisePropertyChanged("HostNickname");
+                }
             }
         }
         
@@ -808,10 +824,10 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/InviteFriendToLobby", ReplyAction="http://tempuri.org/IFriendService/InviteFriendToLobbyResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IFriendService/InviteFriendToLobbyServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        void InviteFriendToLobby(int targetFriendId);
+        void InviteFriendToLobby(string lobbyCode, int targetFriendId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/InviteFriendToLobby", ReplyAction="http://tempuri.org/IFriendService/InviteFriendToLobbyResponse")]
-        System.Threading.Tasks.Task InviteFriendToLobbyAsync(int targetFriendId);
+        System.Threading.Tasks.Task InviteFriendToLobbyAsync(string lobbyCode, int targetFriendId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/StartGame", ReplyAction="http://tempuri.org/IGameService/StartGameResponse")]
         void StartGame();
@@ -840,10 +856,10 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/JoinLobby", ReplyAction="http://tempuri.org/ILobbyService/JoinLobbyResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/ILobbyService/JoinLobbyServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        Lottery.LotteryServiceReference.LobbyStateDTO JoinLobby(string lobbyCode);
+        Lottery.LotteryServiceReference.LobbyStateDTO JoinLobby(Lottery.LotteryServiceReference.UserSessionDTO currentUser, string lobbyCode);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/JoinLobby", ReplyAction="http://tempuri.org/ILobbyService/JoinLobbyResponse")]
-        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.LobbyStateDTO> JoinLobbyAsync(string lobbyCode);
+        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.LobbyStateDTO> JoinLobbyAsync(Lottery.LotteryServiceReference.UserSessionDTO currentUser, string lobbyCode);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILobbyService/LeaveLobby")]
         void LeaveLobby();
@@ -1043,12 +1059,12 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.GetPendingRequestsAsync(currentUserId);
         }
         
-        public void InviteFriendToLobby(int targetFriendId) {
-            base.Channel.InviteFriendToLobby(targetFriendId);
+        public void InviteFriendToLobby(string lobbyCode, int targetFriendId) {
+            base.Channel.InviteFriendToLobby(lobbyCode, targetFriendId);
         }
         
-        public System.Threading.Tasks.Task InviteFriendToLobbyAsync(int targetFriendId) {
-            return base.Channel.InviteFriendToLobbyAsync(targetFriendId);
+        public System.Threading.Tasks.Task InviteFriendToLobbyAsync(string lobbyCode, int targetFriendId) {
+            return base.Channel.InviteFriendToLobbyAsync(lobbyCode, targetFriendId);
         }
         
         public void StartGame() {
@@ -1083,12 +1099,12 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.CreateLobbyAsync();
         }
         
-        public Lottery.LotteryServiceReference.LobbyStateDTO JoinLobby(string lobbyCode) {
-            return base.Channel.JoinLobby(lobbyCode);
+        public Lottery.LotteryServiceReference.LobbyStateDTO JoinLobby(Lottery.LotteryServiceReference.UserSessionDTO currentUser, string lobbyCode) {
+            return base.Channel.JoinLobby(currentUser, lobbyCode);
         }
         
-        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.LobbyStateDTO> JoinLobbyAsync(string lobbyCode) {
-            return base.Channel.JoinLobbyAsync(lobbyCode);
+        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.LobbyStateDTO> JoinLobbyAsync(Lottery.LotteryServiceReference.UserSessionDTO currentUser, string lobbyCode) {
+            return base.Channel.JoinLobbyAsync(currentUser, lobbyCode);
         }
         
         public void LeaveLobby() {

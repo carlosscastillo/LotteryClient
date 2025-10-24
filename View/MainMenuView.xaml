@@ -38,10 +38,12 @@
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Button Content="{x:Static language:Lang.CreateLobbyLabelTitle}"
                         Style="{StaticResource PrimaryButtonStyle}"
-                        MinWidth="320" MinHeight="65" FontSize="24" Margin="0,0,0,20"/>
+                        MinWidth="320" MinHeight="65" FontSize="24" Margin="0,0,0,20"
+                        Command="{Binding CreateLobbyCommand}"/>
                 <Button Content="{x:Static language:Lang.JoinLobbyLabelTittle}"
                         Style="{StaticResource PrimaryButtonStyle}"
-                        MinWidth="320" MinHeight="65" FontSize="24"/>
+                        MinWidth="320" MinHeight="65" FontSize="24"
+                        Command="{Binding JoinLobbyCommand}"/>
             </StackPanel>
         </Border>
 

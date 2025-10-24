@@ -17,12 +17,23 @@ namespace Lottery.ViewModel.Base
 
         public bool CanExecute(object parameter)
         {
+            if (parameter == null)
+            {
+                return _canExecute == null || _canExecute(default(T));
+            }
             return _canExecute == null || _canExecute((T)parameter);
         }
 
         public void Execute(object parameter)
         {
-            _execute((T)parameter);
+            if (parameter == null)
+            {
+                _execute(default(T));
+            }
+            else
+            {
+                _execute((T)parameter);
+            }
         }
 
         public event EventHandler CanExecuteChanged
@@ -32,11 +43,14 @@ namespace Lottery.ViewModel.Base
         }
     }
 
-    // --- COMANDO NO GENÉRICO ---
+    // --- COMANDO NO GENÉRICO (Con y sin parámetros) ---
     public class RelayCommand : ICommand
     {
         private readonly Action _execute;
+        private readonly Action<object> _executeWithParam;
+
         private readonly Func<bool> _canExecute;
+        private readonly Predicate<object> _canExecuteWithParam;
 
         public RelayCommand(Action execute, Func<bool> canExecute = null)
         {
@@ -44,14 +58,27 @@ namespace Lottery.ViewModel.Base
             _canExecute = canExecute;
         }
 
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute = null)
+        {
+            _executeWithParam = execute ?? throw new ArgumentNullException(nameof(execute));
+            _canExecuteWithParam = canExecute;
+        }
+
+
         public bool CanExecute(object parameter)
         {
-            return _canExecute == null || _canExecute();
+            if (_canExecute != null)
+                return _canExecute();
+            if (_canExecuteWithParam != null)
+                return _canExecuteWithParam(parameter);
+
+            return true;
         }
 
         public void Execute(object parameter)
         {
-            _execute();
+            _execute?.Invoke();
+            _executeWithParam?.Invoke(parameter);
         }
 
         public event EventHandler CanExecuteChanged

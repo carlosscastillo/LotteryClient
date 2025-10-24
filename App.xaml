@@ -1,7 +1,8 @@
 ﻿<Application x:Class="Lottery.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Lottery" xmlns:conv="clr-namespace:Lottery.Converters"
+             xmlns:local="clr-namespace:Lottery"
+			 xmlns:conv="clr-namespace:Lottery.Converters"
              StartupUri="View/LoginView.xaml">
 
     <Application.Resources>
@@ -325,6 +326,10 @@
         
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <conv:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
+
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+            <converters:BooleanAndToVisibilityConverter x:Key="BooleanAndToVisibilityConverter"/>
 
     </Application.Resources>
 </Application>

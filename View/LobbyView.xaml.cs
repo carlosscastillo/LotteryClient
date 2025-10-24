@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Lottery.LotteryServiceReference;
+using Lottery.ViewModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Lottery.View
 {
@@ -22,6 +12,11 @@ namespace Lottery.View
         public LobbyView()
         {
             InitializeComponent();
+        }
+
+        public LobbyView(LobbyStateDTO lobbyState) : this()
+        {
+            this.DataContext = new LobbyViewModel(lobbyState, this);
         }
     }
 }

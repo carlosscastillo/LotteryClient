@@ -72,6 +72,7 @@
     <Compile Include="ViewModel\CustomizeProfileViewModel.cs" />
     <Compile Include="ViewModel\FriendRequestsViewModel.cs" />
     <Compile Include="ViewModel\InviteFriendsViewModel.cs" />
+    <Compile Include="ViewModel\JoinLobbyByCodeViewModel.cs" />
     <Compile Include="ViewModel\JoinLobbyViewModel.cs" />
     <Compile Include="ViewModel\LobbyViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
@@ -95,8 +96,8 @@
     <Compile Include="View\GuestRegisterView.xaml.cs">
       <DependentUpon>GuestRegisterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\JoinLobbyView.xaml.cs">
-      <DependentUpon>JoinLobbyView.xaml</DependentUpon>
+    <Compile Include="View\JoinLobbyByCodeView.xaml.cs">
+      <DependentUpon>JoinLobbyByCodeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\LobbyView.xaml.cs">
       <DependentUpon>LobbyView.xaml</DependentUpon>
@@ -155,7 +156,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\JoinLobbyView.xaml">
+    <Page Include="View\JoinLobbyByCodeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

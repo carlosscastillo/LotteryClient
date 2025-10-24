@@ -15,6 +15,8 @@ namespace Lottery.ViewModel
     {
         private ILotteryService _serviceClient;
 
+        private UserRegisterDTO _pendingUser;
+
         private string _name;
         private string _paternalLastName;
         private string _maternalLastName;
@@ -24,6 +26,8 @@ namespace Lottery.ViewModel
         private bool _isRegistering;
         private bool _isVerificationVisible;
         private bool _isCompletedVisible;
+        private string _password;
+        private string _confirmPassword;
 
         public event Action NavigateToLogin;        
         public string Name { get => _name; set => SetProperty(ref _name, value); }
@@ -32,6 +36,8 @@ namespace Lottery.ViewModel
         public string Nickname { get => _nickname; set => SetProperty(ref _nickname, value); }
         public string Email { get => _email; set => SetProperty(ref _email, value); }
         public string VerificationCode { get => _verificationCode; set => SetProperty(ref _verificationCode, value); }
+        public string Password { get => _password; set => SetProperty(ref _password, value); }
+        public string ConfirmPassword { get => _confirmPassword; set => SetProperty(ref _confirmPassword, value); }
 
         public bool IsRegistering { get => _isRegistering; set => SetProperty(ref _isRegistering, value); }
         public bool IsVerificationVisible { get => _isVerificationVisible; set => SetProperty(ref _isVerificationVisible, value); }
@@ -45,7 +51,7 @@ namespace Lottery.ViewModel
         {
             _serviceClient = new LotteryServiceClient(new InstanceContext(new ClientCallbackHandler()));
 
-            RegisterCommand = new RelayCommand<object>(async (param) => await Register(param), (param) => !IsRegistering);
+            RegisterCommand = new RelayCommand<object>(async (param) => Register(param), (param) => !IsRegistering);
 
             VerifyCommand = new RelayCommand(async () => await VerifyCode(), () => !IsRegistering);
 
@@ -56,19 +62,28 @@ namespace Lottery.ViewModel
                 IsVerificationVisible = false;
                 IsCompletedVisible = false;
             }, () => true);
-        }        
-        private async Task Register(object parameter)
+        }
+        private void Register(object parameter)
         {
             var passwordBox = parameter as PasswordBox;
             if (passwordBox == null) return;
 
             string password = passwordBox.Password;
-
+            
             if (string.IsNullOrWhiteSpace(Name) ||
+                string.IsNullOrWhiteSpace(PaternalLastName) ||
+                string.IsNullOrWhiteSpace(MaternalLastName) ||
+                string.IsNullOrWhiteSpace(Nickname) ||
                 string.IsNullOrWhiteSpace(Email) ||
-                string.IsNullOrWhiteSpace(password))
+                string.IsNullOrWhiteSpace(password) ||
+                string.IsNullOrWhiteSpace(ConfirmPassword))
             {
                 MessageBox.Show("Por favor, llena todos los campos obligatorios.", "Campos Vacíos");
+                return;
+            }            
+            if (password != ConfirmPassword)
+            {
+                MessageBox.Show("Las contraseñas no coinciden.", "Error de Contraseña");
                 return;
             }
 
@@ -76,7 +91,7 @@ namespace Lottery.ViewModel
 
             try
             {
-                var newUserDto = new UserRegisterDTO
+                _pendingUser = new UserRegisterDTO
                 {
                     FirstName = Name,
                     PaternalLastName = PaternalLastName,
@@ -86,7 +101,7 @@ namespace Lottery.ViewModel
                     Password = password
                 };
 
-                int result = await _serviceClient.RegisterUserAsync(newUserDto);
+                int result = _serviceClient.RequestUserVerification(_pendingUser);
 
                 if (result > 0)
                 {
@@ -117,7 +132,7 @@ namespace Lottery.ViewModel
             {
                 IsRegistering = false;
             }
-        }        
+        }
         private async Task VerifyCode()
         {
             if (string.IsNullOrWhiteSpace(VerificationCode))
@@ -132,11 +147,17 @@ namespace Lottery.ViewModel
             {
                 bool verified = await _serviceClient.VerifyCodeAsync(Email, VerificationCode);
 
-                if (verified)
+                if (verified && _pendingUser != null)
                 {
-                    MessageBox.Show("Cuenta verificada correctamente.");
-                    IsCompletedVisible = true;
-                    IsVerificationVisible = false;
+                    int userId = await _serviceClient.RegisterUserAsync(_pendingUser);
+                    if (userId > 0)
+                    {
+                        MessageBox.Show("Cuenta verificada correctamente.");
+                        IsCompletedVisible = true;
+                        IsVerificationVisible = false;
+                        
+                        _pendingUser = null;
+                    }                    
                 }
                 else
                 {

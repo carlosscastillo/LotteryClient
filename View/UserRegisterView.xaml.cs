@@ -34,5 +34,17 @@ namespace Lottery.View
                 _viewModel.RegisterCommand.Execute(PasswordBox);
             }
         }
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is UserRegisterViewModel vm)
+                vm.Password = ((PasswordBox)sender).Password;
+        }
+
+        private void ConfirmPasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is UserRegisterViewModel vm)
+                vm.ConfirmPassword = ((PasswordBox)sender).Password;
+        }
+
     }
 }

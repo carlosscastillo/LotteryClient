@@ -31,6 +31,13 @@ namespace Lottery.ViewModel
             set => SetProperty(ref _chatMessage, value);
         }
 
+        private string _errorMessage;
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set => SetProperty(ref _errorMessage, value);
+        }
+
         public bool IsHost { get; }
 
         private bool _isShowingFriendsList;
@@ -181,7 +188,10 @@ namespace Lottery.ViewModel
         {
             _lobbyWindow.Dispatcher.Invoke(() =>
             {
-                Players.Add(newPlayer);
+                if (!Players.Any(p => p.UserId == newPlayer.UserId))
+                {
+                    Players.Add(newPlayer);
+                }
                 ChatHistory.Add($"--- {newPlayer.Nickname} se ha unido. ---");
             });
         }
@@ -295,6 +305,8 @@ namespace Lottery.ViewModel
         {
             if (parameter is int userId)
             {
+                ErrorMessage = string.Empty;
+
                 try
                 {
                     await _serviceClient.InviteFriendToLobbyAsync(LobbyCode, userId);
@@ -307,11 +319,15 @@ namespace Lottery.ViewModel
                         MessageBox.Show(_lobbyWindow, $"¡Invitación enviada a {friendNickname}!", "Invitación Enviada", MessageBoxButton.OK, MessageBoxImage.Information);
                     });
                 }
+                catch (FaultException<ServiceFault> ex)
+                {
+                    ErrorMessage = ex.Detail.Message;
+                }
                 catch (Exception ex)
                 {
                     _lobbyWindow.Dispatcher.Invoke(() =>
                     {
-                        MessageBox.Show(_lobbyWindow, $"No se pudo enviar la invitación: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(_lobbyWindow, ex.Message, "Error de Servicio", MessageBoxButton.OK, MessageBoxImage.Error);
                     });
                 }
             }

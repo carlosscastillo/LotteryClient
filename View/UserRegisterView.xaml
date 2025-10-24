@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Lottery.View"
+        xmlns:local="clr-namespace:Lottery.View"        
         mc:Ignorable="d"
         xmlns:language="clr-namespace:Lottery.Properties.Langs"
         Title="UserRegisterView" Height="700" Width="500"
@@ -58,13 +58,13 @@
 
                 <Label Content="{x:Static language:Lang.GlobalLabelPassword}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=PasswordBox}"/>
                 <Grid>
-                    <PasswordBox x:Name="PasswordBox"/>
+                    <PasswordBox x:Name="PasswordBox" PasswordChanged="PasswordBox_PasswordChanged"/>
                     <TextBlock Text="&#xE72E;" Style="{StaticResource IconStyle}"/>
                 </Grid>
 
                 <Label Content="{x:Static language:Lang.GlobalLabelConfirmPassword}" Style="{StaticResource LabelStyle}" Target="{Binding ElementName=ConfirmPasswordBox}"/>
                 <Grid>
-                    <PasswordBox x:Name="ConfirmPasswordBox"/>
+                    <PasswordBox x:Name="ConfirmPasswordBox" PasswordChanged="ConfirmPasswordBox_PasswordChanged"/>
                     <TextBlock Text="&#xE72E;" Style="{StaticResource IconStyle}"/>
                 </Grid>
 
@@ -78,7 +78,7 @@
             </StackPanel>
 
 
-            <StackPanel x:Name="VerificationCodePanel" Visibility="Collapsed" HorizontalAlignment="Center">
+            <StackPanel x:Name="VerificationCodePanel" Visibility="{Binding IsVerificationVisible, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center">
                 <TextBlock Text="{x:Static language:Lang.UserSignUpLabelTitle}" Style="{StaticResource TitleTextStyle}"/>
                 <TextBlock Text="{x:Static language:Lang.GlobalLabelVerificationCode}"  Style="{StaticResource SubtitleTextStyle}"/>
 

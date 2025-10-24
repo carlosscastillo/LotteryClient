@@ -166,14 +166,20 @@
   <wsdl:message name="ILotteryService_LogoutUser_OutputMessage">
     <wsdl:part name="parameters" element="tns:LogoutUserResponse" />
   </wsdl:message>
+  <wsdl:message name="ILotteryService_RequestUserVerification_InputMessage">
+    <wsdl:part name="parameters" element="tns:RequestUserVerification" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RequestUserVerification_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RequestUserVerificationResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RequestUserVerification_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q2:ServiceFault" />
+  </wsdl:message>
   <wsdl:message name="ILotteryService_RegisterUser_InputMessage">
     <wsdl:part name="parameters" element="tns:RegisterUser" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RegisterUser_OutputMessage">
     <wsdl:part name="parameters" element="tns:RegisterUserResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILotteryService_RegisterUser_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q12:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RegisterGuest_InputMessage">
     <wsdl:part name="parameters" element="tns:RegisterGuest" />
@@ -325,10 +331,14 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IAuthenticationService/LogoutUser" message="tns:ILotteryService_LogoutUser_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IAuthenticationService/LogoutUserResponse" message="tns:ILotteryService_LogoutUser_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="RequestUserVerification">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/RequestUserVerification" message="tns:ILotteryService_RequestUserVerification_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/RequestUserVerificationResponse" message="tns:ILotteryService_RequestUserVerification_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/RequestUserVerificationServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_RequestUserVerification_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
     <wsdl:operation name="RegisterUser">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/RegisterUser" message="tns:ILotteryService_RegisterUser_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/RegisterUserResponse" message="tns:ILotteryService_RegisterUser_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/RegisterUserServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_RegisterUser_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="RegisterGuest">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/RegisterGuest" message="tns:ILotteryService_RegisterGuest_InputMessage" />
@@ -570,8 +580,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="RegisterUser">
-      <soap12:operation soapAction="http://tempuri.org/IUserService/RegisterUser" style="document" />
+    <wsdl:operation name="RequestUserVerification">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/RequestUserVerification" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -581,6 +591,15 @@
       <wsdl:fault name="ServiceFaultFault">
         <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
       </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterUser">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/RegisterUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="RegisterGuest">
       <soap12:operation soapAction="http://tempuri.org/IUserService/RegisterGuest" style="document" />
@@ -709,7 +728,7 @@
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8080/Lottery/LotteryService</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
-          <Upn>USUARIO\carlo</Upn>
+          <Upn>DD\edgar</Upn>
         </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>

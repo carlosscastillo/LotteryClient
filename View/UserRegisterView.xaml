@@ -17,7 +17,9 @@
 
         <Grid>
 
-            <StackPanel x:Name="RegistrationFormPanel" Visibility="Visible">
+            <StackPanel x:Name="RegistrationFormPanel" 
+                Visibility="{Binding IsFormVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                Panel.ZIndex="0">
                 <TextBlock Text="{x:Static language:Lang.UserSignUpLabelTitle}" Style="{StaticResource TitleTextStyle}"/>
                 <TextBlock Text="{x:Static language:Lang.UserSignUpLabelDetails}" Style="{StaticResource SubtitleTextStyle}"/>
 
@@ -78,14 +80,16 @@
             </StackPanel>
 
 
-            <StackPanel x:Name="VerificationCodePanel" Visibility="{Binding IsVerificationVisible, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center">
+            <StackPanel x:Name="VerificationCodePanel" 
+                Visibility="{Binding IsVerificationVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                Panel.ZIndex="1">
                 <TextBlock Text="{x:Static language:Lang.UserSignUpLabelTitle}" Style="{StaticResource TitleTextStyle}"/>
                 <TextBlock Text="{x:Static language:Lang.GlobalLabelVerificationCode}"  Style="{StaticResource SubtitleTextStyle}"/>
 
-                <TextBlock x:Name="VerificationEmailTextBlock" Text="carlos@gmail.com" FontSize="14" Foreground="Gray" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,2,0,25"/>
+                <TextBlock x:Name="VerificationEmailTextBlock" Text="{Binding Email}" FontSize="14" Foreground="Gray" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,2,0,25"/>
                 <Label Content="{x:Static language:Lang.GlobalButtonVerificationCode}" FontSize="12" FontWeight="Bold" Margin="0,0,0,5" Target="{Binding ElementName=VerificationCodeTextBox}"/>
                 <Grid>
-                    <TextBox x:Name="VerificationCodeTextBox" Style="{StaticResource CodeInputFieldStyle}" Text="000000" />
+                    <TextBox x:Name="VerificationCodeTextBox" Text="{Binding VerificationCode, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CodeInputFieldStyle}"/>
                     <TextBlock Text="&#xE72E;" Style="{StaticResource IconStyle}" Margin="10,0,0,0"/>
                 </Grid>
                 <Button Content="{x:Static language:Lang.GlobalButtonVerifyCode}"
@@ -104,16 +108,18 @@
                         </Style>
                     </Button.Resources>
                 </Button>
-                <!--<Button x:Name="BackButton" Click="BackButton_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Background="Transparent" BorderThickness="0" Margin="0,20,0,0" HorizontalAlignment="Center" Cursor="Hand">
+                <Button x:Name="BackButton" Command="{Binding BackCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Background="Transparent" BorderThickness="0" Margin="0,20,0,0" HorizontalAlignment="Center" Cursor="Hand">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="&#xE72B;" Style="{StaticResource BackIconStyle}"/>
                         <TextBlock Text="{x:Static language:Lang.GlobalButtonBack}" Foreground="Gray" FontSize="13"/>
                     </StackPanel>
-                </Button>-->
+                </Button>
             </StackPanel>
 
 
-            <StackPanel x:Name="RegistrationCompletedPanel" Visibility="Collapsed" HorizontalAlignment="Center">
+            <StackPanel x:Name="RegistrationCompletedPanel" 
+                Visibility="{Binding IsCompletedVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                Panel.ZIndex="2">
                 <TextBlock Text="{x:Static language:Lang.UserSignUpLabelTitle}"  Style="{StaticResource TitleTextStyle}"/>
                 <TextBlock Text="{x:Static language:Lang.UserSignUpLabelRegistrationComplete}" Style="{StaticResource SubtitleTextStyle}"/>
 
@@ -121,15 +127,24 @@
                     <Border Background="#28a745" CornerRadius="30"/>
                     <TextBlock Text="&#xE73E;" FontFamily="Segoe MDL2 Assets" Foreground="White" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
-                <!--<Button x:Name="ContinueButton" Click="ContinueButton_Click" Content="{x:Static language:Lang.GlobalButtonContinue}" Margin="0,25,0,0" Padding="12" FontSize="16" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Cursor="Hand">
+                <Button x:Name="ContinueButton"
+                        Command="{Binding ContinueCommand}"
+                        Content="{x:Static language:Lang.GlobalButtonContinue}"
+                        Margin="0,25,0,0"
+                        Padding="12"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="White"
+                        Background="Black"
+                        BorderThickness="0"
+                        Cursor="Hand">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="8"/>
                         </Style>
                     </Button.Resources>
-                </Button>-->
+                </Button>
             </StackPanel>
-
         </Grid>
     </Border>
 </Window>

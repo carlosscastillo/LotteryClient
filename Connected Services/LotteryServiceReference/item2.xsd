@@ -202,10 +202,24 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
-  <xs:element name="RegisterUser">
+  <xs:element name="RequestUserVerification">
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="userData" nillable="true" type="q8:UserRegisterDTO" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RequestUserVerificationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="RequestUserVerificationResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RegisterUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="userData" nillable="true" type="q9:UserRegisterDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -260,7 +274,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="currentUserId" type="xs:int" />
-        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="profileData" nillable="true" type="q9:UserProfileDTO" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="profileData" nillable="true" type="q10:UserProfileDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -281,7 +295,7 @@
   <xs:element name="FindUserByNicknameResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="FindUserByNicknameResult" nillable="true" type="q10:FriendDTO" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="FindUserByNicknameResult" nillable="true" type="q11:FriendDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -339,7 +353,7 @@
   <xs:element name="PlayerJoined">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="newPlayer" nillable="true" type="q11:PlayerInfoDTO" />
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="newPlayer" nillable="true" type="q12:PlayerInfoDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

@@ -27,7 +27,6 @@ namespace Lottery.ViewModel
         private string _confirmPassword;
 
         public event Action NavigateToLogin;
-
         public string Name { get => _name; set => SetProperty(ref _name, value); }
         public string PaternalLastName { get => _paternalLastName; set => SetProperty(ref _paternalLastName, value); }
         public string MaternalLastName { get => _maternalLastName; set => SetProperty(ref _maternalLastName, value); }

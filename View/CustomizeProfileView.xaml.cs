@@ -7,6 +7,9 @@ namespace Lottery.View
         public CustomizeProfileView()
         {
             InitializeComponent();
+
+            // Asignamos el ViewModel como DataContext
+            this.DataContext = new ViewModel.CustomizeProfileViewModel();
         }
 
         /// <summary>

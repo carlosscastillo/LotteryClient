@@ -241,7 +241,7 @@
     <value>Continuar</value>
   </data>
   <data name="GlobalButtonSaveChanges" xml:space="preserve">
-    <value>Guardar Cambios</value>
+    <value>Guardar</value>
   </data>
   <data name="GlobalButtonSignUp" xml:space="preserve">
     <value>Registrarme</value>
@@ -432,10 +432,13 @@
   <data name="MainMenuButtonSettings" xml:space="preserve">
     <value>Configuración</value>
   </data>
-  <data name="UserProfileUpdateTitle" xml:space="preserve">
-    <value>Perfil</value>
+  <data name="CustomizeProfileLabelSocialMedia" xml:space="preserve">
+    <value>Redes Sociales</value>
   </data>
-  <data name="UserProfileUpdateSubtitle" xml:space="preserve">
-    <value>Personaliza tu perfil</value>
+  <data name="GlobalButtonCancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="GlobalButtonEdit" xml:space="preserve">
+    <value>Editar</value>
   </data>
 </root>

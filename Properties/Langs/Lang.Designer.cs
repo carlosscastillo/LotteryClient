@@ -385,6 +385,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Redes Sociales.
+        /// </summary>
+        public static string CustomizeProfileLabelSocialMedia {
+            get {
+                return ResourceManager.GetString("CustomizeProfileLabelSocialMedia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Personalizar Perfil.
         /// </summary>
         public static string CustomizeProfileLabelTitle {
@@ -457,6 +466,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Cancelar.
+        /// </summary>
+        public static string GlobalButtonCancel {
+            get {
+                return ResourceManager.GetString("GlobalButtonCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Continuar.
         /// </summary>
         public static string GlobalButtonContinue {
@@ -466,7 +484,16 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Guardar Cambios.
+        ///   Busca una cadena traducida similar a Editar.
+        /// </summary>
+        public static string GlobalButtonEdit {
+            get {
+                return ResourceManager.GetString("GlobalButtonEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Guardar.
         /// </summary>
         public static string GlobalButtonSaveChanges {
             get {
@@ -975,24 +1002,6 @@ namespace Lottery.Properties.Langs {
         public static string RecoverPasswordLabelTitle {
             get {
                 return ResourceManager.GetString("RecoverPasswordLabelTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Personaliza tu perfil.
-        /// </summary>
-        public static string UserProfileUpdateSubtitle {
-            get {
-                return ResourceManager.GetString("UserProfileUpdateSubtitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Perfil.
-        /// </summary>
-        public static string UserProfileUpdateTitle {
-            get {
-                return ResourceManager.GetString("UserProfileUpdateTitle", resourceCulture);
             }
         }
         

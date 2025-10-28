@@ -530,6 +530,9 @@ namespace Lottery.LotteryServiceReference {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string AvatarUrlField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string EmailField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -566,6 +569,19 @@ namespace Lottery.LotteryServiceReference {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string AvatarUrl {
+            get {
+                return this.AvatarUrlField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.AvatarUrlField, value) != true)) {
+                    this.AvatarUrlField = value;
+                    this.RaisePropertyChanged("AvatarUrl");
+                }
             }
         }
         
@@ -695,67 +711,6 @@ namespace Lottery.LotteryServiceReference {
                 if ((this.ScoreField.Equals(value) != true)) {
                     this.ScoreField = value;
                     this.RaisePropertyChanged("Score");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="UserProfileDTO", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
-    [System.SerializableAttribute()]
-    public partial class UserProfileDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string EmailField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string UsernameField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Email {
-            get {
-                return this.EmailField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.EmailField, value) != true)) {
-                    this.EmailField = value;
-                    this.RaisePropertyChanged("Email");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Username {
-            get {
-                return this.UsernameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.UsernameField, value) != true)) {
-                    this.UsernameField = value;
-                    this.RaisePropertyChanged("Username");
                 }
             }
         }
@@ -920,16 +875,22 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task RecoverPasswordAsync(string email);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/UpdateProfile", ReplyAction="http://tempuri.org/IUserService/UpdateProfileResponse")]
-        bool UpdateProfile(int currentUserId, Lottery.LotteryServiceReference.UserProfileDTO profileData);
+        System.ValueTuple<bool, string> UpdateProfile(int currentUserId, Lottery.LotteryServiceReference.UserRegisterDTO userData);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/UpdateProfile", ReplyAction="http://tempuri.org/IUserService/UpdateProfileResponse")]
-        System.Threading.Tasks.Task<bool> UpdateProfileAsync(int currentUserId, Lottery.LotteryServiceReference.UserProfileDTO profileData);
+        System.Threading.Tasks.Task<System.ValueTuple<bool, string>> UpdateProfileAsync(int currentUserId, Lottery.LotteryServiceReference.UserRegisterDTO userData);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/FindUserByNickname", ReplyAction="http://tempuri.org/IUserService/FindUserByNicknameResponse")]
         Lottery.LotteryServiceReference.FriendDTO FindUserByNickname(string nickname);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/FindUserByNickname", ReplyAction="http://tempuri.org/IUserService/FindUserByNicknameResponse")]
         System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDTO> FindUserByNicknameAsync(string nickname);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetUserProfile", ReplyAction="http://tempuri.org/IUserService/GetUserProfileResponse")]
+        Lottery.LotteryServiceReference.UserRegisterDTO GetUserProfile(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetUserProfile", ReplyAction="http://tempuri.org/IUserService/GetUserProfileResponse")]
+        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserRegisterDTO> GetUserProfileAsync(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVerificationService/SendVerificationCode", ReplyAction="http://tempuri.org/IVerificationService/SendVerificationCodeResponse")]
         bool SendVerificationCode(string email);
@@ -1179,12 +1140,12 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.RecoverPasswordAsync(email);
         }
         
-        public bool UpdateProfile(int currentUserId, Lottery.LotteryServiceReference.UserProfileDTO profileData) {
-            return base.Channel.UpdateProfile(currentUserId, profileData);
+        public System.ValueTuple<bool, string> UpdateProfile(int currentUserId, Lottery.LotteryServiceReference.UserRegisterDTO userData) {
+            return base.Channel.UpdateProfile(currentUserId, userData);
         }
         
-        public System.Threading.Tasks.Task<bool> UpdateProfileAsync(int currentUserId, Lottery.LotteryServiceReference.UserProfileDTO profileData) {
-            return base.Channel.UpdateProfileAsync(currentUserId, profileData);
+        public System.Threading.Tasks.Task<System.ValueTuple<bool, string>> UpdateProfileAsync(int currentUserId, Lottery.LotteryServiceReference.UserRegisterDTO userData) {
+            return base.Channel.UpdateProfileAsync(currentUserId, userData);
         }
         
         public Lottery.LotteryServiceReference.FriendDTO FindUserByNickname(string nickname) {
@@ -1193,6 +1154,14 @@ namespace Lottery.LotteryServiceReference {
         
         public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDTO> FindUserByNicknameAsync(string nickname) {
             return base.Channel.FindUserByNicknameAsync(nickname);
+        }
+        
+        public Lottery.LotteryServiceReference.UserRegisterDTO GetUserProfile(int userId) {
+            return base.Channel.GetUserProfile(userId);
+        }
+        
+        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserRegisterDTO> GetUserProfileAsync(int userId) {
+            return base.Channel.GetUserProfileAsync(userId);
         }
         
         public bool SendVerificationCode(string email) {

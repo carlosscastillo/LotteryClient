@@ -35,6 +35,7 @@
       <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults" />
       <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs" />
+      <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/System" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="ILotteryService_SendMessage_InputMessage">
@@ -214,6 +215,12 @@
   <wsdl:message name="ILotteryService_FindUserByNickname_OutputMessage">
     <wsdl:part name="parameters" element="tns:FindUserByNicknameResponse" />
   </wsdl:message>
+  <wsdl:message name="ILotteryService_GetUserProfile_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserProfile" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetUserProfile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserProfileResponse" />
+  </wsdl:message>
   <wsdl:message name="ILotteryService_SendVerificationCode_InputMessage">
     <wsdl:part name="parameters" element="tns:SendVerificationCode" />
   </wsdl:message>
@@ -360,6 +367,10 @@
     <wsdl:operation name="FindUserByNickname">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/FindUserByNickname" message="tns:ILotteryService_FindUserByNickname_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/FindUserByNicknameResponse" message="tns:ILotteryService_FindUserByNickname_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserProfile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/GetUserProfile" message="tns:ILotteryService_GetUserProfile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/GetUserProfileResponse" message="tns:ILotteryService_GetUserProfile_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="SendVerificationCode">
       <wsdl:input wsaw:Action="http://tempuri.org/IVerificationService/SendVerificationCode" message="tns:ILotteryService_SendVerificationCode_InputMessage" />
@@ -642,6 +653,15 @@
     </wsdl:operation>
     <wsdl:operation name="FindUserByNickname">
       <soap12:operation soapAction="http://tempuri.org/IUserService/FindUserByNickname" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserProfile">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/GetUserProfile" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

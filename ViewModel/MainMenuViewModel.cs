@@ -22,6 +22,7 @@ namespace Lottery.ViewModel
         public ICommand CreateLobbyCommand { get; }
         public ICommand JoinLobbyCommand { get; }
         public ICommand LogoutCommand { get; }
+        public ICommand ProfileCommand { get; }
         // Aquí nos falta añadir más comandos para Settings y Profile
 
         public MainMenuViewModel(Window window)
@@ -45,6 +46,7 @@ namespace Lottery.ViewModel
                 return;
             }
 
+            ProfileCommand = new RelayCommand(ExecuteShowProfileView);
             ShowFriendsViewCommand = new RelayCommand(ExecuteShowFriendsView);
             CreateLobbyCommand = new RelayCommand(async () => await ExecuteCreateLobby());
             JoinLobbyCommand = new RelayCommand(async () => await ExecuteJoinLobby());
@@ -63,6 +65,13 @@ namespace Lottery.ViewModel
             Cleanup();
             InviteFriendsView friendsView = new InviteFriendsView();
             friendsView.Show();
+            _mainMenuWindow?.Close();
+        }
+        private void ExecuteShowProfileView()
+        {
+            Cleanup();
+            CustomizeProfileView profileView = new CustomizeProfileView();
+            profileView.Show();
             _mainMenuWindow?.Close();
         }
 

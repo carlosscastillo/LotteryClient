@@ -76,7 +76,7 @@ namespace Lottery.ViewModel
             ViewRequestsCommand = new RelayCommand(ViewRequests);
             LoadFriendsCommand = new RelayCommand(async () => await LoadFriends());
             GoBackToMenuCommand = new RelayCommand<Window>(ExecuteGoBackToMenu);
-            InviteFriendCommand = new RelayCommand<int>(async (id) => { }, (id) => _isInviteMode);
+            InviteFriendCommand = new RelayCommand<int>((id) => { }, (id) => _isInviteMode);
 
             LoadFriendsCommand.Execute(null);
         }

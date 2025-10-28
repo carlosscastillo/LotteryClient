@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
@@ -230,6 +231,9 @@
     <None Include="Connected Services\LotteryServiceReference\item3.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Connected Services\LotteryServiceReference\item4.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.FriendDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -237,6 +241,9 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.LobbyStateDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.UserRegisterDTO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.UserSessionDTO.datasource">
@@ -277,6 +284,9 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\avatar1.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

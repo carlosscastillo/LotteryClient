@@ -67,6 +67,7 @@
   <xs:element name="UserSessionDTO" nillable="true" type="tns:UserSessionDTO" />
   <xs:complexType name="UserRegisterDTO">
     <xs:sequence>
+      <xs:element minOccurs="0" name="AvatarUrl" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="FirstName" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="IdAvatar" type="xs:int" />
@@ -80,11 +81,4 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="UserRegisterDTO" nillable="true" type="tns:UserRegisterDTO" />
-  <xs:complexType name="UserProfileDTO">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="UserProfileDTO" nillable="true" type="tns:UserProfileDTO" />
 </xs:schema>

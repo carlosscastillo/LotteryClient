@@ -7,99 +7,167 @@
         mc:Ignorable="d"
         Title="Editar perfil"
         WindowStartupLocation="CenterScreen"
-        Width="900"
-        Height="600"
-        AllowsTransparency="True"
+        WindowState="Maximized"
         WindowStyle="None"
+        ResizeMode="NoResize"
         Background="Transparent">
 
     <Grid>
+
         <!-- Fondo -->
         <Grid.Background>
             <ImageBrush ImageSource="/Images/background.jpg" Stretch="UniformToFill"/>
         </Grid.Background>
 
-        <!-- Botón cerrar -->
-        <!--<Button Content="X"
-                HorizontalAlignment="Right"
+        <!-- 🔙 Botón para regresar -->
+        <Button x:Name="BackButton"
+                Content="&#xE72B;"
+                FontFamily="Segoe MDL2 Assets"
+                HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="0,10,10,0"
-                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                Margin="15"
                 Foreground="White"
+                FontSize="18"
                 FontWeight="Bold"
-                FontSize="14"
-                Click="CloseButton_Click"/>-->
+                Cursor="Hand"
+                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                Command="{Binding GoBackToMenuCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
 
-        <!-- Contenedor principal -->
-        <Border BorderBrush="#55FFFFFF" BorderThickness="1" Background="#AA000000" CornerRadius="12" Padding="30" MaxWidth="800" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <!-- Contenido principal -->
+        <Border BorderBrush="#55FFFFFF" BorderThickness="1" Background="#AA000000"
+                CornerRadius="12" Padding="30" MaxWidth="850"
+                VerticalAlignment="Center" HorizontalAlignment="Center" Width="739">
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="1" Color="Black" Opacity="0.1" BlurRadius="10"/>
             </Border.Effect>
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Avatar en la esquina superior izquierda -->
-                <Border Grid.Column="0" Width="120" Height="120" CornerRadius="60" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,20,0">
-                    <Border.Background>
-                        <ImageBrush ImageSource="{Binding AvatarUrl}" Stretch="UniformToFill"/>
-                    </Border.Background>
-                </Border>
+                <!-- Panel Avatar + Perfil -->
+                <StackPanel Grid.Column="0" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,0,366,0">
+                    <Grid Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-                <!-- Campos y botones -->
-                <StackPanel Grid.Column="1" VerticalAlignment="Top">
-                    <!-- TÍTULO -->
-                    <TextBlock Text="{x:Static language:Lang.UserProfileUpdateTitle}" Style="{StaticResource TitleTextStyle}" Foreground="White" Margin="0,0,0,5"/>
-                    <TextBlock Text="{x:Static language:Lang.UserProfileUpdateSubtitle}" Style="{StaticResource SubtitleTextStyle}" Foreground="#DDDDDD" Margin="0,0,0,15"/>
+                        <Border Grid.Column="0" Width="120" Height="120" CornerRadius="60" HorizontalAlignment="Left">
+                            <Border.Background>
+                                <ImageBrush ImageSource="{Binding AvatarUrl}" Stretch="UniformToFill"/>
+                            </Border.Background>
+                        </Border>
 
-                    <!-- Campos editables -->
-                    <StackPanel Width="400">
-                        <Label Content="{x:Static language:Lang.GlobalLabelName}" Style="{StaticResource LabelStyle}" Foreground="White" Target="{Binding ElementName=NameTextBox}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Nickname}" 
+                                   VerticalAlignment="Center" Margin="20,0,0,0"
+                                   FontSize="18" FontWeight="SemiBold" Foreground="White"/>
+                    </Grid>
+
+                    <!-- Campos perfil -->
+                    <StackPanel Width="220">
+                        <Label Content="{x:Static language:Lang.GlobalLabelName}" Foreground="White" Target="{Binding ElementName=NameTextBox}"/>
                         <TextBox x:Name="NameTextBox" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
 
-                        <Label Content="{x:Static language:Lang.GlobalLabelPaternalLastName}" Style="{StaticResource LabelStyle}" Foreground="White" Target="{Binding ElementName=PaternalLastNameTextBox}"/>
+                        <Label Content="{x:Static language:Lang.GlobalLabelPaternalLastName}" Foreground="White" Target="{Binding ElementName=PaternalLastNameTextBox}"/>
                         <TextBox x:Name="PaternalLastNameTextBox" Text="{Binding PaternalLastName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
 
-                        <Label Content="{x:Static language:Lang.GlobalLabelMaternalLastName}" Style="{StaticResource LabelStyle}" Foreground="White" Target="{Binding ElementName=MaternalLastNameTextBox}"/>
+                        <Label Content="{x:Static language:Lang.GlobalLabelMaternalLastName}" Foreground="White" Target="{Binding ElementName=MaternalLastNameTextBox}"/>
                         <TextBox x:Name="MaternalLastNameTextBox" Text="{Binding MaternalLastName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
 
-                        <Label Content="{x:Static language:Lang.GlobalLabelNickname}" Style="{StaticResource LabelStyle}" Foreground="White" Target="{Binding ElementName=NicknameTextBox}"/>
+                        <Label Content="{x:Static language:Lang.GlobalLabelNickname}" Foreground="White" Target="{Binding ElementName=NicknameTextBox}"/>
                         <TextBox x:Name="NicknameTextBox" Text="{Binding Nickname, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
-
-                        <Label Content="{x:Static language:Lang.GlobalLabelEmail}" Style="{StaticResource LabelStyle}" Foreground="White" Target="{Binding ElementName=EmailTextBox}"/>
-                        <TextBox x:Name="EmailTextBox" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,20"/>
                     </StackPanel>
 
                     <!-- Botones -->
-                    <Button Content="{x:Static language:Lang.GlobalButtonSaveChanges}"
-                            Command="{Binding UpdateProfileCommand}"
-                            Margin="0,0,0,10"
-                            Padding="12"
-                            FontSize="18"
-                            FontWeight="Bold"
-                            Foreground="White"
-                            Background="Black"
-                            BorderThickness="0"
-                            Cursor="Hand"
-                            MinWidth="250">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="8"/>
-                            </Style>
-                        </Button.Resources>
+                    <Button x:Name="ChangeEmailButton"
+                            Command="{Binding ChangeEmailCommand}"
+                            Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                            HorizontalAlignment="Center" Cursor="Hand">
+                        <TextBlock Text="{x:Static language:Lang.CustomizeProfileButtonChangeEmail}" Foreground="White" FontWeight="SemiBold" FontSize="14"/>
                     </Button>
 
-                    <Button Content="{x:Static language:Lang.GlobalButtonBack}"
-                            Command="{Binding GoBackCommand}"
-                            Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                            HorizontalAlignment="Left"
-                            Foreground="#BBBBBB"
-                            Margin="0,0,0,0"
-                            Cursor="Hand"/>
+                    <Button x:Name="ChangePasswordButton"
+                            Command="{Binding ChangePasswordCommand}"
+                            Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                            HorizontalAlignment="Center" Cursor="Hand">
+                        <TextBlock Text="{x:Static language:Lang.CustomizeProfileButtonChangePassword}" Foreground="White" FontWeight="SemiBold" FontSize="14"/>
+                    </Button>
                 </StackPanel>
+
+                <!-- Panel redes sociales -->
+                <Border Grid.Column="1" Background="#55FFFFFF" CornerRadius="12" Padding="20" Margin="88,0,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0">
+                            <Label Content="{x:Static language:Lang.CustomizeProfileLabelSocialMedia}" 
+                                   FontWeight="Bold" Foreground="White" FontSize="16" Margin="0,0,0,10"/>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="Twitter:" Foreground="White" Width="80"/>
+                                <TextBox Text="{Binding Twitter}" Width="180"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="Facebook:" Foreground="White" Width="80"/>
+                                <TextBox Text="{Binding Facebook}" Width="180"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="Instagram:" Foreground="White" Width="80"/>
+                                <TextBox Text="{Binding Instagram}" Width="180"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="TikTok:" Foreground="White" Width="80"/>
+                                <TextBox Text="{Binding TikTok}" Width="180"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- 🔹 Tus botones con estilo original conservado -->
+                        <UniformGrid Grid.Row="1" Columns="3" HorizontalAlignment="Center" Margin="0,15,0,0">
+                            <Button Content="{x:Static language:Lang.GlobalButtonSaveChanges}" 
+                                    Command="{Binding SaveChangesCommand}" 
+                                    Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" 
+                                    Background="Black" BorderThickness="0" Width="90" Margin="0,0,10,0">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="8"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+
+                            <Button Content="{x:Static language:Lang.GlobalButtonCancel}" 
+                                    Command="{Binding CancelCommand}" 
+                                    Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" 
+                                    Background="Gray" BorderThickness="0" Width="90" Margin="0,0,10,0">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="8"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+
+                            <Button Content="{x:Static language:Lang.GlobalButtonEdit}" 
+                                    Command="{Binding EditCommand}" 
+                                    Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" 
+                                    Background="Black" BorderThickness="0" Width="90" Margin="0,0,10,0">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="8"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </UniformGrid>
+                    </Grid>
+                </Border>
             </Grid>
         </Border>
     </Grid>

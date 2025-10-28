@@ -979,6 +979,24 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Personaliza tu perfil.
+        /// </summary>
+        public static string UserProfileUpdateSubtitle {
+            get {
+                return ResourceManager.GetString("UserProfileUpdateSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Perfil.
+        /// </summary>
+        public static string UserProfileUpdateTitle {
+            get {
+                return ResourceManager.GetString("UserProfileUpdateTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Ingresa tus datos para registrarte.
         /// </summary>
         public static string UserSignUpLabelDetails {

@@ -432,4 +432,10 @@
   <data name="MainMenuButtonSettings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="UserProfileUpdateTitle" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="UserProfileUpdateSubtitle" xml:space="preserve">
+    <value>Customize your profile</value>
+  </data>
 </root>

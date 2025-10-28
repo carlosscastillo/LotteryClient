@@ -179,10 +179,14 @@ namespace Lottery.ViewModel
                     int userId = await _serviceClient.RegisterUserAsync(_pendingUser);
                     if (userId > 0)
                     {
-                        MessageBox.Show("Cuenta verificada correctamente.");
-                        CurrentState = RegistrationState.Completed;
-                        SaveUserSession();
+                        var session = await _serviceClient.LoginUserAsync(_pendingUser.Nickname, _pendingUser.Password);
+                        if (session != null) {
+                            SessionManager.Login(session);
+                            SessionManager.ServiceClient = _serviceClient;
+                        }
                         _pendingUser = null;
+                        MessageBox.Show("Cuenta verificada correctamente.");
+                        CurrentState = RegistrationState.Completed;                                                
                     }
                 }
                 else
@@ -210,18 +214,7 @@ namespace Lottery.ViewModel
                 IsRegistering = false;
             }
         }
-        private void SaveUserSession()
-        {
-            var userSession = new UserSessionDTO
-            {
-                UserId = _pendingUser.IdUser,
-                Nickname = _pendingUser.Nickname,
-                AvatarId = 1
-            };
-
-            SessionManager.Login(userSession);
-            SessionManager.ServiceClient = _serviceClient;
-        }
+        
         private void AbortAndRecreateClient()
         {
             if (_serviceClient != null)

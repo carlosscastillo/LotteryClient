@@ -87,7 +87,7 @@ namespace Lottery.ViewModel
             catch (FaultException ex)
             {
                 ErrorMessage = "Error de conexión. No se pudo contactar al servidor.";
-                MessageBox.Show(ErrorMessage, "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {

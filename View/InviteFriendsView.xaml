@@ -97,19 +97,51 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
 
                                         <TextBlock Text="{Binding Nickname}" VerticalAlignment="Center" Grid.Column="0"/>
+
                                         <Button Content="Añadir" Grid.Column="1"
                                                 Command="{Binding DataContext.SendRequestCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
                                                 CommandParameter="{Binding UserId}"
                                                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                                                Foreground="LimeGreen" FontWeight="Bold"/>
+                                                Foreground="LimeGreen"
+                                                FontWeight="Bold"
+                                                Visibility="{Binding CanSendRequest, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+                                        <Button Content="Aceptar" Grid.Column="1"
+                                                Command="{Binding DataContext.AcceptRequestCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                CommandParameter="{Binding UserId}"
+                                                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                                Foreground="LimeGreen"
+                                                FontWeight="Bold"
+                                                Visibility="{Binding CanAcceptRequest, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+
+                                        <Button Content="Cancelar solicitud" Grid.Column="2"
+                                                Command="{Binding DataContext.CancelRequestCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                CommandParameter="{Binding UserId}"
+                                                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                                Foreground="OrangeRed"
+                                                FontWeight="Bold"
+                                                Visibility="{Binding CanCancelRequest, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+                                        <Button Content="Rechazar" Grid.Column="2"
+                                                Command="{Binding DataContext.RejectRequestCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                CommandParameter="{Binding UserId}"
+                                                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                                Foreground="OrangeRed"
+                                                FontWeight="Bold"
+                                                Visibility="{Binding CanRejectRequest, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
                                     </Grid>
                                 </Border>
                             </DataTemplate>
                         </ListView.ItemTemplate>
+
                     </ListView>
+                    
                 </StackPanel>
             </GroupBox>
 

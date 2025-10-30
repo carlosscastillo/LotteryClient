@@ -166,6 +166,9 @@ namespace Lottery.LotteryServiceReference {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int RequesterIdField;
         
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int TargetUserIdField;
+        
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
             get {
@@ -198,6 +201,19 @@ namespace Lottery.LotteryServiceReference {
                 if ((this.RequesterIdField.Equals(value) != true)) {
                     this.RequesterIdField = value;
                     this.RaisePropertyChanged("RequesterId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int TargetUserId {
+            get {
+                return this.TargetUserIdField;
+            }
+            set {
+                if ((this.TargetUserIdField.Equals(value) != true)) {
+                    this.TargetUserIdField = value;
+                    this.RaisePropertyChanged("TargetUserId");
                 }
             }
         }
@@ -756,6 +772,13 @@ namespace Lottery.LotteryServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/RejectFriendRequest", ReplyAction="http://tempuri.org/IFriendService/RejectFriendRequestResponse")]
         System.Threading.Tasks.Task RejectFriendRequestAsync(int currentUserId, int requesterId);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/CancelFriendRequest", ReplyAction="http://tempuri.org/IFriendService/CancelFriendRequestResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IFriendService/CancelFriendRequestServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        void CancelFriendRequest(int currentUserId, int targetUserId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/CancelFriendRequest", ReplyAction="http://tempuri.org/IFriendService/CancelFriendRequestResponse")]
+        System.Threading.Tasks.Task CancelFriendRequestAsync(int currentUserId, int targetUserId);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/RemoveFriend", ReplyAction="http://tempuri.org/IFriendService/RemoveFriendResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IFriendService/RemoveFriendServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         void RemoveFriend(int currentUserId, int friendUserId);
@@ -776,6 +799,13 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/GetPendingRequests", ReplyAction="http://tempuri.org/IFriendService/GetPendingRequestsResponse")]
         System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendRequestDTO[]> GetPendingRequestsAsync(int currentUserId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/GetSentRequests", ReplyAction="http://tempuri.org/IFriendService/GetSentRequestsResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IFriendService/GetSentRequestsServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        Lottery.LotteryServiceReference.FriendRequestDTO[] GetSentRequests(int currentUserId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/GetSentRequests", ReplyAction="http://tempuri.org/IFriendService/GetSentRequestsResponse")]
+        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendRequestDTO[]> GetSentRequestsAsync(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/InviteFriendToLobby", ReplyAction="http://tempuri.org/IFriendService/InviteFriendToLobbyResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IFriendService/InviteFriendToLobbyServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
@@ -996,6 +1026,14 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.RejectFriendRequestAsync(currentUserId, requesterId);
         }
         
+        public void CancelFriendRequest(int currentUserId, int targetUserId) {
+            base.Channel.CancelFriendRequest(currentUserId, targetUserId);
+        }
+        
+        public System.Threading.Tasks.Task CancelFriendRequestAsync(int currentUserId, int targetUserId) {
+            return base.Channel.CancelFriendRequestAsync(currentUserId, targetUserId);
+        }
+        
         public void RemoveFriend(int currentUserId, int friendUserId) {
             base.Channel.RemoveFriend(currentUserId, friendUserId);
         }
@@ -1018,6 +1056,14 @@ namespace Lottery.LotteryServiceReference {
         
         public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendRequestDTO[]> GetPendingRequestsAsync(int currentUserId) {
             return base.Channel.GetPendingRequestsAsync(currentUserId);
+        }
+        
+        public Lottery.LotteryServiceReference.FriendRequestDTO[] GetSentRequests(int currentUserId) {
+            return base.Channel.GetSentRequests(currentUserId);
+        }
+        
+        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendRequestDTO[]> GetSentRequestsAsync(int currentUserId) {
+            return base.Channel.GetSentRequestsAsync(currentUserId);
         }
         
         public void InviteFriendToLobby(string lobbyCode, int targetFriendId) {

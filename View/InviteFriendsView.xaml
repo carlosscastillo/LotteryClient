@@ -22,6 +22,18 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
+        <Button x:Name="BackFromNicknameButton" 
+                Grid.Column="0"  Command="{Binding GoBackToMenuCommand}" 
+                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                Content="&#xE72B;"
+                FontFamily="Segoe MDL2 Assets"
+                HorizontalAlignment="Left" VerticalAlignment="Top"
+                Margin="5,-5,0,0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                Foreground="White"
+                FontWeight="Bold"
+                FontSize="14"
+                Panel.ZIndex="1"/>
+
         <GroupBox Header="Mis Amigos" Grid.Column="0" Margin="5,10,5,0">
             <ListView x:Name="lvFriendsList" ItemsSource="{Binding FriendsList}">
                 <ListView.ItemTemplate>
@@ -59,19 +71,6 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-
-            <Button x:Name="BackFromNicknameButton" 
-                Command="{Binding GoBackToMenuCommand}" 
-                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
-                Content="&#xE72B;"
-                FontFamily="Segoe MDL2 Assets"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                Margin="0,-5,0,0"
-                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                Foreground="White"
-                FontWeight="Bold"
-                FontSize="14"/>
 
             <GroupBox Header="Buscar Jugador" Grid.Row="0">
                 <StackPanel>

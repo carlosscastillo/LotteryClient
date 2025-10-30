@@ -383,8 +383,13 @@ namespace Lottery.ViewModel
             LoadFriendsCommand.Execute(null);
         }
 
-        private void ExecuteGoBackToMenu(Window friendsWindow) => friendsWindow?.Close();
+        private void ExecuteGoBackToMenu(Window friendsWindow)
+        {
+            var mainMenuView = new MainMenuView();
+            mainMenuView.Show();
 
+            friendsWindow?.Close();
+        }
         private void HandleConnectionError(FaultException ex, string operation)
         {
             string message = $"Error de conexión al {operation}.\n" +

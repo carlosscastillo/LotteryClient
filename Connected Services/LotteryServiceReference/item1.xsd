@@ -24,6 +24,7 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="Nickname" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="RequesterId" type="xs:int" />
+      <xs:element minOccurs="0" name="TargetUserId" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="FriendRequestDTO" nillable="true" type="tns:FriendRequestDTO" />

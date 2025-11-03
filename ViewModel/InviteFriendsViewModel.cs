@@ -1,19 +1,18 @@
 ﻿using Lottery.LotteryServiceReference;
+using Lottery.View;
 using Lottery.ViewModel.Base;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using Lottery.View;
-using System.ServiceModel;
 
 namespace Lottery.ViewModel
 {
     // --- ViewModels Auxiliares ---
-    // Estas clases pequeñas sirven para manejar los datos
-
     public class FriendViewModel : ObservableObject
     {
         public FriendDTO Dto { get; }
@@ -28,7 +27,65 @@ namespace Lottery.ViewModel
         public FriendDTO Dto { get; }
         public string Nickname => Dto.Nickname;
         public int UserId => Dto.UserId;
-        public FoundUserViewModel(FriendDTO dto) { Dto = dto; }
+
+        private bool _isFriend;
+        public bool IsFriend
+        {
+            get => _isFriend;
+            set
+            {
+                if (SetProperty(ref _isFriend, value))
+                {
+                    // Notificar todas las propiedades dependientes
+                    OnPropertyChanged(nameof(CanSendRequest));
+                    OnPropertyChanged(nameof(CanCancelRequest));
+                    OnPropertyChanged(nameof(CanAcceptRequest));
+                    OnPropertyChanged(nameof(CanRejectRequest));
+                }
+            }
+        }
+
+        private bool _hasPendingRequest;
+        public bool HasPendingRequest
+        {
+            get => _hasPendingRequest;
+            set
+            {
+                if (SetProperty(ref _hasPendingRequest, value))
+                {
+                    // Notificar todas las propiedades dependientes
+                    OnPropertyChanged(nameof(CanSendRequest));
+                    OnPropertyChanged(nameof(CanCancelRequest));
+                    OnPropertyChanged(nameof(CanAcceptRequest));
+                    OnPropertyChanged(nameof(CanRejectRequest));
+                }
+            }
+        }
+
+        // Almacena QUIÉN envió la solicitud pendiente
+        public int PendingRequestSenderId { get; set; } = 0;
+        private readonly int _currentUserId;
+
+        // --- LÓGICA DE VISIBILIDAD DE BOTONES ---
+
+        // 1. Puedo enviar: No soy amigo Y no hay solicitud pendiente
+        public bool CanSendRequest => !IsFriend && !HasPendingRequest;
+
+        // 2. Puedo cancelar: No soy amigo, hay solicitud Y YO la envié
+        public bool CanCancelRequest => !IsFriend && HasPendingRequest && PendingRequestSenderId == _currentUserId;
+
+        // 3. Puedo aceptar: No soy amigo, hay solicitud Y ÉL la envió
+        public bool CanAcceptRequest => !IsFriend && HasPendingRequest && PendingRequestSenderId != _currentUserId && PendingRequestSenderId != 0;
+
+        // 4. Puedo rechazar: Misma lógica que aceptar (es para el receptor)
+        public bool CanRejectRequest => CanAcceptRequest;
+
+
+        public FoundUserViewModel(FriendDTO dto, int currentUserId)
+        {
+            Dto = dto;
+            _currentUserId = currentUserId;
+        }
     }
 
 
@@ -52,6 +109,9 @@ namespace Lottery.ViewModel
 
         public ICommand SearchCommand { get; }
         public ICommand SendRequestCommand { get; }
+        public ICommand CancelRequestCommand { get; }
+        public ICommand AcceptRequestCommand { get; }
+        public ICommand RejectRequestCommand { get; }
         public ICommand RemoveFriendCommand { get; }
         public ICommand ViewRequestsCommand { get; }
         public ICommand LoadFriendsCommand { get; }
@@ -72,6 +132,9 @@ namespace Lottery.ViewModel
 
             SearchCommand = new RelayCommand(async () => await SearchUser());
             SendRequestCommand = new RelayCommand<int>(async (userId) => await SendRequest(userId));
+            CancelRequestCommand = new RelayCommand<int>(async (userId) => await CancelRequest(userId));
+            AcceptRequestCommand = new RelayCommand<int>(async (userId) => await AcceptRequest(userId));
+            RejectRequestCommand = new RelayCommand<int>(async (userId) => await RejectRequest(userId));
             RemoveFriendCommand = new RelayCommand<int>(async (userId) => await RemoveFriend(userId));
             ViewRequestsCommand = new RelayCommand(ViewRequests);
             LoadFriendsCommand = new RelayCommand(async () => await LoadFriends());
@@ -111,17 +174,41 @@ namespace Lottery.ViewModel
 
         private async Task SearchUser()
         {
-            if (string.IsNullOrWhiteSpace(SearchNickname)) return;
+            if (string.IsNullOrWhiteSpace(SearchNickname))
+                return;
+
             try
             {
                 var user = await _serviceClient.FindUserByNicknameAsync(SearchNickname);
-                SearchResults.Clear();
-                if (user != null)
+
+                if (user == null)
                 {
-                    if (user.UserId == _currentUserId) return;
-                    SearchResults.Add(new FoundUserViewModel(user));
+                    MessageBox.Show("Usuario no encontrado.");
+                    SearchResults.Clear();
+                    return;
                 }
-                else { MessageBox.Show("Usuario no encontrado."); }
+
+                if (user.UserId == _currentUserId)
+                {
+                    SearchResults.Clear();
+                    return;
+                }
+
+                var friends = await _serviceClient.GetFriendsAsync(_currentUserId);
+                var pendingSent = await _serviceClient.GetSentRequestsAsync(_currentUserId);
+                var pendingReceived = await _serviceClient.GetPendingRequestsAsync(_currentUserId);
+
+                bool isFriend = friends.Any(f => f.UserId == user.UserId);
+                bool hasPendingSent = pendingSent.Any(r => r.TargetUserId == user.UserId);
+                var receivedRequest = pendingReceived.FirstOrDefault(r => r.RequesterId == user.UserId);
+
+                SearchResults.Clear();
+                SearchResults.Add(new FoundUserViewModel(user, _currentUserId)
+                {
+                    IsFriend = isFriend,
+                    HasPendingRequest = hasPendingSent || (receivedRequest != null),
+                    PendingRequestSenderId = hasPendingSent ? _currentUserId : receivedRequest?.RequesterId ?? 0
+                });
             }
             catch (FaultException<ServiceFault> ex)
             {
@@ -137,13 +224,19 @@ namespace Lottery.ViewModel
             }
         }
 
+
+
         private async Task SendRequest(int targetUserId)
         {
             try
             {
+                var userVm = SearchResults.FirstOrDefault(u => u.UserId == targetUserId);
+                if (userVm == null || userVm.HasPendingRequest) return;
+
                 await _serviceClient.SendRequestFriendshipAsync(_currentUserId, targetUserId);
+                userVm.HasPendingRequest = true;
+                userVm.PendingRequestSenderId = _currentUserId;
                 MessageBox.Show("Solicitud de amistad enviada.");
-                SearchResults.Clear();
             }
             catch (FaultException<ServiceFault> ex)
             {
@@ -156,6 +249,81 @@ namespace Lottery.ViewModel
             catch (Exception ex)
             {
                 HandleUnexpectedError(ex, "enviar la solicitud");
+            }
+        }
+
+        private async Task CancelRequest(int targetUserId)
+        {
+            try
+            {
+                var userVm = SearchResults.FirstOrDefault(u => u.UserId == targetUserId);
+                if (userVm == null || !userVm.CanCancelRequest) return;
+
+                await _serviceClient.CancelFriendRequestAsync(_currentUserId, targetUserId);
+
+                userVm.HasPendingRequest = false;
+                userVm.PendingRequestSenderId = 0;
+                MessageBox.Show("Solicitud cancelada.");
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                MessageBox.Show(ex.Detail.Message, "Error al cancelar solicitud");
+            }
+            catch (FaultException ex)
+            {
+                HandleConnectionError(ex, "cancelar la solicitud");
+            }
+            catch (Exception ex)
+            {
+                HandleUnexpectedError(ex, "cancelar la solicitud");
+            }
+        }
+
+        private async Task AcceptRequest(int requesterId)
+        {
+            try
+            {
+                var userVm = SearchResults.FirstOrDefault(u => u.UserId == requesterId);
+                if (userVm == null || !userVm.CanAcceptRequest) return;
+
+                await _serviceClient.AcceptFriendRequestAsync(_currentUserId, requesterId);
+
+                userVm.HasPendingRequest = false;
+                userVm.IsFriend = true;
+                MessageBox.Show($"¡{userVm.Nickname} ahora es tu amigo!");
+
+                await LoadFriends();
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                MessageBox.Show(ex.Detail.Message, "Error al aceptar solicitud");
+            }
+            catch (Exception ex)
+            {
+                HandleUnexpectedError(ex, "aceptar la solicitud");
+            }
+        }
+
+        private async Task RejectRequest(int requesterId)
+        {
+            try
+            {
+                var userVm = SearchResults.FirstOrDefault(u => u.UserId == requesterId);
+                if (userVm == null || !userVm.CanRejectRequest) return;
+
+                await _serviceClient.RejectFriendRequestAsync(_currentUserId, requesterId);
+
+                userVm.HasPendingRequest = false;
+                userVm.PendingRequestSenderId = 0;
+                MessageBox.Show("Solicitud rechazada.");
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                MessageBox.Show(ex.Detail.Message, "Error al rechazar solicitud");
+            }
+            catch (Exception ex)
+            {
+                HandleUnexpectedError(ex, "rechazar la solicitud");
             }
         }
 
@@ -212,15 +380,16 @@ namespace Lottery.ViewModel
         {
             var requestsView = new FriendRequestsView();
             requestsView.ShowDialog();
-
             LoadFriendsCommand.Execute(null);
         }
 
         private void ExecuteGoBackToMenu(Window friendsWindow)
         {
+            var mainMenuView = new MainMenuView();
+            mainMenuView.Show();
+
             friendsWindow?.Close();
         }
-
         private void HandleConnectionError(FaultException ex, string operation)
         {
             string message = $"Error de conexión al {operation}.\n" +

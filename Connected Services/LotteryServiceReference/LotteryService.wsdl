@@ -68,6 +68,15 @@
   <wsdl:message name="ILotteryService_RejectFriendRequest_ServiceFaultFault_FaultMessage">
     <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q3:ServiceFault" />
   </wsdl:message>
+  <wsdl:message name="ILotteryService_CancelFriendRequest_InputMessage">
+    <wsdl:part name="parameters" element="tns:CancelFriendRequest" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_CancelFriendRequest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CancelFriendRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_CancelFriendRequest_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q4:ServiceFault" />
+  </wsdl:message>
   <wsdl:message name="ILotteryService_RemoveFriend_InputMessage">
     <wsdl:part name="parameters" element="tns:RemoveFriend" />
   </wsdl:message>
@@ -75,7 +84,7 @@
     <wsdl:part name="parameters" element="tns:RemoveFriendResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RemoveFriend_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q4:ServiceFault" />
+    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q5:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_GetFriends_InputMessage">
     <wsdl:part name="parameters" element="tns:GetFriends" />
@@ -84,7 +93,7 @@
     <wsdl:part name="parameters" element="tns:GetFriendsResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_GetFriends_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q5:ServiceFault" />
+    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q6:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_GetPendingRequests_InputMessage">
     <wsdl:part name="parameters" element="tns:GetPendingRequests" />
@@ -93,7 +102,16 @@
     <wsdl:part name="parameters" element="tns:GetPendingRequestsResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_GetPendingRequests_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q6:ServiceFault" />
+    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q7:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetSentRequests_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSentRequests" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetSentRequests_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSentRequestsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetSentRequests_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q8:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_InviteFriendToLobby_InputMessage">
     <wsdl:part name="parameters" element="tns:InviteFriendToLobby" />
@@ -102,7 +120,7 @@
     <wsdl:part name="parameters" element="tns:InviteFriendToLobbyResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_InviteFriendToLobby_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q7:ServiceFault" />
+    <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q9:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_StartGame_InputMessage">
     <wsdl:part name="parameters" element="tns:StartGame" />
@@ -129,7 +147,7 @@
     <wsdl:part name="parameters" element="tns:CreateLobbyResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_CreateLobby_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q8:ServiceFault" />
+    <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q10:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_JoinLobby_InputMessage">
     <wsdl:part name="parameters" element="tns:JoinLobby" />
@@ -138,7 +156,7 @@
     <wsdl:part name="parameters" element="tns:JoinLobbyResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_JoinLobby_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q9:ServiceFault" />
+    <wsdl:part xmlns:q11="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q11:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_LeaveLobby_InputMessage">
     <wsdl:part name="parameters" element="tns:LeaveLobby" />
@@ -150,7 +168,7 @@
     <wsdl:part name="parameters" element="tns:KickPlayerResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_KickPlayer_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q10:ServiceFault" />
+    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q12:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_LoginUser_InputMessage">
     <wsdl:part name="parameters" element="tns:LoginUser" />
@@ -159,7 +177,7 @@
     <wsdl:part name="parameters" element="tns:LoginUserResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_LoginUser_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q11="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q11:ServiceFault" />
+    <wsdl:part xmlns:q13="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q13:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_LogoutUser_InputMessage">
     <wsdl:part name="parameters" element="tns:LogoutUser" />
@@ -174,7 +192,7 @@
     <wsdl:part name="parameters" element="tns:RequestUserVerificationResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RequestUserVerification_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q12:ServiceFault" />
+    <wsdl:part xmlns:q14="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q14:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RegisterUser_InputMessage">
     <wsdl:part name="parameters" element="tns:RegisterUser" />
@@ -195,7 +213,7 @@
     <wsdl:part name="parameters" element="tns:ChangePasswordResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_ChangePassword_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q13="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q13:ServiceFault" />
+    <wsdl:part xmlns:q15="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q15:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RecoverPassword_InputMessage">
     <wsdl:part name="parameters" element="tns:RecoverPassword" />
@@ -291,6 +309,11 @@
       <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/RejectFriendRequestResponse" message="tns:ILotteryService_RejectFriendRequest_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IFriendService/RejectFriendRequestServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_RejectFriendRequest_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
+    <wsdl:operation name="CancelFriendRequest">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/CancelFriendRequest" message="tns:ILotteryService_CancelFriendRequest_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/CancelFriendRequestResponse" message="tns:ILotteryService_CancelFriendRequest_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendService/CancelFriendRequestServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_CancelFriendRequest_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
     <wsdl:operation name="RemoveFriend">
       <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/RemoveFriend" message="tns:ILotteryService_RemoveFriend_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/RemoveFriendResponse" message="tns:ILotteryService_RemoveFriend_OutputMessage" />
@@ -305,6 +328,11 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/GetPendingRequests" message="tns:ILotteryService_GetPendingRequests_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/GetPendingRequestsResponse" message="tns:ILotteryService_GetPendingRequests_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IFriendService/GetPendingRequestsServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_GetPendingRequests_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSentRequests">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/GetSentRequests" message="tns:ILotteryService_GetSentRequests_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/GetSentRequestsResponse" message="tns:ILotteryService_GetSentRequests_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendService/GetSentRequestsServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_GetSentRequests_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="InviteFriendToLobby">
       <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/InviteFriendToLobby" message="tns:ILotteryService_InviteFriendToLobby_InputMessage" />
@@ -473,6 +501,18 @@
         <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="CancelFriendRequest">
+      <soap12:operation soapAction="http://tempuri.org/IFriendService/CancelFriendRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="RemoveFriend">
       <soap12:operation soapAction="http://tempuri.org/IFriendService/RemoveFriend" style="document" />
       <wsdl:input>
@@ -499,6 +539,18 @@
     </wsdl:operation>
     <wsdl:operation name="GetPendingRequests">
       <soap12:operation soapAction="http://tempuri.org/IFriendService/GetPendingRequests" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetSentRequests">
+      <soap12:operation soapAction="http://tempuri.org/IFriendService/GetSentRequests" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -786,7 +838,7 @@
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8080/Lottery/LotteryService</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
-          <Upn>DD\edgar</Upn>
+          <Upn>USUARIO\carlo</Upn>
         </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>

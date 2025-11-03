@@ -121,7 +121,7 @@
     <value>Crear nueva contraseña</value>
   </data>
   <data name="ChangePasswordLabelCurrentPassword" xml:space="preserve">
-    <value>Contraseña anterior</value>
+    <value>Contraseña actual</value>
   </data>
   <data name="ChangePasswordLabelSuccessfullyChanged" xml:space="preserve">
     <value>Tu contraseña se ha modificado correctamente</value>

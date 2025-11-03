@@ -100,8 +100,7 @@ namespace Lottery.ViewModel
                 IsLoggingIn = false;
             }
         }
-
-        // Para que el usuario pueda intentar iniciar sesión de nuevo
+        
         private void AbortAndRecreateClient()
         {
             if (_serviceClient != null)

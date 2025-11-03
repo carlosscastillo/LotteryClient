@@ -221,6 +221,18 @@
   <wsdl:message name="ILotteryService_GetUserProfile_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetUserProfileResponse" />
   </wsdl:message>
+  <wsdl:message name="ILotteryService_RequestEmailChange_InputMessage">
+    <wsdl:part name="parameters" element="tns:RequestEmailChange" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RequestEmailChange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RequestEmailChangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_ConfirmEmailChange_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmEmailChange" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_ConfirmEmailChange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmEmailChangeResponse" />
+  </wsdl:message>
   <wsdl:message name="ILotteryService_SendVerificationCode_InputMessage">
     <wsdl:part name="parameters" element="tns:SendVerificationCode" />
   </wsdl:message>
@@ -371,6 +383,14 @@
     <wsdl:operation name="GetUserProfile">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/GetUserProfile" message="tns:ILotteryService_GetUserProfile_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/GetUserProfileResponse" message="tns:ILotteryService_GetUserProfile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RequestEmailChange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/RequestEmailChange" message="tns:ILotteryService_RequestEmailChange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/RequestEmailChangeResponse" message="tns:ILotteryService_RequestEmailChange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmEmailChange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/ConfirmEmailChange" message="tns:ILotteryService_ConfirmEmailChange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/ConfirmEmailChangeResponse" message="tns:ILotteryService_ConfirmEmailChange_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="SendVerificationCode">
       <wsdl:input wsaw:Action="http://tempuri.org/IVerificationService/SendVerificationCode" message="tns:ILotteryService_SendVerificationCode_InputMessage" />
@@ -662,6 +682,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetUserProfile">
       <soap12:operation soapAction="http://tempuri.org/IUserService/GetUserProfile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RequestEmailChange">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/RequestEmailChange" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmEmailChange">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/ConfirmEmailChange" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -70,7 +70,7 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Contraseña anterior.
+        ///   Busca una cadena traducida similar a Contraseña actual.
         /// </summary>
         public static string ChangePasswordLabelCurrentPassword {
             get {

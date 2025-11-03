@@ -178,7 +178,8 @@ namespace Lottery.ViewModel
                     int userId = await _serviceClient.RegisterUserAsync(_pendingUser);
                     if (userId > 0)
                     {
-                        var session = await _serviceClient.LoginUserAsync(_pendingUser.Nickname, _pendingUser.Password);
+                        _serviceClient = RecreateClient();
+                        var session = await _serviceClient. (_pendingUser.Nickname, _pendingUser.Password);
                         if (session != null) {
                             SessionManager.Login(session);
                             SessionManager.ServiceClient = _serviceClient;
@@ -213,8 +214,8 @@ namespace Lottery.ViewModel
                 IsRegistering = false;
             }
         }
-        
-        private void AbortAndRecreateClient()
+
+        private ILotteryService RecreateClient()
         {
             if (_serviceClient != null)
             {
@@ -227,7 +228,15 @@ namespace Lottery.ViewModel
                     catch { clientChannel.Abort(); }
                 }
             }
+
             _serviceClient = new LotteryServiceClient(new InstanceContext(new ClientCallbackHandler()));
+            return _serviceClient;
         }
+
+        private void AbortAndRecreateClient()
+        {
+            _serviceClient = RecreateClient();
+        }
+
     }
 }

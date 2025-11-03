@@ -892,6 +892,18 @@ namespace Lottery.LotteryServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetUserProfile", ReplyAction="http://tempuri.org/IUserService/GetUserProfileResponse")]
         System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserRegisterDTO> GetUserProfileAsync(int userId);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RequestEmailChange", ReplyAction="http://tempuri.org/IUserService/RequestEmailChangeResponse")]
+        bool RequestEmailChange(int userId, string newEmail);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RequestEmailChange", ReplyAction="http://tempuri.org/IUserService/RequestEmailChangeResponse")]
+        System.Threading.Tasks.Task<bool> RequestEmailChangeAsync(int userId, string newEmail);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/ConfirmEmailChange", ReplyAction="http://tempuri.org/IUserService/ConfirmEmailChangeResponse")]
+        bool ConfirmEmailChange(int userId, string newEmail, string verificationCode);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/ConfirmEmailChange", ReplyAction="http://tempuri.org/IUserService/ConfirmEmailChangeResponse")]
+        System.Threading.Tasks.Task<bool> ConfirmEmailChangeAsync(int userId, string newEmail, string verificationCode);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVerificationService/SendVerificationCode", ReplyAction="http://tempuri.org/IVerificationService/SendVerificationCodeResponse")]
         bool SendVerificationCode(string email);
         
@@ -1162,6 +1174,22 @@ namespace Lottery.LotteryServiceReference {
         
         public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserRegisterDTO> GetUserProfileAsync(int userId) {
             return base.Channel.GetUserProfileAsync(userId);
+        }
+        
+        public bool RequestEmailChange(int userId, string newEmail) {
+            return base.Channel.RequestEmailChange(userId, newEmail);
+        }
+        
+        public System.Threading.Tasks.Task<bool> RequestEmailChangeAsync(int userId, string newEmail) {
+            return base.Channel.RequestEmailChangeAsync(userId, newEmail);
+        }
+        
+        public bool ConfirmEmailChange(int userId, string newEmail, string verificationCode) {
+            return base.Channel.ConfirmEmailChange(userId, newEmail, verificationCode);
+        }
+        
+        public System.Threading.Tasks.Task<bool> ConfirmEmailChangeAsync(int userId, string newEmail, string verificationCode) {
+            return base.Channel.ConfirmEmailChangeAsync(userId, newEmail, verificationCode);
         }
         
         public bool SendVerificationCode(string email) {

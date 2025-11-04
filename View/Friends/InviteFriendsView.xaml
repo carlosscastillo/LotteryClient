@@ -1,0 +1,158 @@
+﻿<Window x:Class="Lottery.View.Friends.InviteFriendsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:Lottery.ViewModel.Friends"
+        mc:Ignorable="d"
+        Title="Friends"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="Segoe UI"
+        WindowState="Maximized"
+        WindowStyle="None"
+        ResizeMode="NoResize">
+
+    <Window.Background>
+        <ImageBrush ImageSource="/Images/background.jpg" Stretch="UniformToFill"/>
+    </Window.Background>
+
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Button x:Name="BackFromNicknameButton" 
+                Grid.Column="0"  Command="{Binding GoBackToMenuCommand}" 
+                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                Content="&#xE72B;"
+                FontFamily="Segoe MDL2 Assets"
+                HorizontalAlignment="Left" VerticalAlignment="Top"
+                Margin="5,-5,0,0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                Foreground="White"
+                FontWeight="Bold"
+                FontSize="14"
+                Panel.ZIndex="1"/>
+
+        <GroupBox Header="Mis Amigos" Grid.Column="0" Margin="5,10,5,0">
+            <ListView x:Name="lvFriendsList" ItemsSource="{Binding FriendsList}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
+                                    <TextBlock Text="{Binding Nickname}" 
+                                               VerticalAlignment="Center" 
+                                               FontWeight="SemiBold"
+                                               FontSize="14"/>
+
+                                </StackPanel>
+
+                                <Button Content="Eliminar" Grid.Column="1"
+                                        Command="{Binding DataContext.RemoveFriendCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                        CommandParameter="{Binding UserId}"
+                                        Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                        Foreground="#EF9A9A" FontWeight="Bold"/>
+
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </GroupBox>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <GroupBox Header="Buscar Jugador" Grid.Row="0">
+                <StackPanel>
+                    <DockPanel>
+                        <Button x:Name="btnSearch" 
+                                Content="Buscar" 
+                                DockPanel.Dock="Right" 
+                                Command="{Binding SearchCommand}"
+                                Style="{StaticResource SecondaryButton}"/>
+
+                        <TextBox x:Name="txtNicknameSearch" 
+                                 Text="{Binding SearchNickname, UpdateSourceTrigger=PropertyChanged}"/>
+                    </DockPanel>
+
+                    <ListView x:Name="lvSearchResults" 
+                              ItemsSource="{Binding SearchResults}" 
+                              MinHeight="50" MaxHeight="200" 
+                              Margin="0,5,0,0">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="5">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Text="{Binding Nickname}" VerticalAlignment="Center" Grid.Column="0"/>
+
+                                        <Button Content="Añadir" Grid.Column="1"
+                                                Command="{Binding DataContext.SendRequestCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                CommandParameter="{Binding UserId}"
+                                                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                                Foreground="LimeGreen"
+                                                FontWeight="Bold"
+                                                Visibility="{Binding CanSendRequest, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+                                        <Button Content="Aceptar" Grid.Column="1"
+                                                Command="{Binding DataContext.AcceptRequestCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                CommandParameter="{Binding UserId}"
+                                                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                                Foreground="LimeGreen"
+                                                FontWeight="Bold"
+                                                Visibility="{Binding CanAcceptRequest, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+
+                                        <Button Content="Cancelar solicitud" Grid.Column="2"
+                                                Command="{Binding DataContext.CancelRequestCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                CommandParameter="{Binding UserId}"
+                                                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                                Foreground="OrangeRed"
+                                                FontWeight="Bold"
+                                                Visibility="{Binding CanCancelRequest, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+                                        <Button Content="Rechazar" Grid.Column="2"
+                                                Command="{Binding DataContext.RejectRequestCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                CommandParameter="{Binding UserId}"
+                                                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                                Foreground="OrangeRed"
+                                                FontWeight="Bold"
+                                                Visibility="{Binding CanRejectRequest, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+
+                    </ListView>
+                    
+                </StackPanel>
+            </GroupBox>
+
+            <Button x:Name="btnViewRequests" 
+                    Grid.Row="1" 
+                    Content="Ver Solicitudes Pendientes" 
+                    Command="{Binding ViewRequestsCommand}"
+                    Style="{StaticResource PrimaryButton}"
+                    Margin="0,0,0,40"
+                    VerticalAlignment="Bottom"/>
+
+            </Grid>
+
+    </Grid>
+</Window>

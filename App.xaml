@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Lottery"
              xmlns:conv="clr-namespace:Lottery.Converters"
-             StartupUri="View/LoginView.xaml">
+             StartupUri="View/User/LoginView.xaml">
 
     <Application.Resources>
         <Style x:Key="InputFieldStyle" TargetType="{x:Type Control}">

@@ -70,55 +70,49 @@
     <Compile Include="SessionManager.cs" />
     <Compile Include="ViewModel\Base\ObservableObject.cs" />
     <Compile Include="ViewModel\Base\RelayCommand.cs" />
-    <Compile Include="ViewModel\CustomizeProfileViewModel.cs" />
-    <Compile Include="ViewModel\FriendRequestsViewModel.cs" />
-    <Compile Include="ViewModel\InviteFriendsViewModel.cs" />
-    <Compile Include="ViewModel\JoinLobbyByCodeViewModel.cs" />
-    <Compile Include="ViewModel\JoinLobbyViewModel.cs" />
-    <Compile Include="ViewModel\LobbyViewModel.cs" />
-    <Compile Include="ViewModel\LoginViewModel.cs" />
-    <Compile Include="ViewModel\MainMenuViewModel.cs" />
-    <Compile Include="ViewModel\UserRegisterViewModel.cs" />
-    <Compile Include="View\ChangePasswordView.xaml.cs">
+    <Compile Include="ViewModel\User\CustomizeProfileViewModel.cs" />
+    <Compile Include="ViewModel\Friends\FriendRequestsViewModel.cs" />
+    <Compile Include="ViewModel\Friends\InviteFriendsViewModel.cs" />
+    <Compile Include="ViewModel\Lobby\JoinLobbyByCodeViewModel.cs" />
+    <Compile Include="ViewModel\Lobby\JoinLobbyViewModel.cs" />
+    <Compile Include="ViewModel\Lobby\LobbyViewModel.cs" />
+    <Compile Include="ViewModel\User\LoginViewModel.cs" />
+    <Compile Include="ViewModel\MainMenu\MainMenuViewModel.cs" />
+    <Compile Include="ViewModel\User\UserRegisterViewModel.cs" />
+    <Compile Include="View\User\ChangePasswordView.xaml.cs">
       <DependentUpon>ChangePasswordView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\CreateLobbyView.xaml.cs">
-      <DependentUpon>CreateLobbyView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\CustomizeProfileView.xaml.cs">
+    <Compile Include="View\User\CustomizeProfileView.xaml.cs">
       <DependentUpon>CustomizeProfileView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FriendRequestsView.xaml.cs">
+    <Compile Include="View\Friends\FriendRequestsView.xaml.cs">
       <DependentUpon>FriendRequestsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\InviteFriendsView.xaml.cs">
+    <Compile Include="View\Friends\InviteFriendsView.xaml.cs">
       <DependentUpon>InviteFriendsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\GuestRegisterView.xaml.cs">
+    <Compile Include="View\User\GuestRegisterView.xaml.cs">
       <DependentUpon>GuestRegisterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\JoinLobbyByCodeView.xaml.cs">
+    <Compile Include="View\Lobby\JoinLobbyByCodeView.xaml.cs">
       <DependentUpon>JoinLobbyByCodeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\LobbyView.xaml.cs">
+    <Compile Include="View\Lobby\LobbyView.xaml.cs">
       <DependentUpon>LobbyView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\LoginView.xaml.cs">
+    <Compile Include="View\User\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MainMenuView.xaml.cs">
+    <Compile Include="View\MainMenu\MainMenuView.xaml.cs">
       <DependentUpon>MainMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\RecoverPasswordView.xaml.cs">
+    <Compile Include="View\User\RecoverPasswordView.xaml.cs">
       <DependentUpon>RecoverPasswordView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\LeaderboardView.xaml.cs">
+    <Compile Include="View\MainMenu\LeaderboardView.xaml.cs">
       <DependentUpon>LeaderboardView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SelectLanguage.xaml.cs">
-      <DependentUpon>SelectLanguage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\UserRegisterView.xaml.cs">
+    <Compile Include="View\User\UserRegisterView.xaml.cs">
       <DependentUpon>UserRegisterView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
@@ -133,59 +127,51 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\ChangePasswordView.xaml">
+    <Page Include="View\User\ChangePasswordView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\CreateLobbyView.xaml">
+    <Page Include="View\User\CustomizeProfileView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\CustomizeProfileView.xaml">
+    <Page Include="View\Friends\FriendRequestsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FriendRequestsView.xaml">
+    <Page Include="View\Friends\InviteFriendsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\InviteFriendsView.xaml">
+    <Page Include="View\User\GuestRegisterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\GuestRegisterView.xaml">
+    <Page Include="View\Lobby\JoinLobbyByCodeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\JoinLobbyByCodeView.xaml">
+    <Page Include="View\Lobby\LobbyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\LobbyView.xaml">
+    <Page Include="View\User\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\LoginView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\MainMenuView.xaml">
+    <Page Include="View\MainMenu\MainMenuView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\RecoverPasswordView.xaml">
+    <Page Include="View\User\RecoverPasswordView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\LeaderboardView.xaml">
+    <Page Include="View\MainMenu\LeaderboardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\SelectLanguage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\UserRegisterView.xaml">
+    <Page Include="View\User\UserRegisterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -258,9 +244,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>

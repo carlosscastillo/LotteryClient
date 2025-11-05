@@ -1,0 +1,254 @@
+﻿<Window x:Class="Lottery.View.User.CustomizeProfileView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:language="clr-namespace:Lottery.Properties.Langs"
+        mc:Ignorable="d"
+        Title="Editar perfil"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Background="Transparent">
+    
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Images/background.jpg" Stretch="UniformToFill"/>
+        </Grid.Background>
+
+        <Button x:Name="BackButton"
+                Content="&#xE72B;"
+                FontFamily="Segoe MDL2 Assets"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="15"
+                Foreground="White"
+                FontSize="18"
+                FontWeight="Bold"
+                Cursor="Hand"
+                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                Command="{Binding GoBackToMenuCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+
+        <Border BorderBrush="#55FFFFFF" BorderThickness="1" Background="#AA000000"
+                CornerRadius="12" Padding="30" MaxWidth="850"
+                VerticalAlignment="Center" HorizontalAlignment="Center" Width="739">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="1" Color="Black" Opacity="0.1" BlurRadius="10"/>
+            </Border.Effect>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,0,366,0">
+                    <Grid Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Width="120" Height="120" CornerRadius="60" HorizontalAlignment="Left">
+                            <Border.Background>
+                                <ImageBrush ImageSource="{Binding AvatarUrl}" Stretch="UniformToFill"/>
+                            </Border.Background>
+                        </Border>
+
+                        <TextBlock Grid.Column="1" Text="{Binding Nickname}" 
+                                   VerticalAlignment="Center" Margin="20,0,0,0"
+                                   FontSize="18" FontWeight="SemiBold" Foreground="White"/>
+                    </Grid>
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Height="Auto">
+                        <StackPanel Width="220">
+                            <Label Content="{x:Static language:Lang.GlobalLabelName}" Foreground="White" Target="{Binding ElementName=NameTextBox}"/>
+                            <TextBox x:Name="NameTextBox" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}" Margin="0,0,0,10"/>
+                            <Label Content="{x:Static language:Lang.GlobalLabelPaternalLastName}" Foreground="White" Target="{Binding ElementName=PaternalLastNameTextBox}"/>
+                            <TextBox x:Name="PaternalLastNameTextBox" Text="{Binding PaternalLastName, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}" Margin="0,0,0,10"/>
+                            <Label Content="{x:Static language:Lang.GlobalLabelMaternalLastName}" Foreground="White" Target="{Binding ElementName=MaternalLastNameTextBox}"/>
+                            <TextBox x:Name="MaternalLastNameTextBox" Text="{Binding MaternalLastName, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}" Margin="0,0,0,10"/>
+                            <Label Content="{x:Static language:Lang.GlobalLabelNickname}" Foreground="White" Target="{Binding ElementName=NicknameTextBox}"/>
+                            <TextBox x:Name="NicknameTextBox" Text="{Binding Nickname, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}" Margin="0,0,0,10"/>
+                            <Label Content="{x:Static language:Lang.GlobalLabelEmail}" Foreground="White" Target="{Binding ElementName=EmailTextBox}"/>
+                            <TextBox x:Name="EmailTextBox" Text="{Binding Email}" IsReadOnly="True" Background="#FF2D2D30" Foreground="White" Margin="0,0,0,10"/>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <Button x:Name="ChangeEmailButton" Command="{Binding ChangeEmailCommand}" Visibility="{Binding EditButtonVisibility}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Center" Cursor="Hand">
+                        <TextBlock Text="{x:Static language:Lang.CustomizeProfileButtonChangeEmail}" Foreground="White" FontWeight="SemiBold" FontSize="14"/>
+                    </Button>
+
+                    <Button x:Name="ChangePasswordButton" Command="{Binding ChangePasswordCommand}" Visibility="{Binding EditButtonVisibility}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Center" Cursor="Hand">
+                        <TextBlock Text="{x:Static language:Lang.CustomizeProfileButtonChangePassword}" Foreground="White" FontWeight="SemiBold" FontSize="14"/>
+                    </Button>
+                </StackPanel>
+
+                <Border Grid.Column="1" Background="#55FFFFFF" CornerRadius="12" Padding="20" Margin="88,0,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0">
+                            <Label Content="{x:Static language:Lang.CustomizeProfileLabelSocialMedia}" FontWeight="Bold" Foreground="White" FontSize="16" Margin="0,0,0,10"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="Twitter:" Foreground="White" Width="80"/>
+                                <TextBox Text="{Binding Twitter}" Width="180"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="Facebook:" Foreground="White" Width="80"/>
+                                <TextBox Text="{Binding Facebook}" Width="180"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="Instagram:" Foreground="White" Width="80"/>
+                                <TextBox Text="{Binding Instagram}" Width="180"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <Label Content="TikTok:" Foreground="White" Width="80"/>
+                                <TextBox Text="{Binding TikTok}" Width="180"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <UniformGrid Grid.Row="1" Columns="3" HorizontalAlignment="Center" Margin="0,15,0,0">
+                            <Button Content="{x:Static language:Lang.GlobalButtonSaveChanges}" Command="{Binding SaveChangesCommand}" Visibility="{Binding SaveCancelVisibility}" Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Width="90" Margin="0,0,10,0">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="8"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                            <Button Content="{x:Static language:Lang.GlobalButtonCancel}" Command="{Binding CancelCommand}" Visibility="{Binding SaveCancelVisibility}" Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" Background="Gray" BorderThickness="0" Width="90" Margin="0,0,10,0">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="8"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                            <Button Content="{x:Static language:Lang.GlobalButtonEdit}" Command="{Binding EditCommand}" Visibility="{Binding EditButtonVisibility}" Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Width="90" Margin="0,0,10,0">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="8"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </UniformGrid>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Border x:Name="OverlayPanel" Background="#AA000000" Visibility="{Binding IsOverlayVisible, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Border Width="450" Background="#AA000000" BorderBrush="#55FFFFFF" BorderThickness="1" CornerRadius="12" Padding="30" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="1" Color="Black" Opacity="0.3" BlurRadius="10"/>
+                </Border.Effect>
+
+                <Grid>
+                    <StackPanel x:Name="ChangeEmailPanel" Visibility="{Binding IsChangeEmailVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock Text="{x:Static language:Lang.GlobalLabelEmail}" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+                        <Label Content="{x:Static language:Lang.CustomizeProfileLabelNewEmailAddress}" Foreground="White" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBox Text="{Binding NewEmail, UpdateSourceTrigger=PropertyChanged}" Padding="6" FontSize="14" BorderThickness="0" Background="#FFFFFFFF" Foreground="Black" BorderBrush="Transparent" Margin="0,0,0,15"/>
+                        <UniformGrid Columns="2" HorizontalAlignment="Center" Margin="0,15,0,0">
+                            <Button Content="{x:Static language:Lang.GlobalButtonCancel}" Command="{Binding CloseOverlayCommand}" Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" Background="Gray" BorderThickness="0" Width="120" Margin="0,0,10,0">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="8"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                            <Button Content="{x:Static language:Lang.GlobalButtonAccept}" Command="{Binding SendVerificationCodeCommand}" Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Width="120" Margin="10,0,0,0">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="8"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </UniformGrid>
+                    </StackPanel>
+
+                    <StackPanel x:Name="VerifyEmailCodePanel" Visibility="{Binding IsVerifyEmailVisible, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center">
+                        <TextBlock Text="{x:Static language:Lang.GlobalLabelVerificationCode}" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+                        <TextBlock x:Name="VerificationEmailTextBlock" Text="{Binding NewEmail}" FontSize="14" Foreground="Gray" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,0,0,25"/>
+                        <TextBlock Text="{x:Static language:Lang.GlobalButtonVerificationCode}" Foreground="White" FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                        <TextBox Text="{Binding VerificationCode, UpdateSourceTrigger=PropertyChanged}" Padding="6" FontSize="14" Background="#FFFFFFFF" Foreground="Black" BorderThickness="0" Margin="0,0,0,10" Width="220" HorizontalAlignment="Center"/>
+                        <Button Content="{x:Static language:Lang.GlobalButtonVerifyCode}" Command="{Binding VerifyEmailCodeCommand}" Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Width="150" Margin="0,15,0,10" HorizontalAlignment="Center" Cursor="Hand">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="8"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                        <Button x:Name="VerifyBackButton" Command="{Binding BackToChangeEmailCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Background="Transparent" BorderThickness="0" Margin="0,10,0,0" HorizontalAlignment="Center" Cursor="Hand">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock Text="&#xE72B;" Style="{StaticResource BackIconStyle}"/>
+                                <TextBlock Text="{x:Static language:Lang.GlobalButtonBack}" Foreground="Gray" FontSize="13" Margin="5,0,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <StackPanel x:Name="EmailVerifiedPanel" Visibility="{Binding IsEmailVerifiedVisible, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="{x:Static language:Lang.CustomizeProfileLabelEmailUpdated}" FontSize="16" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,12"/>
+                        <Grid Height="60" Width="60" Margin="0,10,0,25">
+                            <Border Background="#28a745" CornerRadius="30"/>
+                            <TextBlock Text="&#xE73E;" FontFamily="Segoe MDL2 Assets" Foreground="White" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <Button Content="{x:Static language:Lang.GlobalButtonAccept}" Command="{Binding CloseOverlayCommand}" Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Width="150" HorizontalAlignment="Center">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="8"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </StackPanel>
+
+                    <StackPanel x:Name="ChangePasswordPanel" Visibility="{Binding IsChangePasswordVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock Text="{x:Static language:Lang.GlobalTagPassword}" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+                        <Label Content="{x:Static language:Lang.ChangePasswordLabelCurrentPassword}" Foreground="White" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBox Text="{Binding CurrentPassword, UpdateSourceTrigger=PropertyChanged}" Padding="6" FontSize="14" BorderThickness="0" Background="#FFFFFFFF" Foreground="Black" BorderBrush="Transparent" Margin="0,0,0,15"/>
+                        <UniformGrid Columns="2" HorizontalAlignment="Center" Margin="0,15,0,0">
+                            <Button Content="{x:Static language:Lang.GlobalButtonCancel}" Command="{Binding CloseOverlayCommand}" Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" Background="Gray" BorderThickness="0" Width="120" Margin="0,0,10,0">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="8"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                            <Button Content="{x:Static language:Lang.GlobalButtonAccept}" Command="{Binding VerifyPasswordCommand}" Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Width="120" Margin="10,0,0,0">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="8"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </UniformGrid>
+                    </StackPanel>
+
+                    <StackPanel x:Name="NewPasswordPanel" Visibility="{Binding IsNewPasswordVisible, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center">
+                        <TextBlock Text="{x:Static language:Lang.GlobalTagPassword}" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+                        <Label Content="{x:Static language:Lang.GlobalLabelNewPassword}" Foreground="White" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBox Text="{Binding NewPassword, UpdateSourceTrigger=PropertyChanged}" Padding="6" FontSize="14" Background="#FFFFFFFF" Foreground="Black" BorderThickness="0" Margin="0,0,0,10" Width="220" HorizontalAlignment="Center"/>
+                        <Label Content="{x:Static language:Lang.GlobalLabelConfirmPassword}" Foreground="White" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBox Text="{Binding ConfirmNewPassword, UpdateSourceTrigger=PropertyChanged}" Padding="6" FontSize="14" Background="#FFFFFFFF" Foreground="Black" BorderThickness="0" Margin="0,0,0,10" Width="220" HorizontalAlignment="Center"/>
+                        <Button Content="{x:Static language:Lang.GlobalButtonAccept}" Command="{Binding ChangePasswordCommand}" Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Width="150" Margin="0,15,0,10" HorizontalAlignment="Center" Cursor="Hand">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="8"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                        <Button x:Name="NewPasswordBack" Command="{Binding BackToChangePasswordCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Background="Transparent" BorderThickness="0" Margin="0,10,0,0" HorizontalAlignment="Center" Cursor="Hand">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock Text="&#xE72B;" Style="{StaticResource BackIconStyle}"/>
+                                <TextBlock Text="{x:Static language:Lang.GlobalButtonBack}" Foreground="Gray" FontSize="13" Margin="5,0,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Border>
+    </Grid>
+</Window>

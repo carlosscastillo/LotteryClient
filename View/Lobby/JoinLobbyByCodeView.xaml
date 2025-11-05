@@ -1,0 +1,61 @@
+﻿<Window x:Class="Lottery.View.Lobby.JoinLobbyByCodeView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lottery.View.Lobby"
+        mc:Ignorable="d"
+        xmlns:language="clr-namespace:Lottery.Properties.Langs"
+        Title="JoinLobbyView" Height="350" Width="300"
+        Background="#F5F5F5"
+        WindowStartupLocation="CenterScreen">
+    
+    <Grid>
+        <Border BorderBrush="#DDDDDD" 
+            BorderThickness="1" 
+            Background="White" 
+            CornerRadius="12" 
+            Padding="40" 
+            MaxWidth="420"
+            VerticalAlignment="Center" 
+            HorizontalAlignment="Center">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="1" Color="Black" Opacity="0.1" BlurRadius="10"/>
+            </Border.Effect>
+
+            <StackPanel>
+                <TextBlock Text="{x:Static language:Lang.JoinLobbyLabelTittle}" Style="{StaticResource TitleTextStyle}"/>
+                <TextBlock Text="{x:Static language:Lang.JoinLobbyLabelDetails}" Style="{StaticResource SubtitleTextStyle}" Margin="0,5,0,20"/>
+
+                <Label Content="{x:Static language:Lang.JoinLobbyLabelLobbyCode}" 
+                   Style="{StaticResource LabelStyle}" 
+                   Target="{Binding ElementName=LobbyCodeTextBox}"/>
+
+                <TextBox x:Name="LobbyCodeTextBox"
+                     Text="{Binding LobbyCode, UpdateSourceTrigger=PropertyChanged}"
+                     TextAlignment="Center"
+                     FontSize="16"
+                     FontWeight="SemiBold"/>
+
+                <Button x:Name="JoinLobbyButton"
+                    Content="{x:Static language:Lang.JoinLobbyButtonJoin}" 
+                    Margin="0,30,0,0" 
+                    Padding="12" 
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Foreground="White"
+                    Background="Black"
+                    BorderThickness="0"
+                    Cursor="Hand"
+                    Command="{Binding JoinLobbyCommand}"
+                    IsEnabled="{Binding Path=LobbyCode, Converter={StaticResource StringNotEmptyToBoolConverter}}">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="8"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

@@ -179,7 +179,7 @@ namespace Lottery.ViewModel
                     if (userId > 0)
                     {
                         _serviceClient = RecreateClient();
-                        var session = await _serviceClient. (_pendingUser.Nickname, _pendingUser.Password);
+                        var session = await _serviceClient.LoginUserAsync(_pendingUser.Nickname, _pendingUser.Password);
                         if (session != null) {
                             SessionManager.Login(session);
                             SessionManager.ServiceClient = _serviceClient;

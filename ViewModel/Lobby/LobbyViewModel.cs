@@ -49,14 +49,14 @@ namespace Lottery.ViewModel.Lobby
             set => SetProperty(ref _isShowingFriendsList, value);
         }
 
-        private ObservableCollection<FriendDTO> _friendsList;
-        public ObservableCollection<FriendDTO> FriendsList
+        private ObservableCollection<FriendDto> _friendsList;
+        public ObservableCollection<FriendDto> FriendsList
         {
             get => _friendsList;
             set => SetProperty(ref _friendsList, value);
         }
 
-        public ObservableCollection<PlayerInfoDTO> Players { get; }
+        public ObservableCollection<UserDto> Players { get; }
         public ObservableCollection<string> ChatHistory { get; } = new ObservableCollection<string>();
         public List<string> AvailableGameModes { get; } = new List<string> { "Normal", "Diagonales", "Marco", "Centro", "Mega Lotería", "Lotería Injusta" };
         private string _selectedGameMode;
@@ -82,14 +82,14 @@ namespace Lottery.ViewModel.Lobby
 
         private Window _lobbyWindow;
 
-        public LobbyViewModel(LobbyStateDTO lobbyState, Window window)
+        public LobbyViewModel(LobbyStateDto lobbyState, Window window)
         {
             _serviceClient = SessionManager.ServiceClient;
             _currentUserId = SessionManager.CurrentUser.UserId;
             _lobbyWindow = window;
 
             LobbyCode = lobbyState.LobbyCode;
-            Players = new ObservableCollection<PlayerInfoDTO>(lobbyState.Players);
+            Players = new ObservableCollection<UserDto>(lobbyState.Players);
             IsHost = Players.FirstOrDefault(p => p.UserId == _currentUserId)?.IsHost ?? false;
             _selectedGameMode = AvailableGameModes.FirstOrDefault();
 
@@ -99,7 +99,7 @@ namespace Lottery.ViewModel.Lobby
             InviteFriendCommand = new RelayCommand(InviteFriend);
             StartGameCommand = new RelayCommand(async () => await StartGame(), () => IsHost);
 
-            FriendsList = new ObservableCollection<FriendDTO>();
+            FriendsList = new ObservableCollection<FriendDto>();
             ToggleShowFriendsCommand = new RelayCommand(async () => await ExecuteToggleShowFriends());
             InviteFriendToLobbyCommand = new RelayCommand(async (param) => await ExecuteInviteFriendToLobby(param));
 
@@ -186,7 +186,7 @@ namespace Lottery.ViewModel.Lobby
             });
         }
 
-        private void OnPlayerJoined(PlayerInfoDTO newPlayer)
+        private void OnPlayerJoined(UserDto newPlayer)
         {
             _lobbyWindow.Dispatcher.Invoke(() =>
             {

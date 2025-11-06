@@ -6,7 +6,7 @@ namespace Lottery.View.Lobby
 {
     public partial class JoinLobbyByCodeView : Window
     {
-        public JoinLobbyByCodeView(ILotteryService service, UserSessionDTO currentUser)
+        public JoinLobbyByCodeView(ILotteryService service, UserDto currentUser)
         {
             InitializeComponent();
             DataContext = new JoinLobbyByCodeViewModel(service, currentUser);

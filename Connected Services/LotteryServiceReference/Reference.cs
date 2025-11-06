@@ -76,12 +76,15 @@ namespace Lottery.LotteryServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="FriendDTO", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="FriendDto", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
     [System.SerializableAttribute()]
-    public partial class FriendDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class FriendDto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int FriendIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string NicknameField;
@@ -99,6 +102,19 @@ namespace Lottery.LotteryServiceReference {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int FriendId {
+            get {
+                return this.FriendIdField;
+            }
+            set {
+                if ((this.FriendIdField.Equals(value) != true)) {
+                    this.FriendIdField = value;
+                    this.RaisePropertyChanged("FriendId");
+                }
             }
         }
         
@@ -153,110 +169,18 @@ namespace Lottery.LotteryServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="FriendRequestDTO", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="GameSettingsDto", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
     [System.SerializableAttribute()]
-    public partial class FriendRequestDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class GameSettingsDto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NicknameField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int RequesterIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int TargetUserIdField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Nickname {
-            get {
-                return this.NicknameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.NicknameField, value) != true)) {
-                    this.NicknameField = value;
-                    this.RaisePropertyChanged("Nickname");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int RequesterId {
-            get {
-                return this.RequesterIdField;
-            }
-            set {
-                if ((this.RequesterIdField.Equals(value) != true)) {
-                    this.RequesterIdField = value;
-                    this.RaisePropertyChanged("RequesterId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int TargetUserId {
-            get {
-                return this.TargetUserIdField;
-            }
-            set {
-                if ((this.TargetUserIdField.Equals(value) != true)) {
-                    this.TargetUserIdField = value;
-                    this.RaisePropertyChanged("TargetUserId");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="GameSettingsDTO", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
-    [System.SerializableAttribute()]
-    public partial class GameSettingsDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private bool CardsImageField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int CardsTimeField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string GameModeField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool IsPrivateField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string MarkersField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int MaxPlayersField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private bool SoundField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -265,45 +189,6 @@ namespace Lottery.LotteryServiceReference {
             }
             set {
                 this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public bool CardsImage {
-            get {
-                return this.CardsImageField;
-            }
-            set {
-                if ((this.CardsImageField.Equals(value) != true)) {
-                    this.CardsImageField = value;
-                    this.RaisePropertyChanged("CardsImage");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int CardsTime {
-            get {
-                return this.CardsTimeField;
-            }
-            set {
-                if ((this.CardsTimeField.Equals(value) != true)) {
-                    this.CardsTimeField = value;
-                    this.RaisePropertyChanged("CardsTime");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string GameMode {
-            get {
-                return this.GameModeField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.GameModeField, value) != true)) {
-                    this.GameModeField = value;
-                    this.RaisePropertyChanged("GameMode");
-                }
             }
         }
         
@@ -321,19 +206,6 @@ namespace Lottery.LotteryServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Markers {
-            get {
-                return this.MarkersField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.MarkersField, value) != true)) {
-                    this.MarkersField = value;
-                    this.RaisePropertyChanged("Markers");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
         public int MaxPlayers {
             get {
                 return this.MaxPlayersField;
@@ -342,19 +214,6 @@ namespace Lottery.LotteryServiceReference {
                 if ((this.MaxPlayersField.Equals(value) != true)) {
                     this.MaxPlayersField = value;
                     this.RaisePropertyChanged("MaxPlayers");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public bool Sound {
-            get {
-                return this.SoundField;
-            }
-            set {
-                if ((this.SoundField.Equals(value) != true)) {
-                    this.SoundField = value;
-                    this.RaisePropertyChanged("Sound");
                 }
             }
         }
@@ -371,9 +230,9 @@ namespace Lottery.LotteryServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="LobbyStateDTO", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="LobbyStateDto", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
     [System.SerializableAttribute()]
-    public partial class LobbyStateDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class LobbyStateDto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -385,7 +244,7 @@ namespace Lottery.LotteryServiceReference {
         private string LobbyCodeField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Lottery.LotteryServiceReference.PlayerInfoDTO[] PlayersField;
+        private Lottery.LotteryServiceReference.UserDto[] PlayersField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -424,7 +283,7 @@ namespace Lottery.LotteryServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public Lottery.LotteryServiceReference.PlayerInfoDTO[] Players {
+        public Lottery.LotteryServiceReference.UserDto[] Players {
             get {
                 return this.PlayersField;
             }
@@ -448,198 +307,15 @@ namespace Lottery.LotteryServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="PlayerInfoDTO", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UserDto", Namespace="http://schemas.datacontract.org/2004/07/")]
     [System.SerializableAttribute()]
-    public partial class PlayerInfoDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class UserDto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int AvatarIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private bool IsHostField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NicknameField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int ScoreField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int UserIdField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int AvatarId {
-            get {
-                return this.AvatarIdField;
-            }
-            set {
-                if ((this.AvatarIdField.Equals(value) != true)) {
-                    this.AvatarIdField = value;
-                    this.RaisePropertyChanged("AvatarId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public bool IsHost {
-            get {
-                return this.IsHostField;
-            }
-            set {
-                if ((this.IsHostField.Equals(value) != true)) {
-                    this.IsHostField = value;
-                    this.RaisePropertyChanged("IsHost");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Nickname {
-            get {
-                return this.NicknameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.NicknameField, value) != true)) {
-                    this.NicknameField = value;
-                    this.RaisePropertyChanged("Nickname");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Score {
-            get {
-                return this.ScoreField;
-            }
-            set {
-                if ((this.ScoreField.Equals(value) != true)) {
-                    this.ScoreField = value;
-                    this.RaisePropertyChanged("Score");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int UserId {
-            get {
-                return this.UserIdField;
-            }
-            set {
-                if ((this.UserIdField.Equals(value) != true)) {
-                    this.UserIdField = value;
-                    this.RaisePropertyChanged("UserId");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="UserSessionDTO", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
-    [System.SerializableAttribute()]
-    public partial class UserSessionDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int AvatarIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NicknameField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int UserIdField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int AvatarId {
-            get {
-                return this.AvatarIdField;
-            }
-            set {
-                if ((this.AvatarIdField.Equals(value) != true)) {
-                    this.AvatarIdField = value;
-                    this.RaisePropertyChanged("AvatarId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Nickname {
-            get {
-                return this.NicknameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.NicknameField, value) != true)) {
-                    this.NicknameField = value;
-                    this.RaisePropertyChanged("Nickname");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int UserId {
-            get {
-                return this.UserIdField;
-            }
-            set {
-                if ((this.UserIdField.Equals(value) != true)) {
-                    this.UserIdField = value;
-                    this.RaisePropertyChanged("UserId");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="UserRegisterDTO", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
-    [System.SerializableAttribute()]
-    public partial class UserRegisterDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        private System.Nullable<int> AvatarIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string AvatarUrlField;
@@ -651,10 +327,7 @@ namespace Lottery.LotteryServiceReference {
         private string FirstNameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdAvatarField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdUserField;
+        private bool IsHostField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string MaternalLastNameField;
@@ -669,10 +342,13 @@ namespace Lottery.LotteryServiceReference {
         private string PaternalLastNameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.DateTime RegistrationDateField;
+        private System.Nullable<System.DateTime> RegistrationDateField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<int> ScoreField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int UserIdField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -681,6 +357,19 @@ namespace Lottery.LotteryServiceReference {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> AvatarId {
+            get {
+                return this.AvatarIdField;
+            }
+            set {
+                if ((this.AvatarIdField.Equals(value) != true)) {
+                    this.AvatarIdField = value;
+                    this.RaisePropertyChanged("AvatarId");
+                }
             }
         }
         
@@ -724,27 +413,14 @@ namespace Lottery.LotteryServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int IdAvatar {
+        public bool IsHost {
             get {
-                return this.IdAvatarField;
+                return this.IsHostField;
             }
             set {
-                if ((this.IdAvatarField.Equals(value) != true)) {
-                    this.IdAvatarField = value;
-                    this.RaisePropertyChanged("IdAvatar");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int IdUser {
-            get {
-                return this.IdUserField;
-            }
-            set {
-                if ((this.IdUserField.Equals(value) != true)) {
-                    this.IdUserField = value;
-                    this.RaisePropertyChanged("IdUser");
+                if ((this.IsHostField.Equals(value) != true)) {
+                    this.IsHostField = value;
+                    this.RaisePropertyChanged("IsHost");
                 }
             }
         }
@@ -802,7 +478,7 @@ namespace Lottery.LotteryServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.DateTime RegistrationDate {
+        public System.Nullable<System.DateTime> RegistrationDate {
             get {
                 return this.RegistrationDateField;
             }
@@ -827,188 +503,15 @@ namespace Lottery.LotteryServiceReference {
             }
         }
         
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="GameStateDTO", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
-    [System.SerializableAttribute()]
-    public partial class GameStateDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int CardsPlayedCountField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Lottery.LotteryServiceReference.CardDTO CurrentCardField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string GameModeField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string GameStatusField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Lottery.LotteryServiceReference.PlayerInfoDTO[] PlayersField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int CardsPlayedCount {
+        public int UserId {
             get {
-                return this.CardsPlayedCountField;
+                return this.UserIdField;
             }
             set {
-                if ((this.CardsPlayedCountField.Equals(value) != true)) {
-                    this.CardsPlayedCountField = value;
-                    this.RaisePropertyChanged("CardsPlayedCount");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public Lottery.LotteryServiceReference.CardDTO CurrentCard {
-            get {
-                return this.CurrentCardField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.CurrentCardField, value) != true)) {
-                    this.CurrentCardField = value;
-                    this.RaisePropertyChanged("CurrentCard");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string GameMode {
-            get {
-                return this.GameModeField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.GameModeField, value) != true)) {
-                    this.GameModeField = value;
-                    this.RaisePropertyChanged("GameMode");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string GameStatus {
-            get {
-                return this.GameStatusField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.GameStatusField, value) != true)) {
-                    this.GameStatusField = value;
-                    this.RaisePropertyChanged("GameStatus");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public Lottery.LotteryServiceReference.PlayerInfoDTO[] Players {
-            get {
-                return this.PlayersField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.PlayersField, value) != true)) {
-                    this.PlayersField = value;
-                    this.RaisePropertyChanged("Players");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="CardDTO", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
-    [System.SerializableAttribute()]
-    public partial class CardDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string ImagePathField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NameField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Id {
-            get {
-                return this.IdField;
-            }
-            set {
-                if ((this.IdField.Equals(value) != true)) {
-                    this.IdField = value;
-                    this.RaisePropertyChanged("Id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string ImagePath {
-            get {
-                return this.ImagePathField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ImagePathField, value) != true)) {
-                    this.ImagePathField = value;
-                    this.RaisePropertyChanged("ImagePath");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Name {
-            get {
-                return this.NameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.NameField, value) != true)) {
-                    this.NameField = value;
-                    this.RaisePropertyChanged("Name");
+                if ((this.UserIdField.Equals(value) != true)) {
+                    this.UserIdField = value;
+                    this.RaisePropertyChanged("UserId");
                 }
             }
         }
@@ -1070,24 +573,24 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/GetFriends", ReplyAction="http://tempuri.org/IFriendService/GetFriendsResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IFriendService/GetFriendsServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        Lottery.LotteryServiceReference.FriendDTO[] GetFriends(int currentUserId);
+        Lottery.LotteryServiceReference.FriendDto[] GetFriends(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/GetFriends", ReplyAction="http://tempuri.org/IFriendService/GetFriendsResponse")]
-        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDTO[]> GetFriendsAsync(int currentUserId);
+        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDto[]> GetFriendsAsync(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/GetPendingRequests", ReplyAction="http://tempuri.org/IFriendService/GetPendingRequestsResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IFriendService/GetPendingRequestsServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        Lottery.LotteryServiceReference.FriendRequestDTO[] GetPendingRequests(int currentUserId);
+        Lottery.LotteryServiceReference.FriendDto[] GetPendingRequests(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/GetPendingRequests", ReplyAction="http://tempuri.org/IFriendService/GetPendingRequestsResponse")]
-        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendRequestDTO[]> GetPendingRequestsAsync(int currentUserId);
+        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDto[]> GetPendingRequestsAsync(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/GetSentRequests", ReplyAction="http://tempuri.org/IFriendService/GetSentRequestsResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IFriendService/GetSentRequestsServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        Lottery.LotteryServiceReference.FriendRequestDTO[] GetSentRequests(int currentUserId);
+        Lottery.LotteryServiceReference.FriendDto[] GetSentRequests(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/GetSentRequests", ReplyAction="http://tempuri.org/IFriendService/GetSentRequestsResponse")]
-        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendRequestDTO[]> GetSentRequestsAsync(int currentUserId);
+        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDto[]> GetSentRequestsAsync(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/InviteFriendToLobby", ReplyAction="http://tempuri.org/IFriendService/InviteFriendToLobbyResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IFriendService/InviteFriendToLobbyServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
@@ -1103,10 +606,10 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task StartGameAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/UpdateGameSettings", ReplyAction="http://tempuri.org/IGameService/UpdateGameSettingsResponse")]
-        void UpdateGameSettings(Lottery.LotteryServiceReference.GameSettingsDTO settings);
+        void UpdateGameSettings(Lottery.LotteryServiceReference.GameSettingsDto settings);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/UpdateGameSettings", ReplyAction="http://tempuri.org/IGameService/UpdateGameSettingsResponse")]
-        System.Threading.Tasks.Task UpdateGameSettingsAsync(Lottery.LotteryServiceReference.GameSettingsDTO settings);
+        System.Threading.Tasks.Task UpdateGameSettingsAsync(Lottery.LotteryServiceReference.GameSettingsDto settings);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/GetScoreboard", ReplyAction="http://tempuri.org/IGameService/GetScoreboardResponse")]
         void GetScoreboard();
@@ -1114,31 +617,19 @@ namespace Lottery.LotteryServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/GetScoreboard", ReplyAction="http://tempuri.org/IGameService/GetScoreboardResponse")]
         System.Threading.Tasks.Task GetScoreboardAsync();
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGameService/DeclareLoteria")]
-        void DeclareLoteria(string nickname);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGameService/DeclareLoteria")]
-        System.Threading.Tasks.Task DeclareLoteriaAsync(string nickname);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/LeaveGame", ReplyAction="http://tempuri.org/IGameService/LeaveGameResponse")]
-        void LeaveGame(int userId);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/LeaveGame", ReplyAction="http://tempuri.org/IGameService/LeaveGameResponse")]
-        System.Threading.Tasks.Task LeaveGameAsync(int userId);
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/CreateLobby", ReplyAction="http://tempuri.org/ILobbyService/CreateLobbyResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/ILobbyService/CreateLobbyServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        Lottery.LotteryServiceReference.LobbyStateDTO CreateLobby();
+        Lottery.LotteryServiceReference.LobbyStateDto CreateLobby();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/CreateLobby", ReplyAction="http://tempuri.org/ILobbyService/CreateLobbyResponse")]
-        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.LobbyStateDTO> CreateLobbyAsync();
+        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.LobbyStateDto> CreateLobbyAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/JoinLobby", ReplyAction="http://tempuri.org/ILobbyService/JoinLobbyResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/ILobbyService/JoinLobbyServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        Lottery.LotteryServiceReference.LobbyStateDTO JoinLobby(Lottery.LotteryServiceReference.UserSessionDTO currentUser, string lobbyCode);
+        Lottery.LotteryServiceReference.LobbyStateDto JoinLobby(Lottery.LotteryServiceReference.UserDto currentUser, string lobbyCode);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/JoinLobby", ReplyAction="http://tempuri.org/ILobbyService/JoinLobbyResponse")]
-        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.LobbyStateDTO> JoinLobbyAsync(Lottery.LotteryServiceReference.UserSessionDTO currentUser, string lobbyCode);
+        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.LobbyStateDto> JoinLobbyAsync(Lottery.LotteryServiceReference.UserDto currentUser, string lobbyCode);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILobbyService/LeaveLobby")]
         void LeaveLobby();
@@ -1155,10 +646,10 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/LoginUser", ReplyAction="http://tempuri.org/IAuthenticationService/LoginUserResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IAuthenticationService/LoginUserServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        Lottery.LotteryServiceReference.UserSessionDTO LoginUser(string username, string password);
+        Lottery.LotteryServiceReference.UserDto LoginUser(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/LoginUser", ReplyAction="http://tempuri.org/IAuthenticationService/LoginUserResponse")]
-        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserSessionDTO> LoginUserAsync(string username, string password);
+        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserDto> LoginUserAsync(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/LogoutUser", ReplyAction="http://tempuri.org/IAuthenticationService/LogoutUserResponse")]
         void LogoutUser();
@@ -1168,16 +659,16 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RequestUserVerification", ReplyAction="http://tempuri.org/IUserService/RequestUserVerificationResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IUserService/RequestUserVerificationServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        int RequestUserVerification(Lottery.LotteryServiceReference.UserRegisterDTO userData);
+        int RequestUserVerification(Lottery.LotteryServiceReference.UserDto userData);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RequestUserVerification", ReplyAction="http://tempuri.org/IUserService/RequestUserVerificationResponse")]
-        System.Threading.Tasks.Task<int> RequestUserVerificationAsync(Lottery.LotteryServiceReference.UserRegisterDTO userData);
+        System.Threading.Tasks.Task<int> RequestUserVerificationAsync(Lottery.LotteryServiceReference.UserDto userData);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RegisterUser", ReplyAction="http://tempuri.org/IUserService/RegisterUserResponse")]
-        int RegisterUser(Lottery.LotteryServiceReference.UserRegisterDTO userData);
+        int RegisterUser(Lottery.LotteryServiceReference.UserDto userData);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RegisterUser", ReplyAction="http://tempuri.org/IUserService/RegisterUserResponse")]
-        System.Threading.Tasks.Task<int> RegisterUserAsync(Lottery.LotteryServiceReference.UserRegisterDTO userData);
+        System.Threading.Tasks.Task<int> RegisterUserAsync(Lottery.LotteryServiceReference.UserDto userData);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RegisterGuest", ReplyAction="http://tempuri.org/IUserService/RegisterGuestResponse")]
         int RegisterGuest();
@@ -1199,22 +690,22 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task RecoverPasswordAsync(string email);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/UpdateProfile", ReplyAction="http://tempuri.org/IUserService/UpdateProfileResponse")]
-        System.ValueTuple<bool, string> UpdateProfile(int currentUserId, Lottery.LotteryServiceReference.UserRegisterDTO userData);
+        System.ValueTuple<bool, string> UpdateProfile(int currentUserId, Lottery.LotteryServiceReference.UserDto userData);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/UpdateProfile", ReplyAction="http://tempuri.org/IUserService/UpdateProfileResponse")]
-        System.Threading.Tasks.Task<System.ValueTuple<bool, string>> UpdateProfileAsync(int currentUserId, Lottery.LotteryServiceReference.UserRegisterDTO userData);
+        System.Threading.Tasks.Task<System.ValueTuple<bool, string>> UpdateProfileAsync(int currentUserId, Lottery.LotteryServiceReference.UserDto userData);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/FindUserByNickname", ReplyAction="http://tempuri.org/IUserService/FindUserByNicknameResponse")]
-        Lottery.LotteryServiceReference.FriendDTO FindUserByNickname(string nickname);
+        Lottery.LotteryServiceReference.FriendDto FindUserByNickname(string nickname);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/FindUserByNickname", ReplyAction="http://tempuri.org/IUserService/FindUserByNicknameResponse")]
-        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDTO> FindUserByNicknameAsync(string nickname);
+        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDto> FindUserByNicknameAsync(string nickname);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetUserProfile", ReplyAction="http://tempuri.org/IUserService/GetUserProfileResponse")]
-        Lottery.LotteryServiceReference.UserRegisterDTO GetUserProfile(int userId);
+        Lottery.LotteryServiceReference.UserDto GetUserProfile(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetUserProfile", ReplyAction="http://tempuri.org/IUserService/GetUserProfileResponse")]
-        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserRegisterDTO> GetUserProfileAsync(int userId);
+        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserDto> GetUserProfileAsync(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RequestEmailChange", ReplyAction="http://tempuri.org/IUserService/RequestEmailChangeResponse")]
         bool RequestEmailChange(int userId, string newEmail);
@@ -1254,7 +745,7 @@ namespace Lottery.LotteryServiceReference {
         void ReceiveChatMessage(string nickname, string message);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/PlayerJoined")]
-        void PlayerJoined(Lottery.LotteryServiceReference.PlayerInfoDTO newPlayer);
+        void PlayerJoined(Lottery.LotteryServiceReference.UserDto newPlayer);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/PlayerLeft")]
         void PlayerLeft(int playerId);
@@ -1270,21 +761,6 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/ReceiveLobbyInvite")]
         void ReceiveLobbyInvite(string inviterNickname, string lobbyCode);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/GameStarted")]
-        void GameStarted(Lottery.LotteryServiceReference.GameStateDTO gameState);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/GameSettingsUpdated")]
-        void GameSettingsUpdated(Lottery.LotteryServiceReference.GameSettingsDTO settings);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/CardDrawn")]
-        void CardDrawn(Lottery.LotteryServiceReference.CardDTO card);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/PlayerWon")]
-        void PlayerWon(string nickname);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/GameEnded")]
-        void GameEnded();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1363,27 +839,27 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.RemoveFriendAsync(currentUserId, friendUserId);
         }
         
-        public Lottery.LotteryServiceReference.FriendDTO[] GetFriends(int currentUserId) {
+        public Lottery.LotteryServiceReference.FriendDto[] GetFriends(int currentUserId) {
             return base.Channel.GetFriends(currentUserId);
         }
         
-        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDTO[]> GetFriendsAsync(int currentUserId) {
+        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDto[]> GetFriendsAsync(int currentUserId) {
             return base.Channel.GetFriendsAsync(currentUserId);
         }
         
-        public Lottery.LotteryServiceReference.FriendRequestDTO[] GetPendingRequests(int currentUserId) {
+        public Lottery.LotteryServiceReference.FriendDto[] GetPendingRequests(int currentUserId) {
             return base.Channel.GetPendingRequests(currentUserId);
         }
         
-        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendRequestDTO[]> GetPendingRequestsAsync(int currentUserId) {
+        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDto[]> GetPendingRequestsAsync(int currentUserId) {
             return base.Channel.GetPendingRequestsAsync(currentUserId);
         }
         
-        public Lottery.LotteryServiceReference.FriendRequestDTO[] GetSentRequests(int currentUserId) {
+        public Lottery.LotteryServiceReference.FriendDto[] GetSentRequests(int currentUserId) {
             return base.Channel.GetSentRequests(currentUserId);
         }
         
-        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendRequestDTO[]> GetSentRequestsAsync(int currentUserId) {
+        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDto[]> GetSentRequestsAsync(int currentUserId) {
             return base.Channel.GetSentRequestsAsync(currentUserId);
         }
         
@@ -1403,11 +879,11 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.StartGameAsync();
         }
         
-        public void UpdateGameSettings(Lottery.LotteryServiceReference.GameSettingsDTO settings) {
+        public void UpdateGameSettings(Lottery.LotteryServiceReference.GameSettingsDto settings) {
             base.Channel.UpdateGameSettings(settings);
         }
         
-        public System.Threading.Tasks.Task UpdateGameSettingsAsync(Lottery.LotteryServiceReference.GameSettingsDTO settings) {
+        public System.Threading.Tasks.Task UpdateGameSettingsAsync(Lottery.LotteryServiceReference.GameSettingsDto settings) {
             return base.Channel.UpdateGameSettingsAsync(settings);
         }
         
@@ -1419,35 +895,19 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.GetScoreboardAsync();
         }
         
-        public void DeclareLoteria(string nickname) {
-            base.Channel.DeclareLoteria(nickname);
-        }
-        
-        public System.Threading.Tasks.Task DeclareLoteriaAsync(string nickname) {
-            return base.Channel.DeclareLoteriaAsync(nickname);
-        }
-        
-        public void LeaveGame(int userId) {
-            base.Channel.LeaveGame(userId);
-        }
-        
-        public System.Threading.Tasks.Task LeaveGameAsync(int userId) {
-            return base.Channel.LeaveGameAsync(userId);
-        }
-        
-        public Lottery.LotteryServiceReference.LobbyStateDTO CreateLobby() {
+        public Lottery.LotteryServiceReference.LobbyStateDto CreateLobby() {
             return base.Channel.CreateLobby();
         }
         
-        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.LobbyStateDTO> CreateLobbyAsync() {
+        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.LobbyStateDto> CreateLobbyAsync() {
             return base.Channel.CreateLobbyAsync();
         }
         
-        public Lottery.LotteryServiceReference.LobbyStateDTO JoinLobby(Lottery.LotteryServiceReference.UserSessionDTO currentUser, string lobbyCode) {
+        public Lottery.LotteryServiceReference.LobbyStateDto JoinLobby(Lottery.LotteryServiceReference.UserDto currentUser, string lobbyCode) {
             return base.Channel.JoinLobby(currentUser, lobbyCode);
         }
         
-        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.LobbyStateDTO> JoinLobbyAsync(Lottery.LotteryServiceReference.UserSessionDTO currentUser, string lobbyCode) {
+        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.LobbyStateDto> JoinLobbyAsync(Lottery.LotteryServiceReference.UserDto currentUser, string lobbyCode) {
             return base.Channel.JoinLobbyAsync(currentUser, lobbyCode);
         }
         
@@ -1467,11 +927,11 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.KickPlayerAsync(targetPlayerId);
         }
         
-        public Lottery.LotteryServiceReference.UserSessionDTO LoginUser(string username, string password) {
+        public Lottery.LotteryServiceReference.UserDto LoginUser(string username, string password) {
             return base.Channel.LoginUser(username, password);
         }
         
-        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserSessionDTO> LoginUserAsync(string username, string password) {
+        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserDto> LoginUserAsync(string username, string password) {
             return base.Channel.LoginUserAsync(username, password);
         }
         
@@ -1483,19 +943,19 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.LogoutUserAsync();
         }
         
-        public int RequestUserVerification(Lottery.LotteryServiceReference.UserRegisterDTO userData) {
+        public int RequestUserVerification(Lottery.LotteryServiceReference.UserDto userData) {
             return base.Channel.RequestUserVerification(userData);
         }
         
-        public System.Threading.Tasks.Task<int> RequestUserVerificationAsync(Lottery.LotteryServiceReference.UserRegisterDTO userData) {
+        public System.Threading.Tasks.Task<int> RequestUserVerificationAsync(Lottery.LotteryServiceReference.UserDto userData) {
             return base.Channel.RequestUserVerificationAsync(userData);
         }
         
-        public int RegisterUser(Lottery.LotteryServiceReference.UserRegisterDTO userData) {
+        public int RegisterUser(Lottery.LotteryServiceReference.UserDto userData) {
             return base.Channel.RegisterUser(userData);
         }
         
-        public System.Threading.Tasks.Task<int> RegisterUserAsync(Lottery.LotteryServiceReference.UserRegisterDTO userData) {
+        public System.Threading.Tasks.Task<int> RegisterUserAsync(Lottery.LotteryServiceReference.UserDto userData) {
             return base.Channel.RegisterUserAsync(userData);
         }
         
@@ -1523,27 +983,27 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.RecoverPasswordAsync(email);
         }
         
-        public System.ValueTuple<bool, string> UpdateProfile(int currentUserId, Lottery.LotteryServiceReference.UserRegisterDTO userData) {
+        public System.ValueTuple<bool, string> UpdateProfile(int currentUserId, Lottery.LotteryServiceReference.UserDto userData) {
             return base.Channel.UpdateProfile(currentUserId, userData);
         }
         
-        public System.Threading.Tasks.Task<System.ValueTuple<bool, string>> UpdateProfileAsync(int currentUserId, Lottery.LotteryServiceReference.UserRegisterDTO userData) {
+        public System.Threading.Tasks.Task<System.ValueTuple<bool, string>> UpdateProfileAsync(int currentUserId, Lottery.LotteryServiceReference.UserDto userData) {
             return base.Channel.UpdateProfileAsync(currentUserId, userData);
         }
         
-        public Lottery.LotteryServiceReference.FriendDTO FindUserByNickname(string nickname) {
+        public Lottery.LotteryServiceReference.FriendDto FindUserByNickname(string nickname) {
             return base.Channel.FindUserByNickname(nickname);
         }
         
-        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDTO> FindUserByNicknameAsync(string nickname) {
+        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDto> FindUserByNicknameAsync(string nickname) {
             return base.Channel.FindUserByNicknameAsync(nickname);
         }
         
-        public Lottery.LotteryServiceReference.UserRegisterDTO GetUserProfile(int userId) {
+        public Lottery.LotteryServiceReference.UserDto GetUserProfile(int userId) {
             return base.Channel.GetUserProfile(userId);
         }
         
-        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserRegisterDTO> GetUserProfileAsync(int userId) {
+        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserDto> GetUserProfileAsync(int userId) {
             return base.Channel.GetUserProfileAsync(userId);
         }
         

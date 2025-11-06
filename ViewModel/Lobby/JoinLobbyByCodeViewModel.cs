@@ -20,9 +20,9 @@ namespace Lottery.ViewModel.Lobby
         public ICommand JoinLobbyCommand { get; }
 
         private readonly ILotteryService _service;
-        private readonly UserSessionDTO _currentUser;
+        private readonly UserDto _currentUser;
 
-        public JoinLobbyByCodeViewModel(ILotteryService service, UserSessionDTO currentUser)
+        public JoinLobbyByCodeViewModel(ILotteryService service, UserDto currentUser)
         {
             _service = service;
             _currentUser = currentUser;

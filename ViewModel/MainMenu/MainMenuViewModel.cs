@@ -18,7 +18,7 @@ namespace Lottery.ViewModel.MainMenu
         private readonly Window _mainMenuWindow;
 
         ILotteryService myService = SessionManager.ServiceClient;
-        UserSessionDTO myUser = SessionManager.CurrentUser;
+        UserDto myUser = SessionManager.CurrentUser;
 
         public string Nickname { get; }
         public ICommand ShowFriendsViewCommand { get; }
@@ -82,7 +82,7 @@ namespace Lottery.ViewModel.MainMenu
         {
             try
             {
-                LobbyStateDTO lobbyState = await _serviceClient.CreateLobbyAsync();
+                LobbyStateDto lobbyState = await _serviceClient.CreateLobbyAsync();
 
                 _mainMenuWindow.Dispatcher.Invoke(() =>
                 {
@@ -129,7 +129,7 @@ namespace Lottery.ViewModel.MainMenu
         {
             try
             {
-                LobbyStateDTO lobbyState = await _serviceClient.JoinLobbyAsync(myUser, lobbyCode);
+                LobbyStateDto lobbyState = await _serviceClient.JoinLobbyAsync(myUser, lobbyCode);
 
                 _mainMenuWindow.Dispatcher.Invoke(() =>
                 {
@@ -159,7 +159,7 @@ namespace Lottery.ViewModel.MainMenu
             }
         }
 
-        private void NavigateToLobby(LobbyStateDTO lobbyState)
+        private void NavigateToLobby(LobbyStateDto lobbyState)
         {
             Cleanup();
 

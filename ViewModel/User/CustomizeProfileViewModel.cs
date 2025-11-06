@@ -10,7 +10,7 @@ namespace Lottery.ViewModel.User
     public class CustomizeProfileViewModel : ObservableObject
     {
         private readonly ILotteryService _serviceClient;
-        private UserRegisterDTO _currentUserFull;
+        private UserDto _currentUserFull;
 
         public CustomizeProfileViewModel()
         {
@@ -119,16 +119,16 @@ namespace Lottery.ViewModel.User
             if (_currentUserFull == null || !ValidateFields()) return;
             IsBusy = true;
 
-            _currentUserFull.IdUser = IdUser;
+            _currentUserFull.UserId = IdUser;
             _currentUserFull.Nickname = Nickname;
             _currentUserFull.FirstName = FirstName;
             _currentUserFull.PaternalLastName = PaternalLastName;
             _currentUserFull.MaternalLastName = MaternalLastName;
-            _currentUserFull.IdAvatar = IdAvatar;
+            _currentUserFull.AvatarId = IdAvatar;
 
             try
             {
-                var (success, message) = await _serviceClient.UpdateProfileAsync(_currentUserFull.IdUser, _currentUserFull);
+                var (success, message) = await _serviceClient.UpdateProfileAsync(_currentUserFull.UserId, _currentUserFull);
                 if (success)
                 {
                     MessageBox.Show("Perfil actualizado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -293,7 +293,7 @@ namespace Lottery.ViewModel.User
                 if (fullUser != null)
                 {
                     _currentUserFull = fullUser;
-                    IdUser = _currentUserFull.IdUser;
+                    IdUser = _currentUserFull.UserId;
                     MapFromDTO(_currentUserFull);
                 }
             }
@@ -303,10 +303,10 @@ namespace Lottery.ViewModel.User
             }
         }
 
-        private void MapFromDTO(UserRegisterDTO dto)
+        private void MapFromDTO(UserDto dto)
         {
-            IdAvatar = dto.IdAvatar;
-            IdUser = dto.IdUser;
+            IdAvatar = (int)dto.AvatarId;
+            IdUser = dto.UserId;
             Nickname = dto.Nickname;
             FirstName = dto.FirstName;
             PaternalLastName = dto.PaternalLastName;

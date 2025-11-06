@@ -16,16 +16,16 @@ namespace Lottery.ViewModel.Friends
     // --- ViewModels Auxiliares ---
     public class FriendViewModel : ObservableObject
     {
-        public FriendDTO Dto { get; }
+        public FriendDto Dto { get; }
         public string Nickname => Dto.Nickname;
         public int UserId => Dto.UserId;
         public Brush StatusColor => Dto.Status == "Online" ? Brushes.LimeGreen : Brushes.Gray;
-        public FriendViewModel(FriendDTO dto) { Dto = dto; }
+        public FriendViewModel(FriendDto dto) { Dto = dto; }
     }
 
     public class FoundUserViewModel : ObservableObject
     {
-        public FriendDTO Dto { get; }
+        public FriendDto Dto { get; }
         public string Nickname => Dto.Nickname;
         public int UserId => Dto.UserId;
 
@@ -82,7 +82,7 @@ namespace Lottery.ViewModel.Friends
         public bool CanRejectRequest => CanAcceptRequest;
 
 
-        public FoundUserViewModel(FriendDTO dto, int currentUserId)
+        public FoundUserViewModel(FriendDto dto, int currentUserId)
         {
             Dto = dto;
             _currentUserId = currentUserId;
@@ -200,15 +200,15 @@ namespace Lottery.ViewModel.Friends
                 var pendingReceived = await _serviceClient.GetPendingRequestsAsync(_currentUserId);
 
                 bool isFriend = friends.Any(f => f.UserId == user.UserId);
-                bool hasPendingSent = pendingSent.Any(r => r.TargetUserId == user.UserId);
-                var receivedRequest = pendingReceived.FirstOrDefault(r => r.RequesterId == user.UserId);
+                bool hasPendingSent = pendingSent.Any(r => r.UserId == user.UserId);
+                var receivedRequest = pendingReceived.FirstOrDefault(r => r.FriendId == user.UserId);
 
                 SearchResults.Clear();
                 SearchResults.Add(new FoundUserViewModel(user, _currentUserId)
                 {
                     IsFriend = isFriend,
                     HasPendingRequest = hasPendingSent || (receivedRequest != null),
-                    PendingRequestSenderId = hasPendingSent ? _currentUserId : receivedRequest?.RequesterId ?? 0
+                    PendingRequestSenderId = hasPendingSent ? _currentUserId : receivedRequest?.FriendId ?? 0
                 });
             }
             catch (FaultException<ServiceFault> ex)

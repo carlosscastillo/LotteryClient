@@ -228,19 +228,16 @@
     <None Include="Connected Services\LotteryServiceReference\item4.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.FriendDTO.datasource">
+    <None Include="Connected Services\LotteryServiceReference\item5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.FriendDto.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.FriendRequestDTO.datasource">
+    <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.LobbyStateDto.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.LobbyStateDTO.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.UserRegisterDTO.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.UserSessionDTO.datasource">
+    <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.UserDto.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\LotteryServiceReference\LotteryService.wsdl" />
@@ -252,7 +249,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\LotteryServiceReference\" />
+  </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
@@ -260,7 +259,7 @@
     <Resource Include="Images\background.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\LotteryServiceReference\" />
+    <Resource Include="Images\avatar1.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\LotteryServiceReference\item.disco" />
@@ -276,9 +275,6 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\avatar1.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

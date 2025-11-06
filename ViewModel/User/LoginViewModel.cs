@@ -72,7 +72,7 @@ namespace Lottery.ViewModel.User
 
             try
             {
-                UserSessionDTO user = await _serviceClient.LoginUserAsync(Username, Password);
+                UserDto user = await _serviceClient.LoginUserAsync(Username, Password);
 
                 SessionManager.Login(user);
                 SessionManager.ServiceClient = _serviceClient;

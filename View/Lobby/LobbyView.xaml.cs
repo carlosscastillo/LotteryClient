@@ -13,8 +13,7 @@ namespace Lottery.View.Lobby
         {
             InitializeComponent();
         }
-
-        public LobbyView(LobbyStateDTO lobbyState) : this()
+        public LobbyView(LobbyStateDto lobbyState) : this()
         {
             this.DataContext = new LobbyViewModel(lobbyState, this);
         }

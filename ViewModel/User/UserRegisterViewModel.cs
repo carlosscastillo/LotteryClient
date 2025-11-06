@@ -14,7 +14,7 @@ namespace Lottery.ViewModel.User
     public class UserRegisterViewModel : ObservableObject
     {
         private ILotteryService _serviceClient;
-        private UserRegisterDTO _pendingUser;
+        private UserDto _pendingUser;
         private bool _isRegistering;
 
         private string _name;
@@ -114,7 +114,7 @@ namespace Lottery.ViewModel.User
 
             try
             {
-                _pendingUser = new UserRegisterDTO
+                _pendingUser = new UserDto
                 {
                     FirstName = Name,
                     PaternalLastName = PaternalLastName,

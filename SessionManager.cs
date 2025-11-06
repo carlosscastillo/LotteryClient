@@ -7,11 +7,11 @@ namespace Lottery
     {
         public static ILotteryService ServiceClient { get; set; }
 
-        public static UserSessionDTO CurrentUser { get; private set; }
+        public static UserDto CurrentUser { get; private set; }
 
         public static bool IsLoggedIn => CurrentUser != null;
 
-        public static void Login(UserSessionDTO user)
+        public static void Login(UserDto user)
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user));

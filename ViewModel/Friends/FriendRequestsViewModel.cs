@@ -14,7 +14,7 @@ namespace Lottery.ViewModel.Friends
         private readonly ILotteryService _serviceClient;
         private readonly int _currentUserId;
 
-        public ObservableCollection<FriendRequestDTO> PendingRequests { get; } = new ObservableCollection<FriendRequestDTO>();
+        public ObservableCollection<FriendDto> PendingRequests { get; } = new ObservableCollection<FriendDto>();
 
         public ICommand LoadRequestsCommand { get; }
         public ICommand AcceptCommand { get; }

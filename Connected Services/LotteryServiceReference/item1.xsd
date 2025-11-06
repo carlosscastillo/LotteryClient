@@ -30,8 +30,13 @@
   <xs:element name="FriendRequestDTO" nillable="true" type="tns:FriendRequestDTO" />
   <xs:complexType name="GameSettingsDTO">
     <xs:sequence>
+      <xs:element minOccurs="0" name="CardsImage" type="xs:boolean" />
+      <xs:element minOccurs="0" name="CardsTime" type="xs:int" />
+      <xs:element minOccurs="0" name="GameMode" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="IsPrivate" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Markers" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="MaxPlayers" type="xs:int" />
+      <xs:element minOccurs="0" name="Sound" type="xs:boolean" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="GameSettingsDTO" nillable="true" type="tns:GameSettingsDTO" />
@@ -54,6 +59,7 @@
       <xs:element minOccurs="0" name="AvatarId" type="xs:int" />
       <xs:element minOccurs="0" name="IsHost" type="xs:boolean" />
       <xs:element minOccurs="0" name="Nickname" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Score" type="xs:int" />
       <xs:element minOccurs="0" name="UserId" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
@@ -82,4 +88,22 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="UserRegisterDTO" nillable="true" type="tns:UserRegisterDTO" />
+  <xs:complexType name="GameStateDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CardsPlayedCount" type="xs:int" />
+      <xs:element minOccurs="0" name="CurrentCard" nillable="true" type="tns:CardDTO" />
+      <xs:element minOccurs="0" name="GameMode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="GameStatus" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Players" nillable="true" type="tns:ArrayOfPlayerInfoDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GameStateDTO" nillable="true" type="tns:GameStateDTO" />
+  <xs:complexType name="CardDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="ImagePath" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CardDTO" nillable="true" type="tns:CardDTO" />
 </xs:schema>

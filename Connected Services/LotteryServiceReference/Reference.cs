@@ -238,10 +238,25 @@ namespace Lottery.LotteryServiceReference {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool CardsImageField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CardsTimeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string GameModeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool IsPrivateField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MarkersField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int MaxPlayersField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool SoundField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -250,6 +265,45 @@ namespace Lottery.LotteryServiceReference {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool CardsImage {
+            get {
+                return this.CardsImageField;
+            }
+            set {
+                if ((this.CardsImageField.Equals(value) != true)) {
+                    this.CardsImageField = value;
+                    this.RaisePropertyChanged("CardsImage");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CardsTime {
+            get {
+                return this.CardsTimeField;
+            }
+            set {
+                if ((this.CardsTimeField.Equals(value) != true)) {
+                    this.CardsTimeField = value;
+                    this.RaisePropertyChanged("CardsTime");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string GameMode {
+            get {
+                return this.GameModeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.GameModeField, value) != true)) {
+                    this.GameModeField = value;
+                    this.RaisePropertyChanged("GameMode");
+                }
             }
         }
         
@@ -267,6 +321,19 @@ namespace Lottery.LotteryServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Markers {
+            get {
+                return this.MarkersField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MarkersField, value) != true)) {
+                    this.MarkersField = value;
+                    this.RaisePropertyChanged("Markers");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public int MaxPlayers {
             get {
                 return this.MaxPlayersField;
@@ -275,6 +342,19 @@ namespace Lottery.LotteryServiceReference {
                 if ((this.MaxPlayersField.Equals(value) != true)) {
                     this.MaxPlayersField = value;
                     this.RaisePropertyChanged("MaxPlayers");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool Sound {
+            get {
+                return this.SoundField;
+            }
+            set {
+                if ((this.SoundField.Equals(value) != true)) {
+                    this.SoundField = value;
+                    this.RaisePropertyChanged("Sound");
                 }
             }
         }
@@ -385,6 +465,9 @@ namespace Lottery.LotteryServiceReference {
         private string NicknameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ScoreField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int UserIdField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
@@ -432,6 +515,19 @@ namespace Lottery.LotteryServiceReference {
                 if ((object.ReferenceEquals(this.NicknameField, value) != true)) {
                     this.NicknameField = value;
                     this.RaisePropertyChanged("Nickname");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Score {
+            get {
+                return this.ScoreField;
+            }
+            set {
+                if ((this.ScoreField.Equals(value) != true)) {
+                    this.ScoreField = value;
+                    this.RaisePropertyChanged("Score");
                 }
             }
         }
@@ -741,6 +837,192 @@ namespace Lottery.LotteryServiceReference {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="GameStateDTO", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
+    [System.SerializableAttribute()]
+    public partial class GameStateDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CardsPlayedCountField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Lottery.LotteryServiceReference.CardDTO CurrentCardField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string GameModeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string GameStatusField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Lottery.LotteryServiceReference.PlayerInfoDTO[] PlayersField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CardsPlayedCount {
+            get {
+                return this.CardsPlayedCountField;
+            }
+            set {
+                if ((this.CardsPlayedCountField.Equals(value) != true)) {
+                    this.CardsPlayedCountField = value;
+                    this.RaisePropertyChanged("CardsPlayedCount");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Lottery.LotteryServiceReference.CardDTO CurrentCard {
+            get {
+                return this.CurrentCardField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CurrentCardField, value) != true)) {
+                    this.CurrentCardField = value;
+                    this.RaisePropertyChanged("CurrentCard");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string GameMode {
+            get {
+                return this.GameModeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.GameModeField, value) != true)) {
+                    this.GameModeField = value;
+                    this.RaisePropertyChanged("GameMode");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string GameStatus {
+            get {
+                return this.GameStatusField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.GameStatusField, value) != true)) {
+                    this.GameStatusField = value;
+                    this.RaisePropertyChanged("GameStatus");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Lottery.LotteryServiceReference.PlayerInfoDTO[] Players {
+            get {
+                return this.PlayersField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PlayersField, value) != true)) {
+                    this.PlayersField = value;
+                    this.RaisePropertyChanged("Players");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CardDTO", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
+    [System.SerializableAttribute()]
+    public partial class CardDTO : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ImagePathField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ImagePath {
+            get {
+                return this.ImagePathField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ImagePathField, value) != true)) {
+                    this.ImagePathField = value;
+                    this.RaisePropertyChanged("ImagePath");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="LotteryServiceReference.ILotteryService", CallbackContract=typeof(Lottery.LotteryServiceReference.ILotteryServiceCallback))]
     public interface ILotteryService {
@@ -831,6 +1113,18 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/GetScoreboard", ReplyAction="http://tempuri.org/IGameService/GetScoreboardResponse")]
         System.Threading.Tasks.Task GetScoreboardAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGameService/DeclareLoteria")]
+        void DeclareLoteria(string nickname);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGameService/DeclareLoteria")]
+        System.Threading.Tasks.Task DeclareLoteriaAsync(string nickname);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/LeaveGame", ReplyAction="http://tempuri.org/IGameService/LeaveGameResponse")]
+        void LeaveGame(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/LeaveGame", ReplyAction="http://tempuri.org/IGameService/LeaveGameResponse")]
+        System.Threading.Tasks.Task LeaveGameAsync(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/CreateLobby", ReplyAction="http://tempuri.org/ILobbyService/CreateLobbyResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/ILobbyService/CreateLobbyServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
@@ -976,6 +1270,21 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/ReceiveLobbyInvite")]
         void ReceiveLobbyInvite(string inviterNickname, string lobbyCode);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/GameStarted")]
+        void GameStarted(Lottery.LotteryServiceReference.GameStateDTO gameState);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/GameSettingsUpdated")]
+        void GameSettingsUpdated(Lottery.LotteryServiceReference.GameSettingsDTO settings);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/CardDrawn")]
+        void CardDrawn(Lottery.LotteryServiceReference.CardDTO card);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/PlayerWon")]
+        void PlayerWon(string nickname);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/GameEnded")]
+        void GameEnded();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1108,6 +1417,22 @@ namespace Lottery.LotteryServiceReference {
         
         public System.Threading.Tasks.Task GetScoreboardAsync() {
             return base.Channel.GetScoreboardAsync();
+        }
+        
+        public void DeclareLoteria(string nickname) {
+            base.Channel.DeclareLoteria(nickname);
+        }
+        
+        public System.Threading.Tasks.Task DeclareLoteriaAsync(string nickname) {
+            return base.Channel.DeclareLoteriaAsync(nickname);
+        }
+        
+        public void LeaveGame(int userId) {
+            base.Channel.LeaveGame(userId);
+        }
+        
+        public System.Threading.Tasks.Task LeaveGameAsync(int userId) {
+            return base.Channel.LeaveGameAsync(userId);
         }
         
         public Lottery.LotteryServiceReference.LobbyStateDTO CreateLobby() {

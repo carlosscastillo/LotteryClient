@@ -70,6 +70,7 @@
     <Compile Include="SessionManager.cs" />
     <Compile Include="ViewModel\Base\ObservableObject.cs" />
     <Compile Include="ViewModel\Base\RelayCommand.cs" />
+    <Compile Include="ViewModel\Game\GameViewModel.cs" />
     <Compile Include="ViewModel\User\CustomizeProfileViewModel.cs" />
     <Compile Include="ViewModel\Friends\FriendRequestsViewModel.cs" />
     <Compile Include="ViewModel\Friends\InviteFriendsViewModel.cs" />
@@ -79,6 +80,9 @@
     <Compile Include="ViewModel\User\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainMenu\MainMenuViewModel.cs" />
     <Compile Include="ViewModel\User\UserRegisterViewModel.cs" />
+    <Compile Include="View\Game\GameView.xaml.cs">
+      <DependentUpon>GameView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\User\ChangePasswordView.xaml.cs">
       <DependentUpon>ChangePasswordView.xaml</DependentUpon>
     </Compile>
@@ -127,6 +131,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Game\GameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\User\ChangePasswordView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

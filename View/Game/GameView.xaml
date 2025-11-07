@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:Lottery.ViewModel.Game"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=vm:GameViewModel, IsDesignTimeCreatable=False}"
         Title="Partida en curso"
@@ -11,95 +12,167 @@
         WindowStyle="None"
         WindowState="Maximized">
 
+    <!-- Fondo -->
     <Window.Background>
-        <ImageBrush ImageSource="/Images/background.jpg" Stretch="UniformToFill"/>
+        <ImageBrush ImageSource="pack://application:,,,/Images/background2.jpg"
+                    Stretch="UniformToFill"/>
     </Window.Background>
 
-    <Window.Resources>
-        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
-        </Style>
-        <Style TargetType="Button" BasedOn="{StaticResource PrimaryButton}"/>
-    </Window.Resources>
+    <Grid>
+        <!-- Columnas principales -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <!-- IZQUIERDA -->
+            <ColumnDefinition Width="*"/>
+            <!-- CENTRO -->
+            <ColumnDefinition Width="420"/>
+            <!-- DERECHA -->
+        </Grid.ColumnDefinitions>
 
-    <!-- Contenedor principal -->
-    <Grid Margin="30">
-        <!-- CORRECCIÓN: declarar RowDefinitions como elementos hijos -->
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+        <!-- 🔹 IZQUIERDA (rivales + fichas) -->
+        <StackPanel Grid.Column="0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Margin="30,0,0,0"
+                    Width="360">
 
-        <!-- Nombres de jugadores -->
-        <Border Grid.Row="0" Background="{StaticResource OverlayBackgroundBrush}" CornerRadius="8" Padding="10" Margin="0,0,0,20">
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-                <ItemsControl ItemsSource="{Binding Players}" HorizontalAlignment="Center">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Background="#33FFFFFF" CornerRadius="5" Padding="10" Margin="5">
-                                <TextBlock Text="{Binding Nickname}" FontSize="16" FontWeight="Bold"/>
+            <!-- Rivales -->
+            <ItemsControl>
+                <ItemsControl.ItemsSource>
+                    <x:Array Type="{x:Type sys:Int32}">
+                        <sys:Int32>1</sys:Int32>
+                        <sys:Int32>2</sys:Int32>
+                        <sys:Int32>3</sys:Int32>
+                    </x:Array>
+                </ItemsControl.ItemsSource>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="0,10,0,10"
+                                    Orientation="Horizontal">
+                            <Border Width="120" Height="180"
+                                    BorderBrush="White"
+                                    BorderThickness="2"
+                                    CornerRadius="10"
+                                    Background="#33FFFFFF"
+                                    Margin="0,0,10,0">
+                                <Image Source="pack://application:,,,/Images/tabla.jpg"
+                                       Stretch="Uniform"/>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
-        </Border>
 
-        <!-- Zona de juego (fila central) -->
-        <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <!-- declarar ColumnDefinitions también como elementos hijos -->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="Jugador"
+                                           Foreground="White"
+                                           FontWeight="Bold"
+                                           FontSize="16"/>
+                                <TextBlock Text="Fichas restantes: 5"
+                                           Foreground="#DDDDDD"
+                                           FontSize="13"
+                                           Margin="0,5,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
-            <!-- Carta del jugador -->
-            <Border Grid.Column="0" Background="{StaticResource OverlayBackgroundBrush}" CornerRadius="12" Padding="20"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="2" Margin="0,0,20,0">
-                <StackPanel HorizontalAlignment="Center">
-                    <TextBlock Text="Tu Carta" FontSize="22" FontWeight="Bold" Margin="0,0,0,10" TextAlignment="Center"/>
-                    <Image Source="{Binding PlayerCardImage}" Width="380" Height="580" Stretch="UniformToFill" />
-                </StackPanel>
+            <!-- Imagen de fichas -->
+            <Border BorderBrush="White"
+                    BorderThickness="2"
+                    CornerRadius="10"
+                    Margin="0,40,0,0"
+                    Background="#33FFFFFF"
+                    Padding="10"
+                    HorizontalAlignment="Center">
+                <Image Source="pack://application:,,,/Images/corcholata.png"
+                       Width="280"
+                       Height="180"
+                       Stretch="Uniform"/>
             </Border>
+        </StackPanel>
 
-            <!-- Botón central -->
-            <Button Grid.Column="1" Content="¡Lotería!" FontSize="22" FontWeight="Bold" Padding="25,10"
-                    Command="{Binding DeclareLoteriaCommand}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-
-            <!-- Carta que va saliendo -->
-            <Border Grid.Column="2" Background="{StaticResource OverlayBackgroundBrush}" CornerRadius="12" Padding="20"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="2" Margin="20,0,0,0">
-                <StackPanel HorizontalAlignment="Center">
-                    <TextBlock Text="Carta Actual" FontSize="22" FontWeight="Bold" Margin="0,0,0,10" TextAlignment="Center"/>
-                    <Image Source="{Binding CurrentCardImage}" Width="320" Height="480" Stretch="UniformToFill"/>
-                    <TextBlock Text="{Binding CurrentCardName}" FontSize="18" FontWeight="Bold" Margin="0,15,0,0" TextAlignment="Center"/>
-                </StackPanel>
+        <!-- 🔹 CENTRO (tabla principal) -->
+        <Grid Grid.Column="1"
+              VerticalAlignment="Center"
+              HorizontalAlignment="Center">
+            <Border Background="#AAFFFFFF"
+                    CornerRadius="14"
+                    Padding="18"
+                    BorderBrush="White"
+                    BorderThickness="3"
+                    Width="600"
+                    Height="800"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                <Image Source="pack://application:,,,/Images/tabla.jpg"
+                       Stretch="Uniform"/>
             </Border>
         </Grid>
 
-        <!-- Controles inferiores -->
-        <Grid Grid.Row="2" Margin="0,20,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+        <!-- 🔹 DERECHA (carta + botón ¡Lotería!) -->
+        <StackPanel Grid.Column="2"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Margin="0,60,40,0">
+            <Border Background="#AAFFFFFF"
+                    CornerRadius="12"
+                    Padding="14"
+                    BorderBrush="White"
+                    BorderThickness="2"
+                    Width="300">
+                <StackPanel>
+                    <TextBlock Text="Carta actual"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               TextAlignment="Center"
+                               Margin="0,0,0,10"/>
+                    <Image Source="pack://application:,,,/Images/card01.jpg"
+                           Width="260"
+                           Height="360"
+                           Stretch="Uniform"/>
+                    <TextBlock Text="{Binding CurrentCardName}"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Margin="0,8,0,0"
+                               TextAlignment="Center"/>
+                </StackPanel>
+            </Border>
 
-            <!-- Mensajes de estado -->
-            <TextBlock Grid.Column="0" Text="{Binding GameStatusMessage}" FontSize="16" FontWeight="Bold"
-                       VerticalAlignment="Center"/>
+            <Button Content="¡Lotería!"
+                    Command="{Binding ClaimLoteriaCommand}"
+                    FontSize="24"
+                    FontWeight="Bold"
+                    Width="260"
+                    Height="65"
+                    Margin="0,30,0,0"
+                    Style="{StaticResource BlueLargeButtonStyle}"/>
+        </StackPanel>
 
-            <!-- Botón salir -->
-            <Button Grid.Column="1" Content="Salir de la Partida"
-                    Command="{Binding LeaveGameCommand}"
-                    Style="{StaticResource SecondaryButton}"
-                    Padding="15,8" Margin="10,0,0,0"/>
+        <!-- 🔹 BOTÓN PAUSA (arriba a la derecha, siempre visible) -->
+        <Button Content="⏸ Pausa"
+                Command="{Binding PauseGameCommand}"
+                Width="120"
+                Height="45"
+                FontSize="16"
+                FontWeight="Bold"
+                Foreground="White"
+                Background="#66000000"
+                BorderBrush="White"
+                BorderThickness="1"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,20,40,0"
+                Grid.ColumnSpan="3"/>
+
+        <!-- 🔹 INFERIOR: mensaje de estado -->
+        <Grid Grid.ColumnSpan="3"
+              VerticalAlignment="Bottom"
+              Margin="30,0,30,20">
+            <TextBlock Text="{Binding GameStatusMessage}"
+                       FontSize="18"
+                       FontWeight="Bold"
+                       Foreground="White"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"/>
         </Grid>
     </Grid>
 </Window>

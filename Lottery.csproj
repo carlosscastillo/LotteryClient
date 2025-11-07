@@ -276,6 +276,18 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\background2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\corcholata.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\tabla.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\card01.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(ProjectDir)App.config" "$(TargetPath).config"</PostBuildEvent>

@@ -83,6 +83,9 @@
     <Compile Include="View\Game\GameView.xaml.cs">
       <DependentUpon>GameView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Game\WinnerView.xaml.cs">
+      <DependentUpon>WinnerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\User\ChangePasswordView.xaml.cs">
       <DependentUpon>ChangePasswordView.xaml</DependentUpon>
     </Compile>
@@ -132,6 +135,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\Game\GameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Game\WinnerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -287,6 +294,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\card01.jpg" />
+    <Resource Include="Images\FondoRickYMorty.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CartaDeLotería.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

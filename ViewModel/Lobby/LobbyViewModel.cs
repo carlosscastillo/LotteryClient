@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Collections.Generic;
+using Lottery.View.Game;
 
 namespace Lottery.ViewModel.Lobby
 {
@@ -254,7 +255,10 @@ namespace Lottery.ViewModel.Lobby
 
                 _lobbyWindow.Dispatcher.Invoke(() =>
                 {
-                    MessageBox.Show(_lobbyWindow, "Iniciando partida...");
+                    WinnerView winnerView = new WinnerView();
+                    winnerView.Show();
+                    _lobbyWindow.Close();
+
                 });
             }
             catch (FaultException<ServiceFault> ex)

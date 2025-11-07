@@ -37,7 +37,6 @@ namespace Lottery.ViewModel.Friends
             {
                 if (SetProperty(ref _isFriend, value))
                 {
-                    // Notificar todas las propiedades dependientes
                     OnPropertyChanged(nameof(CanSendRequest));
                     OnPropertyChanged(nameof(CanCancelRequest));
                     OnPropertyChanged(nameof(CanAcceptRequest));
@@ -54,7 +53,6 @@ namespace Lottery.ViewModel.Friends
             {
                 if (SetProperty(ref _hasPendingRequest, value))
                 {
-                    // Notificar todas las propiedades dependientes
                     OnPropertyChanged(nameof(CanSendRequest));
                     OnPropertyChanged(nameof(CanCancelRequest));
                     OnPropertyChanged(nameof(CanAcceptRequest));
@@ -63,22 +61,16 @@ namespace Lottery.ViewModel.Friends
             }
         }
 
-        // Almacena QUIÉN envió la solicitud pendiente
         public int PendingRequestSenderId { get; set; } = 0;
         private readonly int _currentUserId;
 
-        // --- LÓGICA DE VISIBILIDAD DE BOTONES ---
 
-        // 1. Puedo enviar: No soy amigo Y no hay solicitud pendiente
         public bool CanSendRequest => !IsFriend && !HasPendingRequest;
 
-        // 2. Puedo cancelar: No soy amigo, hay solicitud Y YO la envié
         public bool CanCancelRequest => !IsFriend && HasPendingRequest && PendingRequestSenderId == _currentUserId;
 
-        // 3. Puedo aceptar: No soy amigo, hay solicitud Y ÉL la envió
         public bool CanAcceptRequest => !IsFriend && HasPendingRequest && PendingRequestSenderId != _currentUserId && PendingRequestSenderId != 0;
 
-        // 4. Puedo rechazar: Misma lógica que aceptar (es para el receptor)
         public bool CanRejectRequest => CanAcceptRequest;
 
 

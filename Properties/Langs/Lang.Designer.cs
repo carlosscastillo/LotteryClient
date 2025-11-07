@@ -1031,5 +1031,23 @@ namespace Lottery.Properties.Langs {
                 return ResourceManager.GetString("UserSignUpLabelTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Falso Ganador.
+        /// </summary>
+        public static string WinnerButtonFalseWinner {
+            get {
+                return ResourceManager.GetString("WinnerButtonFalseWinner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ganador.
+        /// </summary>
+        public static string WinnerLabelTitle {
+            get {
+                return ResourceManager.GetString("WinnerLabelTitle", resourceCulture);
+            }
+        }
     }
 }

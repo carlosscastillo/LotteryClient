@@ -123,9 +123,6 @@
   <data name="ChangePasswordLabelCurrentPassword" xml:space="preserve">
     <value>Contraseña actual</value>
   </data>
-  <data name="ChangePasswordLabelSuccessfullyChanged" xml:space="preserve">
-    <value>Tu contraseña se ha modificado correctamente</value>
-  </data>
   <data name="GlobalTagPassword" xml:space="preserve">
     <value>Cambiar Contraseña</value>
   </data>
@@ -440,5 +437,14 @@
   </data>
   <data name="GlobalButtonEdit" xml:space="preserve">
     <value>Editar</value>
+  </data>
+  <data name="ChangePasswordLabelSuccessfullyChanged" xml:space="preserve">
+    <value>Tu contraseña se ha modificado correctamente</value>
+  </data>
+  <data name="WinnerLabelTitle" xml:space="preserve">
+    <value>Ganador</value>
+  </data>
+  <data name="WinnerButtonFalseWinner" xml:space="preserve">
+    <value>Falso Ganador</value>
   </data>
 </root>

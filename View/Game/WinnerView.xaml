@@ -9,8 +9,8 @@
         xmlns:language="clr-namespace:Lottery.Properties.Langs"
         Title="Ganador"
         WindowStartupLocation="CenterScreen"
-WindowState="Maximized"
-AllowsTransparency="True" WindowStyle="None">
+        WindowState="Maximized"
+        AllowsTransparency="True" WindowStyle="None">
 
     <Window.Background>
         <ImageBrush ImageSource="/Images/FondoRickYMorty.png" Stretch="UniformToFill"/>

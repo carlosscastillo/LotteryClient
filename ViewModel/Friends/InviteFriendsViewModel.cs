@@ -18,7 +18,7 @@ namespace Lottery.ViewModel.Friends
     {
         public FriendDto Dto { get; }
         public string Nickname => Dto.Nickname;
-        public int UserId => Dto.UserId;
+        public int UserId => Dto.FriendId;
         public Brush StatusColor => Dto.Status == "Online" ? Brushes.LimeGreen : Brushes.Gray;
         public FriendViewModel(FriendDto dto) { Dto = dto; }
     }
@@ -61,9 +61,21 @@ namespace Lottery.ViewModel.Friends
             }
         }
 
-        public int PendingRequestSenderId { get; set; } = 0;
+        private int _pendingRequestSenderId = 0;
+        public int PendingRequestSenderId
+        {
+            get => _pendingRequestSenderId;
+            set
+            {
+                if (SetProperty(ref _pendingRequestSenderId, value))
+                {
+                    OnPropertyChanged(nameof(CanCancelRequest));
+                    OnPropertyChanged(nameof(CanAcceptRequest));
+                    OnPropertyChanged(nameof(CanRejectRequest));
+                }
+            }
+        }
         private readonly int _currentUserId;
-
 
         public bool CanSendRequest => !IsFriend && !HasPendingRequest;
 
@@ -191,8 +203,9 @@ namespace Lottery.ViewModel.Friends
                 var pendingSent = await _serviceClient.GetSentRequestsAsync(_currentUserId);
                 var pendingReceived = await _serviceClient.GetPendingRequestsAsync(_currentUserId);
 
-                bool isFriend = friends.Any(f => f.UserId == user.UserId);
+                bool isFriend = friends.Any(f => f.FriendId == user.UserId);
                 bool hasPendingSent = pendingSent.Any(r => r.UserId == user.UserId);
+
                 var receivedRequest = pendingReceived.FirstOrDefault(r => r.FriendId == user.UserId);
 
                 SearchResults.Clear();
@@ -216,8 +229,6 @@ namespace Lottery.ViewModel.Friends
                 HandleUnexpectedError(ex, "buscar usuario");
             }
         }
-
-
 
         private async Task SendRequest(int targetUserId)
         {
@@ -260,7 +271,9 @@ namespace Lottery.ViewModel.Friends
             }
             catch (FaultException<ServiceFault> ex)
             {
-                MessageBox.Show(ex.Detail.Message, "Error al cancelar solicitud");
+                MessageBox.Show("No se pudo cancelar. La solicitud ya fue aceptada o rechazada por el otro usuario.", "Error de Estado", MessageBoxButton.OK, MessageBoxImage.Information);
+                await SearchUser();
+                await LoadFriends();
             }
             catch (FaultException ex)
             {

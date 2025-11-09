@@ -33,9 +33,8 @@ namespace Lottery.ViewModel.Friends
             _currentUserId = SessionManager.CurrentUser.UserId;
 
             LoadRequestsCommand = new RelayCommand(async () => await LoadRequests());
-            AcceptCommand = new RelayCommand<int>(async (requesterId) => await AcceptRequest(requesterId));
-            RejectCommand = new RelayCommand<int>(async (requesterId) => await RejectRequest(requesterId));
-
+            AcceptCommand = new RelayCommand<FriendDto>(async (request) => await AcceptRequest(request));
+            RejectCommand = new RelayCommand<FriendDto>(async (request) => await RejectRequest(request));
             LoadRequestsCommand.Execute(null);
         }
 
@@ -67,10 +66,13 @@ namespace Lottery.ViewModel.Friends
             }
         }
 
-        private async Task AcceptRequest(int requesterId)
+        private async Task AcceptRequest(FriendDto request)
         {
+            if (request == null) return;
+
             try
             {
+                int requesterId = request.FriendId;
                 await _serviceClient.AcceptFriendRequestAsync(_currentUserId, requesterId);
 
                 await LoadRequests();
@@ -90,10 +92,13 @@ namespace Lottery.ViewModel.Friends
             }
         }
 
-        private async Task RejectRequest(int requesterId)
+        private async Task RejectRequest(FriendDto request)
         {
+            if (request == null) return;
+
             try
             {
+                int requesterId = request.FriendId;
                 await _serviceClient.RejectFriendRequestAsync(_currentUserId, requesterId);
 
                 await LoadRequests();

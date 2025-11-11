@@ -133,15 +133,6 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Modo de juego.
-        /// </summary>
-        public static string CreateLobbyLabelGameMode {
-            get {
-                return ResourceManager.GetString("CreateLobbyLabelGameMode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a Centro.
         /// </summary>
         public static string CreateLobbyLabelGameModeCenter {
@@ -264,15 +255,6 @@ namespace Lottery.Properties.Langs {
         public static string CreateLobbyLabelSound {
             get {
                 return ResourceManager.GetString("CreateLobbyLabelSound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Crear Sala.
-        /// </summary>
-        public static string CreateLobbyLabelTitle {
-            get {
-                return ResourceManager.GetString("CreateLobbyLabelTitle", resourceCulture);
             }
         }
         
@@ -484,11 +466,38 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Crear Sala.
+        /// </summary>
+        public static string GlobalButtonCreateLobby {
+            get {
+                return ResourceManager.GetString("GlobalButtonCreateLobby", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Editar.
         /// </summary>
         public static string GlobalButtonEdit {
             get {
                 return ResourceManager.GetString("GlobalButtonEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Unirse a una sala.
+        /// </summary>
+        public static string GlobalButtonJoinLobby {
+            get {
+                return ResourceManager.GetString("GlobalButtonJoinLobby", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Rechazar.
+        /// </summary>
+        public static string GlobalButtonReject {
+            get {
+                return ResourceManager.GetString("GlobalButtonReject", resourceCulture);
             }
         }
         
@@ -691,6 +700,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Enviar.
+        /// </summary>
+        public static string GobalButtonSend {
+            get {
+                return ResourceManager.GetString("GobalButtonSend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Ingresa tu apodo.
         /// </summary>
         public static string GuestSignUpLabelNickname {
@@ -718,6 +736,24 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Añadir.
+        /// </summary>
+        public static string InviteFriendsButtonAdd {
+            get {
+                return ResourceManager.GetString("InviteFriendsButtonAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cancelar Solicitud.
+        /// </summary>
+        public static string InviteFriendsButtonCancelRequest {
+            get {
+                return ResourceManager.GetString("InviteFriendsButtonCancelRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Copiar.
         /// </summary>
         public static string InviteFriendsButtonCopy {
@@ -736,11 +772,20 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Enviar.
+        ///   Busca una cadena traducida similar a Buscar.
         /// </summary>
-        public static string InviteFriendsButtonSend {
+        public static string InviteFriendsButtonSearch {
             get {
-                return ResourceManager.GetString("InviteFriendsButtonSend", resourceCulture);
+                return ResourceManager.GetString("InviteFriendsButtonSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ver solicitudes de amistad.
+        /// </summary>
+        public static string InviteFriendsButtonViewRequest {
+            get {
+                return ResourceManager.GetString("InviteFriendsButtonViewRequest", resourceCulture);
             }
         }
         
@@ -750,6 +795,24 @@ namespace Lottery.Properties.Langs {
         public static string InviteFriendsLabelCopyInviteCode {
             get {
                 return ResourceManager.GetString("InviteFriendsLabelCopyInviteCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Mis Amigos.
+        /// </summary>
+        public static string InviteFriendsLabelMyFriends {
+            get {
+                return ResourceManager.GetString("InviteFriendsLabelMyFriends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Buscar Jugador.
+        /// </summary>
+        public static string InviteFriendsLabelSearchPlayer {
+            get {
+                return ResourceManager.GetString("InviteFriendsLabelSearchPlayer", resourceCulture);
             }
         }
         
@@ -795,24 +858,6 @@ namespace Lottery.Properties.Langs {
         public static string JoinLobbyLabelLobbyCode {
             get {
                 return ResourceManager.GetString("JoinLobbyLabelLobbyCode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Unirse a una sala.
-        /// </summary>
-        public static string JoinLobbyLabelTittle {
-            get {
-                return ResourceManager.GetString("JoinLobbyLabelTittle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Expulsar.
-        /// </summary>
-        public static string KickPlayerButtonKick {
-            get {
-                return ResourceManager.GetString("KickPlayerButtonKick", resourceCulture);
             }
         }
         
@@ -876,6 +921,69 @@ namespace Lottery.Properties.Langs {
         public static string loadMain {
             get {
                 return ResourceManager.GetString("loadMain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Invitar.
+        /// </summary>
+        public static string LobbyButtonInvite {
+            get {
+                return ResourceManager.GetString("LobbyButtonInvite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Expulsar.
+        /// </summary>
+        public static string LobbyButtonKick {
+            get {
+                return ResourceManager.GetString("LobbyButtonKick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Salir del Lobby.
+        /// </summary>
+        public static string LobbyButtonLeaveLobby {
+            get {
+                return ResourceManager.GetString("LobbyButtonLeaveLobby", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Empezar Partida.
+        /// </summary>
+        public static string LobbyButtonStartGame {
+            get {
+                return ResourceManager.GetString("LobbyButtonStartGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ver Jugadores.
+        /// </summary>
+        public static string LobbyButtonViewPlayers {
+            get {
+                return ResourceManager.GetString("LobbyButtonViewPlayers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Modo de juego.
+        /// </summary>
+        public static string LobbyLabelGameMode {
+            get {
+                return ResourceManager.GetString("LobbyLabelGameMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Invitar Amigos.
+        /// </summary>
+        public static string LobbyLabelInviteFriends {
+            get {
+                return ResourceManager.GetString("LobbyLabelInviteFriends", resourceCulture);
             }
         }
         

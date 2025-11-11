@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:Lottery.View.Lobby"
         xmlns:vm="clr-namespace:Lottery.ViewModel.Lobby"
         mc:Ignorable="d"
+        xmlns:language="clr-namespace:Lottery.Properties.Langs"
         d:DataContext="{d:DesignInstance Type=vm:LobbyViewModel, IsDesignTimeCreatable=False}"
-        Title="Lobby del Juego"
+        Title="Lobby"
         WindowStartupLocation="CenterScreen" 
         WindowStyle="None" 
         WindowState="Maximized">
@@ -39,18 +40,18 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,15">
-                    <TextBlock Text="Código:" FontWeight="Bold" Margin="0,0,5,0" VerticalAlignment="Center" FontSize="16"/>
+                    <TextBlock Text="{x:Static language:Lang.JoinLobbyLabelLobbyCode}" FontWeight="Bold" Margin="0,0,5,0" VerticalAlignment="Center" FontSize="16"/>
                     <TextBox Text="{Binding LobbyCode}" IsReadOnly="True" FontWeight="Bold" FontSize="16" 
                              VerticalAlignment="Center" TextAlignment="Center" Width="100"
                              Background="#AAFFFFFF" BorderThickness="0" Padding="5"/>
                 </StackPanel>
 
-                <TextBlock Grid.Row="1" Text="Jugadores" FontWeight="Bold" FontSize="18" Margin="0,0,0,10">
+                <TextBlock Grid.Row="1" Text="{x:Static language:Lang.GlobalLabelPlayers}" FontWeight="Bold" FontSize="18" Margin="0,0,0,10">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding IsShowingFriendsList}" Value="True">
-                                    <Setter Property="Text" Value="Invitar Amigos"/>
+                                    <Setter Property="Text" Value="{x:Static language:Lang.LobbyLabelInviteFriends}"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -82,7 +83,7 @@
 
                                             <TextBlock Grid.Column="0" Text="{Binding Nickname}" VerticalAlignment="Center" FontSize="14" Foreground="{StaticResource TextBrush}"/>
 
-                                            <Button Grid.Column="1" Content="X" ToolTip="Expulsar" FontSize="10" Padding="3,0" Foreground="Red" FontWeight="Bold"
+                                            <Button Grid.Column="1" Content="{x:Static language:Lang.LobbyButtonKick}" ToolTip="Expulsar" FontSize="10" Padding="3,0" Foreground="Red" FontWeight="Bold"
                                                     Command="{Binding DataContext.KickPlayerCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                                     CommandParameter="{Binding UserId}"
                                                     Visibility="{Binding DataKey, RelativeSource={RelativeSource AncestorType=ItemsControl}, Converter={StaticResource BoolToVisibilityConverter}}"
@@ -122,7 +123,7 @@
 
                                             <TextBlock Grid.Column="0" Text="{Binding Nickname}" VerticalAlignment="Center" FontSize="14" Foreground="{StaticResource TextBrush}"/>
 
-                                            <Button Grid.Column="1" Content="Invitar"
+                                            <Button Grid.Column="1" Content="{x:Static language:Lang.LobbyButtonInvite}"
                                                 Command="{Binding DataContext.InviteFriendToLobbyCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                                 CommandParameter="{Binding UserId}" Style="{StaticResource SecondaryButton}"/>
                                         </Grid>
@@ -137,10 +138,10 @@
                 <Button Grid.Row="3" Command="{Binding ToggleShowFriendsCommand}" Margin="0,10,0,0">
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
-                            <Setter Property="Content" Value="Invitar Amigo..."/>
+                            <Setter Property="Content" Value="{x:Static language:Lang.InviteFriendButton}"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding IsShowingFriendsList}" Value="True">
-                                    <Setter Property="Content" Value="Ver Jugadores"/>
+                                    <Setter Property="Content" Value="{x:Static language:Lang.LobbyButtonViewPlayers}"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -174,7 +175,7 @@
                             <KeyBinding Key="Enter" Command="{Binding SendChatCommand}"/>
                         </TextBox.InputBindings>
                     </TextBox>
-                    <Button Grid.Column="1" Content="Enviar" Command="{Binding SendChatCommand}" Margin="5,0,0,0" Padding="10,5" Style="{StaticResource PrimaryButton}"/>
+                    <Button Grid.Column="1" Content="{x:Static language:Lang.GobalButtonSend}" Command="{Binding SendChatCommand}" Margin="5,0,0,0" Padding="10,5" Style="{StaticResource PrimaryButton}"/>
                 </Grid>
 
                 <Grid Grid.Row="2">
@@ -186,7 +187,7 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
-                        <TextBlock Text="Modo de Juego:" VerticalAlignment="Center" Margin="0,0,5,0" FontSize="14"/>
+                        <TextBlock Text="{x:Static language:Lang.LobbyLabelGameMode}" VerticalAlignment="Center" Margin="0,0,5,0" FontSize="14"/>
                         <ComboBox ItemsSource="{Binding AvailableGameModes}"
                             SelectedItem="{Binding SelectedGameMode}"
                             IsEnabled="{Binding IsHost}"
@@ -215,9 +216,9 @@
                         </ComboBox>
                     </StackPanel>
 
-                    <Button Grid.Column="2" Content="Salir del Lobby" Command="{Binding LeaveLobbyCommand}" Margin="10,0" Style="{StaticResource SecondaryButton}"/>
+                    <Button Grid.Column="2" Content="{x:Static language:Lang.LobbyButtonLeaveLobby}" Command="{Binding LeaveLobbyCommand}" Margin="10,0" Style="{StaticResource SecondaryButton}"/>
 
-                    <Button Grid.Column="3" Content="Empezar Partida" FontWeight="Bold" Padding="15,5"
+                    <Button Grid.Column="3" Content="{x:Static language:Lang.LobbyButtonStartGame}" FontWeight="Bold" Padding="15,5"
                             Command="{Binding StartGameCommand}"
                             Visibility="{Binding IsHost, Converter={StaticResource BoolToVisibilityConverter}}"
                             Style="{StaticResource PrimaryButton}"/>

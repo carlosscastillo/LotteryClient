@@ -24,7 +24,7 @@
             </Border.Effect>
 
             <StackPanel>
-                <TextBlock Text="{x:Static language:Lang.JoinLobbyLabelTittle}" Style="{StaticResource TitleTextStyle}"/>
+                <TextBlock Text="{x:Static language:Lang.GlobalButtonJoinLobby}" Style="{StaticResource TitleTextStyle}"/>
                 <TextBlock Text="{x:Static language:Lang.JoinLobbyLabelDetails}" Style="{StaticResource SubtitleTextStyle}" Margin="0,5,0,20"/>
 
                 <Label Content="{x:Static language:Lang.JoinLobbyLabelLobbyCode}" 

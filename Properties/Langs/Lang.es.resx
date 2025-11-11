@@ -141,7 +141,7 @@
   <data name="CreateLobbyLabelCardImage" xml:space="preserve">
     <value>Imagen de cartas</value>
   </data>
-  <data name="CreateLobbyLabelGameMode" xml:space="preserve">
+  <data name="LobbyLabelGameMode" xml:space="preserve">
     <value>Modo de juego</value>
   </data>
   <data name="CreateLobbyLabelGameModeCenter" xml:space="preserve">
@@ -186,7 +186,7 @@
   <data name="CreateLobbyLabelSound" xml:space="preserve">
     <value>Sonido</value>
   </data>
-  <data name="CreateLobbyLabelTitle" xml:space="preserve">
+  <data name="GlobalButtonCreateLobby" xml:space="preserve">
     <value>Crear Sala</value>
   </data>
   <data name="GlobalTagChangeEmail" xml:space="preserve">
@@ -309,7 +309,7 @@
   <data name="InviteFriendsButtonInviteCode" xml:space="preserve">
     <value>Código de Invitación</value>
   </data>
-  <data name="InviteFriendsButtonSend" xml:space="preserve">
+  <data name="GobalButtonSend" xml:space="preserve">
     <value>Enviar</value>
   </data>
   <data name="InviteFriendsLabelCopyInviteCode" xml:space="preserve">
@@ -330,10 +330,10 @@
   <data name="JoinLobbyLabelLobbyCode" xml:space="preserve">
     <value>Código de la sala</value>
   </data>
-  <data name="JoinLobbyLabelTittle" xml:space="preserve">
+  <data name="GlobalButtonJoinLobby" xml:space="preserve">
     <value>Unirse a una sala</value>
   </data>
-  <data name="KickPlayerButtonKick" xml:space="preserve">
+  <data name="LobbyButtonKick" xml:space="preserve">
     <value>Expulsar</value>
   </data>
   <data name="KickPlayerLabelKickOut" xml:space="preserve">
@@ -446,5 +446,41 @@
   </data>
   <data name="WinnerButtonFalseWinner" xml:space="preserve">
     <value>Falso Ganador</value>
+  </data>
+  <data name="GlobalButtonReject" xml:space="preserve">
+    <value>Rechazar</value>
+  </data>
+  <data name="InviteFriendsLabelMyFriends" xml:space="preserve">
+    <value>Mis Amigos</value>
+  </data>
+  <data name="InviteFriendsLabelSearchPlayer" xml:space="preserve">
+    <value>Buscar Jugador</value>
+  </data>
+  <data name="InviteFriendsButtonSearch" xml:space="preserve">
+    <value>Buscar</value>
+  </data>
+  <data name="InviteFriendsButtonAdd" xml:space="preserve">
+    <value>Añadir</value>
+  </data>
+  <data name="InviteFriendsButtonCancelRequest" xml:space="preserve">
+    <value>Cancelar Solicitud</value>
+  </data>
+  <data name="InviteFriendsButtonViewRequest" xml:space="preserve">
+    <value>Ver solicitudes de amistad</value>
+  </data>
+  <data name="LobbyButtonInvite" xml:space="preserve">
+    <value>Invitar</value>
+  </data>
+  <data name="LobbyButtonViewPlayers" xml:space="preserve">
+    <value>Ver Jugadores</value>
+  </data>
+  <data name="LobbyButtonLeaveLobby" xml:space="preserve">
+    <value>Salir del Lobby</value>
+  </data>
+  <data name="LobbyButtonStartGame" xml:space="preserve">
+    <value>Empezar Partida</value>
+  </data>
+  <data name="LobbyLabelInviteFriends" xml:space="preserve">
+    <value>Invitar Amigos</value>
   </data>
 </root>

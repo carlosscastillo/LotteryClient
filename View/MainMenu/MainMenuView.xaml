@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Lottery.View"
+        xmlns:local="clr-namespace:Lottery.View.MainMenu"
         mc:Ignorable="d"
         xmlns:language="clr-namespace:Lottery.Properties.Langs"
         Title="MainMenu" 
@@ -36,11 +36,11 @@
                 <DropShadowEffect ShadowDepth="2" Color="Black" Opacity="0.4" BlurRadius="20"/>
             </Border.Effect>
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button Content="{x:Static language:Lang.CreateLobbyLabelTitle}"
+                <Button Content="{x:Static language:Lang.GlobalButtonCreateLobby}"
                         Style="{StaticResource PrimaryButtonStyle}"
                         MinWidth="320" MinHeight="65" FontSize="24" Margin="0,0,0,20"
                         Command="{Binding CreateLobbyCommand}"/>
-                <Button Content="{x:Static language:Lang.JoinLobbyLabelTittle}"
+                <Button Content="{x:Static language:Lang.GlobalButtonJoinLobby}"
                         Style="{StaticResource PrimaryButtonStyle}"
                         MinWidth="320" MinHeight="65" FontSize="24"
                         Command="{Binding JoinLobbyCommand}"/>

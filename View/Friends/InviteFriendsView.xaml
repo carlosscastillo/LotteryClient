@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModel="clr-namespace:Lottery.ViewModel.Friends"
         mc:Ignorable="d"
+        xmlns:language="clr-namespace:Lottery.Properties.Langs"
         Title="Friends"
         WindowStartupLocation="CenterScreen"
         FontFamily="Segoe UI"
@@ -34,7 +35,7 @@
                 FontSize="14"
                 Panel.ZIndex="1"/>
 
-        <GroupBox Header="Mis Amigos" Grid.Column="0" Margin="5,10,5,0">
+        <GroupBox Header="{x:Static language:Lang.InviteFriendsLabelMyFriends}" Grid.Column="0" Margin="5,10,5,0">
             <ListView x:Name="lvFriendsList" ItemsSource="{Binding FriendsList}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -53,7 +54,7 @@
 
                                 </StackPanel>
 
-                                <Button Content="Eliminar" Grid.Column="1"
+                                <Button Content="{x:Static language:Lang.DeleteFriendButton}" Grid.Column="1"
                                         Command="{Binding DataContext.RemoveFriendCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
                                         CommandParameter="{Binding UserId}"
                                         Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
@@ -72,17 +73,18 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <GroupBox Header="Buscar Jugador" Grid.Row="0">
+            <GroupBox Header="{x:Static language:Lang.InviteFriendsLabelSearchPlayer}" Grid.Row="0">
                 <StackPanel>
                     <DockPanel>
                         <Button x:Name="btnSearch" 
-                                Content="Buscar" 
+                                Content="{x:Static language:Lang.InviteFriendsButtonSearch}" 
                                 DockPanel.Dock="Right" 
                                 Command="{Binding SearchCommand}"
                                 Style="{StaticResource SecondaryButton}"/>
 
                         <TextBox x:Name="txtNicknameSearch" 
                                  Text="{Binding SearchNickname, UpdateSourceTrigger=PropertyChanged}"/>
+
                     </DockPanel>
 
                     <ListView x:Name="lvSearchResults" 
@@ -101,7 +103,7 @@
 
                                         <TextBlock Text="{Binding Nickname}" VerticalAlignment="Center" Grid.Column="0"/>
 
-                                        <Button Content="Añadir" Grid.Column="1"
+                                        <Button Content="{x:Static language:Lang.InviteFriendsButtonAdd}" Grid.Column="1"
                                                 Command="{Binding DataContext.SendRequestCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
                                                 CommandParameter="{Binding UserId}"
                                                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
@@ -109,7 +111,7 @@
                                                 FontWeight="Bold"
                                                 Visibility="{Binding CanSendRequest, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
-                                        <Button Content="Aceptar" Grid.Column="1"
+                                        <Button Content="{x:Static language:Lang.GlobalButtonAccept}" Grid.Column="1"
                                                 Command="{Binding DataContext.AcceptRequestCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
                                                 CommandParameter="{Binding UserId}"
                                                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
@@ -118,7 +120,7 @@
                                                 Visibility="{Binding CanAcceptRequest, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
 
-                                        <Button Content="Cancelar solicitud" Grid.Column="2"
+                                        <Button Content="{x:Static language:Lang.InviteFriendsButtonCancelRequest}" Grid.Column="2"
                                                 Command="{Binding DataContext.CancelRequestCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
                                                 CommandParameter="{Binding UserId}"
                                                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
@@ -126,7 +128,7 @@
                                                 FontWeight="Bold"
                                                 Visibility="{Binding CanCancelRequest, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
-                                        <Button Content="Rechazar" Grid.Column="2"
+                                        <Button Content="{x:Static language:Lang.GlobalButtonReject}" Grid.Column="2"
                                                 Command="{Binding DataContext.RejectRequestCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
                                                 CommandParameter="{Binding UserId}"
                                                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
@@ -140,19 +142,17 @@
                         </ListView.ItemTemplate>
 
                     </ListView>
-                    
+
                 </StackPanel>
             </GroupBox>
 
             <Button x:Name="btnViewRequests" 
                     Grid.Row="1" 
-                    Content="Ver Solicitudes Pendientes" 
+                    Content="{x:Static language:Lang.InviteFriendsButtonViewRequest}" 
                     Command="{Binding ViewRequestsCommand}"
                     Style="{StaticResource PrimaryButton}"
                     Margin="0,0,0,40"
                     VerticalAlignment="Bottom"/>
-
-            </Grid>
-
+        </Grid>
     </Grid>
 </Window>

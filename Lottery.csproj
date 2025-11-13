@@ -273,7 +273,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\card01.jpg" />
-    <Resource Include="Images\FondoRickYMorty.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\CartaDeLotería.png" />
@@ -312,6 +311,63 @@
     <Resource Include="Images\Avatar\avatar08.jpg" />
     <Resource Include="Images\Avatar\avatar09.jpg" />
     <Resource Include="Images\Avatar\avatar10.jpg" />
+    <Resource Include="Images\backgroundRickAndMorty.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cards\Aang.png" />
+    <Resource Include="Images\Cards\ArnoldShortman.png" />
+    <Resource Include="Images\Cards\AshKetchum.png" />
+    <Resource Include="Images\Cards\Bart.png" />
+    <Resource Include="Images\Cards\Ben10.png" />
+    <Resource Include="Images\Cards\Billy.png" />
+    <Resource Include="Images\Cards\Blossom.png" />
+    <Resource Include="Images\Cards\Brain.png" />
+    <Resource Include="Images\Cards\Brock.png" />
+    <Resource Include="Images\Cards\Bubbles.png" />
+    <Resource Include="Images\Cards\Buttercup.png" />
+    <Resource Include="Images\Cards\CatDog.png" />
+    <Resource Include="Images\Cards\ChuckieFinster.png" />
+    <Resource Include="Images\Cards\Cosmo.png" />
+    <Resource Include="Images\Cards\Courage.png" />
+    <Resource Include="Images\Cards\Dexter.png" />
+    <Resource Include="Images\Cards\DipperPines.png" />
+    <Resource Include="Images\Cards\Edd.png" />
+    <Resource Include="Images\Cards\Eddy.png" />
+    <Resource Include="Images\Cards\Ferb.png" />
+    <Resource Include="Images\Cards\FinnTheHuman.png" />
+    <Resource Include="Images\Cards\Goku.png" />
+    <Resource Include="Images\Cards\Homer.png" />
+    <Resource Include="Images\Cards\JakeTheDog.png" />
+    <Resource Include="Images\Cards\Jerry.png" />
+    <Resource Include="Images\Cards\KimPossible.png" />
+    <Resource Include="Images\Cards\Lisa.png" />
+    <Resource Include="Images\Cards\MabelPines.png" />
+    <Resource Include="Images\Cards\MickeyMouse.png" />
+    <Resource Include="Images\Cards\Misty.png" />
+    <Resource Include="Images\Cards\Mordecai.png" />
+    <Resource Include="Images\Cards\MortySmith.png" />
+    <Resource Include="Images\Cards\MrCrab.png" />
+    <Resource Include="Images\Cards\Naruto.png" />
+    <Resource Include="Images\Cards\Number1.png" />
+    <Resource Include="Images\Cards\PatrickStar.png" />
+    <Resource Include="Images\Cards\PerryThePlatypus.png" />
+    <Resource Include="Images\Cards\Phineas.png" />
+    <Resource Include="Images\Cards\Picoro.png" />
+    <Resource Include="Images\Cards\Pikachu.png" />
+    <Resource Include="Images\Cards\Pinky.png" />
+    <Resource Include="Images\Cards\RickSanchez.png" />
+    <Resource Include="Images\Cards\Rigby.png" />
+    <Resource Include="Images\Cards\SailorMoon.png" />
+    <Resource Include="Images\Cards\ScoobyDoo.png" />
+    <Resource Include="Images\Cards\ShaggyRogers.png" />
+    <Resource Include="Images\Cards\Shego.png" />
+    <Resource Include="Images\Cards\Snoopy.png" />
+    <Resource Include="Images\Cards\SpongeBob.png" />
+    <Resource Include="Images\Cards\Stitch.png" />
+    <Resource Include="Images\Cards\Tom.png" />
+    <Resource Include="Images\Cards\TommyPickles.png" />
+    <Resource Include="Images\Cards\Wanda.png" />
+    <Resource Include="Images\Cards\WoodyWoodpecker.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

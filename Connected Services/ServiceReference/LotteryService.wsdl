@@ -4,6 +4,27 @@
     <wsp:ExactlyOne>
       <wsp:All>
         <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
+                </msf:WindowsTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
         <wsaw:UsingAddressing />
       </wsp:All>
     </wsp:ExactlyOne>
@@ -186,12 +207,6 @@
   <wsdl:message name="ILotteryService_RegisterGuest_OutputMessage">
     <wsdl:part name="parameters" element="tns:RegisterGuestResponse" />
   </wsdl:message>
-  <wsdl:message name="ILotteryService_VerifyPassword_InputMessage">
-    <wsdl:part name="parameters" element="tns:VerifyPassword" />
-  </wsdl:message>
-  <wsdl:message name="ILotteryService_VerifyPassword_OutputMessage">
-    <wsdl:part name="parameters" element="tns:VerifyPasswordResponse" />
-  </wsdl:message>
   <wsdl:message name="ILotteryService_ChangePassword_InputMessage">
     <wsdl:part name="parameters" element="tns:ChangePassword" />
   </wsdl:message>
@@ -275,15 +290,6 @@
   </wsdl:message>
   <wsdl:message name="ILotteryService_ReceiveLobbyInvite_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:ReceiveLobbyInvite" />
-  </wsdl:message>
-  <wsdl:message name="ILotteryService_OnGameStarted_OutputCallbackMessage">
-    <wsdl:part name="parameters" element="tns:OnGameStarted" />
-  </wsdl:message>
-  <wsdl:message name="ILotteryService_OnCardDrawn_OutputCallbackMessage">
-    <wsdl:part name="parameters" element="tns:OnCardDrawn" />
-  </wsdl:message>
-  <wsdl:message name="ILotteryService_OnGameFinished_OutputCallbackMessage">
-    <wsdl:part name="parameters" element="tns:OnGameFinished" />
   </wsdl:message>
   <wsdl:portType name="ILotteryService">
     <wsdl:operation name="SendMessage">
@@ -386,10 +392,6 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/RegisterGuest" message="tns:ILotteryService_RegisterGuest_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/RegisterGuestResponse" message="tns:ILotteryService_RegisterGuest_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="VerifyPassword">
-      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/VerifyPassword" message="tns:ILotteryService_VerifyPassword_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/VerifyPasswordResponse" message="tns:ILotteryService_VerifyPassword_OutputMessage" />
-    </wsdl:operation>
     <wsdl:operation name="ChangePassword">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/ChangePassword" message="tns:ILotteryService_ChangePassword_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/ChangePasswordResponse" message="tns:ILotteryService_ChangePassword_OutputMessage" />
@@ -453,15 +455,6 @@
     </wsdl:operation>
     <wsdl:operation name="ReceiveLobbyInvite">
       <wsdl:output wsaw:Action="http://tempuri.org/ILotteryService/ReceiveLobbyInvite" message="tns:ILotteryService_ReceiveLobbyInvite_OutputCallbackMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="OnGameStarted">
-      <wsdl:output wsaw:Action="http://tempuri.org/ILotteryService/OnGameStarted" message="tns:ILotteryService_OnGameStarted_OutputCallbackMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="OnCardDrawn">
-      <wsdl:output wsaw:Action="http://tempuri.org/ILotteryService/OnCardDrawn" message="tns:ILotteryService_OnCardDrawn_OutputCallbackMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="OnGameFinished">
-      <wsdl:output wsaw:Action="http://tempuri.org/ILotteryService/OnGameFinished" message="tns:ILotteryService_OnGameFinished_OutputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_ILotteryService" type="tns:ILotteryService">
@@ -701,15 +694,6 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="VerifyPassword">
-      <soap12:operation soapAction="http://tempuri.org/IUserService/VerifyPassword" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="ChangePassword">
       <soap12:operation soapAction="http://tempuri.org/IUserService/ChangePassword" style="document" />
       <wsdl:input>
@@ -848,30 +832,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="OnGameStarted">
-      <soap12:operation soapAction="http://tempuri.org/ILotteryService/OnGameStarted" style="document" />
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="OnCardDrawn">
-      <soap12:operation soapAction="http://tempuri.org/ILotteryService/OnCardDrawn" style="document" />
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="OnGameFinished">
-      <soap12:operation soapAction="http://tempuri.org/ILotteryService/OnGameFinished" style="document" />
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="LotteryService">
     <wsdl:port name="NetTcpBinding_ILotteryService" binding="tns:NetTcpBinding_ILotteryService">
       <soap12:address location="net.tcp://localhost:8080/Lottery/LotteryService" />
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8080/Lottery/LotteryService</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Upn>USUARIO\carlo</Upn>
+        </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>
   </wsdl:service>

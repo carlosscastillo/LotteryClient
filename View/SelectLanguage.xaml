@@ -1,0 +1,21 @@
+﻿<Window x:Class="Lottery.View.SelectLanguage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lottery.View"
+        mc:Ignorable="d"
+        xmlns:language="clr-namespace:Lottery.Properties.Langs"
+        Title="SelectLanguage" Height="250" Width="400"
+        Background="#F5F5F5"
+        WindowStartupLocation="CenterScreen">
+    
+    <StackPanel>
+        <ComboBox Name="cmb"
+                  SelectionChanged="ComboBox_SelectionChanged">
+            <ComboBoxItem Content="{x:Static language:Lang.en}" />
+            <ComboBoxItem Content="{x:Static language:Lang.es}" />
+        </ComboBox>
+        <Button Content="{x:Static language:Lang.loadMain}" Click="Button_Click"/>
+    </StackPanel>
+</Window>

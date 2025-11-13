@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Lottery.LotteryServiceReference {
+namespace Lottery.ServiceReferencePCDidier {
     using System.Runtime.Serialization;
     using System;
     
@@ -177,9 +177,6 @@ namespace Lottery.LotteryServiceReference {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int CardDrawSpeedSecondsField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool IsPrivateField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -192,19 +189,6 @@ namespace Lottery.LotteryServiceReference {
             }
             set {
                 this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int CardDrawSpeedSeconds {
-            get {
-                return this.CardDrawSpeedSecondsField;
-            }
-            set {
-                if ((this.CardDrawSpeedSecondsField.Equals(value) != true)) {
-                    this.CardDrawSpeedSecondsField = value;
-                    this.RaisePropertyChanged("CardDrawSpeedSeconds");
-                }
             }
         }
         
@@ -260,7 +244,7 @@ namespace Lottery.LotteryServiceReference {
         private string LobbyCodeField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Lottery.LotteryServiceReference.UserDto[] PlayersField;
+        private Lottery.ServiceReferencePCDidier.UserDto[] PlayersField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -299,7 +283,7 @@ namespace Lottery.LotteryServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public Lottery.LotteryServiceReference.UserDto[] Players {
+        public Lottery.ServiceReferencePCDidier.UserDto[] Players {
             get {
                 return this.PlayersField;
             }
@@ -331,7 +315,7 @@ namespace Lottery.LotteryServiceReference {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int AvatarIdField;
+        private System.Nullable<int> AvatarIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string AvatarUrlField;
@@ -358,7 +342,7 @@ namespace Lottery.LotteryServiceReference {
         private string PaternalLastNameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.DateTime RegistrationDateField;
+        private System.Nullable<System.DateTime> RegistrationDateField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<int> ScoreField;
@@ -377,7 +361,7 @@ namespace Lottery.LotteryServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int AvatarId {
+        public System.Nullable<int> AvatarId {
             get {
                 return this.AvatarIdField;
             }
@@ -494,7 +478,7 @@ namespace Lottery.LotteryServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.DateTime RegistrationDate {
+        public System.Nullable<System.DateTime> RegistrationDate {
             get {
                 return this.RegistrationDateField;
             }
@@ -542,69 +526,8 @@ namespace Lottery.LotteryServiceReference {
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="CardDto", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
-    [System.SerializableAttribute()]
-    public partial class CardDto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NameField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Id {
-            get {
-                return this.IdField;
-            }
-            set {
-                if ((this.IdField.Equals(value) != true)) {
-                    this.IdField = value;
-                    this.RaisePropertyChanged("Id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Name {
-            get {
-                return this.NameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.NameField, value) != true)) {
-                    this.NameField = value;
-                    this.RaisePropertyChanged("Name");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="LotteryServiceReference.ILotteryService", CallbackContract=typeof(Lottery.LotteryServiceReference.ILotteryServiceCallback))]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReferencePCDidier.ILotteryService", CallbackContract=typeof(Lottery.ServiceReferencePCDidier.ILotteryServiceCallback))]
     public interface ILotteryService {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/SendMessage")]
@@ -614,79 +537,79 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task SendMessageAsync(string message);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/SendRequestFriendship", ReplyAction="http://tempuri.org/IFriendService/SendRequestFriendshipResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IFriendService/SendRequestFriendshipServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.ServiceReferencePCDidier.ServiceFault), Action="http://tempuri.org/IFriendService/SendRequestFriendshipServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         void SendRequestFriendship(int currentUserId, int targetUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/SendRequestFriendship", ReplyAction="http://tempuri.org/IFriendService/SendRequestFriendshipResponse")]
         System.Threading.Tasks.Task SendRequestFriendshipAsync(int currentUserId, int targetUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/AcceptFriendRequest", ReplyAction="http://tempuri.org/IFriendService/AcceptFriendRequestResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IFriendService/AcceptFriendRequestServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.ServiceReferencePCDidier.ServiceFault), Action="http://tempuri.org/IFriendService/AcceptFriendRequestServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         void AcceptFriendRequest(int currentUserId, int requesterId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/AcceptFriendRequest", ReplyAction="http://tempuri.org/IFriendService/AcceptFriendRequestResponse")]
         System.Threading.Tasks.Task AcceptFriendRequestAsync(int currentUserId, int requesterId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/RejectFriendRequest", ReplyAction="http://tempuri.org/IFriendService/RejectFriendRequestResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IFriendService/RejectFriendRequestServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.ServiceReferencePCDidier.ServiceFault), Action="http://tempuri.org/IFriendService/RejectFriendRequestServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         void RejectFriendRequest(int currentUserId, int requesterId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/RejectFriendRequest", ReplyAction="http://tempuri.org/IFriendService/RejectFriendRequestResponse")]
         System.Threading.Tasks.Task RejectFriendRequestAsync(int currentUserId, int requesterId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/CancelFriendRequest", ReplyAction="http://tempuri.org/IFriendService/CancelFriendRequestResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IFriendService/CancelFriendRequestServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.ServiceReferencePCDidier.ServiceFault), Action="http://tempuri.org/IFriendService/CancelFriendRequestServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         void CancelFriendRequest(int currentUserId, int targetUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/CancelFriendRequest", ReplyAction="http://tempuri.org/IFriendService/CancelFriendRequestResponse")]
         System.Threading.Tasks.Task CancelFriendRequestAsync(int currentUserId, int targetUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/RemoveFriend", ReplyAction="http://tempuri.org/IFriendService/RemoveFriendResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IFriendService/RemoveFriendServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.ServiceReferencePCDidier.ServiceFault), Action="http://tempuri.org/IFriendService/RemoveFriendServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         void RemoveFriend(int currentUserId, int friendUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/RemoveFriend", ReplyAction="http://tempuri.org/IFriendService/RemoveFriendResponse")]
         System.Threading.Tasks.Task RemoveFriendAsync(int currentUserId, int friendUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/GetFriends", ReplyAction="http://tempuri.org/IFriendService/GetFriendsResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IFriendService/GetFriendsServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        Lottery.LotteryServiceReference.FriendDto[] GetFriends(int currentUserId);
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.ServiceReferencePCDidier.ServiceFault), Action="http://tempuri.org/IFriendService/GetFriendsServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        Lottery.ServiceReferencePCDidier.FriendDto[] GetFriends(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/GetFriends", ReplyAction="http://tempuri.org/IFriendService/GetFriendsResponse")]
-        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDto[]> GetFriendsAsync(int currentUserId);
+        System.Threading.Tasks.Task<Lottery.ServiceReferencePCDidier.FriendDto[]> GetFriendsAsync(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/GetPendingRequests", ReplyAction="http://tempuri.org/IFriendService/GetPendingRequestsResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IFriendService/GetPendingRequestsServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        Lottery.LotteryServiceReference.FriendDto[] GetPendingRequests(int currentUserId);
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.ServiceReferencePCDidier.ServiceFault), Action="http://tempuri.org/IFriendService/GetPendingRequestsServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        Lottery.ServiceReferencePCDidier.FriendDto[] GetPendingRequests(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/GetPendingRequests", ReplyAction="http://tempuri.org/IFriendService/GetPendingRequestsResponse")]
-        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDto[]> GetPendingRequestsAsync(int currentUserId);
+        System.Threading.Tasks.Task<Lottery.ServiceReferencePCDidier.FriendDto[]> GetPendingRequestsAsync(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/GetSentRequests", ReplyAction="http://tempuri.org/IFriendService/GetSentRequestsResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IFriendService/GetSentRequestsServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        Lottery.LotteryServiceReference.FriendDto[] GetSentRequests(int currentUserId);
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.ServiceReferencePCDidier.ServiceFault), Action="http://tempuri.org/IFriendService/GetSentRequestsServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        Lottery.ServiceReferencePCDidier.FriendDto[] GetSentRequests(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/GetSentRequests", ReplyAction="http://tempuri.org/IFriendService/GetSentRequestsResponse")]
-        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDto[]> GetSentRequestsAsync(int currentUserId);
+        System.Threading.Tasks.Task<Lottery.ServiceReferencePCDidier.FriendDto[]> GetSentRequestsAsync(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/InviteFriendToLobby", ReplyAction="http://tempuri.org/IFriendService/InviteFriendToLobbyResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IFriendService/InviteFriendToLobbyServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.ServiceReferencePCDidier.ServiceFault), Action="http://tempuri.org/IFriendService/InviteFriendToLobbyServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         void InviteFriendToLobby(string lobbyCode, int targetFriendId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/InviteFriendToLobby", ReplyAction="http://tempuri.org/IFriendService/InviteFriendToLobbyResponse")]
         System.Threading.Tasks.Task InviteFriendToLobbyAsync(string lobbyCode, int targetFriendId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/StartGame", ReplyAction="http://tempuri.org/IGameService/StartGameResponse")]
-        void StartGame(Lottery.LotteryServiceReference.GameSettingsDto settings);
+        void StartGame();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/StartGame", ReplyAction="http://tempuri.org/IGameService/StartGameResponse")]
-        System.Threading.Tasks.Task StartGameAsync(Lottery.LotteryServiceReference.GameSettingsDto settings);
+        System.Threading.Tasks.Task StartGameAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/UpdateGameSettings", ReplyAction="http://tempuri.org/IGameService/UpdateGameSettingsResponse")]
-        void UpdateGameSettings(Lottery.LotteryServiceReference.GameSettingsDto settings);
+        void UpdateGameSettings(Lottery.ServiceReferencePCDidier.GameSettingsDto settings);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/UpdateGameSettings", ReplyAction="http://tempuri.org/IGameService/UpdateGameSettingsResponse")]
-        System.Threading.Tasks.Task UpdateGameSettingsAsync(Lottery.LotteryServiceReference.GameSettingsDto settings);
+        System.Threading.Tasks.Task UpdateGameSettingsAsync(Lottery.ServiceReferencePCDidier.GameSettingsDto settings);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/GetScoreboard", ReplyAction="http://tempuri.org/IGameService/GetScoreboardResponse")]
         void GetScoreboard();
@@ -695,18 +618,18 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task GetScoreboardAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/CreateLobby", ReplyAction="http://tempuri.org/ILobbyService/CreateLobbyResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/ILobbyService/CreateLobbyServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        Lottery.LotteryServiceReference.LobbyStateDto CreateLobby();
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.ServiceReferencePCDidier.ServiceFault), Action="http://tempuri.org/ILobbyService/CreateLobbyServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        Lottery.ServiceReferencePCDidier.LobbyStateDto CreateLobby();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/CreateLobby", ReplyAction="http://tempuri.org/ILobbyService/CreateLobbyResponse")]
-        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.LobbyStateDto> CreateLobbyAsync();
+        System.Threading.Tasks.Task<Lottery.ServiceReferencePCDidier.LobbyStateDto> CreateLobbyAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/JoinLobby", ReplyAction="http://tempuri.org/ILobbyService/JoinLobbyResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/ILobbyService/JoinLobbyServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        Lottery.LotteryServiceReference.LobbyStateDto JoinLobby(Lottery.LotteryServiceReference.UserDto currentUser, string lobbyCode);
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.ServiceReferencePCDidier.ServiceFault), Action="http://tempuri.org/ILobbyService/JoinLobbyServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        Lottery.ServiceReferencePCDidier.LobbyStateDto JoinLobby(Lottery.ServiceReferencePCDidier.UserDto currentUser, string lobbyCode);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/JoinLobby", ReplyAction="http://tempuri.org/ILobbyService/JoinLobbyResponse")]
-        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.LobbyStateDto> JoinLobbyAsync(Lottery.LotteryServiceReference.UserDto currentUser, string lobbyCode);
+        System.Threading.Tasks.Task<Lottery.ServiceReferencePCDidier.LobbyStateDto> JoinLobbyAsync(Lottery.ServiceReferencePCDidier.UserDto currentUser, string lobbyCode);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILobbyService/LeaveLobby")]
         void LeaveLobby();
@@ -715,18 +638,18 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task LeaveLobbyAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/KickPlayer", ReplyAction="http://tempuri.org/ILobbyService/KickPlayerResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/ILobbyService/KickPlayerServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.ServiceReferencePCDidier.ServiceFault), Action="http://tempuri.org/ILobbyService/KickPlayerServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         void KickPlayer(int targetPlayerId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/KickPlayer", ReplyAction="http://tempuri.org/ILobbyService/KickPlayerResponse")]
         System.Threading.Tasks.Task KickPlayerAsync(int targetPlayerId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/LoginUser", ReplyAction="http://tempuri.org/IAuthenticationService/LoginUserResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IAuthenticationService/LoginUserServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        Lottery.LotteryServiceReference.UserDto LoginUser(string username, string password);
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.ServiceReferencePCDidier.ServiceFault), Action="http://tempuri.org/IAuthenticationService/LoginUserServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        Lottery.ServiceReferencePCDidier.UserDto LoginUser(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/LoginUser", ReplyAction="http://tempuri.org/IAuthenticationService/LoginUserResponse")]
-        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserDto> LoginUserAsync(string username, string password);
+        System.Threading.Tasks.Task<Lottery.ServiceReferencePCDidier.UserDto> LoginUserAsync(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/LogoutUser", ReplyAction="http://tempuri.org/IAuthenticationService/LogoutUserResponse")]
         void LogoutUser();
@@ -735,17 +658,17 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task LogoutUserAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RequestUserVerification", ReplyAction="http://tempuri.org/IUserService/RequestUserVerificationResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IUserService/RequestUserVerificationServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        int RequestUserVerification(Lottery.LotteryServiceReference.UserDto userData);
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.ServiceReferencePCDidier.ServiceFault), Action="http://tempuri.org/IUserService/RequestUserVerificationServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        int RequestUserVerification(Lottery.ServiceReferencePCDidier.UserDto userData);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RequestUserVerification", ReplyAction="http://tempuri.org/IUserService/RequestUserVerificationResponse")]
-        System.Threading.Tasks.Task<int> RequestUserVerificationAsync(Lottery.LotteryServiceReference.UserDto userData);
+        System.Threading.Tasks.Task<int> RequestUserVerificationAsync(Lottery.ServiceReferencePCDidier.UserDto userData);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RegisterUser", ReplyAction="http://tempuri.org/IUserService/RegisterUserResponse")]
-        int RegisterUser(Lottery.LotteryServiceReference.UserDto userData);
+        int RegisterUser(Lottery.ServiceReferencePCDidier.UserDto userData);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RegisterUser", ReplyAction="http://tempuri.org/IUserService/RegisterUserResponse")]
-        System.Threading.Tasks.Task<int> RegisterUserAsync(Lottery.LotteryServiceReference.UserDto userData);
+        System.Threading.Tasks.Task<int> RegisterUserAsync(Lottery.ServiceReferencePCDidier.UserDto userData);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RegisterGuest", ReplyAction="http://tempuri.org/IUserService/RegisterGuestResponse")]
         int RegisterGuest();
@@ -753,18 +676,12 @@ namespace Lottery.LotteryServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RegisterGuest", ReplyAction="http://tempuri.org/IUserService/RegisterGuestResponse")]
         System.Threading.Tasks.Task<int> RegisterGuestAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/VerifyPassword", ReplyAction="http://tempuri.org/IUserService/VerifyPasswordResponse")]
-        bool VerifyPassword(int userId, string password);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/VerifyPassword", ReplyAction="http://tempuri.org/IUserService/VerifyPasswordResponse")]
-        System.Threading.Tasks.Task<bool> VerifyPasswordAsync(int userId, string password);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/ChangePassword", ReplyAction="http://tempuri.org/IUserService/ChangePasswordResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.ServiceReferencePCDidier.ServiceFault), Action="http://tempuri.org/IUserService/ChangePasswordServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        bool ChangePassword(int currentUserId, string oldPassword, string newPassword);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/ChangePassword", ReplyAction="http://tempuri.org/IUserService/ChangePasswordResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IUserService/ChangePasswordServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        bool ChangePassword(int userId, string newPassword);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/ChangePassword", ReplyAction="http://tempuri.org/IUserService/ChangePasswordResponse")]
-        System.Threading.Tasks.Task<bool> ChangePasswordAsync(int userId, string newPassword);
+        System.Threading.Tasks.Task<bool> ChangePasswordAsync(int currentUserId, string oldPassword, string newPassword);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RecoverPassword", ReplyAction="http://tempuri.org/IUserService/RecoverPasswordResponse")]
         void RecoverPassword(string email);
@@ -773,22 +690,22 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task RecoverPasswordAsync(string email);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/UpdateProfile", ReplyAction="http://tempuri.org/IUserService/UpdateProfileResponse")]
-        System.ValueTuple<bool, string> UpdateProfile(int currentUserId, Lottery.LotteryServiceReference.UserDto userData);
+        System.ValueTuple<bool, string> UpdateProfile(int currentUserId, Lottery.ServiceReferencePCDidier.UserDto userData);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/UpdateProfile", ReplyAction="http://tempuri.org/IUserService/UpdateProfileResponse")]
-        System.Threading.Tasks.Task<System.ValueTuple<bool, string>> UpdateProfileAsync(int currentUserId, Lottery.LotteryServiceReference.UserDto userData);
+        System.Threading.Tasks.Task<System.ValueTuple<bool, string>> UpdateProfileAsync(int currentUserId, Lottery.ServiceReferencePCDidier.UserDto userData);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/FindUserByNickname", ReplyAction="http://tempuri.org/IUserService/FindUserByNicknameResponse")]
-        Lottery.LotteryServiceReference.FriendDto FindUserByNickname(string nickname);
+        Lottery.ServiceReferencePCDidier.FriendDto FindUserByNickname(string nickname);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/FindUserByNickname", ReplyAction="http://tempuri.org/IUserService/FindUserByNicknameResponse")]
-        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDto> FindUserByNicknameAsync(string nickname);
+        System.Threading.Tasks.Task<Lottery.ServiceReferencePCDidier.FriendDto> FindUserByNicknameAsync(string nickname);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetUserProfile", ReplyAction="http://tempuri.org/IUserService/GetUserProfileResponse")]
-        Lottery.LotteryServiceReference.UserDto GetUserProfile(int userId);
+        Lottery.ServiceReferencePCDidier.UserDto GetUserProfile(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetUserProfile", ReplyAction="http://tempuri.org/IUserService/GetUserProfileResponse")]
-        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserDto> GetUserProfileAsync(int userId);
+        System.Threading.Tasks.Task<Lottery.ServiceReferencePCDidier.UserDto> GetUserProfileAsync(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RequestEmailChange", ReplyAction="http://tempuri.org/IUserService/RequestEmailChangeResponse")]
         bool RequestEmailChange(int userId, string newEmail);
@@ -828,7 +745,7 @@ namespace Lottery.LotteryServiceReference {
         void ReceiveChatMessage(string nickname, string message);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/PlayerJoined")]
-        void PlayerJoined(Lottery.LotteryServiceReference.UserDto newPlayer);
+        void PlayerJoined(Lottery.ServiceReferencePCDidier.UserDto newPlayer);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/PlayerLeft")]
         void PlayerLeft(int playerId);
@@ -844,24 +761,15 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/ReceiveLobbyInvite")]
         void ReceiveLobbyInvite(string inviterNickname, string lobbyCode);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/OnGameStarted")]
-        void OnGameStarted(Lottery.LotteryServiceReference.GameSettingsDto settings);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/OnCardDrawn")]
-        void OnCardDrawn(Lottery.LotteryServiceReference.CardDto card);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/OnGameFinished")]
-        void OnGameFinished();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface ILotteryServiceChannel : Lottery.LotteryServiceReference.ILotteryService, System.ServiceModel.IClientChannel {
+    public interface ILotteryServiceChannel : Lottery.ServiceReferencePCDidier.ILotteryService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class LotteryServiceClient : System.ServiceModel.DuplexClientBase<Lottery.LotteryServiceReference.ILotteryService>, Lottery.LotteryServiceReference.ILotteryService {
+    public partial class LotteryServiceClient : System.ServiceModel.DuplexClientBase<Lottery.ServiceReferencePCDidier.ILotteryService>, Lottery.ServiceReferencePCDidier.ILotteryService {
         
         public LotteryServiceClient(System.ServiceModel.InstanceContext callbackInstance) : 
                 base(callbackInstance) {
@@ -931,27 +839,27 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.RemoveFriendAsync(currentUserId, friendUserId);
         }
         
-        public Lottery.LotteryServiceReference.FriendDto[] GetFriends(int currentUserId) {
+        public Lottery.ServiceReferencePCDidier.FriendDto[] GetFriends(int currentUserId) {
             return base.Channel.GetFriends(currentUserId);
         }
         
-        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDto[]> GetFriendsAsync(int currentUserId) {
+        public System.Threading.Tasks.Task<Lottery.ServiceReferencePCDidier.FriendDto[]> GetFriendsAsync(int currentUserId) {
             return base.Channel.GetFriendsAsync(currentUserId);
         }
         
-        public Lottery.LotteryServiceReference.FriendDto[] GetPendingRequests(int currentUserId) {
+        public Lottery.ServiceReferencePCDidier.FriendDto[] GetPendingRequests(int currentUserId) {
             return base.Channel.GetPendingRequests(currentUserId);
         }
         
-        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDto[]> GetPendingRequestsAsync(int currentUserId) {
+        public System.Threading.Tasks.Task<Lottery.ServiceReferencePCDidier.FriendDto[]> GetPendingRequestsAsync(int currentUserId) {
             return base.Channel.GetPendingRequestsAsync(currentUserId);
         }
         
-        public Lottery.LotteryServiceReference.FriendDto[] GetSentRequests(int currentUserId) {
+        public Lottery.ServiceReferencePCDidier.FriendDto[] GetSentRequests(int currentUserId) {
             return base.Channel.GetSentRequests(currentUserId);
         }
         
-        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDto[]> GetSentRequestsAsync(int currentUserId) {
+        public System.Threading.Tasks.Task<Lottery.ServiceReferencePCDidier.FriendDto[]> GetSentRequestsAsync(int currentUserId) {
             return base.Channel.GetSentRequestsAsync(currentUserId);
         }
         
@@ -963,19 +871,19 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.InviteFriendToLobbyAsync(lobbyCode, targetFriendId);
         }
         
-        public void StartGame(Lottery.LotteryServiceReference.GameSettingsDto settings) {
-            base.Channel.StartGame(settings);
+        public void StartGame() {
+            base.Channel.StartGame();
         }
         
-        public System.Threading.Tasks.Task StartGameAsync(Lottery.LotteryServiceReference.GameSettingsDto settings) {
-            return base.Channel.StartGameAsync(settings);
+        public System.Threading.Tasks.Task StartGameAsync() {
+            return base.Channel.StartGameAsync();
         }
         
-        public void UpdateGameSettings(Lottery.LotteryServiceReference.GameSettingsDto settings) {
+        public void UpdateGameSettings(Lottery.ServiceReferencePCDidier.GameSettingsDto settings) {
             base.Channel.UpdateGameSettings(settings);
         }
         
-        public System.Threading.Tasks.Task UpdateGameSettingsAsync(Lottery.LotteryServiceReference.GameSettingsDto settings) {
+        public System.Threading.Tasks.Task UpdateGameSettingsAsync(Lottery.ServiceReferencePCDidier.GameSettingsDto settings) {
             return base.Channel.UpdateGameSettingsAsync(settings);
         }
         
@@ -987,19 +895,19 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.GetScoreboardAsync();
         }
         
-        public Lottery.LotteryServiceReference.LobbyStateDto CreateLobby() {
+        public Lottery.ServiceReferencePCDidier.LobbyStateDto CreateLobby() {
             return base.Channel.CreateLobby();
         }
         
-        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.LobbyStateDto> CreateLobbyAsync() {
+        public System.Threading.Tasks.Task<Lottery.ServiceReferencePCDidier.LobbyStateDto> CreateLobbyAsync() {
             return base.Channel.CreateLobbyAsync();
         }
         
-        public Lottery.LotteryServiceReference.LobbyStateDto JoinLobby(Lottery.LotteryServiceReference.UserDto currentUser, string lobbyCode) {
+        public Lottery.ServiceReferencePCDidier.LobbyStateDto JoinLobby(Lottery.ServiceReferencePCDidier.UserDto currentUser, string lobbyCode) {
             return base.Channel.JoinLobby(currentUser, lobbyCode);
         }
         
-        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.LobbyStateDto> JoinLobbyAsync(Lottery.LotteryServiceReference.UserDto currentUser, string lobbyCode) {
+        public System.Threading.Tasks.Task<Lottery.ServiceReferencePCDidier.LobbyStateDto> JoinLobbyAsync(Lottery.ServiceReferencePCDidier.UserDto currentUser, string lobbyCode) {
             return base.Channel.JoinLobbyAsync(currentUser, lobbyCode);
         }
         
@@ -1019,11 +927,11 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.KickPlayerAsync(targetPlayerId);
         }
         
-        public Lottery.LotteryServiceReference.UserDto LoginUser(string username, string password) {
+        public Lottery.ServiceReferencePCDidier.UserDto LoginUser(string username, string password) {
             return base.Channel.LoginUser(username, password);
         }
         
-        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserDto> LoginUserAsync(string username, string password) {
+        public System.Threading.Tasks.Task<Lottery.ServiceReferencePCDidier.UserDto> LoginUserAsync(string username, string password) {
             return base.Channel.LoginUserAsync(username, password);
         }
         
@@ -1035,19 +943,19 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.LogoutUserAsync();
         }
         
-        public int RequestUserVerification(Lottery.LotteryServiceReference.UserDto userData) {
+        public int RequestUserVerification(Lottery.ServiceReferencePCDidier.UserDto userData) {
             return base.Channel.RequestUserVerification(userData);
         }
         
-        public System.Threading.Tasks.Task<int> RequestUserVerificationAsync(Lottery.LotteryServiceReference.UserDto userData) {
+        public System.Threading.Tasks.Task<int> RequestUserVerificationAsync(Lottery.ServiceReferencePCDidier.UserDto userData) {
             return base.Channel.RequestUserVerificationAsync(userData);
         }
         
-        public int RegisterUser(Lottery.LotteryServiceReference.UserDto userData) {
+        public int RegisterUser(Lottery.ServiceReferencePCDidier.UserDto userData) {
             return base.Channel.RegisterUser(userData);
         }
         
-        public System.Threading.Tasks.Task<int> RegisterUserAsync(Lottery.LotteryServiceReference.UserDto userData) {
+        public System.Threading.Tasks.Task<int> RegisterUserAsync(Lottery.ServiceReferencePCDidier.UserDto userData) {
             return base.Channel.RegisterUserAsync(userData);
         }
         
@@ -1059,20 +967,12 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.RegisterGuestAsync();
         }
         
-        public bool VerifyPassword(int userId, string password) {
-            return base.Channel.VerifyPassword(userId, password);
+        public bool ChangePassword(int currentUserId, string oldPassword, string newPassword) {
+            return base.Channel.ChangePassword(currentUserId, oldPassword, newPassword);
         }
         
-        public System.Threading.Tasks.Task<bool> VerifyPasswordAsync(int userId, string password) {
-            return base.Channel.VerifyPasswordAsync(userId, password);
-        }
-        
-        public bool ChangePassword(int userId, string newPassword) {
-            return base.Channel.ChangePassword(userId, newPassword);
-        }
-        
-        public System.Threading.Tasks.Task<bool> ChangePasswordAsync(int userId, string newPassword) {
-            return base.Channel.ChangePasswordAsync(userId, newPassword);
+        public System.Threading.Tasks.Task<bool> ChangePasswordAsync(int currentUserId, string oldPassword, string newPassword) {
+            return base.Channel.ChangePasswordAsync(currentUserId, oldPassword, newPassword);
         }
         
         public void RecoverPassword(string email) {
@@ -1083,27 +983,27 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.RecoverPasswordAsync(email);
         }
         
-        public System.ValueTuple<bool, string> UpdateProfile(int currentUserId, Lottery.LotteryServiceReference.UserDto userData) {
+        public System.ValueTuple<bool, string> UpdateProfile(int currentUserId, Lottery.ServiceReferencePCDidier.UserDto userData) {
             return base.Channel.UpdateProfile(currentUserId, userData);
         }
         
-        public System.Threading.Tasks.Task<System.ValueTuple<bool, string>> UpdateProfileAsync(int currentUserId, Lottery.LotteryServiceReference.UserDto userData) {
+        public System.Threading.Tasks.Task<System.ValueTuple<bool, string>> UpdateProfileAsync(int currentUserId, Lottery.ServiceReferencePCDidier.UserDto userData) {
             return base.Channel.UpdateProfileAsync(currentUserId, userData);
         }
         
-        public Lottery.LotteryServiceReference.FriendDto FindUserByNickname(string nickname) {
+        public Lottery.ServiceReferencePCDidier.FriendDto FindUserByNickname(string nickname) {
             return base.Channel.FindUserByNickname(nickname);
         }
         
-        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDto> FindUserByNicknameAsync(string nickname) {
+        public System.Threading.Tasks.Task<Lottery.ServiceReferencePCDidier.FriendDto> FindUserByNicknameAsync(string nickname) {
             return base.Channel.FindUserByNicknameAsync(nickname);
         }
         
-        public Lottery.LotteryServiceReference.UserDto GetUserProfile(int userId) {
+        public Lottery.ServiceReferencePCDidier.UserDto GetUserProfile(int userId) {
             return base.Channel.GetUserProfile(userId);
         }
         
-        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserDto> GetUserProfileAsync(int userId) {
+        public System.Threading.Tasks.Task<Lottery.ServiceReferencePCDidier.UserDto> GetUserProfileAsync(int userId) {
             return base.Channel.GetUserProfileAsync(userId);
         }
         

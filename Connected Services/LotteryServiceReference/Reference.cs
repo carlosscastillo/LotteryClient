@@ -177,6 +177,9 @@ namespace Lottery.LotteryServiceReference {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CardDrawSpeedSecondsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool IsPrivateField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -189,6 +192,19 @@ namespace Lottery.LotteryServiceReference {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CardDrawSpeedSeconds {
+            get {
+                return this.CardDrawSpeedSecondsField;
+            }
+            set {
+                if ((this.CardDrawSpeedSecondsField.Equals(value) != true)) {
+                    this.CardDrawSpeedSecondsField = value;
+                    this.RaisePropertyChanged("CardDrawSpeedSeconds");
+                }
             }
         }
         
@@ -526,6 +542,67 @@ namespace Lottery.LotteryServiceReference {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CardDto", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
+    [System.SerializableAttribute()]
+    public partial class CardDto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id {
+            get {
+                return this.IdField;
+            }
+            set {
+                if ((this.IdField.Equals(value) != true)) {
+                    this.IdField = value;
+                    this.RaisePropertyChanged("Id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="LotteryServiceReference.ILotteryService", CallbackContract=typeof(Lottery.LotteryServiceReference.ILotteryServiceCallback))]
     public interface ILotteryService {
@@ -600,10 +677,10 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task InviteFriendToLobbyAsync(string lobbyCode, int targetFriendId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/StartGame", ReplyAction="http://tempuri.org/IGameService/StartGameResponse")]
-        void StartGame();
+        void StartGame(Lottery.LotteryServiceReference.GameSettingsDto settings);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/StartGame", ReplyAction="http://tempuri.org/IGameService/StartGameResponse")]
-        System.Threading.Tasks.Task StartGameAsync();
+        System.Threading.Tasks.Task StartGameAsync(Lottery.LotteryServiceReference.GameSettingsDto settings);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/UpdateGameSettings", ReplyAction="http://tempuri.org/IGameService/UpdateGameSettingsResponse")]
         void UpdateGameSettings(Lottery.LotteryServiceReference.GameSettingsDto settings);
@@ -761,6 +838,15 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/ReceiveLobbyInvite")]
         void ReceiveLobbyInvite(string inviterNickname, string lobbyCode);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/OnGameStarted")]
+        void OnGameStarted(Lottery.LotteryServiceReference.GameSettingsDto settings);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/OnCardDrawn")]
+        void OnCardDrawn(Lottery.LotteryServiceReference.CardDto card);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/OnGameFinished")]
+        void OnGameFinished();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -871,12 +957,12 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.InviteFriendToLobbyAsync(lobbyCode, targetFriendId);
         }
         
-        public void StartGame() {
-            base.Channel.StartGame();
+        public void StartGame(Lottery.LotteryServiceReference.GameSettingsDto settings) {
+            base.Channel.StartGame(settings);
         }
         
-        public System.Threading.Tasks.Task StartGameAsync() {
-            return base.Channel.StartGameAsync();
+        public System.Threading.Tasks.Task StartGameAsync(Lottery.LotteryServiceReference.GameSettingsDto settings) {
+            return base.Channel.StartGameAsync(settings);
         }
         
         public void UpdateGameSettings(Lottery.LotteryServiceReference.GameSettingsDto settings) {

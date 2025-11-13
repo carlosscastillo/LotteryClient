@@ -1,17 +1,18 @@
 ﻿using Lottery.LotteryServiceReference;
 using Lottery.View.Friends;
+using Lottery.View.Game;
 using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;
 using Lottery.ViewModel.Friends;
+using Lottery.ViewModel.Game;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Collections.Generic;
-using Lottery.View.Game;
 
 namespace Lottery.ViewModel.Lobby
 {
@@ -72,6 +73,12 @@ namespace Lottery.ViewModel.Lobby
                 }
             }
         }
+        private int _cardDrawSpeedSeconds = 4;
+        public int CardDrawSpeedSeconds
+        {
+            get => _cardDrawSpeedSeconds;
+            set => SetProperty(ref _cardDrawSpeedSeconds, value);
+        }
 
         public ICommand SendChatCommand { get; }
         public ICommand LeaveLobbyCommand { get; }
@@ -115,6 +122,7 @@ namespace Lottery.ViewModel.Lobby
             ClientCallbackHandler.PlayerKickedReceived += OnPlayerKicked;
             ClientCallbackHandler.YouWereKickedReceived += OnYouWereKicked;
             ClientCallbackHandler.LobbyClosedReceived += OnLobbyClosed;
+            ClientCallbackHandler.GameStartedReceived += HandleGameStarted;
         }
 
         private void UnsubscribeFromEvents()
@@ -125,6 +133,7 @@ namespace Lottery.ViewModel.Lobby
             ClientCallbackHandler.PlayerKickedReceived -= OnPlayerKicked;
             ClientCallbackHandler.YouWereKickedReceived -= OnYouWereKicked;
             ClientCallbackHandler.LobbyClosedReceived -= OnLobbyClosed;
+            ClientCallbackHandler.GameStartedReceived -= HandleGameStarted;
         }
 
         private void SendChat()
@@ -245,27 +254,44 @@ namespace Lottery.ViewModel.Lobby
             });
         }
 
+        private void HandleGameStarted(GameSettingsDto settings)
+        {
+            _lobbyWindow.Dispatcher.Invoke(() =>
+            {
+                GameView gameView = new GameView();
+                gameView.DataContext = new GameViewModel(this.Players, settings, gameView);
+                gameView.Show();
+                _lobbyWindow.Close();
+            });
+        }
+
         private async Task StartGame()
         {
             if (!IsHost) return;
 
             try
             {
-                await _serviceClient.StartGameAsync();
-
-                _lobbyWindow.Dispatcher.Invoke(() =>
+                GameSettingsDto settings = new GameSettingsDto
                 {
-                    WinnerView winnerView = new WinnerView();
-                    winnerView.Show();
-                    _lobbyWindow.Close();
+                    CardDrawSpeedSeconds = this.CardDrawSpeedSeconds,
+                    IsPrivate = false,
+                    MaxPlayers = 4
+                };
 
-                });
+                await _serviceClient.StartGameAsync(settings);
             }
             catch (FaultException<ServiceFault> ex)
             {
                 _lobbyWindow.Dispatcher.Invoke(() =>
                 {
                     MessageBox.Show(_lobbyWindow, ex.Detail.Message, "Error al Iniciar Partida", MessageBoxButton.OK, MessageBoxImage.Warning);
+                });
+            }
+            catch (Exception ex)
+            {
+                _lobbyWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show(_lobbyWindow, "Error de conexión: " + ex.Message, "Error al Iniciar Partida");
                 });
             }
         }
@@ -309,15 +335,16 @@ namespace Lottery.ViewModel.Lobby
 
         private async Task ExecuteInviteFriendToLobby(object parameter)
         {
-            if (parameter is int userId)
+            if (parameter is int friendId)
             {
                 ErrorMessage = string.Empty;
 
                 try
                 {
-                    await _serviceClient.InviteFriendToLobbyAsync(LobbyCode, userId);
+                    await _serviceClient.InviteFriendToLobbyAsync(LobbyCode, friendId);
+                    Console.WriteLine($"Invitando al amigo con FriendId {friendId}");
 
-                    var friend = FriendsList.FirstOrDefault(f => f.UserId == userId);
+                    var friend = FriendsList.FirstOrDefault(f => f.FriendId == friendId);
                     string friendNickname = friend != null ? friend.Nickname : "tu amigo";
 
                     _lobbyWindow.Dispatcher.Invoke(() =>

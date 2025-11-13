@@ -31,72 +31,77 @@ namespace Lottery.ViewModel.Game
         public string CurrentCardImage
         {
             get => _currentCardImage;
-            set => SetProperty(ref _currentCardImage, value);
+            set => SetProperty(ref _currentCardImage, value, "pack://application:,,,/Images/card_back.jpg");
         }
 
         private string _currentCardName;
         public string CurrentCardName
         {
             get => _currentCardName;
-            set => SetProperty(ref _currentCardName, value);
+            set => SetProperty(ref _currentCardName, value, "Esperando carta...");
         }
 
         private string _gameStatusMessage;
         public string GameStatusMessage
         {
             get => _gameStatusMessage;
-            set => SetProperty(ref _gameStatusMessage, value);
+            set => SetProperty(ref _gameStatusMessage, value, "¡La partida ha comenzado!");
         }
 
         public ICommand DeclareLoteriaCommand { get; }
-        public ICommand LeaveGameCommand { get; }
+        public ICommand PauseGameCommand { get; }
 
-        //public GameViewModel(GameStateDto gameState, Window window)
-        //{
-        //    _serviceClient = SessionManager.ServiceClient;
-        //    _currentUserId = SessionManager.CurrentUser.UserId;
-        //    _gameWindow = window;
+        public GameViewModel(ObservableCollection<UserDto> players, GameSettingsDto settings, Window window)
+        {
+            _serviceClient = SessionManager.ServiceClient;
+            _currentUserId = SessionManager.CurrentUser.UserId;
+            _gameWindow = window;
 
-        //    Players = new ObservableCollection<UserDto>(gameState.Players);
-        //    CurrentCardImage = gameState.CurrentCard?.ImagePath;
-        //    CurrentCardName = gameState.CurrentCard?.Name;
-        //    IsHost = Players.FirstOrDefault(p => p.UserId == _currentUserId)?.IsHost ?? false;
+            Players = players;
 
-        //    DeclareLoteriaCommand = new RelayCommand(DeclareLoteria);
-        //    LeaveGameCommand = new RelayCommand(LeaveGame);
+            IsHost = Players.FirstOrDefault(p => p.UserId == _currentUserId)?.IsHost ?? false;
 
-        //    SubscribeToGameEvents();
-        //}
+            DeclareLoteriaCommand = new RelayCommand(DeclareLoteria);
+            PauseGameCommand = new RelayCommand(LeaveGame);
+
+            SubscribeToGameEvents();
+        }
 
         private void SubscribeToGameEvents()
         {
-            //ClientCallbackHandler.CardDrawnReceived += OnCardDrawn;
+            ClientCallbackHandler.CardDrawnReceived += OnCardDrawn;
             ClientCallbackHandler.PlayerWonReceived += OnPlayerWon;
             ClientCallbackHandler.GameEndedReceived += OnGameEnded;
         }
 
         private void UnsubscribeFromGameEvents()
         {
-            //ClientCallbackHandler.CardDrawnReceived -= OnCardDrawn;
+            ClientCallbackHandler.CardDrawnReceived -= OnCardDrawn;
             ClientCallbackHandler.PlayerWonReceived -= OnPlayerWon;
             ClientCallbackHandler.GameEndedReceived -= OnGameEnded;
         }
 
-        //private void OnCardDrawn(CardDTO card)
-        //{
-        //    _gameWindow.Dispatcher.Invoke(() =>
-        //    {
-        //        CurrentCardImage = card.ImagePath;
-        //        CurrentCardName = card.Name;
-        //        GameStatusMessage = $"Nueva carta: {card.Name}";
-        //    });
-        //}
+        private void OnCardDrawn(CardDto card)
+        {
+            _gameWindow.Dispatcher.Invoke(() =>
+            {
+                CurrentCardImage = GetImagePathFromId(card.Id);
+                CurrentCardName = card.Name;
+                GameStatusMessage = $"¡Salió: {card.Name}!";
+            });
+        }
+
+        private string GetImagePathFromId(int cardId)
+        {
+            string fileId = cardId.ToString("D2");
+            return $"pack://application:,,,/Images/card{fileId}.jpg";
+        }
 
         private void OnPlayerWon(string nickname)
         {
             _gameWindow.Dispatcher.Invoke(() =>
             {
-                GameStatusMessage = $"🎉 ¡{nickname} ha ganado la partida!";
+                GameStatusMessage = $"¡{nickname} ha ganado la partida!";
                 MessageBox.Show(_gameWindow, $"{nickname} ha ganado la partida.", "Fin del juego");
             });
         }
@@ -111,34 +116,37 @@ namespace Lottery.ViewModel.Game
             });
         }
 
-        //private void DeclareLoteria()
-        //{
-        //    try
-        //    {
-        //        _serviceClient.DeclareLoteriaAsync(SessionManager.CurrentUser.Nickname);
-        //        GameStatusMessage = "Has declarado ¡Lotería!";
-        //    }
-        //    catch (FaultException<ServiceFault> ex)
-        //    {
-        //        MessageBox.Show(_gameWindow, ex.Detail.Message, "Error al declarar Lotería");
-        //    }
-        //}
+        private void DeclareLoteria()
+        {
+            try
+            {
+                GameStatusMessage = "Has declarado ¡Lotería!";
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                MessageBox.Show(_gameWindow, ex.Detail.Message, "Error al declarar Lotería");
+            }
+        }
 
-        //private async void LeaveGame()
-        //{
-        //    UnsubscribeFromGameEvents();
+        private async void LeaveGame()
+        {
+            UnsubscribeFromGameEvents();
 
-        //    try
-        //    {
-        //        _serviceClient.LeaveGame(SessionManager.CurrentUser.UserId);
-        //    }
-        //    catch (FaultException<ServiceFault> ex)
-        //    {
-        //        MessageBox.Show(_gameWindow, ex.Detail.Message, "Error al salir del juego");
-        //    }
+            try
+            {
+                _serviceClient.LeaveLobby();
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                MessageBox.Show(_gameWindow, ex.Detail.Message, "Error al salir del juego");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(_gameWindow, "Error de conexión al salir: " + ex.Message, "Error");
+            }
 
-        //    NavigateToMainMenu();
-        //}
+            NavigateToMainMenu();
+        }
 
         private void NavigateToMainMenu()
         {

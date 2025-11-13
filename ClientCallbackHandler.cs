@@ -16,9 +16,9 @@ namespace Lottery
         public static event Action LobbyClosedReceived;
         public static event Action<string, string> ChatMessageReceived;
         public static event Action<string, string> LobbyInviteReceived;
+        public static event Action<GameSettingsDto> GameStartedReceived;
+        public static event Action<CardDto> CardDrawnReceived;
 
-        //public static event Action<GameStateDTO> GameStartedReceived;
-        //public static event Action<CardDTO> CardDrawnReceived;
         public static event Action<string> PlayerWonReceived;
         public static event Action GameEndedReceived;
         public static event Action<GameSettingsDto> GameSettingsUpdatedReceived;
@@ -81,10 +81,20 @@ namespace Lottery
             // Aquí puedes actualizar tu UI o ViewModel con las nuevas configuraciones
         }
 
-        //public void CardDrawn(CardDTO card)
-        //{
-        //    CardDrawnReceived?.Invoke(card);
-        //}
+        public void OnGameStarted(GameSettingsDto settings)
+        {
+            GameStartedReceived?.Invoke(settings);
+        }
+
+        public void OnGameFinished()
+        {
+            GameEndedReceived?.Invoke();
+        }
+
+        public void OnCardDrawn(CardDto card)
+        {
+            CardDrawnReceived?.Invoke(card);
+        }
 
         public void PlayerWon(string nickname)
         {

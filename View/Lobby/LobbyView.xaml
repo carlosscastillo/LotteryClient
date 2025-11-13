@@ -125,7 +125,7 @@
 
                                             <Button Grid.Column="1" Content="{x:Static language:Lang.LobbyButtonInvite}"
                                                 Command="{Binding DataContext.InviteFriendToLobbyCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                                CommandParameter="{Binding UserId}" Style="{StaticResource SecondaryButton}"/>
+                                                CommandParameter="{Binding FriendId}" Style="{StaticResource SecondaryButton}"/>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>

@@ -18,6 +18,7 @@
   <xs:element name="FriendDto" nillable="true" type="tns:FriendDto" />
   <xs:complexType name="GameSettingsDto">
     <xs:sequence>
+      <xs:element minOccurs="0" name="CardDrawSpeedSeconds" type="xs:int" />
       <xs:element minOccurs="0" name="IsPrivate" type="xs:boolean" />
       <xs:element minOccurs="0" name="MaxPlayers" type="xs:int" />
     </xs:sequence>
@@ -31,4 +32,11 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="LobbyStateDto" nillable="true" type="tns:LobbyStateDto" />
+  <xs:complexType name="CardDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CardDto" nillable="true" type="tns:CardDto" />
 </xs:schema>

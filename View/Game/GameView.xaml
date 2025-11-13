@@ -37,6 +37,7 @@
                     Width="390">
 
             <!-- Rivales -->
+            <!-- (Tu ItemsControl para rivales va aquí, no se necesita cambiar) -->
             <ItemsControl>
                 <ItemsControl.ItemsSource>
                     <x:Array Type="{x:Type sys:Int32}">
@@ -119,10 +120,33 @@
                     BorderThickness="0"
                     Width="260">
                 <StackPanel>
-                    <Image Source="pack://application:,,,/Images/card01.jpg"
+
+                    <!-- 
+                      ****************************************************
+                      * MODIFICACIÓN 1 AQUÍ                  *
+                      * Se bindea el Source a la propiedad del ViewModel *
+                      ****************************************************
+                    -->
+                    <Image Source="{Binding CurrentCardImage}"
                            Width="260"
                            Height="360"
                            Stretch="Uniform"/>
+
+                    <!-- 
+                      ****************************************************
+                      * MODIFICACIÓN 2 AQUÍ                  *
+                      * Se añade un TextBlock para el nombre de la carta *
+                      ****************************************************
+                    -->
+                    <TextBlock Text="{Binding CurrentCardName}"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="#333333"
+                               HorizontalAlignment="Center"
+                               TextAlignment="Center"
+                               TextWrapping="Wrap"
+                               Margin="0,10,0,5"/>
+
                 </StackPanel>
             </Border>
 

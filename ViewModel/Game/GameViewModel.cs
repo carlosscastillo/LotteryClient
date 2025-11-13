@@ -8,6 +8,7 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace Lottery.ViewModel.Game
 {
@@ -27,11 +28,11 @@ namespace Lottery.ViewModel.Game
             set => SetProperty(ref _playerCardImage, value);
         }
 
-        private string _currentCardImage;
-        public string CurrentCardImage
+        private BitmapImage _currentCardImage;
+        public BitmapImage CurrentCardImage
         {
             get => _currentCardImage;
-            set => SetProperty(ref _currentCardImage, value, "pack://application:,,,/Images/card_back.jpg");
+            set => SetProperty(ref _currentCardImage, value);
         }
 
         private string _currentCardName;
@@ -65,6 +66,8 @@ namespace Lottery.ViewModel.Game
             PauseGameCommand = new RelayCommand(LeaveGame);
 
             SubscribeToGameEvents();
+
+            MessageBox.Show(GetImagePathFromId(1));
         }
 
         private void SubscribeToGameEvents()
@@ -85,7 +88,9 @@ namespace Lottery.ViewModel.Game
         {
             _gameWindow.Dispatcher.Invoke(() =>
             {
-                CurrentCardImage = GetImagePathFromId(card.Id);
+                string uri = GetImagePathFromId(card.Id);
+
+                CurrentCardImage = new BitmapImage(new Uri(uri, UriKind.Absolute));
                 CurrentCardName = card.Name;
                 GameStatusMessage = $"¡Salió: {card.Name}!";
             });
@@ -94,7 +99,7 @@ namespace Lottery.ViewModel.Game
         private string GetImagePathFromId(int cardId)
         {
             string fileId = cardId.ToString("D2");
-            return $"pack://application:,,,/Images/card{fileId}.jpg";
+            return $"pack://application:,,,/Lottery;component/Images/Cards/card{fileId}.png";
         }
 
         private void OnPlayerWon(string nickname)

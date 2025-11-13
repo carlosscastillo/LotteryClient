@@ -1,0 +1,847 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="LotteryService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="NetTcpBinding_ILotteryService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
+                </msf:WindowsTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://172.20.10.5:8733/Lottery/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://172.20.10.5:8733/Lottery/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://172.20.10.5:8733/Lottery/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults" />
+      <xsd:import schemaLocation="http://172.20.10.5:8733/Lottery/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs" />
+      <xsd:import schemaLocation="http://172.20.10.5:8733/Lottery/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/" />
+      <xsd:import schemaLocation="http://172.20.10.5:8733/Lottery/?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/System" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ILotteryService_SendMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendMessage" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_SendRequestFriendship_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendRequestFriendship" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_SendRequestFriendship_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendRequestFriendshipResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_SendRequestFriendship_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q1:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_AcceptFriendRequest_InputMessage">
+    <wsdl:part name="parameters" element="tns:AcceptFriendRequest" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_AcceptFriendRequest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AcceptFriendRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_AcceptFriendRequest_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q2:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RejectFriendRequest_InputMessage">
+    <wsdl:part name="parameters" element="tns:RejectFriendRequest" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RejectFriendRequest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RejectFriendRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RejectFriendRequest_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q3:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_CancelFriendRequest_InputMessage">
+    <wsdl:part name="parameters" element="tns:CancelFriendRequest" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_CancelFriendRequest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CancelFriendRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_CancelFriendRequest_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q4:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RemoveFriend_InputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveFriend" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RemoveFriend_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveFriendResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RemoveFriend_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q5:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetFriends_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFriends" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetFriends_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFriendsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetFriends_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q6:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetPendingRequests_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPendingRequests" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetPendingRequests_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPendingRequestsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetPendingRequests_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q7:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetSentRequests_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSentRequests" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetSentRequests_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSentRequestsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetSentRequests_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q8:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_InviteFriendToLobby_InputMessage">
+    <wsdl:part name="parameters" element="tns:InviteFriendToLobby" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_InviteFriendToLobby_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InviteFriendToLobbyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_InviteFriendToLobby_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q9:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_StartGame_InputMessage">
+    <wsdl:part name="parameters" element="tns:StartGame" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_StartGame_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StartGameResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_UpdateGameSettings_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateGameSettings" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_UpdateGameSettings_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateGameSettingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetScoreboard_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetScoreboard" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetScoreboard_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetScoreboardResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_CreateLobby_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateLobby" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_CreateLobby_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateLobbyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_CreateLobby_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q10:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_JoinLobby_InputMessage">
+    <wsdl:part name="parameters" element="tns:JoinLobby" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_JoinLobby_OutputMessage">
+    <wsdl:part name="parameters" element="tns:JoinLobbyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_JoinLobby_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q11="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q11:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_LeaveLobby_InputMessage">
+    <wsdl:part name="parameters" element="tns:LeaveLobby" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_KickPlayer_InputMessage">
+    <wsdl:part name="parameters" element="tns:KickPlayer" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_KickPlayer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:KickPlayerResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_KickPlayer_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q12:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_LoginUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:LoginUser" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_LoginUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoginUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_LoginUser_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q13="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q13:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_LogoutUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:LogoutUser" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_LogoutUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LogoutUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RequestUserVerification_InputMessage">
+    <wsdl:part name="parameters" element="tns:RequestUserVerification" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RequestUserVerification_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RequestUserVerificationResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RequestUserVerification_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q14="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q14:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RegisterUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterUser" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RegisterUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RegisterGuest_InputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterGuest" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RegisterGuest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterGuestResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_ChangePassword_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangePassword" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_ChangePassword_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangePasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_ChangePassword_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q15="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q15:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RecoverPassword_InputMessage">
+    <wsdl:part name="parameters" element="tns:RecoverPassword" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RecoverPassword_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RecoverPasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_UpdateProfile_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateProfile" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_UpdateProfile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateProfileResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_FindUserByNickname_InputMessage">
+    <wsdl:part name="parameters" element="tns:FindUserByNickname" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_FindUserByNickname_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindUserByNicknameResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetUserProfile_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserProfile" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetUserProfile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserProfileResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RequestEmailChange_InputMessage">
+    <wsdl:part name="parameters" element="tns:RequestEmailChange" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_RequestEmailChange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RequestEmailChangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_ConfirmEmailChange_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmEmailChange" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_ConfirmEmailChange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmEmailChangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_SendVerificationCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendVerificationCode" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_SendVerificationCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendVerificationCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_VerifyCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:VerifyCode" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_VerifyCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:VerifyCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_NotifyCard_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:NotifyCard" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_NotifyWinner_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:NotifyWinner" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_ReceiveChatMessage_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:ReceiveChatMessage" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_PlayerJoined_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:PlayerJoined" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_PlayerLeft_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:PlayerLeft" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_PlayerKicked_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:PlayerKicked" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_YouWereKicked_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:YouWereKicked" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_LobbyClosed_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:LobbyClosed" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_ReceiveLobbyInvite_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:ReceiveLobbyInvite" />
+  </wsdl:message>
+  <wsdl:portType name="ILotteryService">
+    <wsdl:operation name="SendMessage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IChatService/SendMessage" message="tns:ILotteryService_SendMessage_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendRequestFriendship">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/SendRequestFriendship" message="tns:ILotteryService_SendRequestFriendship_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/SendRequestFriendshipResponse" message="tns:ILotteryService_SendRequestFriendship_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendService/SendRequestFriendshipServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_SendRequestFriendship_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AcceptFriendRequest">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/AcceptFriendRequest" message="tns:ILotteryService_AcceptFriendRequest_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/AcceptFriendRequestResponse" message="tns:ILotteryService_AcceptFriendRequest_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendService/AcceptFriendRequestServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_AcceptFriendRequest_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RejectFriendRequest">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/RejectFriendRequest" message="tns:ILotteryService_RejectFriendRequest_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/RejectFriendRequestResponse" message="tns:ILotteryService_RejectFriendRequest_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendService/RejectFriendRequestServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_RejectFriendRequest_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelFriendRequest">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/CancelFriendRequest" message="tns:ILotteryService_CancelFriendRequest_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/CancelFriendRequestResponse" message="tns:ILotteryService_CancelFriendRequest_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendService/CancelFriendRequestServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_CancelFriendRequest_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveFriend">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/RemoveFriend" message="tns:ILotteryService_RemoveFriend_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/RemoveFriendResponse" message="tns:ILotteryService_RemoveFriend_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendService/RemoveFriendServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_RemoveFriend_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFriends">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/GetFriends" message="tns:ILotteryService_GetFriends_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/GetFriendsResponse" message="tns:ILotteryService_GetFriends_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendService/GetFriendsServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_GetFriends_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPendingRequests">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/GetPendingRequests" message="tns:ILotteryService_GetPendingRequests_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/GetPendingRequestsResponse" message="tns:ILotteryService_GetPendingRequests_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendService/GetPendingRequestsServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_GetPendingRequests_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSentRequests">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/GetSentRequests" message="tns:ILotteryService_GetSentRequests_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/GetSentRequestsResponse" message="tns:ILotteryService_GetSentRequests_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendService/GetSentRequestsServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_GetSentRequests_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InviteFriendToLobby">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/InviteFriendToLobby" message="tns:ILotteryService_InviteFriendToLobby_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendService/InviteFriendToLobbyResponse" message="tns:ILotteryService_InviteFriendToLobby_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendService/InviteFriendToLobbyServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_InviteFriendToLobby_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="StartGame">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGameService/StartGame" message="tns:ILotteryService_StartGame_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGameService/StartGameResponse" message="tns:ILotteryService_StartGame_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateGameSettings">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGameService/UpdateGameSettings" message="tns:ILotteryService_UpdateGameSettings_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGameService/UpdateGameSettingsResponse" message="tns:ILotteryService_UpdateGameSettings_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetScoreboard">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGameService/GetScoreboard" message="tns:ILotteryService_GetScoreboard_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGameService/GetScoreboardResponse" message="tns:ILotteryService_GetScoreboard_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateLobby">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyService/CreateLobby" message="tns:ILotteryService_CreateLobby_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyService/CreateLobbyResponse" message="tns:ILotteryService_CreateLobby_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/ILobbyService/CreateLobbyServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_CreateLobby_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="JoinLobby">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyService/JoinLobby" message="tns:ILotteryService_JoinLobby_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyService/JoinLobbyResponse" message="tns:ILotteryService_JoinLobby_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/ILobbyService/JoinLobbyServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_JoinLobby_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LeaveLobby">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyService/LeaveLobby" message="tns:ILotteryService_LeaveLobby_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="KickPlayer">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyService/KickPlayer" message="tns:ILotteryService_KickPlayer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyService/KickPlayerResponse" message="tns:ILotteryService_KickPlayer_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/ILobbyService/KickPlayerServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_KickPlayer_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LoginUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthenticationService/LoginUser" message="tns:ILotteryService_LoginUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthenticationService/LoginUserResponse" message="tns:ILotteryService_LoginUser_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAuthenticationService/LoginUserServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_LoginUser_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LogoutUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthenticationService/LogoutUser" message="tns:ILotteryService_LogoutUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthenticationService/LogoutUserResponse" message="tns:ILotteryService_LogoutUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RequestUserVerification">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/RequestUserVerification" message="tns:ILotteryService_RequestUserVerification_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/RequestUserVerificationResponse" message="tns:ILotteryService_RequestUserVerification_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/RequestUserVerificationServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_RequestUserVerification_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RegisterUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/RegisterUser" message="tns:ILotteryService_RegisterUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/RegisterUserResponse" message="tns:ILotteryService_RegisterUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RegisterGuest">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/RegisterGuest" message="tns:ILotteryService_RegisterGuest_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/RegisterGuestResponse" message="tns:ILotteryService_RegisterGuest_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangePassword">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/ChangePassword" message="tns:ILotteryService_ChangePassword_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/ChangePasswordResponse" message="tns:ILotteryService_ChangePassword_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/ChangePasswordServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_ChangePassword_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RecoverPassword">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/RecoverPassword" message="tns:ILotteryService_RecoverPassword_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/RecoverPasswordResponse" message="tns:ILotteryService_RecoverPassword_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateProfile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/UpdateProfile" message="tns:ILotteryService_UpdateProfile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/UpdateProfileResponse" message="tns:ILotteryService_UpdateProfile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="FindUserByNickname">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/FindUserByNickname" message="tns:ILotteryService_FindUserByNickname_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/FindUserByNicknameResponse" message="tns:ILotteryService_FindUserByNickname_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserProfile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/GetUserProfile" message="tns:ILotteryService_GetUserProfile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/GetUserProfileResponse" message="tns:ILotteryService_GetUserProfile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RequestEmailChange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/RequestEmailChange" message="tns:ILotteryService_RequestEmailChange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/RequestEmailChangeResponse" message="tns:ILotteryService_RequestEmailChange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmEmailChange">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/ConfirmEmailChange" message="tns:ILotteryService_ConfirmEmailChange_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/ConfirmEmailChangeResponse" message="tns:ILotteryService_ConfirmEmailChange_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendVerificationCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IVerificationService/SendVerificationCode" message="tns:ILotteryService_SendVerificationCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IVerificationService/SendVerificationCodeResponse" message="tns:ILotteryService_SendVerificationCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IVerificationService/VerifyCode" message="tns:ILotteryService_VerifyCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IVerificationService/VerifyCodeResponse" message="tns:ILotteryService_VerifyCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifyCard">
+      <wsdl:output wsaw:Action="http://tempuri.org/ILotteryService/NotifyCard" message="tns:ILotteryService_NotifyCard_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifyWinner">
+      <wsdl:output wsaw:Action="http://tempuri.org/ILotteryService/NotifyWinner" message="tns:ILotteryService_NotifyWinner_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReceiveChatMessage">
+      <wsdl:output wsaw:Action="http://tempuri.org/ILotteryService/ReceiveChatMessage" message="tns:ILotteryService_ReceiveChatMessage_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PlayerJoined">
+      <wsdl:output wsaw:Action="http://tempuri.org/ILotteryService/PlayerJoined" message="tns:ILotteryService_PlayerJoined_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PlayerLeft">
+      <wsdl:output wsaw:Action="http://tempuri.org/ILotteryService/PlayerLeft" message="tns:ILotteryService_PlayerLeft_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PlayerKicked">
+      <wsdl:output wsaw:Action="http://tempuri.org/ILotteryService/PlayerKicked" message="tns:ILotteryService_PlayerKicked_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="YouWereKicked">
+      <wsdl:output wsaw:Action="http://tempuri.org/ILotteryService/YouWereKicked" message="tns:ILotteryService_YouWereKicked_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LobbyClosed">
+      <wsdl:output wsaw:Action="http://tempuri.org/ILotteryService/LobbyClosed" message="tns:ILotteryService_LobbyClosed_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReceiveLobbyInvite">
+      <wsdl:output wsaw:Action="http://tempuri.org/ILotteryService/ReceiveLobbyInvite" message="tns:ILotteryService_ReceiveLobbyInvite_OutputCallbackMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NetTcpBinding_ILotteryService" type="tns:ILotteryService">
+    <wsp:PolicyReference URI="#NetTcpBinding_ILotteryService_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="SendMessage">
+      <soap12:operation soapAction="http://tempuri.org/IChatService/SendMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="SendRequestFriendship">
+      <soap12:operation soapAction="http://tempuri.org/IFriendService/SendRequestFriendship" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AcceptFriendRequest">
+      <soap12:operation soapAction="http://tempuri.org/IFriendService/AcceptFriendRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RejectFriendRequest">
+      <soap12:operation soapAction="http://tempuri.org/IFriendService/RejectFriendRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="CancelFriendRequest">
+      <soap12:operation soapAction="http://tempuri.org/IFriendService/CancelFriendRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveFriend">
+      <soap12:operation soapAction="http://tempuri.org/IFriendService/RemoveFriend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetFriends">
+      <soap12:operation soapAction="http://tempuri.org/IFriendService/GetFriends" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetPendingRequests">
+      <soap12:operation soapAction="http://tempuri.org/IFriendService/GetPendingRequests" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetSentRequests">
+      <soap12:operation soapAction="http://tempuri.org/IFriendService/GetSentRequests" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="InviteFriendToLobby">
+      <soap12:operation soapAction="http://tempuri.org/IFriendService/InviteFriendToLobby" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="StartGame">
+      <soap12:operation soapAction="http://tempuri.org/IGameService/StartGame" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateGameSettings">
+      <soap12:operation soapAction="http://tempuri.org/IGameService/UpdateGameSettings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetScoreboard">
+      <soap12:operation soapAction="http://tempuri.org/IGameService/GetScoreboard" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateLobby">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyService/CreateLobby" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="JoinLobby">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyService/JoinLobby" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="LeaveLobby">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyService/LeaveLobby" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="KickPlayer">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyService/KickPlayer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="LoginUser">
+      <soap12:operation soapAction="http://tempuri.org/IAuthenticationService/LoginUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="LogoutUser">
+      <soap12:operation soapAction="http://tempuri.org/IAuthenticationService/LogoutUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RequestUserVerification">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/RequestUserVerification" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterUser">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/RegisterUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterGuest">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/RegisterGuest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangePassword">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/ChangePassword" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RecoverPassword">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/RecoverPassword" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateProfile">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/UpdateProfile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindUserByNickname">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/FindUserByNickname" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserProfile">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/GetUserProfile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RequestEmailChange">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/RequestEmailChange" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmEmailChange">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/ConfirmEmailChange" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendVerificationCode">
+      <soap12:operation soapAction="http://tempuri.org/IVerificationService/SendVerificationCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCode">
+      <soap12:operation soapAction="http://tempuri.org/IVerificationService/VerifyCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyCard">
+      <soap12:operation soapAction="http://tempuri.org/ILotteryService/NotifyCard" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyWinner">
+      <soap12:operation soapAction="http://tempuri.org/ILotteryService/NotifyWinner" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReceiveChatMessage">
+      <soap12:operation soapAction="http://tempuri.org/ILotteryService/ReceiveChatMessage" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PlayerJoined">
+      <soap12:operation soapAction="http://tempuri.org/ILotteryService/PlayerJoined" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PlayerLeft">
+      <soap12:operation soapAction="http://tempuri.org/ILotteryService/PlayerLeft" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PlayerKicked">
+      <soap12:operation soapAction="http://tempuri.org/ILotteryService/PlayerKicked" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="YouWereKicked">
+      <soap12:operation soapAction="http://tempuri.org/ILotteryService/YouWereKicked" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LobbyClosed">
+      <soap12:operation soapAction="http://tempuri.org/ILotteryService/LobbyClosed" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReceiveLobbyInvite">
+      <soap12:operation soapAction="http://tempuri.org/ILotteryService/ReceiveLobbyInvite" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="LotteryService">
+    <wsdl:port name="NetTcpBinding_ILotteryService" binding="tns:NetTcpBinding_ILotteryService">
+      <soap12:address location="net.tcp://172.20.10.5:8080/Lottery/LotteryService" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://172.20.10.5:8080/Lottery/LotteryService</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Upn>DD\edgar</Upn>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -4,27 +4,6 @@
     <wsp:ExactlyOne>
       <wsp:All>
         <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
-        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
-          <wsp:Policy>
-            <sp:TransportToken>
-              <wsp:Policy>
-                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
-                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
-                </msf:WindowsTransportSecurity>
-              </wsp:Policy>
-            </sp:TransportToken>
-            <sp:AlgorithmSuite>
-              <wsp:Policy>
-                <sp:Basic256 />
-              </wsp:Policy>
-            </sp:AlgorithmSuite>
-            <sp:Layout>
-              <wsp:Policy>
-                <sp:Strict />
-              </wsp:Policy>
-            </sp:Layout>
-          </wsp:Policy>
-        </sp:TransportBinding>
         <wsaw:UsingAddressing />
       </wsp:All>
     </wsp:ExactlyOne>
@@ -206,6 +185,12 @@
   </wsdl:message>
   <wsdl:message name="ILotteryService_RegisterGuest_OutputMessage">
     <wsdl:part name="parameters" element="tns:RegisterGuestResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_VerifyPassword_InputMessage">
+    <wsdl:part name="parameters" element="tns:VerifyPassword" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_VerifyPassword_OutputMessage">
+    <wsdl:part name="parameters" element="tns:VerifyPasswordResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_ChangePassword_InputMessage">
     <wsdl:part name="parameters" element="tns:ChangePassword" />
@@ -400,6 +385,10 @@
     <wsdl:operation name="RegisterGuest">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/RegisterGuest" message="tns:ILotteryService_RegisterGuest_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/RegisterGuestResponse" message="tns:ILotteryService_RegisterGuest_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="VerifyPassword">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/VerifyPassword" message="tns:ILotteryService_VerifyPassword_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/VerifyPasswordResponse" message="tns:ILotteryService_VerifyPassword_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="ChangePassword">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/ChangePassword" message="tns:ILotteryService_ChangePassword_InputMessage" />
@@ -712,6 +701,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="VerifyPassword">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/VerifyPassword" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="ChangePassword">
       <soap12:operation soapAction="http://tempuri.org/IUserService/ChangePassword" style="document" />
       <wsdl:input>
@@ -874,9 +872,6 @@
       <soap12:address location="net.tcp://localhost:8080/Lottery/LotteryService" />
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8080/Lottery/LotteryService</wsa10:Address>
-        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
-          <Upn>USUARIO\carlo</Upn>
-        </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>
   </wsdl:service>

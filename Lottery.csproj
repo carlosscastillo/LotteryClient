@@ -263,9 +263,6 @@
     <Resource Include="Images\background.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\avatar1.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\background2.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -298,6 +295,23 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Avatar\avatar01.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Avatar\avatar00.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Avatar\avatar02.jpg" />
+    <Resource Include="Images\Avatar\avatar03.jpg" />
+    <Resource Include="Images\Avatar\avatar04.jpeg" />
+    <Resource Include="Images\Avatar\avatar05.jpg" />
+    <Resource Include="Images\Avatar\avatar06.jpg" />
+    <Resource Include="Images\Avatar\avatar07.jpg" />
+    <Resource Include="Images\Avatar\avatar08.jpg" />
+    <Resource Include="Images\Avatar\avatar09.jpg" />
+    <Resource Include="Images\Avatar\avatar10.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

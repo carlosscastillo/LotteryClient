@@ -315,7 +315,7 @@ namespace Lottery.LotteryServiceReference {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<int> AvatarIdField;
+        private int AvatarIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string AvatarUrlField;
@@ -342,7 +342,7 @@ namespace Lottery.LotteryServiceReference {
         private string PaternalLastNameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<System.DateTime> RegistrationDateField;
+        private System.DateTime RegistrationDateField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<int> ScoreField;
@@ -361,7 +361,7 @@ namespace Lottery.LotteryServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<int> AvatarId {
+        public int AvatarId {
             get {
                 return this.AvatarIdField;
             }
@@ -478,7 +478,7 @@ namespace Lottery.LotteryServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<System.DateTime> RegistrationDate {
+        public System.DateTime RegistrationDate {
             get {
                 return this.RegistrationDateField;
             }
@@ -676,12 +676,18 @@ namespace Lottery.LotteryServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RegisterGuest", ReplyAction="http://tempuri.org/IUserService/RegisterGuestResponse")]
         System.Threading.Tasks.Task<int> RegisterGuestAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/ChangePassword", ReplyAction="http://tempuri.org/IUserService/ChangePasswordResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IUserService/ChangePasswordServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        bool ChangePassword(int currentUserId, string oldPassword, string newPassword);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/VerifyPassword", ReplyAction="http://tempuri.org/IUserService/VerifyPasswordResponse")]
+        bool VerifyPassword(int userId, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/VerifyPassword", ReplyAction="http://tempuri.org/IUserService/VerifyPasswordResponse")]
+        System.Threading.Tasks.Task<bool> VerifyPasswordAsync(int userId, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/ChangePassword", ReplyAction="http://tempuri.org/IUserService/ChangePasswordResponse")]
-        System.Threading.Tasks.Task<bool> ChangePasswordAsync(int currentUserId, string oldPassword, string newPassword);
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IUserService/ChangePasswordServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        bool ChangePassword(int userId, string newPassword);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/ChangePassword", ReplyAction="http://tempuri.org/IUserService/ChangePasswordResponse")]
+        System.Threading.Tasks.Task<bool> ChangePasswordAsync(int userId, string newPassword);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RecoverPassword", ReplyAction="http://tempuri.org/IUserService/RecoverPasswordResponse")]
         void RecoverPassword(string email);
@@ -967,12 +973,20 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.RegisterGuestAsync();
         }
         
-        public bool ChangePassword(int currentUserId, string oldPassword, string newPassword) {
-            return base.Channel.ChangePassword(currentUserId, oldPassword, newPassword);
+        public bool VerifyPassword(int userId, string password) {
+            return base.Channel.VerifyPassword(userId, password);
         }
         
-        public System.Threading.Tasks.Task<bool> ChangePasswordAsync(int currentUserId, string oldPassword, string newPassword) {
-            return base.Channel.ChangePasswordAsync(currentUserId, oldPassword, newPassword);
+        public System.Threading.Tasks.Task<bool> VerifyPasswordAsync(int userId, string password) {
+            return base.Channel.VerifyPasswordAsync(userId, password);
+        }
+        
+        public bool ChangePassword(int userId, string newPassword) {
+            return base.Channel.ChangePassword(userId, newPassword);
+        }
+        
+        public System.Threading.Tasks.Task<bool> ChangePasswordAsync(int userId, string newPassword) {
+            return base.Channel.ChangePasswordAsync(userId, newPassword);
         }
         
         public void RecoverPassword(string email) {

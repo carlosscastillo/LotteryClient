@@ -51,12 +51,26 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <Border Grid.Column="0" Width="120" Height="120" CornerRadius="60" HorizontalAlignment="Left">
-                            <Border.Background>
-                                <ImageBrush ImageSource="{Binding AvatarUrl}" Stretch="UniformToFill"/>
-                            </Border.Background>
-                        </Border>
-
+                        <Grid Grid.Column="0" Width="120" Height="120" HorizontalAlignment="Left">
+                            <Border CornerRadius="60">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{Binding AvatarUrl}" Stretch="UniformToFill"/>
+                                </Border.Background>
+                            </Border>
+                            <Button Width="36" Height="36"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Margin="5"
+                                Background="Black"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Command="{Binding OpenChangeAvatarCommand}">
+                                <Button.Content>
+                                    <Path Data="M12,2C13.1,2 14,2.9 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4C10,2.9 10.9,2 12,2M4,20V17L14.06,6.94L17.06,9.94L7,20H4Z" Fill="White"/>
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                        
                         <TextBlock Grid.Column="1" Text="{Binding Nickname}" 
                                    VerticalAlignment="Center" Margin="20,0,0,0"
                                    FontSize="18" FontWeight="SemiBold" Foreground="White"/>
@@ -77,11 +91,11 @@
                         </StackPanel>
                     </ScrollViewer>
 
-                    <Button x:Name="ChangeEmailButton" Command="{Binding ChangeEmailCommand}" Visibility="{Binding EditButtonVisibility}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Center" Cursor="Hand">
+                    <Button x:Name="ChangeEmailButton" Command="{Binding OpenChangeEmailCommand}" Visibility="{Binding EditButtonVisibility}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Center" Cursor="Hand">
                         <TextBlock Text="{x:Static language:Lang.CustomizeProfileButtonChangeEmail}" Foreground="White" FontWeight="SemiBold" FontSize="14"/>
                     </Button>
 
-                    <Button x:Name="ChangePasswordButton" Command="{Binding ChangePasswordCommand}" Visibility="{Binding EditButtonVisibility}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Center" Cursor="Hand">
+                    <Button x:Name="ChangePasswordButton" Command="{Binding OpenChangePasswordCommand}" Visibility="{Binding EditButtonVisibility}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Center" Cursor="Hand">
                         <TextBlock Text="{x:Static language:Lang.CustomizeProfileButtonChangePassword}" Foreground="White" FontWeight="SemiBold" FontSize="14"/>
                     </Button>
                 </StackPanel>
@@ -148,7 +162,7 @@
                 </Border.Effect>
 
                 <Grid>
-                    <StackPanel x:Name="ChangeEmailPanel" Visibility="{Binding IsChangeEmailVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <!--<StackPanel x:Name="ChangeEmailPanel" Visibility="{Binding IsChangeEmailVisible, Converter={StaticResource BoolToVisibilityConverter}}">
                         <TextBlock Text="{x:Static language:Lang.GlobalLabelEmail}" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,15"/>
                         <Label Content="{x:Static language:Lang.CustomizeProfileLabelNewEmailAddress}" Foreground="White" FontWeight="SemiBold" Margin="0,0,0,5"/>
                         <TextBox Text="{Binding NewEmail, UpdateSourceTrigger=PropertyChanged}" Padding="6" FontSize="14" BorderThickness="0" Background="#FFFFFFFF" Foreground="Black" BorderBrush="Transparent" Margin="0,0,0,15"/>
@@ -233,7 +247,7 @@
                         <TextBox Text="{Binding NewPassword, UpdateSourceTrigger=PropertyChanged}" Padding="6" FontSize="14" Background="#FFFFFFFF" Foreground="Black" BorderThickness="0" Margin="0,0,0,10" Width="220" HorizontalAlignment="Center"/>
                         <Label Content="{x:Static language:Lang.GlobalLabelConfirmPassword}" Foreground="White" FontWeight="SemiBold" Margin="0,0,0,5"/>
                         <TextBox Text="{Binding ConfirmNewPassword, UpdateSourceTrigger=PropertyChanged}" Padding="6" FontSize="14" Background="#FFFFFFFF" Foreground="Black" BorderThickness="0" Margin="0,0,0,10" Width="220" HorizontalAlignment="Center"/>
-                        <Button Content="{x:Static language:Lang.GlobalButtonAccept}" Command="{Binding ChangePasswordCommand}" Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Width="150" Margin="0,15,0,10" HorizontalAlignment="Center" Cursor="Hand">
+                        <Button Content="{x:Static language:Lang.GlobalButtonAccept}" Command="{Binding SaveNewPasswordCommand}" Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Width="150" Margin="0,15,0,10" HorizontalAlignment="Center" Cursor="Hand">
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="8"/>
@@ -246,7 +260,76 @@
                                 <TextBlock Text="{x:Static language:Lang.GlobalButtonBack}" Foreground="Gray" FontSize="13" Margin="5,0,0,0"/>
                             </StackPanel>
                         </Button>
-                    </StackPanel>
+                    </StackPanel> -->
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+              Visibility="{Binding IsAvatarSelectionVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30">
+                            <StackPanel Width="1000" HorizontalAlignment="Center">
+
+                                <!-- Título -->
+                                <TextBlock Text="{x:Static language:Lang.CustomizeProfileLabelSelectAvatar}"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Foreground="White"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,30"/>
+
+                                <!-- Panel de avatares -->
+                                <ItemsControl ItemsSource="{Binding Avatars}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <!-- WrapPanel para disposición horizontal con salto de línea -->
+                                            <WrapPanel HorizontalAlignment="Center" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Button Command="{Binding DataContext.SelectAvatarCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                CommandParameter="{Binding}"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Margin="15"
+                                Cursor="Hand">
+                                                <Grid Width="130" Height="130">
+                                                    <Ellipse Stroke="White" StrokeThickness="2"/>
+                                                    <Image Source="{Binding}"
+                                       Stretch="UniformToFill"
+                                       Width="130"
+                                       Height="130">
+                                                        <Image.Clip>
+                                                            <EllipseGeometry Center="65,65" RadiusX="65" RadiusY="65"/>
+                                                        </Image.Clip>
+                                                    </Image>
+                                                </Grid>
+                                            </Button>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+
+                                <!-- Botón Volver -->
+                                <Button Command="{Binding BackToProfileCommand}"
+                    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Margin="0,40,0,20"
+                    HorizontalAlignment="Center"
+                    Cursor="Hand">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock Text="&#xE72B;" Style="{StaticResource BackIconStyle}"/>
+                                        <TextBlock Text="Volver" Foreground="Gray" FontSize="15" Margin="5,0,0,0"/>
+                                    </StackPanel>
+                                </Button>
+
+                            </StackPanel>
+                        </Grid>
+                    </ScrollViewer>
+
+
+
+
+
                 </Grid>
             </Border>
         </Border>

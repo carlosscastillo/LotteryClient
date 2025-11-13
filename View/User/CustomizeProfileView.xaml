@@ -29,7 +29,8 @@
                 Cursor="Hand"
                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                 Command="{Binding GoBackToMenuCommand}"
-                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                Visibility="{Binding EditButtonVisibility}"/>
 
         <Border BorderBrush="#55FFFFFF" BorderThickness="1" Background="#AA000000"
                 CornerRadius="12" Padding="30" MaxWidth="850"
@@ -64,7 +65,8 @@
                                 Background="Black"
                                 BorderThickness="0"
                                 Cursor="Hand"
-                                Command="{Binding OpenChangeAvatarCommand}">
+                                Command="{Binding OpenChangeAvatarCommand}"
+                                Visibility="{Binding SaveCancelVisibility }">
                                 <Button.Content>
                                     <Path Data="M12,2C13.1,2 14,2.9 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4C10,2.9 10.9,2 12,2M4,20V17L14.06,6.94L17.06,9.94L7,20H4Z" Fill="White"/>
                                 </Button.Content>
@@ -162,7 +164,7 @@
                 </Border.Effect>
 
                 <Grid>
-                    <!--<StackPanel x:Name="ChangeEmailPanel" Visibility="{Binding IsChangeEmailVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel x:Name="ChangeEmailPanel" Visibility="{Binding IsChangeEmailVisible, Converter={StaticResource BoolToVisibilityConverter}}">
                         <TextBlock Text="{x:Static language:Lang.GlobalLabelEmail}" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,15"/>
                         <Label Content="{x:Static language:Lang.CustomizeProfileLabelNewEmailAddress}" Foreground="White" FontWeight="SemiBold" Margin="0,0,0,5"/>
                         <TextBox Text="{Binding NewEmail, UpdateSourceTrigger=PropertyChanged}" Padding="6" FontSize="14" BorderThickness="0" Background="#FFFFFFFF" Foreground="Black" BorderBrush="Transparent" Margin="0,0,0,15"/>
@@ -260,76 +262,106 @@
                                 <TextBlock Text="{x:Static language:Lang.GlobalButtonBack}" Foreground="Gray" FontSize="13" Margin="5,0,0,0"/>
                             </StackPanel>
                         </Button>
-                    </StackPanel> -->
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Border>
 
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
-              Visibility="{Binding IsAvatarSelectionVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30">
-                            <StackPanel Width="1000" HorizontalAlignment="Center">
+        <Border x:Name="AvatarOverlayPanel" Background="#AA000000" Visibility="{Binding IsAvatarOverlayVisible, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 
-                                <!-- Título -->
-                                <TextBlock Text="{x:Static language:Lang.CustomizeProfileLabelSelectAvatar}"
+            <Border Width="800" Background="#AA000000" BorderBrush="#55FFFFFF" BorderThickness="1" CornerRadius="12" Padding="30" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="1" Color="Black" Opacity="0.3" BlurRadius="10"/>
+                </Border.Effect>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                       Text="{x:Static language:Lang.CustomizeProfileLabelSelectAvatar}"
                        FontSize="28"
                        FontWeight="Bold"
                        Foreground="White"
                        HorizontalAlignment="Center"
                        Margin="0,0,0,30"/>
 
-                                <!-- Panel de avatares -->
-                                <ItemsControl ItemsSource="{Binding Avatars}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <!-- WrapPanel para disposición horizontal con salto de línea -->
-                                            <WrapPanel HorizontalAlignment="Center" />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
+                    <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Disabled"
+                          HorizontalScrollBarVisibility="Auto">
 
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Button Command="{Binding DataContext.SelectAvatarCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                CommandParameter="{Binding}"
-                                Background="Transparent"
-                                BorderThickness="0"
-                                Margin="15"
-                                Cursor="Hand">
-                                                <Grid Width="130" Height="130">
-                                                    <Ellipse Stroke="White" StrokeThickness="2"/>
-                                                    <Image Source="{Binding}"
-                                       Stretch="UniformToFill"
-                                       Width="130"
-                                       Height="130">
-                                                        <Image.Clip>
-                                                            <EllipseGeometry Center="65,65" RadiusX="65" RadiusY="65"/>
-                                                        </Image.Clip>
-                                                    </Image>
-                                                </Grid>
-                                            </Button>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                        <ItemsControl ItemsSource="{Binding Avatars}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Vertical" Height="330" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
 
-                                <!-- Botón Volver -->
-                                <Button Command="{Binding BackToProfileCommand}"
-                    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Margin="0,40,0,20"
-                    HorizontalAlignment="Center"
-                    Cursor="Hand">
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <TextBlock Text="&#xE72B;" Style="{StaticResource BackIconStyle}"/>
-                                        <TextBlock Text="Volver" Foreground="Gray" FontSize="15" Margin="5,0,0,0"/>
-                                    </StackPanel>
-                                </Button>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Command="{Binding DataContext.SelectAvatarCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                        CommandParameter="{Binding}"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Margin="15"
+                                        Cursor="Hand">
+                                        <Grid Width="130" Height="130">
 
-                            </StackPanel>
-                        </Grid>
+                                            <Image Source="{Binding AvatarUrl}"
+                                                Stretch="UniformToFill"
+                                                Width="130"
+                                                Height="130">
+                                                <Image.Clip>
+                                                    <EllipseGeometry Center="65,65" RadiusX="65" RadiusY="65"/>
+                                                </Image.Clip>
+                                            </Image>
+
+                                            <Ellipse Stroke="{Binding IsSelected, Converter={StaticResource BoolToColorConverter}}"
+                                                StrokeThickness="5"
+                                                Width="130" Height="130"/>
+
+                                            <Ellipse Width="130" Height="130"
+                                                Fill="{Binding IsSelected, Converter={StaticResource BoolToSelectionOverlayConverter}}"
+                                                IsHitTestVisible="False"/>
+                                        </Grid>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </ScrollViewer>
 
+                    <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,40,0,20">
 
+                        <Button Content="{x:Static language:Lang.GlobalButtonAccept}" 
+                            Command="{Binding AcceptAvatarChangeCommand}"
+                            Padding="8" FontSize="14" FontWeight="Bold" 
+                            Foreground="White" Background="Black" 
+                            BorderThickness="0" Width="120" 
+                            Cursor="Hand"
+                            HorizontalAlignment="Center"
+                            Margin="0,0,0,10">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="8"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
 
-
-
+                        <Button Command="{Binding CloseAvatarOverlayCommand}"
+                            Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            HorizontalAlignment="Center" 
+                            Cursor="Hand">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock Text="&#xE72B;" Style="{StaticResource BackIconStyle}"/>
+                                <TextBlock Text="{x:Static language:Lang.GlobalButtonBack}" Foreground="Gray" FontSize="15" Margin="5,0,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
                 </Grid>
             </Border>
         </Border>

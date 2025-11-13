@@ -64,6 +64,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BoolToColorConverter.cs" />
+    <Compile Include="Converters\BoolToSelectionOverlayConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter .cs" />
     <Compile Include="Converters\InverseBoolToVisibilityConverter .cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />

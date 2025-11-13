@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Linq;
 
 
 namespace Lottery.ViewModel.User
@@ -15,6 +16,7 @@ namespace Lottery.ViewModel.User
     {
         private readonly ILotteryService _serviceClient;
         private UserDto _currentUserFull;
+        private AvatarItemViewModel _selectedAvatar;
 
         public CustomizeProfileViewModel()
         {
@@ -36,7 +38,9 @@ namespace Lottery.ViewModel.User
             BackToChangePasswordCommand = new RelayCommand(BackToChangePassword);
 
             OpenChangeAvatarCommand = new RelayCommand(OpenChangeAvatar);
-            // 
+            SelectAvatarCommand = new RelayCommand<AvatarItemViewModel>(SelectAvatar);
+            AcceptAvatarChangeCommand = new RelayCommand(AcceptAvatarChange, CanAcceptAvatarChange);
+            CloseAvatarOverlayCommand = new RelayCommand(CloseAvatarOverlay);
 
             GoBackToMenuCommand = new RelayCommand<object>(GoBackToMenu);
 
@@ -47,7 +51,7 @@ namespace Lottery.ViewModel.User
             IsEmailVerifiedVisible = false;
             IsChangePasswordVisible = false;
             IsNewPasswordVisible = false;
-            IsAvatarSelectionVisible = false;
+            IsAvatarOverlayVisible = false;
 
             _ = LoadFullUserData();
         }
@@ -91,8 +95,8 @@ namespace Lottery.ViewModel.User
         private string _confirmNewPassword;
         public string ConfirmNewPassword { get => _confirmNewPassword; set => SetProperty(ref _confirmNewPassword, value); }
 
-        private ObservableCollection<string> _avatars;
-        public ObservableCollection<string> Avatars { get => _avatars; set => SetProperty(ref _avatars, value); }
+        private ObservableCollection<AvatarItemViewModel> _avatars;
+        public ObservableCollection<AvatarItemViewModel> Avatars { get => _avatars; set => SetProperty(ref _avatars, value); }
 
         private bool _isEditing;
         public bool IsEditing
@@ -128,8 +132,9 @@ namespace Lottery.ViewModel.User
         private bool _isNewPasswordVisible;
         public bool IsNewPasswordVisible { get => _isNewPasswordVisible; set => SetProperty(ref _isNewPasswordVisible, value); }
         
-        private bool _isAvatarSelectionVisible;
-        public bool IsAvatarSelectionVisible { get => _isAvatarSelectionVisible; set => SetProperty(ref _isAvatarSelectionVisible, value); }
+        private bool _isAvatarOverlayVisible;
+        public bool IsAvatarOverlayVisible { get => _isAvatarOverlayVisible; set => SetProperty(ref _isAvatarOverlayVisible, value); }
+        public bool IsAvatarSelected => _selectedAvatar != null && _selectedAvatar.AvatarId != this.IdAvatar;
         public bool IsReadOnly => !IsEditing;
         public Visibility EditButtonVisibility => IsEditing ? Visibility.Collapsed : Visibility.Visible;
         public Visibility SaveCancelVisibility => IsEditing ? Visibility.Visible : Visibility.Collapsed;
@@ -147,7 +152,9 @@ namespace Lottery.ViewModel.User
         public RelayCommand SaveNewPasswordCommand { get; }
         public RelayCommand BackToChangePasswordCommand { get; }
         public RelayCommand OpenChangeAvatarCommand { get; }
-        public RelayCommand<string> SelectAvatarCommand { get; }
+        public RelayCommand<AvatarItemViewModel> SelectAvatarCommand { get; }
+        public RelayCommand AcceptAvatarChangeCommand { get; }
+        public RelayCommand CloseAvatarOverlayCommand { get; }
         public RelayCommand BackToProfileCommand { get; }
         public RelayCommand<object> GoBackToMenuCommand { get; }
         private void EditProfile() => IsEditing = true;
@@ -162,7 +169,7 @@ namespace Lottery.ViewModel.User
             _currentUserFull.FirstName = FirstName;
             _currentUserFull.PaternalLastName = PaternalLastName;
             _currentUserFull.MaternalLastName = MaternalLastName;
-            _currentUserFull.AvatarId = IdAvatar;
+            _currentUserFull.AvatarId = IdAvatar;            
 
             try
             {
@@ -233,8 +240,7 @@ namespace Lottery.ViewModel.User
 
         private void OpenChangeAvatar()
         {
-            IsOverlayVisible = true;
-            IsAvatarSelectionVisible = true;
+            IsAvatarOverlayVisible = true;
             LoadAvatars();
         }
 
@@ -246,6 +252,55 @@ namespace Lottery.ViewModel.User
             IsEmailVerifiedVisible = false;
             NewEmail = string.Empty;
             VerificationCode = string.Empty;
+        }
+
+        private void CloseAvatarOverlay()
+        {
+            if (Avatars != null)
+            {                
+                _selectedAvatar = null;
+                foreach (var avatar in Avatars)
+                {
+                    avatar.IsSelected = (avatar.AvatarId == this.IdAvatar);
+                    if (avatar.IsSelected)
+                    {
+                        _selectedAvatar = avatar;
+                    }
+                }
+                OnPropertyChanged(nameof(IsAvatarSelected));
+            }
+            IsAvatarOverlayVisible = false;
+        }
+
+        private void AcceptAvatarChange()
+        {
+            if (_selectedAvatar != null)
+            {                
+                AvatarUrl = _selectedAvatar.AvatarUrl;
+                IdAvatar = _selectedAvatar.AvatarId;
+            }
+            CloseAvatarOverlay();
+        }
+
+        private bool CanAcceptAvatarChange()
+        {
+            return IsAvatarSelected;
+        }
+
+        private void SelectAvatar(AvatarItemViewModel selectedAvatar)
+        {
+            if (selectedAvatar == null) return;
+            
+            foreach (var avatar in Avatars)
+            {
+                avatar.IsSelected = false;
+            }
+            
+            selectedAvatar.IsSelected = true;
+            _selectedAvatar = selectedAvatar;
+
+            OnPropertyChanged(nameof(IsAvatarSelected));
+            AcceptAvatarChangeCommand.RaiseCanExecuteChanged();
         }
 
         private async Task SendVerifyEmail()
@@ -334,8 +389,7 @@ namespace Lottery.ViewModel.User
             {
                 bool isValid = await _serviceClient.VerifyPasswordAsync(IdUser, CurrentPassword);
                 if (isValid)
-                {
-                    // Paso a nueva contraseña
+                {                    
                     IsChangePasswordVisible = false;
                     IsNewPasswordVisible = true;
                 }
@@ -455,21 +509,42 @@ namespace Lottery.ViewModel.User
 
         private void LoadAvatars()
         {
-            Avatars = new ObservableCollection<string>
-            {
-                "/Images/Avatar/avatar00.png",
-                "/Images/Avatar/avatar01.jpg",
-                "/Images/Avatar/avatar02.jpg",
-                "/Images/Avatar/avatar03.jpg",
-                "/Images/Avatar/avatar04.jpeg",
-                "/Images/Avatar/avatar05.jpg",
-                "/Images/Avatar/avatar06.jpg",
-                "/Images/Avatar/avatar07.jpg",
-                "/Images/Avatar/avatar08.jpg",
-                "/Images/Avatar/avatar09.jpg",
-                "/Images/Avatar/avatar10.jpg",
+            Avatars = new ObservableCollection<AvatarItemViewModel>
+            {                
+                new AvatarItemViewModel { AvatarId = 0, AvatarUrl = "/Images/Avatar/avatar00.png" },
+                new AvatarItemViewModel { AvatarId = 1, AvatarUrl = "/Images/Avatar/avatar01.jpg" },
+                new AvatarItemViewModel { AvatarId = 2, AvatarUrl = "/Images/Avatar/avatar02.jpg" },
+                new AvatarItemViewModel { AvatarId = 3, AvatarUrl = "/Images/Avatar/avatar03.jpg" },
+                new AvatarItemViewModel { AvatarId = 4, AvatarUrl = "/Images/Avatar/avatar04.jpeg" },
+                new AvatarItemViewModel { AvatarId = 5, AvatarUrl = "/Images/Avatar/avatar05.jpg" },
+                new AvatarItemViewModel { AvatarId = 6, AvatarUrl = "/Images/Avatar/avatar06.jpg" },
+                new AvatarItemViewModel { AvatarId = 7, AvatarUrl = "/Images/Avatar/avatar07.jpg" },
+                new AvatarItemViewModel { AvatarId = 8, AvatarUrl = "/Images/Avatar/avatar08.jpg" },
+                new AvatarItemViewModel { AvatarId = 9, AvatarUrl = "/Images/Avatar/avatar09.jpg" },
+                new AvatarItemViewModel { AvatarId = 10, AvatarUrl = "/Images/Avatar/avatar10.jpg" },
             };
-        }
+            
+            _selectedAvatar = Avatars.FirstOrDefault(a => a.AvatarId == this.IdAvatar);
+            if (_selectedAvatar != null)
+            {
+                _selectedAvatar.IsSelected = true;
+            }
 
+            OnPropertyChanged(nameof(IsAvatarSelected));
+            CommandManager.InvalidateRequerySuggested();
+        }
+    }
+
+    public class AvatarItemViewModel : ObservableObject
+    {
+        public int AvatarId { get; set; }
+        public string AvatarUrl { get; set; }
+
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set => SetProperty(ref _isSelected, value);
+        }
     }
 }

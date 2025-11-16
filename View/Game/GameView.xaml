@@ -12,32 +12,24 @@
         WindowStyle="None"
         WindowState="Maximized">
 
-    <!-- Fondo -->
     <Window.Background>
         <ImageBrush ImageSource="pack://application:,,,/Images/background2.jpg"
                     Stretch="UniformToFill"/>
     </Window.Background>
 
     <Grid>
-        <!-- Columnas principales -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400"/>
-            <!-- IZQUIERDA -->
             <ColumnDefinition Width="*"/>
-            <!-- CENTRO -->
             <ColumnDefinition Width="420"/>
-            <!-- DERECHA -->
         </Grid.ColumnDefinitions>
 
-        <!-- 🔹 IZQUIERDA (rivales + fichas) -->
         <StackPanel Grid.Column="0"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Left"
                     Margin="10,0,0,0"
                     Width="390">
 
-            <!-- Rivales -->
-            <!-- (Tu ItemsControl para rivales va aquí, no se necesita cambiar) -->
             <ItemsControl>
                 <ItemsControl.ItemsSource>
                     <x:Array Type="{x:Type sys:Int32}">
@@ -76,7 +68,6 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <!-- Imagen de fichas -->
             <Border BorderBrush="Transparent"
                     BorderThickness="2"
                     CornerRadius="10"
@@ -90,7 +81,6 @@
             </Border>
         </StackPanel>
 
-        <!-- 🔹 CENTRO (tabla principal) -->
         <Grid Grid.Column="1"
               VerticalAlignment="Center"
               HorizontalAlignment="Center">
@@ -108,7 +98,6 @@
             </Border>
         </Grid>
 
-        <!-- 🔹 DERECHA (carta + botón ¡Lotería!) -->
         <StackPanel Grid.Column="2"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
@@ -121,23 +110,11 @@
                     Width="260">
                 <StackPanel>
 
-                    <!-- 
-                      ****************************************************
-                      * MODIFICACIÓN 1 AQUÍ                  *
-                      * Se bindea el Source a la propiedad del ViewModel *
-                      ****************************************************
-                    -->
                     <Image Source="{Binding CurrentCardImage}"
                            Width="260"
                            Height="360"
                            Stretch="Uniform"/>
 
-                    <!-- 
-                      ****************************************************
-                      * MODIFICACIÓN 2 AQUÍ                  *
-                      * Se añade un TextBlock para el nombre de la carta *
-                      ****************************************************
-                    -->
                     <TextBlock Text="{Binding CurrentCardName}"
                                FontSize="20"
                                FontWeight="Bold"
@@ -151,7 +128,7 @@
             </Border>
 
             <Button Content="¡Lotería!"
-                    Command="{Binding ClaimLoteriaCommand}"
+                    Command="{Binding DeclareLoteriaCommand}"
                     FontSize="24"
                     FontWeight="Bold"
                     Width="260"
@@ -160,7 +137,6 @@
                     Style="{StaticResource BlueLargeButtonStyle}"/>
         </StackPanel>
 
-        <!-- 🔹 BOTÓN PAUSA (arriba a la derecha, siempre visible) -->
         <Button Content="⏸ Pausa"
                 Command="{Binding PauseGameCommand}"
                 Width="120"
@@ -176,7 +152,6 @@
                 Margin="0,20,40,0"
                 Grid.ColumnSpan="3"/>
 
-        <!-- 🔹 INFERIOR: mensaje de estado -->
         <Grid Grid.ColumnSpan="3"
               VerticalAlignment="Bottom"
               Margin="30,0,30,20">

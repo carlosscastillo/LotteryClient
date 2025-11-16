@@ -483,4 +483,166 @@
   <data name="LobbyLabelInviteFriends" xml:space="preserve">
     <value>Invite Friends</value>
   </data>
+  <data name="CardTextBlockAang" xml:space="preserve">
+    <value>Aang</value>
+  </data>
+  <data name="CardTextBlockArnold" xml:space="preserve">
+    <value>Arnold Shortman</value>
+  </data>
+  <data name="CardTextBlockAshKetchum" xml:space="preserve">
+    <value>Ash Ketchum</value>
+  </data>
+  <data name="CardTextBlockBartSimpson" xml:space="preserve">
+    <value>Bart Simpson</value>
+  </data>
+  <data name="CardTextBlockBenTen" xml:space="preserve">
+    <value>Ben 10</value>
+  </data>
+  <data name="CardTextBlockBilly" xml:space="preserve">
+    <value>Billy</value>
+  </data>
+  <data name="CardTextBlockBlossom" xml:space="preserve">
+    <value>Blossom</value>
+  </data>
+  <data name="CardTextBlockBrain" xml:space="preserve">
+    <value>Brain</value>
+  </data>
+  <data name="CardTextBlockBrock" xml:space="preserve">
+    <value>Brock</value>
+  </data>
+  <data name="CardTextBlockBubbles" xml:space="preserve">
+    <value>Bubbles</value>
+  </data>
+  <data name="CardTextBlockButtercup" xml:space="preserve">
+    <value>Buttercup</value>
+  </data>
+  <data name="CardTextBlockCatDog" xml:space="preserve">
+    <value>CatDog</value>
+  </data>
+  <data name="CardTextBlockChuckieFinster" xml:space="preserve">
+    <value>Chuckie Finster</value>
+  </data>
+  <data name="CardTextBlockCosmo" xml:space="preserve">
+    <value>Cosmo</value>
+  </data>
+  <data name="CardTextBlockCourage" xml:space="preserve">
+    <value>Courage</value>
+  </data>
+  <data name="CardTextBlockDexter" xml:space="preserve">
+    <value>Dexter</value>
+  </data>
+  <data name="CardTextBlockDipperPines" xml:space="preserve">
+    <value>Dipper Pines</value>
+  </data>
+  <data name="CardTextBlockEdd" xml:space="preserve">
+    <value>Edd</value>
+  </data>
+  <data name="CardTextBlockEddy" xml:space="preserve">
+    <value>Eddy</value>
+  </data>
+  <data name="CardTextBlockPhineas" xml:space="preserve">
+    <value>Phineas</value>
+  </data>
+  <data name="CardTextBlockFerb" xml:space="preserve">
+    <value>Ferb</value>
+  </data>
+  <data name="CardTextBlockFinnTheHuman" xml:space="preserve">
+    <value>Finn The Human</value>
+  </data>
+  <data name="CardTextBlockGoku" xml:space="preserve">
+    <value>Goku</value>
+  </data>
+  <data name="CardTextBlockHomerSimpson" xml:space="preserve">
+    <value>Homer Simpson</value>
+  </data>
+  <data name="CardTextBlockJakeTheDog" xml:space="preserve">
+    <value>Jake The Dog</value>
+  </data>
+  <data name="CardTextBlockJerry" xml:space="preserve">
+    <value>Jerry</value>
+  </data>
+  <data name="CardTextBlockKimPossible" xml:space="preserve">
+    <value>Kim Possible</value>
+  </data>
+  <data name="CardTextBlockLisaSimpson" xml:space="preserve">
+    <value>Lisa Simpson</value>
+  </data>
+  <data name="CardTextBlockMabelPines" xml:space="preserve">
+    <value>Mabel Pines</value>
+  </data>
+  <data name="CardTextBlockMickeyMouse" xml:space="preserve">
+    <value>Mickey Mouse</value>
+  </data>
+  <data name="CardTextBlockMisty" xml:space="preserve">
+    <value>Misty</value>
+  </data>
+  <data name="CardTextBlockMordecai" xml:space="preserve">
+    <value>Mordecai</value>
+  </data>
+  <data name="CardTextBlockMortySmith" xml:space="preserve">
+    <value>Morty Smith</value>
+  </data>
+  <data name="CardTextBlockMrKrabs" xml:space="preserve">
+    <value>Mr. Krabs</value>
+  </data>
+  <data name="CardTextBlockNaruto" xml:space="preserve">
+    <value>Naruto</value>
+  </data>
+  <data name="CardTextBlockNumberOne" xml:space="preserve">
+    <value>Number 1</value>
+  </data>
+  <data name="CardTextBlockPatrickStar" xml:space="preserve">
+    <value>Patrick Star</value>
+  </data>
+  <data name="CardTextBlockPerryThePlatypus" xml:space="preserve">
+    <value>Perry The Platypus</value>
+  </data>
+  <data name="CardTextBlockPicoro" xml:space="preserve">
+    <value>Picoro</value>
+  </data>
+  <data name="CardTextBlockPikachu" xml:space="preserve">
+    <value>Pikachu</value>
+  </data>
+  <data name="CardTextBlockPinky" xml:space="preserve">
+    <value>Pinky</value>
+  </data>
+  <data name="CardTextBlockRickSanchez" xml:space="preserve">
+    <value>Rick Sanchez</value>
+  </data>
+  <data name="CardTextBlockRigby" xml:space="preserve">
+    <value>Rigby</value>
+  </data>
+  <data name="CardTextBlockSailorMoon" xml:space="preserve">
+    <value>Sailor Moon</value>
+  </data>
+  <data name="CardTextBlockScoobyDoo" xml:space="preserve">
+    <value>Scooby-Doo</value>
+  </data>
+  <data name="CardTextBlockShaggy" xml:space="preserve">
+    <value>Shaggy</value>
+  </data>
+  <data name="CardTextBlockShego" xml:space="preserve">
+    <value>Shego</value>
+  </data>
+  <data name="CardTextBlockSnoopy" xml:space="preserve">
+    <value>Snoopy</value>
+  </data>
+  <data name="CardTextBlockSpongeBob" xml:space="preserve">
+    <value>Sponge Bob</value>
+  </data>
+  <data name="CardTextBlockStich" xml:space="preserve">
+    <value>Stich</value>
+  </data>
+  <data name="CardTextBlockTom" xml:space="preserve">
+    <value>Tom</value>
+  </data>
+  <data name="CardTextBlockTommy" xml:space="preserve">
+    <value>Tommy Pickles</value>
+  </data>
+  <data name="CardTextBlockWanda" xml:space="preserve">
+    <value>Wanda</value>
+  </data>
+  <data name="CardTextBlockWoodyWoodpecker" xml:space="preserve">
+    <value>Woody Woodpecker</value>
+  </data>
 </root>

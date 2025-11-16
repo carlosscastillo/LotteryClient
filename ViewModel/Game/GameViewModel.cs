@@ -35,11 +35,11 @@ namespace Lottery.ViewModel.Game
             set => SetProperty(ref _currentCardImage, value);
         }
 
-        private string _currentCardName;
+        private string _currentCardName = "Esperando carta...";
         public string CurrentCardName
         {
             get => _currentCardName;
-            set => SetProperty(ref _currentCardName, value, "Esperando carta...");
+            set => SetProperty(ref _currentCardName, value);
         }
 
         private string _gameStatusMessage;
@@ -67,7 +67,8 @@ namespace Lottery.ViewModel.Game
 
             SubscribeToGameEvents();
 
-            MessageBox.Show(GetImagePathFromId(1));
+            CurrentCardImage = new BitmapImage(new Uri(GetCardBackPath(), UriKind.Absolute));
+            CurrentCardName = "Esperando carta...";
         }
 
         private void SubscribeToGameEvents()
@@ -84,22 +85,102 @@ namespace Lottery.ViewModel.Game
             ClientCallbackHandler.GameEndedReceived -= OnGameEnded;
         }
 
-        private void OnCardDrawn(CardDto card)
+        private void OnCardDrawn(CardDto cardDto)
         {
             _gameWindow.Dispatcher.Invoke(() =>
             {
-                string uri = GetImagePathFromId(card.Id);
-
+                string uri = GetImagePathFromId(cardDto.Id);
                 CurrentCardImage = new BitmapImage(new Uri(uri, UriKind.Absolute));
-                CurrentCardName = card.Name;
-                GameStatusMessage = $"¡Salió: {card.Name}!";
+
+                var key = GetResourceKeyForCard(cardDto.Id);
+
+                if (key != null)
+                {
+                    CurrentCardName = Properties.Langs.Lang.ResourceManager.GetString(key)
+                        ?? $"Carta {cardDto.Id}";
+                }
+                else
+                {
+                    CurrentCardName = $"Carta {cardDto.Id}";
+                }
+
+                GameStatusMessage = $"¡Salió: {CurrentCardName}!";
             });
+        }
+
+
+        private string GetResourceKeyForCard(int cardId)
+        {
+            switch (cardId)
+            {
+                case 1: return "CardTextBlockAang";
+                case 2: return "CardTextBlockArnold";
+                case 3: return "CardTextBlockAshKetchum";
+                case 4: return "CardTextBlockBartSimpson";
+                case 5: return "CardTextBlockBenTen";
+                case 6: return "CardTextBlockBilly";
+                case 7: return "CardTextBlockBlossom";
+                case 8: return "CardTextBlockBrain";
+                case 9: return "CardTextBlockBrock";
+                case 10: return "CardTextBlockBubbles";
+                case 11: return "CardTextBlockButtercup";
+                case 12: return "CardTextBlockCatDog";
+                case 13: return "CardTextBlockChuckieFinster";
+                case 14: return "CardTextBlockCosmo";
+                case 15: return "CardTextBlockCourage";
+                case 16: return "CardTextBlockDexter";
+                case 17: return "CardTextBlockDipperPines";
+                case 18: return "CardTextBlockEdd";
+                case 19: return "CardTextBlockEddy";
+                case 20: return "CardTextBlockPhineas";
+                case 21: return "CardTextBlockFerb";
+                case 22: return "CardTextBlockFinnTheHuman";
+                case 23: return "CardTextBlockGoku";
+                case 24: return "CardTextBlockHomerSimpson";
+                case 25: return "CardTextBlockJakeTheDog";
+                case 26: return "CardTextBlockJerry";
+                case 27: return "CardTextBlockKimPossible";
+                case 28: return "CardTextBlockLisaSimpson";
+                case 29: return "CardTextBlockMabelPines";
+                case 30: return "CardTextBlockMickeyMouse";
+                case 31: return "CardTextBlockMisty";
+                case 32: return "CardTextBlockMordecai";
+                case 33: return "CardTextBlockMortySmith";
+                case 34: return "CardTextBlockMrKrabs";
+                case 35: return "CardTextBlockNaruto";
+                case 36: return "CardTextBlockNumberOne";
+                case 37: return "CardTextBlockPatrickStar";
+                case 38: return "CardTextBlockPerryThePlatypus";
+                case 39: return "CardTextBlockPicoro";
+                case 40: return "CardTextBlockPikachu";
+                case 41: return "CardTextBlockPinky";
+                case 42: return "CardTextBlockRickSanchez";
+                case 43: return "CardTextBlockRigby";
+                case 44: return "CardTextBlockSailorMoon";
+                case 45: return "CardTextBlockScoobyDoo";
+                case 46: return "CardTextBlockShaggy";
+                case 47: return "CardTextBlockShego";
+                case 48: return "CardTextBlockSnoopy";
+                case 49: return "CardTextBlockSpongeBob";
+                case 50: return "CardTextBlockStich";
+                case 51: return "CardTextBlockTom";
+                case 52: return "CardTextBlockTommy";
+                case 53: return "CardTextBlockWanda";
+                case 54: return "CardTextBlockWoodyWoodpecker";
+        
+                default: return null;
+            }
         }
 
         private string GetImagePathFromId(int cardId)
         {
             string fileId = cardId.ToString("D2");
             return $"pack://application:,,,/Lottery;component/Images/Cards/card{fileId}.png";
+        }
+
+        private string GetCardBackPath()
+        {
+            return $"pack://application:,,,/Lottery;component/Images/Cards/cardReverse.png";
         }
 
         private void OnPlayerWon(string nickname)

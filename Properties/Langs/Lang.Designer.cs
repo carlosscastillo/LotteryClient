@@ -61,6 +61,492 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Aang.
+        /// </summary>
+        public static string CardTextBlockAang {
+            get {
+                return ResourceManager.GetString("CardTextBlockAang", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Arnold.
+        /// </summary>
+        public static string CardTextBlockArnold {
+            get {
+                return ResourceManager.GetString("CardTextBlockArnold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ash Ketchum.
+        /// </summary>
+        public static string CardTextBlockAshKetchum {
+            get {
+                return ResourceManager.GetString("CardTextBlockAshKetchum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Bart Simpson.
+        /// </summary>
+        public static string CardTextBlockBartSimpson {
+            get {
+                return ResourceManager.GetString("CardTextBlockBartSimpson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ben 10.
+        /// </summary>
+        public static string CardTextBlockBenTen {
+            get {
+                return ResourceManager.GetString("CardTextBlockBenTen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Billy.
+        /// </summary>
+        public static string CardTextBlockBilly {
+            get {
+                return ResourceManager.GetString("CardTextBlockBilly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Bombón.
+        /// </summary>
+        public static string CardTextBlockBlossom {
+            get {
+                return ResourceManager.GetString("CardTextBlockBlossom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cerebro.
+        /// </summary>
+        public static string CardTextBlockBrain {
+            get {
+                return ResourceManager.GetString("CardTextBlockBrain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Brock.
+        /// </summary>
+        public static string CardTextBlockBrock {
+            get {
+                return ResourceManager.GetString("CardTextBlockBrock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Burbuja.
+        /// </summary>
+        public static string CardTextBlockBubbles {
+            get {
+                return ResourceManager.GetString("CardTextBlockBubbles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Bellota.
+        /// </summary>
+        public static string CardTextBlockButtercup {
+            get {
+                return ResourceManager.GetString("CardTextBlockButtercup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a GatoPerro.
+        /// </summary>
+        public static string CardTextBlockCatDog {
+            get {
+                return ResourceManager.GetString("CardTextBlockCatDog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Carlitos Baldosa.
+        /// </summary>
+        public static string CardTextBlockChuckieFinster {
+            get {
+                return ResourceManager.GetString("CardTextBlockChuckieFinster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cosmo.
+        /// </summary>
+        public static string CardTextBlockCosmo {
+            get {
+                return ResourceManager.GetString("CardTextBlockCosmo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Coraje.
+        /// </summary>
+        public static string CardTextBlockCourage {
+            get {
+                return ResourceManager.GetString("CardTextBlockCourage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Dexter.
+        /// </summary>
+        public static string CardTextBlockDexter {
+            get {
+                return ResourceManager.GetString("CardTextBlockDexter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Dipper Pines.
+        /// </summary>
+        public static string CardTextBlockDipperPines {
+            get {
+                return ResourceManager.GetString("CardTextBlockDipperPines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Edd.
+        /// </summary>
+        public static string CardTextBlockEdd {
+            get {
+                return ResourceManager.GetString("CardTextBlockEdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Eddy.
+        /// </summary>
+        public static string CardTextBlockEddy {
+            get {
+                return ResourceManager.GetString("CardTextBlockEddy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ferb.
+        /// </summary>
+        public static string CardTextBlockFerb {
+            get {
+                return ResourceManager.GetString("CardTextBlockFerb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Finn El Humano.
+        /// </summary>
+        public static string CardTextBlockFinnTheHuman {
+            get {
+                return ResourceManager.GetString("CardTextBlockFinnTheHuman", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Goku.
+        /// </summary>
+        public static string CardTextBlockGoku {
+            get {
+                return ResourceManager.GetString("CardTextBlockGoku", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Homero Simpson.
+        /// </summary>
+        public static string CardTextBlockHomerSimpson {
+            get {
+                return ResourceManager.GetString("CardTextBlockHomerSimpson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Jake El Perro.
+        /// </summary>
+        public static string CardTextBlockJakeTheDog {
+            get {
+                return ResourceManager.GetString("CardTextBlockJakeTheDog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Jerry.
+        /// </summary>
+        public static string CardTextBlockJerry {
+            get {
+                return ResourceManager.GetString("CardTextBlockJerry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Kim Posible.
+        /// </summary>
+        public static string CardTextBlockKimPossible {
+            get {
+                return ResourceManager.GetString("CardTextBlockKimPossible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Lisa Simpson.
+        /// </summary>
+        public static string CardTextBlockLisaSimpson {
+            get {
+                return ResourceManager.GetString("CardTextBlockLisaSimpson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Mabel Pines.
+        /// </summary>
+        public static string CardTextBlockMabelPines {
+            get {
+                return ResourceManager.GetString("CardTextBlockMabelPines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Mickey Mouse.
+        /// </summary>
+        public static string CardTextBlockMickeyMouse {
+            get {
+                return ResourceManager.GetString("CardTextBlockMickeyMouse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Misty.
+        /// </summary>
+        public static string CardTextBlockMisty {
+            get {
+                return ResourceManager.GetString("CardTextBlockMisty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Mordecai.
+        /// </summary>
+        public static string CardTextBlockMordecai {
+            get {
+                return ResourceManager.GetString("CardTextBlockMordecai", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Morty Smith.
+        /// </summary>
+        public static string CardTextBlockMortySmith {
+            get {
+                return ResourceManager.GetString("CardTextBlockMortySmith", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Don Cangrejo.
+        /// </summary>
+        public static string CardTextBlockMrKrabs {
+            get {
+                return ResourceManager.GetString("CardTextBlockMrKrabs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Naruto.
+        /// </summary>
+        public static string CardTextBlockNaruto {
+            get {
+                return ResourceManager.GetString("CardTextBlockNaruto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Número 1.
+        /// </summary>
+        public static string CardTextBlockNumberOne {
+            get {
+                return ResourceManager.GetString("CardTextBlockNumberOne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Patricio Estrella.
+        /// </summary>
+        public static string CardTextBlockPatrickStar {
+            get {
+                return ResourceManager.GetString("CardTextBlockPatrickStar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Perry El Ornitorrinco.
+        /// </summary>
+        public static string CardTextBlockPerryThePlatypus {
+            get {
+                return ResourceManager.GetString("CardTextBlockPerryThePlatypus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Phineas.
+        /// </summary>
+        public static string CardTextBlockPhineas {
+            get {
+                return ResourceManager.GetString("CardTextBlockPhineas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Picoro.
+        /// </summary>
+        public static string CardTextBlockPicoro {
+            get {
+                return ResourceManager.GetString("CardTextBlockPicoro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Pikachu.
+        /// </summary>
+        public static string CardTextBlockPikachu {
+            get {
+                return ResourceManager.GetString("CardTextBlockPikachu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Pinky.
+        /// </summary>
+        public static string CardTextBlockPinky {
+            get {
+                return ResourceManager.GetString("CardTextBlockPinky", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Rick Sánchez.
+        /// </summary>
+        public static string CardTextBlockRickSanchez {
+            get {
+                return ResourceManager.GetString("CardTextBlockRickSanchez", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Rigby.
+        /// </summary>
+        public static string CardTextBlockRigby {
+            get {
+                return ResourceManager.GetString("CardTextBlockRigby", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sailor Moon.
+        /// </summary>
+        public static string CardTextBlockSailorMoon {
+            get {
+                return ResourceManager.GetString("CardTextBlockSailorMoon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Scooby-Doo.
+        /// </summary>
+        public static string CardTextBlockScoobyDoo {
+            get {
+                return ResourceManager.GetString("CardTextBlockScoobyDoo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Shaggy.
+        /// </summary>
+        public static string CardTextBlockShaggy {
+            get {
+                return ResourceManager.GetString("CardTextBlockShaggy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Shego.
+        /// </summary>
+        public static string CardTextBlockShego {
+            get {
+                return ResourceManager.GetString("CardTextBlockShego", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Snoopy.
+        /// </summary>
+        public static string CardTextBlockSnoopy {
+            get {
+                return ResourceManager.GetString("CardTextBlockSnoopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Bob Esponja.
+        /// </summary>
+        public static string CardTextBlockSpongeBob {
+            get {
+                return ResourceManager.GetString("CardTextBlockSpongeBob", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Stich.
+        /// </summary>
+        public static string CardTextBlockStich {
+            get {
+                return ResourceManager.GetString("CardTextBlockStich", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tom.
+        /// </summary>
+        public static string CardTextBlockTom {
+            get {
+                return ResourceManager.GetString("CardTextBlockTom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tommy.
+        /// </summary>
+        public static string CardTextBlockTommy {
+            get {
+                return ResourceManager.GetString("CardTextBlockTommy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Wanda.
+        /// </summary>
+        public static string CardTextBlockWanda {
+            get {
+                return ResourceManager.GetString("CardTextBlockWanda", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El Pájaro Loco.
+        /// </summary>
+        public static string CardTextBlockWoodyWoodpecker {
+            get {
+                return ResourceManager.GetString("CardTextBlockWoodyWoodpecker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Crear nueva contraseña.
         /// </summary>
         public static string ChangePasswordButtonCreateNewPassword {

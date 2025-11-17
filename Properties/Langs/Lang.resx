@@ -645,4 +645,7 @@
   <data name="CardTextBlockWoodyWoodpecker" xml:space="preserve">
     <value>El Pájaro Loco</value>
   </data>
+  <data name="CardTextBlockReverse" xml:space="preserve">
+    <value>Esperando Carta . . .</value>
+  </data>
 </root>

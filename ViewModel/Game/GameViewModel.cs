@@ -1,4 +1,5 @@
 ﻿using Lottery.LotteryServiceReference;
+using Lottery.Properties.Langs;
 using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;
 using System;
@@ -68,7 +69,7 @@ namespace Lottery.ViewModel.Game
             SubscribeToGameEvents();
 
             CurrentCardImage = new BitmapImage(new Uri(GetCardBackPath(), UriKind.Absolute));
-            CurrentCardName = "Esperando carta...";
+            CurrentCardName = "" + Lang.CardTextBlockReverse + "";
         }
 
         private void SubscribeToGameEvents()
@@ -89,15 +90,14 @@ namespace Lottery.ViewModel.Game
         {
             _gameWindow.Dispatcher.Invoke(() =>
             {
-                string uri = GetImagePathFromId(cardDto.Id);
-                CurrentCardImage = new BitmapImage(new Uri(uri, UriKind.Absolute));
+                string cardImagePath = GetImagePathFromId(cardDto.Id);
+                CurrentCardImage = new BitmapImage(new Uri(cardImagePath, UriKind.Absolute));
 
                 var key = GetResourceKeyForCard(cardDto.Id);
 
                 if (key != null)
                 {
-                    CurrentCardName = Properties.Langs.Lang.ResourceManager.GetString(key)
-                        ?? $"Carta {cardDto.Id}";
+                    CurrentCardName = Lang.ResourceManager.GetString(key) ?? $"Carta {cardDto.Id}";
                 }
                 else
                 {
@@ -132,25 +132,25 @@ namespace Lottery.ViewModel.Game
                 case 17: return "CardTextBlockDipperPines";
                 case 18: return "CardTextBlockEdd";
                 case 19: return "CardTextBlockEddy";
-                case 20: return "CardTextBlockPhineas";
-                case 21: return "CardTextBlockFerb";
-                case 22: return "CardTextBlockFinnTheHuman";
-                case 23: return "CardTextBlockGoku";
-                case 24: return "CardTextBlockHomerSimpson";
-                case 25: return "CardTextBlockJakeTheDog";
-                case 26: return "CardTextBlockJerry";
-                case 27: return "CardTextBlockKimPossible";
-                case 28: return "CardTextBlockLisaSimpson";
-                case 29: return "CardTextBlockMabelPines";
-                case 30: return "CardTextBlockMickeyMouse";
-                case 31: return "CardTextBlockMisty";
-                case 32: return "CardTextBlockMordecai";
-                case 33: return "CardTextBlockMortySmith";
-                case 34: return "CardTextBlockMrKrabs";
-                case 35: return "CardTextBlockNaruto";
-                case 36: return "CardTextBlockNumberOne";
-                case 37: return "CardTextBlockPatrickStar";
-                case 38: return "CardTextBlockPerryThePlatypus";
+                case 20: return "CardTextBlockFerb";
+                case 21: return "CardTextBlockFinnTheHuman";
+                case 22: return "CardTextBlockGoku";
+                case 23: return "CardTextBlockHomerSimpson";
+                case 24: return "CardTextBlockJakeTheDog";
+                case 25: return "CardTextBlockJerry";
+                case 26: return "CardTextBlockKimPossible";
+                case 27: return "CardTextBlockLisaSimpson";
+                case 28: return "CardTextBlockMabelPines";
+                case 29: return "CardTextBlockMickeyMouse";
+                case 30: return "CardTextBlockMisty";
+                case 31: return "CardTextBlockMordecai";
+                case 32: return "CardTextBlockMortySmith";
+                case 33: return "CardTextBlockMrKrabs";
+                case 34: return "CardTextBlockNaruto";
+                case 35: return "CardTextBlockNumberOne";
+                case 36: return "CardTextBlockPatrickStar";
+                case 37: return "CardTextBlockPerryThePlatypus";
+                case 38: return "CardTextBlockPhineas";
                 case 39: return "CardTextBlockPicoro";
                 case 40: return "CardTextBlockPikachu";
                 case 41: return "CardTextBlockPinky";

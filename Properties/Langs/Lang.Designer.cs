@@ -430,6 +430,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Esperando Carta . . ..
+        /// </summary>
+        public static string CardTextBlockReverse {
+            get {
+                return ResourceManager.GetString("CardTextBlockReverse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Rick Sánchez.
         /// </summary>
         public static string CardTextBlockRickSanchez {

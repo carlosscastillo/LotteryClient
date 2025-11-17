@@ -645,4 +645,7 @@
   <data name="CardTextBlockWoodyWoodpecker" xml:space="preserve">
     <value>Woody Woodpecker</value>
   </data>
+  <data name="CardTextBlockReverse" xml:space="preserve">
+    <value>Waiting For Card . . .</value>
+  </data>
 </root>

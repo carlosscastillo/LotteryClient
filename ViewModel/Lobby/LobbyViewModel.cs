@@ -258,7 +258,7 @@ namespace Lottery.ViewModel.Lobby
         {
             _lobbyWindow.Dispatcher.Invoke(() =>
             {
-                GameView gameView = new GameView();
+                GameView gameView = new GameView(this.Players, settings);
                 gameView.DataContext = new GameViewModel(this.Players, settings, gameView);
                 gameView.Show();
                 _lobbyWindow.Close();

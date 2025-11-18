@@ -4,6 +4,7 @@ using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
@@ -19,7 +20,9 @@ namespace Lottery.ViewModel.Game
         private readonly int _currentUserId;
         private readonly Window _gameWindow;
 
-        public ObservableCollection<UserDto> Players { get; }
+        public ObservableCollection<UserDto> Players { get; }        
+        public ObservableCollection<Cell> BoardCells { get; } = new ObservableCollection<Cell>(Enumerable.Range(0, 16).Select(_ => new Cell()));
+
         public bool IsHost { get; }
 
         private string _playerCardImage;
@@ -49,7 +52,7 @@ namespace Lottery.ViewModel.Game
             get => _gameStatusMessage;
             set => SetProperty(ref _gameStatusMessage, value, "¡La partida ha comenzado!");
         }
-
+        public bool AllCellsSelected => BoardCells != null && BoardCells.Count > 0 && BoardCells.All(c => c.IsSelected);
         public ICommand DeclareLoteriaCommand { get; }
         public ICommand PauseGameCommand { get; }
 
@@ -60,6 +63,12 @@ namespace Lottery.ViewModel.Game
             _gameWindow = window;
 
             Players = players;
+            foreach (var cell in BoardCells)
+            {
+                cell.IsSelected = false;
+                cell.PropertyChanged += CellOnPropertyChanged;
+            }
+            OnPropertyChanged(nameof(AllCellsSelected));           
 
             IsHost = Players.FirstOrDefault(p => p.UserId == _currentUserId)?.IsHost ?? false;
 
@@ -172,6 +181,15 @@ namespace Lottery.ViewModel.Game
             }
         }
 
+        private void CellOnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Cell.IsSelected))
+            {                
+                OnPropertyChanged(nameof(AllCellsSelected));
+            }
+        }
+
+
         private string GetImagePathFromId(int cardId)
         {
             string fileId = cardId.ToString("D2");
@@ -241,4 +259,15 @@ namespace Lottery.ViewModel.Game
             _gameWindow.Close();
         }
     }
+
+    public class Cell : ObservableObject
+    {
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set => SetProperty(ref _isSelected, value);
+        }
+    }
+
 }

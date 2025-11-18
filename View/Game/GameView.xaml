@@ -80,21 +80,67 @@
                        Stretch="Uniform"/>
             </Border>
         </StackPanel>
-
+        
         <Grid Grid.Column="1"
-              VerticalAlignment="Center"
-              HorizontalAlignment="Center">
-            <Border Background="#AAFFFFFF"
-                    CornerRadius="24"
-                    Padding="18"
-                    BorderBrush="White"
-                    BorderThickness="0"
-                    Width="500"
-                    Height="770"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-                <Image Source="pack://application:,,,/Images/tabla.jpg"
-                       Stretch="Uniform"/>
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center">
+            
+            <Border 
+                Background="#AAFFFFFF"
+                CornerRadius="24"
+                BorderBrush="White"
+                BorderThickness="0"
+                Width="500"
+                Height="770"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+                <Grid>
+                    
+                    <Image Source="pack://application:,,,/Images/CartaDeLotería.png"
+                        Stretch="Uniform"
+                        Margin="18"/>
+                    
+                    <Grid Margin="18"
+                        IsHitTestVisible="True">
+                        
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <ToggleButton Grid.Row="0" Grid.Column="0" IsChecked="{Binding BoardCells[0].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
+                        <ToggleButton Grid.Row="0" Grid.Column="1" IsChecked="{Binding BoardCells[1].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
+                        <ToggleButton Grid.Row="0" Grid.Column="2" IsChecked="{Binding BoardCells[2].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
+                        <ToggleButton Grid.Row="0" Grid.Column="3" IsChecked="{Binding BoardCells[3].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
+
+                        <ToggleButton Grid.Row="1" Grid.Column="0" IsChecked="{Binding BoardCells[4].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
+                        <ToggleButton Grid.Row="1" Grid.Column="1" IsChecked="{Binding BoardCells[5].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
+                        <ToggleButton Grid.Row="1" Grid.Column="2" IsChecked="{Binding BoardCells[6].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
+                        <ToggleButton Grid.Row="1" Grid.Column="3" IsChecked="{Binding BoardCells[7].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
+
+                        <ToggleButton Grid.Row="2" Grid.Column="0" IsChecked="{Binding BoardCells[8].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
+                        <ToggleButton Grid.Row="2" Grid.Column="1" IsChecked="{Binding BoardCells[9].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
+                        <ToggleButton Grid.Row="2" Grid.Column="2" IsChecked="{Binding BoardCells[10].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
+                        <ToggleButton Grid.Row="2" Grid.Column="3" IsChecked="{Binding BoardCells[11].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
+
+                        <ToggleButton Grid.Row="3" Grid.Column="0" IsChecked="{Binding BoardCells[12].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
+                        <ToggleButton Grid.Row="3" Grid.Column="1" IsChecked="{Binding BoardCells[13].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
+                        <ToggleButton Grid.Row="3" Grid.Column="2" IsChecked="{Binding BoardCells[14].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
+                        <ToggleButton Grid.Row="3" Grid.Column="3" IsChecked="{Binding BoardCells[15].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
+                        
+                    </Grid>
+
+                </Grid>
             </Border>
         </Grid>
 
@@ -127,14 +173,8 @@
                 </StackPanel>
             </Border>
 
-            <Button Content="¡Lotería!"
-                    Command="{Binding DeclareLoteriaCommand}"
-                    FontSize="24"
-                    FontWeight="Bold"
-                    Width="260"
-                    Height="65"
-                    Margin="0,30,0,0"
-                    Style="{StaticResource BlueLargeButtonStyle}"/>
+            <Button Content="Loteria" Style="{StaticResource PrimaryButtonStyle2}" Visibility="{Binding AllCellsSelected, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,25,0,0"/>
+
         </StackPanel>
 
         <Button Content="⏸ Pausa"

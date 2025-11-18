@@ -374,6 +374,10 @@
   <ItemGroup>
     <Resource Include="Images\Cards\cardReverse.png" />
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Tokens\bean.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(ProjectDir)App.config" "$(TargetPath).config"</PostBuildEvent>

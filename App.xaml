@@ -64,6 +64,51 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
+        <Style x:Key="PrimaryButtonStyle2" TargetType="Button">
+            <Setter Property="Background" Value="#D32F2F"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Height" Value="48"/>
+            <Setter Property="Width" Value="250"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                Background="{TemplateBinding Background}"
+                CornerRadius="10">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                              VerticalAlignment="Center"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border"
+                        Property="Background"
+                        Value="#E53935"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border"
+                        Property="Background"
+                        Value="#B71C1C"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border"
+                        Property="Opacity"
+                        Value="0.5"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
         <Style x:Key="BlueLargeButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="#0078D7"/>
@@ -86,7 +131,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
+        
         <Style x:Key="StyledTextBox" TargetType="TextBox">
             <Setter Property="Background" Value="#E0E0E0"/>
             <Setter Property="BorderBrush" Value="#CCC"/>
@@ -319,6 +364,33 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="ListViewItem">
                         <ContentPresenter/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SelectableImageButton" TargetType="ToggleButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Grid>
+                            <Image x:Name="SelectedImage"
+                           Source="pack://application:,,,/Images/Tokens/bean.png"
+                           Stretch="Uniform"
+                           Opacity="0"/>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="SelectedImage" Property="Opacity" Value="1"/>
+                            </Trigger>
+                            
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="SelectedImage" Property="Opacity" Value="0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

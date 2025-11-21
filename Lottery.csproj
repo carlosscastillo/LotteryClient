@@ -271,9 +271,6 @@
     <Resource Include="Images\corcholata.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\tabla.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\card01.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -374,9 +371,15 @@
   <ItemGroup>
     <Resource Include="Images\Cards\cardReverse.png" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Resource Include="Images\Tokens\bean.png" />
+    <Resource Include="Images\Tokens\token01.png" />
+    <Resource Include="Images\Tokens\token02.png" />
+    <Resource Include="Images\Tokens\token03.png" />
+    <Resource Include="Images\Tokens\token04.png" />
+    <Resource Include="Images\Tokens\token05.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Tokens\token00.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

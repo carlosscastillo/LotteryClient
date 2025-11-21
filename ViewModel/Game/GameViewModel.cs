@@ -20,8 +20,9 @@ namespace Lottery.ViewModel.Game
         private readonly int _currentUserId;
         private readonly Window _gameWindow;
 
-        public ObservableCollection<UserDto> Players { get; }        
-        public ObservableCollection<Cell> BoardCells { get; } = new ObservableCollection<Cell>(Enumerable.Range(0, 16).Select(_ => new Cell()));
+        public ObservableCollection<UserDto> Players { get; }
+        public ObservableCollection<Cell> BoardCells { get; } =
+            new ObservableCollection<Cell>(Enumerable.Range(0, 16).Select(_ => new Cell()));
 
         public bool IsHost { get; }
 
@@ -52,7 +53,12 @@ namespace Lottery.ViewModel.Game
             get => _gameStatusMessage;
             set => SetProperty(ref _gameStatusMessage, value, "¡La partida ha comenzado!");
         }
-        public bool AllCellsSelected => BoardCells != null && BoardCells.Count > 0 && BoardCells.All(c => c.IsSelected);
+
+        public bool AllCellsSelected =>
+            BoardCells != null &&
+            BoardCells.Count > 0 &&
+            BoardCells.All(c => c.IsSelected);
+
         public ICommand DeclareLoteriaCommand { get; }
         public ICommand PauseGameCommand { get; }
 
@@ -63,12 +69,14 @@ namespace Lottery.ViewModel.Game
             _gameWindow = window;
 
             Players = players;
+
             foreach (var cell in BoardCells)
             {
                 cell.IsSelected = false;
                 cell.PropertyChanged += CellOnPropertyChanged;
             }
-            OnPropertyChanged(nameof(AllCellsSelected));           
+
+            OnPropertyChanged(nameof(AllCellsSelected));
 
             IsHost = Players.FirstOrDefault(p => p.UserId == _currentUserId)?.IsHost ?? false;
 
@@ -78,7 +86,7 @@ namespace Lottery.ViewModel.Game
             SubscribeToGameEvents();
 
             CurrentCardImage = new BitmapImage(new Uri(GetCardBackPath(), UriKind.Absolute));
-            CurrentCardName = "" + Lang.CardTextBlockReverse + "";
+            CurrentCardName = Lang.CardTextBlockReverse;
         }
 
         private void SubscribeToGameEvents()
@@ -106,17 +114,16 @@ namespace Lottery.ViewModel.Game
 
                 if (key != null)
                 {
-                    CurrentCardName = Lang.ResourceManager.GetString(key) ?? $"Carta {cardDto.Id}";
+                    CurrentCardName = Lang.ResourceManager.GetString(key) ?? ("Carta " + cardDto.Id);
                 }
                 else
                 {
-                    CurrentCardName = $"Carta {cardDto.Id}";
+                    CurrentCardName = "Carta " + cardDto.Id;
                 }
 
-                GameStatusMessage = $"¡Salió: {CurrentCardName}!";
+                GameStatusMessage = "¡Salió: " + CurrentCardName + "!";
             });
         }
-
 
         private string GetResourceKeyForCard(int cardId)
         {
@@ -176,37 +183,35 @@ namespace Lottery.ViewModel.Game
                 case 52: return "CardTextBlockTommy";
                 case 53: return "CardTextBlockWanda";
                 case 54: return "CardTextBlockWoodyWoodpecker";
-        
                 default: return null;
             }
         }
 
-        private void CellOnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void CellOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(Cell.IsSelected))
-            {                
+            {
                 OnPropertyChanged(nameof(AllCellsSelected));
             }
         }
 
-
         private string GetImagePathFromId(int cardId)
         {
             string fileId = cardId.ToString("D2");
-            return $"pack://application:,,,/Lottery;component/Images/Cards/card{fileId}.png";
+            return "pack://application:,,,/Lottery;component/Images/Cards/card" + fileId + ".png";
         }
 
         private string GetCardBackPath()
         {
-            return $"pack://application:,,,/Lottery;component/Images/Cards/cardReverse.png";
+            return "pack://application:,,,/Lottery;component/Images/Cards/cardReverse.png";
         }
 
         private void OnPlayerWon(string nickname)
         {
             _gameWindow.Dispatcher.Invoke(() =>
             {
-                GameStatusMessage = $"¡{nickname} ha ganado la partida!";
-                MessageBox.Show(_gameWindow, $"{nickname} ha ganado la partida.", "Fin del juego");
+                GameStatusMessage = "¡" + nickname + " ha ganado la partida!";
+                MessageBox.Show(_gameWindow, nickname + " ha ganado la partida.", "Fin del juego");
             });
         }
 
@@ -228,7 +233,21 @@ namespace Lottery.ViewModel.Game
             }
             catch (FaultException<ServiceFault> ex)
             {
-                MessageBox.Show(_gameWindow, ex.Detail.Message, "Error al declarar Lotería");
+                string errorCode = ex.Detail != null ? ex.Detail.ErrorCode : "";
+                string message = ex.Detail != null ? ex.Detail.Message : "Error desconocido";
+
+                if (errorCode == "GAME_NOT_RUNNING")
+                {
+                    MessageBox.Show(_gameWindow, "La partida aún no ha comenzado.", "Error");
+                }
+                else if (errorCode == "INVALID_DECLARATION")
+                {
+                    MessageBox.Show(_gameWindow, "No puedes declarar Lotería todavía.", "Error");
+                }
+                else
+                {
+                    MessageBox.Show(_gameWindow, message, "Error al declarar Lotería");
+                }
             }
         }
 
@@ -242,7 +261,21 @@ namespace Lottery.ViewModel.Game
             }
             catch (FaultException<ServiceFault> ex)
             {
-                MessageBox.Show(_gameWindow, ex.Detail.Message, "Error al salir del juego");
+                string code = ex.Detail != null ? ex.Detail.ErrorCode : "";
+                string message = ex.Detail != null ? ex.Detail.Message : "Error desconocido";
+
+                if (code == "LOBBY_NOT_FOUND")
+                {
+                    MessageBox.Show(_gameWindow, "El lobby ya no existe.", "Error al salir");
+                }
+                else if (code == "GAME_ALREADY_RUNNING")
+                {
+                    MessageBox.Show(_gameWindow, "No puedes salir mientras el juego está activo.", "Error al salir");
+                }
+                else
+                {
+                    MessageBox.Show(_gameWindow, message, "Error al salir del juego");
+                }
             }
             catch (Exception ex)
             {
@@ -263,11 +296,11 @@ namespace Lottery.ViewModel.Game
     public class Cell : ObservableObject
     {
         private bool _isSelected;
+
         public bool IsSelected
         {
             get => _isSelected;
             set => SetProperty(ref _isSelected, value);
         }
     }
-
 }

@@ -51,12 +51,11 @@
                                                VerticalAlignment="Center" 
                                                FontWeight="SemiBold"
                                                FontSize="14"/>
-
                                 </StackPanel>
 
                                 <Button Content="{x:Static language:Lang.DeleteFriendButton}" Grid.Column="1"
                                         Command="{Binding DataContext.RemoveFriendCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                        CommandParameter="{Binding UserId}"
+                                        CommandParameter="{Binding}"
                                         Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                                         Foreground="#EF9A9A" FontWeight="Bold"/>
 
@@ -84,7 +83,6 @@
 
                         <TextBox x:Name="txtNicknameSearch" 
                                  Text="{Binding SearchNickname, UpdateSourceTrigger=PropertyChanged}"/>
-
                     </DockPanel>
 
                     <ListView x:Name="lvSearchResults" 
@@ -105,7 +103,7 @@
 
                                         <Button Content="{x:Static language:Lang.InviteFriendsButtonAdd}" Grid.Column="1"
                                                 Command="{Binding DataContext.SendRequestCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                                CommandParameter="{Binding UserId}"
+                                                CommandParameter="{Binding}" 
                                                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                                                 Foreground="LimeGreen"
                                                 FontWeight="Bold"
@@ -113,16 +111,15 @@
 
                                         <Button Content="{x:Static language:Lang.GlobalButtonAccept}" Grid.Column="1"
                                                 Command="{Binding DataContext.AcceptRequestCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                                CommandParameter="{Binding UserId}"
+                                                CommandParameter="{Binding}"
                                                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                                                 Foreground="LimeGreen"
                                                 FontWeight="Bold"
                                                 Visibility="{Binding CanAcceptRequest, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
-
                                         <Button Content="{x:Static language:Lang.InviteFriendsButtonCancelRequest}" Grid.Column="2"
                                                 Command="{Binding DataContext.CancelRequestCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                                CommandParameter="{Binding UserId}"
+                                                CommandParameter="{Binding}"
                                                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                                                 Foreground="OrangeRed"
                                                 FontWeight="Bold"
@@ -130,7 +127,7 @@
 
                                         <Button Content="{x:Static language:Lang.GlobalButtonReject}" Grid.Column="2"
                                                 Command="{Binding DataContext.RejectRequestCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                                CommandParameter="{Binding UserId}"
+                                                CommandParameter="{Binding}"
                                                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                                                 Foreground="OrangeRed"
                                                 FontWeight="Bold"

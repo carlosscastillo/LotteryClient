@@ -377,9 +377,9 @@
                     <ControlTemplate TargetType="ToggleButton">
                         <Grid>
                             <Image x:Name="SelectedImage"
-                           Source="pack://application:,,,/Images/Tokens/bean.png"
-                           Stretch="Uniform"
-                           Opacity="0"/>
+                                Source="pack://application:,,,/Images/Tokens/token00.png"
+                                Stretch="Uniform"
+                                Opacity="0"/>
                         </Grid>
 
                         <ControlTemplate.Triggers>

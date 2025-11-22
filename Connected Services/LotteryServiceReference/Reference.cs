@@ -554,9 +554,6 @@ namespace Lottery.LotteryServiceReference {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int IdField;
         
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NameField;
-        
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
             get {
@@ -576,19 +573,6 @@ namespace Lottery.LotteryServiceReference {
                 if ((this.IdField.Equals(value) != true)) {
                     this.IdField = value;
                     this.RaisePropertyChanged("Id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Name {
-            get {
-                return this.NameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.NameField, value) != true)) {
-                    this.NameField = value;
-                    this.RaisePropertyChanged("Name");
                 }
             }
         }
@@ -693,6 +677,12 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/GetScoreboard", ReplyAction="http://tempuri.org/IGameService/GetScoreboardResponse")]
         System.Threading.Tasks.Task GetScoreboardAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/DeclareWin", ReplyAction="http://tempuri.org/IGameService/DeclareWinResponse")]
+        void DeclareWin(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/DeclareWin", ReplyAction="http://tempuri.org/IGameService/DeclareWinResponse")]
+        System.Threading.Tasks.Task DeclareWinAsync(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/CreateLobby", ReplyAction="http://tempuri.org/ILobbyService/CreateLobbyResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/ILobbyService/CreateLobbyServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
@@ -985,6 +975,14 @@ namespace Lottery.LotteryServiceReference {
         
         public System.Threading.Tasks.Task GetScoreboardAsync() {
             return base.Channel.GetScoreboardAsync();
+        }
+        
+        public void DeclareWin(int userId) {
+            base.Channel.DeclareWin(userId);
+        }
+        
+        public System.Threading.Tasks.Task DeclareWinAsync(int userId) {
+            return base.Channel.DeclareWinAsync(userId);
         }
         
         public Lottery.LotteryServiceReference.LobbyStateDto CreateLobby() {

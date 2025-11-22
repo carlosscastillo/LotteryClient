@@ -35,7 +35,6 @@
   <xs:complexType name="CardDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="Id" type="xs:int" />
-      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="CardDto" nillable="true" type="tns:CardDto" />

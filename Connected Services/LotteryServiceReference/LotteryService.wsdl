@@ -120,6 +120,12 @@
   <wsdl:message name="ILotteryService_GetScoreboard_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetScoreboardResponse" />
   </wsdl:message>
+  <wsdl:message name="ILotteryService_DeclareWin_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeclareWin" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_DeclareWin_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeclareWinResponse" />
+  </wsdl:message>
   <wsdl:message name="ILotteryService_CreateLobby_InputMessage">
     <wsdl:part name="parameters" element="tns:CreateLobby" />
   </wsdl:message>
@@ -345,6 +351,10 @@
     <wsdl:operation name="GetScoreboard">
       <wsdl:input wsaw:Action="http://tempuri.org/IGameService/GetScoreboard" message="tns:ILotteryService_GetScoreboard_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGameService/GetScoreboardResponse" message="tns:ILotteryService_GetScoreboard_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeclareWin">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGameService/DeclareWin" message="tns:ILotteryService_DeclareWin_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGameService/DeclareWinResponse" message="tns:ILotteryService_DeclareWin_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="CreateLobby">
       <wsdl:input wsaw:Action="http://tempuri.org/ILobbyService/CreateLobby" message="tns:ILotteryService_CreateLobby_InputMessage" />
@@ -601,6 +611,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetScoreboard">
       <soap12:operation soapAction="http://tempuri.org/IGameService/GetScoreboard" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeclareWin">
+      <soap12:operation soapAction="http://tempuri.org/IGameService/DeclareWin" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

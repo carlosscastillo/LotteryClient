@@ -1,4 +1,4 @@
-﻿ using Lottery.LotteryServiceReference;
+﻿using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
 using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;
@@ -21,8 +21,7 @@ namespace Lottery.ViewModel.Game
         private readonly Window _gameWindow;
 
         public ObservableCollection<UserDto> Players { get; }
-        public ObservableCollection<Cell> BoardCells { get; } =
-            new ObservableCollection<Cell>(Enumerable.Range(0, 16).Select(_ => new Cell()));
+        public ObservableCollection<Cell> BoardCells { get; } = new ObservableCollection<Cell>();
 
         public bool IsHost { get; }
 
@@ -51,7 +50,7 @@ namespace Lottery.ViewModel.Game
         public string GameStatusMessage
         {
             get => _gameStatusMessage;
-            set => SetProperty(ref _gameStatusMessage, value, "¡La partida ha comenzado!");
+            set => SetProperty(ref _gameStatusMessage, value);
         }
 
         public bool AllCellsSelected =>
@@ -70,23 +69,25 @@ namespace Lottery.ViewModel.Game
 
             Players = players;
 
-            foreach (var cell in BoardCells)
+            for (int i = 0; i < 16; i++)
             {
-                cell.IsSelected = false;
+                var cell = new Cell { Id = 0 };
                 cell.PropertyChanged += CellOnPropertyChanged;
+                BoardCells.Add(cell);
             }
 
             OnPropertyChanged(nameof(AllCellsSelected));
 
             IsHost = Players.FirstOrDefault(p => p.UserId == _currentUserId)?.IsHost ?? false;
 
-            DeclareLoteriaCommand = new RelayCommand(DeclareLoteria);
+            DeclareLoteriaCommand = new RelayCommand(async () => await DeclareLoteria());
             PauseGameCommand = new RelayCommand(LeaveGame);
 
             SubscribeToGameEvents();
 
             CurrentCardImage = new BitmapImage(new Uri(GetCardBackPath(), UriKind.Absolute));
             CurrentCardName = Lang.CardTextBlockReverse;
+            GameStatusMessage = "¡La partida ha comenzado!";
         }
 
         private void SubscribeToGameEvents()
@@ -122,6 +123,113 @@ namespace Lottery.ViewModel.Game
                 }
 
                 GameStatusMessage = "¡Salió: " + CurrentCardName + "!";
+            });
+        }
+
+        private void OnPlayerWon(string nickname)
+        {
+            _gameWindow.Dispatcher.Invoke(() =>
+            {
+                GameStatusMessage = "¡" + nickname + " ha ganado la partida!";
+                MessageBox.Show(_gameWindow, nickname + " ha ganado la partida.", "Fin del juego", MessageBoxButton.OK, MessageBoxImage.Information);
+            });
+        }
+
+        private void OnGameEnded()
+        {
+            _gameWindow.Dispatcher.Invoke(() =>
+            {
+                UnsubscribeFromGameEvents();
+                MessageBox.Show(_gameWindow, "La partida ha terminado.", "Juego Finalizado", MessageBoxButton.OK, MessageBoxImage.Information);
+                NavigateToMainMenu();
+            });
+        }
+
+        private async Task DeclareLoteria()
+        {
+            if (!AllCellsSelected)
+            {
+                MessageBox.Show(_gameWindow, "Aún no has marcado todas las casillas.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            try
+            {
+                GameStatusMessage = "Verificando victoria...";
+                await _serviceClient.DeclareWinAsync(_currentUserId);
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                string errorCode = ex.Detail != null ? ex.Detail.ErrorCode : "";
+                string message = ex.Detail != null ? ex.Detail.Message : "Error desconocido";
+
+                switch (errorCode)
+                {
+                    case "GAME_NOT_RUNNING":
+                        MessageBox.Show(_gameWindow, "La partida aún no ha comenzado o ya terminó.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                    case "INVALID_DECLARATION":
+                        MessageBox.Show(_gameWindow, "No puedes declarar Lotería todavía. Verifica tu tablero.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        break;
+                    default:
+                        MessageBox.Show(_gameWindow, message, "Error al declarar Lotería", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                }
+                GameStatusMessage = "Intento de victoria fallido.";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(_gameWindow, "Error de conexión al declarar victoria: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private async void LeaveGame()
+        {
+            var result = MessageBox.Show(_gameWindow, "¿Seguro que quieres salir? Perderás el progreso.",
+                                         "Salir", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (result != MessageBoxResult.Yes) return;
+
+            UnsubscribeFromGameEvents();
+
+            try
+            {
+                await _serviceClient.LeaveLobbyAsync();
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                string code = ex.Detail != null ? ex.Detail.ErrorCode : "";
+                string message = ex.Detail != null ? ex.Detail.Message : "Error desconocido";
+
+                if (code == "LOBBY_NOT_FOUND")
+                {
+                }
+                else if (code == "GAME_ALREADY_RUNNING")
+                {
+                    MessageBox.Show(_gameWindow, "No puedes salir de esta manera mientras el juego corre.", "Error al salir");
+                }
+                else
+                {
+                    MessageBox.Show(_gameWindow, message, "Error al notificar salida");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al salir: " + ex.Message);
+            }
+            finally
+            {
+                NavigateToMainMenu();
+            }
+        }
+
+        private void NavigateToMainMenu()
+        {
+            _gameWindow.Dispatcher.Invoke(() =>
+            {
+                MainMenuView mainMenuView = new MainMenuView();
+                mainMenuView.Show();
+                _gameWindow.Close();
             });
         }
 
@@ -205,98 +313,25 @@ namespace Lottery.ViewModel.Game
         {
             return "pack://application:,,,/Lottery;component/Images/Cards/cardReverse.png";
         }
-
-        private void OnPlayerWon(string nickname)
-        {
-            _gameWindow.Dispatcher.Invoke(() =>
-            {
-                GameStatusMessage = "¡" + nickname + " ha ganado la partida!";
-                MessageBox.Show(_gameWindow, nickname + " ha ganado la partida.", "Fin del juego");
-            });
-        }
-
-        private void OnGameEnded()
-        {
-            _gameWindow.Dispatcher.Invoke(() =>
-            {
-                UnsubscribeFromGameEvents();
-                MessageBox.Show(_gameWindow, "La partida ha terminado.", "Juego Finalizado");
-                NavigateToMainMenu();
-            });
-        }
-
-        private void DeclareLoteria()
-        {
-            try
-            {
-                GameStatusMessage = "Has declarado ¡Lotería!";
-            }
-            catch (FaultException<ServiceFault> ex)
-            {
-                string errorCode = ex.Detail != null ? ex.Detail.ErrorCode : "";
-                string message = ex.Detail != null ? ex.Detail.Message : "Error desconocido";
-
-                if (errorCode == "GAME_NOT_RUNNING")
-                {
-                    MessageBox.Show(_gameWindow, "La partida aún no ha comenzado.", "Error");
-                }
-                else if (errorCode == "INVALID_DECLARATION")
-                {
-                    MessageBox.Show(_gameWindow, "No puedes declarar Lotería todavía.", "Error");
-                }
-                else
-                {
-                    MessageBox.Show(_gameWindow, message, "Error al declarar Lotería");
-                }
-            }
-        }
-
-        private async void LeaveGame()
-        {
-            UnsubscribeFromGameEvents();
-
-            try
-            {
-                _serviceClient.LeaveLobby();
-            }
-            catch (FaultException<ServiceFault> ex)
-            {
-                string code = ex.Detail != null ? ex.Detail.ErrorCode : "";
-                string message = ex.Detail != null ? ex.Detail.Message : "Error desconocido";
-
-                if (code == "LOBBY_NOT_FOUND")
-                {
-                    MessageBox.Show(_gameWindow, "El lobby ya no existe.", "Error al salir");
-                }
-                else if (code == "GAME_ALREADY_RUNNING")
-                {
-                    MessageBox.Show(_gameWindow, "No puedes salir mientras el juego está activo.", "Error al salir");
-                }
-                else
-                {
-                    MessageBox.Show(_gameWindow, message, "Error al salir del juego");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(_gameWindow, "Error de conexión al salir: " + ex.Message, "Error");
-            }
-
-            NavigateToMainMenu();
-        }
-
-        private void NavigateToMainMenu()
-        {
-            MainMenuView mainMenuView = new MainMenuView();
-            mainMenuView.Show();
-            _gameWindow.Close();
-        }
     }
 
     public class Cell : ObservableObject
     {
-        private bool _isSelected;
+        private int _id;
+        public int Id
+        {
+            get => _id;
+            set => SetProperty(ref _id, value);
+        }
 
+        private string _imagePath;
+        public string ImagePath
+        {
+            get => _imagePath;
+            set => SetProperty(ref _imagePath, value);
+        }
+
+        private bool _isSelected;
         public bool IsSelected
         {
             get => _isSelected;

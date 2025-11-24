@@ -107,12 +107,13 @@ namespace Lottery.ViewModel.MainMenu
 
         private async Task ExecuteJoinLobby()
         {
-            var joinView = new View.Lobby.JoinLobbyByCodeView(myService, myUser);
+            var joinView = new View.Lobby.JoinLobbyByCodeView();
             string lobbyCode = "";
 
             if (joinView.ShowDialog() == true)
             {
-                var vm = joinView.DataContext as JoinLobbyViewModel;
+                var vm = joinView.DataContext as JoinLobbyByCodeViewModel;
+
                 if (vm != null)
                 {
                     lobbyCode = vm.LobbyCode;

@@ -1,8 +1,4 @@
-﻿using Lottery.LotteryServiceReference;
-using Lottery.View;
-using Lottery.ViewModel.Base;
-using System;
-using System.Threading.Tasks;
+﻿using Lottery.ViewModel.Base;
 using System.Windows;
 using System.Windows.Input;
 
@@ -11,6 +7,7 @@ namespace Lottery.ViewModel.Lobby
     public class JoinLobbyByCodeViewModel : ObservableObject
     {
         private string _lobbyCode;
+
         public string LobbyCode
         {
             get => _lobbyCode;
@@ -19,45 +16,23 @@ namespace Lottery.ViewModel.Lobby
 
         public ICommand JoinLobbyCommand { get; }
 
-        private readonly ILotteryService _service;
-        private readonly UserDto _currentUser;
-
-        public JoinLobbyByCodeViewModel(ILotteryService service, UserDto currentUser)
+        public JoinLobbyByCodeViewModel()
         {
-            _service = service;
-            _currentUser = currentUser;
-            JoinLobbyCommand = new RelayCommand(async _ => await JoinLobbyAsync(), _ => !string.IsNullOrWhiteSpace(LobbyCode));
+            JoinLobbyCommand = new RelayCommand<Window>(ExecuteJoin);
         }
 
-        private async Task JoinLobbyAsync()
+        private void ExecuteJoin(Window window)
         {
-            try
+            if (string.IsNullOrWhiteSpace(LobbyCode))
             {
-                var lobbyState = await _service.JoinLobbyAsync(_currentUser, LobbyCode);
-
-                MessageBox.Show($"Te uniste al lobby correctamente.\nHost: {lobbyState.HostNickname}",
-                    "Unido al Lobby", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                var lobbyView = new View.Lobby.LobbyView(lobbyState);
-                lobbyView.Show();
-
-                CloseWindow();
+                MessageBox.Show("Por favor ingresa un código de lobby.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al unirse al lobby: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
 
-        private void CloseWindow()
-        {
-            foreach (Window window in Application.Current.Windows)
+            if (window != null)
             {
-                if (window.DataContext == this)
-                {
-                    window.Close();
-                    break;
-                }
+                window.DialogResult = true;
+                window.Close();
             }
         }
     }

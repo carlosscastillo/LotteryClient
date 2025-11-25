@@ -1501,6 +1501,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Iniciar como invitado.
+        /// </summary>
+        public static string LoginButtonStartGuest {
+            get {
+                return ResourceManager.GetString("LoginButtonStartGuest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Ingresa tus datos para iniciar.
         /// </summary>
         public static string LoginLabelEnterDetail {
@@ -1524,6 +1533,15 @@ namespace Lottery.Properties.Langs {
         public static string MainMenuButtonFriends {
             get {
                 return ResourceManager.GetString("MainMenuButtonFriends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cerrar Sesión.
+        /// </summary>
+        public static string MainMenuButtonLogout {
+            get {
+                return ResourceManager.GetString("MainMenuButtonLogout", resourceCulture);
             }
         }
         

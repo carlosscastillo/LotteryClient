@@ -84,7 +84,18 @@
                 Foreground="White"
                 FontWeight="Bold"
                 FontSize="14"
+                Cursor="Hand"
                 Click="CloseButton_Click"/>
+
+        <Button Command="{Binding LogoutCommand}"
+                Style="{StaticResource SideIconButtonStyle}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="0,0,10,10">
+
+            <TextBlock Text="{x:Static language:Lang.MainMenuButtonLogout}"
+                   FontSize="16"/>
+        </Button>
 
     </Grid>
 </Window>

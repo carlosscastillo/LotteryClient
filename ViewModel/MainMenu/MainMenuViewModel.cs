@@ -53,7 +53,7 @@ namespace Lottery.ViewModel.MainMenu
             ShowFriendsViewCommand = new RelayCommand(ExecuteShowFriendsView);
             CreateLobbyCommand = new RelayCommand(async () => await ExecuteCreateLobby());
             JoinLobbyCommand = new RelayCommand(async () => await ExecuteJoinLobby());
-            LogoutCommand = new RelayCommand(async () => await ExecuteLogout());
+            LogoutCommand = new RelayCommand(async () => await Logout());
 
             ClientCallbackHandler.LobbyInviteReceived += OnLobbyInvite;
         }
@@ -192,7 +192,7 @@ namespace Lottery.ViewModel.MainMenu
             });
         }
 
-        private async Task ExecuteLogout()
+        private async Task Logout()
         {
             Cleanup();
 

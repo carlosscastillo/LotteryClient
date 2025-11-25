@@ -648,4 +648,10 @@
   <data name="CardTextBlockReverse" xml:space="preserve">
     <value>Waiting For Card . . .</value>
   </data>
+  <data name="LoginButtonStartGuest" xml:space="preserve">
+    <value>Start as guest</value>
+  </data>
+  <data name="MainMenuButtonLogout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
 </root>

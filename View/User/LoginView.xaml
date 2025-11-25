@@ -100,7 +100,7 @@
                 </Button>
 
                 <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Margin="0,20,0,0" HorizontalAlignment="Center" Cursor="Hand">
-                    <TextBlock Text="Iniciar como invitado" Foreground="#BBBBBB" FontSize="13"/>
+                    <TextBlock Text="{x:Static language:Lang.LoginButtonStartGuest}" Foreground="#BBBBBB" FontSize="13"/>
                 </Button>
 
             </StackPanel>

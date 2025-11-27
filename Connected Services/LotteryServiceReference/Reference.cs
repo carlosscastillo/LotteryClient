@@ -769,6 +769,7 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task<System.ValueTuple<bool, string>> UpdateProfileAsync(int currentUserId, Lottery.LotteryServiceReference.UserDto userData);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/FindUserByNickname", ReplyAction="http://tempuri.org/IUserService/FindUserByNicknameResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IUserService/FindUserByNicknameServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         Lottery.LotteryServiceReference.FriendDto FindUserByNickname(string nickname);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/FindUserByNickname", ReplyAction="http://tempuri.org/IUserService/FindUserByNicknameResponse")]

@@ -1,5 +1,4 @@
-﻿using Lottery.Helpers;
-using Lottery.LotteryServiceReference;
+﻿using Lottery.LotteryServiceReference;
 using Lottery.View.MainMenu;
 using Lottery.View.User;
 using Lottery.ViewModel.Base;
@@ -8,8 +7,6 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Linq;
-
 
 namespace Lottery.ViewModel.User
 {
@@ -78,25 +75,7 @@ namespace Lottery.ViewModel.User
             ErrorMessage = string.Empty;
 
             try
-            {                
-                UserDto loginUser = new UserDto
-                {
-                    Nickname = Username,
-                    Password = Password
-                };
-                
-                var validator = new InputValidator().ValidateLogin();
-                var result = validator.Validate(loginUser);
-
-                if (!result.IsValid)
-                {
-                    string errors = string.Join("\n• ", result.Errors.Select(e => e.ErrorMessage));
-                    MessageBox.Show($"Corrige los siguientes errores:\n\n• {errors}",
-                                    "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
-
-                    return;
-                }
-                
+            {
                 UserDto user = await _serviceClient.LoginUserAsync(Username, Password);
 
                 if (user != null)
@@ -129,7 +108,10 @@ namespace Lottery.ViewModel.User
                 MessageBox.Show($"Ocurrió un error crítico: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 AbortAndRecreateClient();
             }
-            finally { IsLoggingIn = false; }
+            finally
+            {
+                IsLoggingIn = false;
+            }
         }
 
         private void HandleLoginError(FaultException<ServiceFault> fault)

@@ -4,6 +4,27 @@
     <wsp:ExactlyOne>
       <wsp:All>
         <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
+                </msf:WindowsTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
         <wsaw:UsingAddressing />
       </wsp:All>
     </wsp:ExactlyOne>
@@ -225,6 +246,9 @@
   <wsdl:message name="ILotteryService_FindUserByNickname_OutputMessage">
     <wsdl:part name="parameters" element="tns:FindUserByNicknameResponse" />
   </wsdl:message>
+  <wsdl:message name="ILotteryService_FindUserByNickname_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q16="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q16:ServiceFault" />
+  </wsdl:message>
   <wsdl:message name="ILotteryService_GetUserProfile_InputMessage">
     <wsdl:part name="parameters" element="tns:GetUserProfile" />
   </wsdl:message>
@@ -416,6 +440,7 @@
     <wsdl:operation name="FindUserByNickname">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/FindUserByNickname" message="tns:ILotteryService_FindUserByNickname_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/FindUserByNicknameResponse" message="tns:ILotteryService_FindUserByNickname_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/FindUserByNicknameServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_FindUserByNickname_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetUserProfile">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/GetUserProfile" message="tns:ILotteryService_GetUserProfile_InputMessage" />
@@ -767,6 +792,9 @@
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="GetUserProfile">
       <soap12:operation soapAction="http://tempuri.org/IUserService/GetUserProfile" style="document" />
@@ -891,6 +919,9 @@
       <soap12:address location="net.tcp://localhost:8080/Lottery/LotteryService" />
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8080/Lottery/LotteryService</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Upn>USUARIO\carlo</Upn>
+        </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>
   </wsdl:service>

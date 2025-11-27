@@ -166,7 +166,6 @@ namespace Lottery.ViewModel.Friends
 
                 if (user.UserId == _currentUserId)
                 {
-                    MessageBox.Show("No puedes buscarte a ti mismo.", "Información");
                     SearchResults.Clear();
                     return;
                 }
@@ -191,8 +190,7 @@ namespace Lottery.ViewModel.Friends
             {
                 if (ex.Detail.ErrorCode == "USER_NOT_FOUND")
                 {
-                    MessageBox.Show("No se encontró ningún usuario con ese nickname.", "Búsqueda", 
-                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    ShowServiceError(ex, "Búsqueda");
                     SearchResults.Clear();
                 }
                 else
@@ -360,7 +358,9 @@ namespace Lottery.ViewModel.Friends
                     break;
 
                 case "USER_NOT_FOUND":
-                    message = "El usuario buscado no existe.";
+                    message = "No se encontró ningún usuario con ese apodo.";
+                    title = "Búsqueda";
+                    icon = MessageBoxImage.Information;
                     break;
 
                 case "USER_IN_LOBBY":

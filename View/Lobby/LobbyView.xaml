@@ -83,11 +83,11 @@
 
                                             <TextBlock Grid.Column="0" Text="{Binding Nickname}" VerticalAlignment="Center" FontSize="14" Foreground="{StaticResource TextBrush}"/>
 
-                                            <Button Grid.Column="1" Content="{x:Static language:Lang.LobbyButtonKick}" ToolTip="Expulsar" FontSize="10" Padding="3,0" Foreground="Red" FontWeight="Bold"
-                                                    Command="{Binding DataContext.KickPlayerCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                            <Button Grid.Column="1" Content="{x:Static language:Lang.LobbyButtonKick}" FontSize="10" Padding="3,0" Foreground="Red" FontWeight="Bold"
+                                                    Command="{Binding DataContext.KickPlayerCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                     CommandParameter="{Binding UserId}"
-                                                    Visibility="{Binding DataKey, RelativeSource={RelativeSource AncestorType=ItemsControl}, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                    IsEnabled="{Binding IsHost, Converter={StaticResource InverseBoolToVisibilityConverter}}">
+                                                    Visibility="{Binding DataContext.IsHost, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                
                                                 <Button.Style>
                                                     <Style TargetType="Button">
                                                         <Setter Property="Background" Value="Transparent"/>
@@ -197,10 +197,10 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="{x:Static language:Lang.LobbyLabelGameMode}" VerticalAlignment="Center" Margin="0,0,5,0" FontSize="14"/>
                             <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Height="30" 
-      Style="{StaticResource GrayTransparentComboStyle}" 
-      ItemContainerStyle="{StaticResource GrayTransparentComboItemStyle}">
-                                <sys:String xmlns:sys="clr-namespace:System;assembly=mscorlib">Clasica</sys:String>
-                                <sys:String xmlns:sys="clr-namespace:System;assembly=mscorlib">Esquinas</sys:String>
+                                      Style="{StaticResource GrayTransparentComboStyle}" 
+                                      ItemContainerStyle="{StaticResource GrayTransparentComboItemStyle}">
+                                      <sys:String xmlns:sys="clr-namespace:System;assembly=mscorlib">Clasica</sys:String>
+                                      <sys:String xmlns:sys="clr-namespace:System;assembly=mscorlib">Esquinas</sys:String>
                             </ComboBox>
                         </Grid>
 
@@ -254,31 +254,25 @@
                     <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
 
                         <Button Content="{x:Static language:Lang.LobbyButtonLeaveLobby}" 
-                Command="{Binding LeaveLobbyCommand}" 
-                Height="35"
-                Margin="0,0,15,0" 
-                Padding="20,0"
-                VerticalContentAlignment="Center"
-                Style="{StaticResource SecondaryButton}"/>
+                                Command="{Binding LeaveLobbyCommand}" 
+                                Height="35"
+                                Margin="0,0,15,0" 
+                                Padding="20,0"
+                                VerticalContentAlignment="Center"
+                                Style="{StaticResource SecondaryButton}"/>
 
                         <Button Content="{x:Static language:Lang.LobbyButtonStartGame}" 
-                FontWeight="Bold" 
-                Height="35"
+                                FontWeight="Bold" 
+                                Height="35"
                                 Margin="0,0,0,0" 
-                Padding="20,0"
-                VerticalContentAlignment="Center"
-                Command="{Binding StartGameCommand}"
-                Visibility="{Binding IsHost, Converter={StaticResource BoolToVisibilityConverter}}"
-                Style="{StaticResource PrimaryButton}"/>
+                                Padding="20,0"
+                                VerticalContentAlignment="Center"
+                                Command="{Binding StartGameCommand}"
+                                Visibility="{Binding IsHost, Converter={StaticResource BoolToVisibilityConverter}}"
+                                Style="{StaticResource PrimaryButton}"/>
                     </StackPanel>
 
                 </Grid>
-
-
-
-
-
-
 
             </Grid>
         </Border>

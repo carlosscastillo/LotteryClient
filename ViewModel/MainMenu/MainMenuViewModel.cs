@@ -200,7 +200,7 @@ namespace Lottery.ViewModel.MainMenu
                         break;
 
                     case "LOBBY_FULL":
-                        message = "El lobby está lleno.";
+                        message = "El lobby ya alcanzó su capacidad máxima de jugadores.";
                         break;
 
                     case "LOBBY_NOT_FOUND":

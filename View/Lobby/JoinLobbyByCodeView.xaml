@@ -6,56 +6,87 @@
         xmlns:local="clr-namespace:Lottery.View.Lobby"
         mc:Ignorable="d"
         xmlns:language="clr-namespace:Lottery.Properties.Langs"
-        Title="JoinLobbyView" Height="350" Width="300"
-        Background="#F5F5F5"
-        WindowStartupLocation="CenterScreen">
-    
-    <Grid>
-        <Border BorderBrush="#DDDDDD" 
-            BorderThickness="1" 
-            Background="White" 
-            CornerRadius="12" 
-            Padding="40" 
-            MaxWidth="420"
-            VerticalAlignment="Center" 
-            HorizontalAlignment="Center">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="1" Color="Black" Opacity="0.1" BlurRadius="10"/>
-            </Border.Effect>
+        Title="JoinLobbyView" 
+        Height="350" Width="300"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize">
 
-            <StackPanel>
-                <TextBlock Text="{x:Static language:Lang.GlobalButtonJoinLobby}" Style="{StaticResource TitleTextStyle}"/>
-                <TextBlock Text="{x:Static language:Lang.JoinLobbyLabelDetails}" Style="{StaticResource SubtitleTextStyle}" Margin="0,5,0,20"/>
+    <Window.Resources>
+        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+        </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource PrimaryButton}"/>
+    </Window.Resources>
 
-                <Label Content="{x:Static language:Lang.JoinLobbyLabelLobbyCode}" 
-                   Style="{StaticResource LabelStyle}" 
-                   Target="{Binding ElementName=LobbyCodeTextBox}"/>
+    <Border CornerRadius="12" BorderThickness="1" BorderBrush="#55FFFFFF">
+        <Border.Background>
+            <ImageBrush ImageSource="/Images/backgroundRickAndMorty.png" Stretch="UniformToFill"/>
+        </Border.Background>
 
-                <TextBox x:Name="LobbyCodeTextBox"
-                     Text="{Binding LobbyCode, UpdateSourceTrigger=PropertyChanged}"
-                     TextAlignment="Center"
-                     FontSize="16"
-                     FontWeight="SemiBold"/>
+        <Border Background="{StaticResource OverlayBackgroundBrush}" CornerRadius="12" Padding="20">
+            <Grid>
+                <Button Content="X"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Margin="0,-10,-10,0"
+                        Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        FontSize="14"
+                        Click="CloseButton_Click"
+                        Panel.ZIndex="1"
+                        Cursor="Hand"/>
 
-                <Button x:Name="JoinLobbyButton"
-                    Content="{x:Static language:Lang.JoinLobbyButtonJoin}" 
-                    Margin="0,30,0,0" 
-                    Padding="12" 
-                    FontSize="16"
-                    FontWeight="Bold"
-                    Foreground="White"
-                    Background="Black"
-                    BorderThickness="0"
-                    Cursor="Hand"
-                    Command="{Binding JoinLobbyCommand}"
-                    IsEnabled="{Binding Path=LobbyCode, Converter={StaticResource StringNotEmptyToBoolConverter}}">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="8"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-            </StackPanel>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="{x:Static language:Lang.GlobalButtonJoinLobby}" 
+                               Style="{StaticResource TitleTextStyle}" 
+                               HorizontalAlignment="Center"
+                               Foreground="{StaticResource TextBrush}"/>
+
+                    <TextBlock Text="{x:Static language:Lang.JoinLobbyLabelDetails}" 
+                               Style="{StaticResource SubtitleTextStyle}" 
+                               HorizontalAlignment="Center"
+                               Foreground="{StaticResource TextBrush}"
+                               Margin="0,5,0,20"/>
+
+                    <Label Content="{x:Static language:Lang.JoinLobbyLabelLobbyCode}" 
+                           Style="{StaticResource LabelStyle}" 
+                           Foreground="{StaticResource TextBrush}"
+                           Target="{Binding ElementName=LobbyCodeTextBox}"/>
+
+                    <Border Background="#33FFFFFF" CornerRadius="4">
+                        <TextBox x:Name="LobbyCodeTextBox"
+                                 Text="{Binding LobbyCode, UpdateSourceTrigger=PropertyChanged}"
+                                 TextAlignment="Center"
+                                 FontSize="18"
+                                 FontWeight="Bold"
+                                 Foreground="White"
+                                 Background="Transparent" 
+                                 BorderThickness="0" 
+                                 Padding="8"/>
+                    </Border>
+
+                    <Button x:Name="JoinLobbyButton"
+                            Content="{x:Static language:Lang.JoinLobbyButtonJoin}" 
+                            Margin="0,30,0,0" 
+                            Padding="12" 
+                            FontSize="16"
+                            FontWeight="Bold"
+                            Style="{StaticResource PrimaryButton}"
+                            Command="{Binding JoinLobbyCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                            Cursor="Hand">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="8"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+            </Grid>
         </Border>
-    </Grid>
+    </Border>
 </Window>

@@ -17,20 +17,24 @@ namespace Lottery.ViewModel.MainMenu
         private readonly ILotteryService _serviceClient;
         private readonly Window _mainMenuWindow;
 
-        ILotteryService myService = SessionManager.ServiceClient;
-        UserDto myUser = SessionManager.CurrentUser;
-
         public string Nickname { get; }
+
         public ICommand ShowFriendsViewCommand { get; }
         public ICommand CreateLobbyCommand { get; }
         public ICommand JoinLobbyCommand { get; }
         public ICommand LogoutCommand { get; }
         public ICommand ProfileCommand { get; }
-        // Aquí nos falta añadir más comandos para Settings y Profile
 
         public MainMenuViewModel(Window window)
         {
             _mainMenuWindow = window;
+            _serviceClient = SessionManager.ServiceClient;
+
+            if (_serviceClient == null)
+            {
+                MessageBox.Show("Error crítico de sesión. El cliente de servicio es nulo.", "Error Fatal", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
             if (SessionManager.CurrentUser != null)
             {
@@ -41,19 +45,11 @@ namespace Lottery.ViewModel.MainMenu
                 Nickname = "Invitado";
             }
 
-            _serviceClient = SessionManager.ServiceClient;
-
-            if (_serviceClient == null)
-            {
-                MessageBox.Show("Error de sesión. El cliente de servicio es nulo.", "Error Fatal", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
             ProfileCommand = new RelayCommand(ExecuteShowProfileView);
             ShowFriendsViewCommand = new RelayCommand(ExecuteShowFriendsView);
             CreateLobbyCommand = new RelayCommand(async () => await ExecuteCreateLobby());
-            JoinLobbyCommand = new RelayCommand(async () => await ExecuteJoinLobby());
-            LogoutCommand = new RelayCommand(async () => await ExecuteLogout());
+            JoinLobbyCommand = new RelayCommand(ExecuteJoinLobbyByCode); // Ahora es síncrono porque abre un Dialog
+            LogoutCommand = new RelayCommand(async () => await Logout());
 
             ClientCallbackHandler.LobbyInviteReceived += OnLobbyInvite;
         }
@@ -70,6 +66,7 @@ namespace Lottery.ViewModel.MainMenu
             friendsView.Show();
             _mainMenuWindow?.Close();
         }
+
         private void ExecuteShowProfileView()
         {
             Cleanup();
@@ -91,45 +88,35 @@ namespace Lottery.ViewModel.MainMenu
             }
             catch (FaultException<ServiceFault> ex)
             {
-                _mainMenuWindow.Dispatcher.Invoke(() =>
-                {
-                    MessageBox.Show(_mainMenuWindow, ex.Detail.Message, "Error al Crear Lobby", MessageBoxButton.OK, MessageBoxImage.Warning);
-                });
+                ShowServiceError(ex, "Error al Crear Lobby");
             }
             catch (Exception ex)
             {
-                _mainMenuWindow.Dispatcher.Invoke(() =>
-                {
-                    MessageBox.Show(_mainMenuWindow, $"Error inesperado: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                });
+                MessageBox.Show(_mainMenuWindow, $"Error inesperado al crear lobby: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private async Task ExecuteJoinLobby()
+
+        private void ExecuteJoinLobbyByCode()
         {
-            var joinView = new View.Lobby.JoinLobbyByCodeView(myService, myUser);
-            string lobbyCode = "";
+            var joinView = new JoinLobbyByCodeView();
+            var joinVm = new JoinLobbyByCodeViewModel();
+            joinView.DataContext = joinVm;
 
             if (joinView.ShowDialog() == true)
             {
-                var vm = joinView.DataContext as JoinLobbyViewModel;
-                if (vm != null)
+                if (joinVm.ResultLobbyState != null)
                 {
-                    lobbyCode = vm.LobbyCode;
+                    NavigateToLobby(joinVm.ResultLobbyState);
                 }
-            }
-
-            if (!string.IsNullOrWhiteSpace(lobbyCode))
-            {
-                await JoinLobby(lobbyCode);
             }
         }
 
-        private async Task JoinLobby(string lobbyCode)
+        private async Task JoinLobbyByInvite(string lobbyCode)
         {
             try
             {
-                LobbyStateDto lobbyState = await _serviceClient.JoinLobbyAsync(myUser, lobbyCode);
+                LobbyStateDto lobbyState = await _serviceClient.JoinLobbyAsync(SessionManager.CurrentUser, lobbyCode);
 
                 _mainMenuWindow.Dispatcher.Invoke(() =>
                 {
@@ -138,24 +125,11 @@ namespace Lottery.ViewModel.MainMenu
             }
             catch (FaultException<ServiceFault> ex)
             {
-                _mainMenuWindow.Dispatcher.Invoke(() =>
-                {
-                    MessageBox.Show(_mainMenuWindow, ex.Detail.Message, "Error al Unirse al Lobby", MessageBoxButton.OK, MessageBoxImage.Warning);
-                });
-            }
-            catch (FaultException ex)
-            {
-                _mainMenuWindow.Dispatcher.Invoke(() =>
-                {
-                    MessageBox.Show(_mainMenuWindow, $"Error del servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
-                });
+                ShowServiceError(ex, "Error al Unirse");
             }
             catch (Exception ex)
             {
-                _mainMenuWindow.Dispatcher.Invoke(() =>
-                {
-                    MessageBox.Show(_mainMenuWindow, $"Error inesperado: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                });
+                MessageBox.Show(_mainMenuWindow, $"Error de conexión: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -164,9 +138,7 @@ namespace Lottery.ViewModel.MainMenu
             Cleanup();
 
             LobbyView lobbyView = new LobbyView();
-
             lobbyView.DataContext = new LobbyViewModel(lobbyState, lobbyView);
-
             lobbyView.Show();
             _mainMenuWindow?.Close();
         }
@@ -179,19 +151,19 @@ namespace Lottery.ViewModel.MainMenu
             {
                 var result = MessageBox.Show(
                     _mainMenuWindow,
-                    $"{inviterNickname} te ha invitado a su lobby.\nCódigo: {lobbyCode}\n\n¿Quieres unirte?",
-                    "¡Invitación de Lobby!",
+                    $"{inviterNickname} te ha invitado a jugar.\nCódigo: {lobbyCode}\n\n¿Quieres unirte?",
+                    "¡Invitación Recibida!",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    await JoinLobby(lobbyCode);
+                    await JoinLobbyByInvite(lobbyCode);
                 }
             });
         }
 
-        private async Task ExecuteLogout()
+        private async Task Logout()
         {
             Cleanup();
 
@@ -201,14 +173,57 @@ namespace Lottery.ViewModel.MainMenu
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error on logout: {ex.Message}");
+                Console.WriteLine($"Error during logout: {ex.Message}");
             }
+            finally
+            {
+                SessionManager.Logout();
+                LoginView loginView = new LoginView();
+                loginView.Show();
+                _mainMenuWindow?.Close();
+            }
+        }
 
-            SessionManager.Logout();
+        private void ShowServiceError(FaultException<ServiceFault> fault, string title)
+        {
+            _mainMenuWindow.Dispatcher.Invoke(() =>
+            {
+                var detail = fault.Detail;
+                string message = detail.Message;
+                MessageBoxImage icon = MessageBoxImage.Warning;
 
-            LoginView loginView = new LoginView();
-            loginView.Show();
-            _mainMenuWindow?.Close();
+                switch (detail.ErrorCode)
+                {
+                    case "LOBBY_USER_ALREADY_IN":
+                    case "USER_IN_LOBBY":
+                        message = "Ya te encuentras registrado en un lobby activo. Sal primero.";
+                        break;
+
+                    case "LOBBY_FULL":
+                        message = "El lobby está lleno.";
+                        break;
+
+                    case "LOBBY_NOT_FOUND":
+                        message = "El lobby ya no existe o la invitación expiró.";
+                        break;
+
+                    case "USER_OFFLINE":
+                        message = "Tu sesión ha expirado. Por favor inicia sesión de nuevo.";
+                        icon = MessageBoxImage.Error;
+                        break;
+
+                    case "LOBBY_INTERNAL_ERROR":
+                        message = "Error interno del servidor.";
+                        icon = MessageBoxImage.Error;
+                        break;
+
+                    default:
+                        message = $"Error del servidor: {detail.Message}";
+                        break;
+                }
+
+                MessageBox.Show(_mainMenuWindow, message, title, MessageBoxButton.OK, icon);
+            });
         }
     }
 }

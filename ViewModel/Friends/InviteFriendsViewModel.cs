@@ -1,4 +1,4 @@
-﻿using Lottery.LotteryServiceReference;
+﻿using Lottery.LotteryServiceReference; // Contiene ServiceFault
 using Lottery.View.Friends;
 using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;
@@ -13,7 +13,6 @@ using System.Windows.Media;
 
 namespace Lottery.ViewModel.Friends
 {
-    // --- ViewModels Auxiliares (Sin cambios) ---
     public class FriendViewModel : ObservableObject
     {
         public FriendDto Dto { get; }
@@ -54,7 +53,8 @@ namespace Lottery.ViewModel.Friends
 
         public bool CanSendRequest => !IsFriend && !HasPendingRequest;
         public bool CanCancelRequest => !IsFriend && HasPendingRequest && PendingRequestSenderId == _currentUserId;
-        public bool CanAcceptRequest => !IsFriend && HasPendingRequest && PendingRequestSenderId != _currentUserId && PendingRequestSenderId != 0;
+        public bool CanAcceptRequest => 
+            !IsFriend && HasPendingRequest && PendingRequestSenderId != _currentUserId && PendingRequestSenderId != 0;
         public bool CanRejectRequest => CanAcceptRequest;
 
         public FoundUserViewModel(FriendDto dto, int currentUserId)
@@ -72,15 +72,15 @@ namespace Lottery.ViewModel.Friends
         }
     }
 
-    // --- ViewModel Principal ---
     public class InviteFriendsViewModel : ObservableObject
     {
         private readonly ILotteryService _serviceClient;
         private readonly int _currentUserId;
+
         private string _inviteLobbyCode;
         private bool _isInviteMode = false;
-        private string _searchNickname;
 
+        private string _searchNickname;
         public string SearchNickname
         {
             get => _searchNickname;
@@ -90,7 +90,6 @@ namespace Lottery.ViewModel.Friends
         public ObservableCollection<FoundUserViewModel> SearchResults { get; } = new ObservableCollection<FoundUserViewModel>();
         public ObservableCollection<FriendViewModel> FriendsList { get; } = new ObservableCollection<FriendViewModel>();
 
-        // --- COMANDOS ACTUALIZADOS CON TIPOS FUERTES ---
         public ICommand SearchCommand { get; }
         public RelayCommand<FoundUserViewModel> SendRequestCommand { get; }
         public RelayCommand<FoundUserViewModel> CancelRequestCommand { get; }
@@ -106,28 +105,25 @@ namespace Lottery.ViewModel.Friends
         public InviteFriendsViewModel()
         {
             _serviceClient = SessionManager.ServiceClient;
-
-            if (_serviceClient == null)
-            {
-                MessageBox.Show("Error: No se pudo conectar con el servicio.");
-                return;
-            }
-
             _currentUserId = SessionManager.CurrentUser.UserId;
 
             SearchCommand = new RelayCommand(async () => await SearchUser());
-
             SendRequestCommand = new RelayCommand<FoundUserViewModel>(async (user) => await SendRequest(user));
             CancelRequestCommand = new RelayCommand<FoundUserViewModel>(async (user) => await CancelRequest(user));
             AcceptRequestCommand = new RelayCommand<FoundUserViewModel>(async (user) => await AcceptRequest(user));
             RejectRequestCommand = new RelayCommand<FoundUserViewModel>(async (user) => await RejectRequest(user));
             RemoveFriendCommand = new RelayCommand<FriendViewModel>(async (friend) => await RemoveFriend(friend));
 
+            InviteFriendCommand = new RelayCommand<FriendViewModel>(async (friend) => await InviteFriendToLobby(friend));
+
             ViewRequestsCommand = new RelayCommand(ViewRequests);
             LoadFriendsCommand = new RelayCommand(async () => await LoadFriends());
             GoBackToMenuCommand = new RelayCommand<Window>(ExecuteGoBackToMenu);
 
-            LoadFriendsCommand.Execute(null);
+            if (_serviceClient != null)
+            {
+                _ = LoadFriends();
+            }
         }
 
         private async Task LoadFriends()
@@ -135,6 +131,7 @@ namespace Lottery.ViewModel.Friends
             try
             {
                 var friends = await _serviceClient.GetFriendsAsync(_currentUserId);
+
                 FriendsList.Clear();
                 if (friends != null)
                 {
@@ -146,10 +143,12 @@ namespace Lottery.ViewModel.Friends
             }
             catch (FaultException<ServiceFault> ex)
             {
-                MessageBox.Show(ex.Detail.Message, "Error al Cargar Amigos", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ShowServiceError(ex, "Error al cargar amigos");
             }
-            catch (FaultException ex) { HandleConnectionError(ex, "cargar amigos"); }
-            catch (Exception ex) { HandleUnexpectedError(ex, "cargar amigos"); }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error de conexión: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private async Task SearchUser()
@@ -162,13 +161,12 @@ namespace Lottery.ViewModel.Friends
 
                 if (user == null)
                 {
-                    MessageBox.Show("Usuario no encontrado.");
-                    SearchResults.Clear();
                     return;
                 }
 
                 if (user.UserId == _currentUserId)
                 {
+                    MessageBox.Show("No puedes buscarte a ti mismo.", "Información");
                     SearchResults.Clear();
                     return;
                 }
@@ -179,7 +177,6 @@ namespace Lottery.ViewModel.Friends
 
                 bool isFriend = friends.Any(f => f.FriendId == user.UserId);
                 bool hasPendingSent = pendingSent.Any(r => r.UserId == user.UserId);
-
                 var receivedRequest = pendingReceived.FirstOrDefault(r => r.FriendId == user.UserId);
 
                 SearchResults.Clear();
@@ -190,137 +187,121 @@ namespace Lottery.ViewModel.Friends
                     PendingRequestSenderId = hasPendingSent ? _currentUserId : receivedRequest?.FriendId ?? 0
                 });
             }
-            catch (FaultException<ServiceFault> ex) { MessageBox.Show(ex.Detail.Message); }
-            catch (FaultException ex) { HandleConnectionError(ex, "buscar usuario"); }
-            catch (Exception ex) { HandleUnexpectedError(ex, "buscar usuario"); }
+            catch (FaultException<ServiceFault> ex)
+            {
+                if (ex.Detail.ErrorCode == "USER_NOT_FOUND")
+                {
+                    MessageBox.Show("No se encontró ningún usuario con ese nickname.", "Búsqueda", 
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    SearchResults.Clear();
+                }
+                else
+                {
+                    ShowServiceError(ex, "Error en Búsqueda");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error inesperado: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
-
-        // --- MÉTODOS ACTUALIZADOS ---
 
         private async Task SendRequest(FoundUserViewModel userVm)
         {
             if (userVm == null) return;
-
             try
             {
                 await _serviceClient.SendRequestFriendshipAsync(_currentUserId, userVm.UserId);
 
                 userVm.HasPendingRequest = true;
                 userVm.PendingRequestSenderId = _currentUserId;
-                MessageBox.Show($"Solicitud enviada a {userVm.Nickname}.");
+                MessageBox.Show($"Solicitud enviada a {userVm.Nickname}.", "Enviado", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (FaultException<ServiceFault> ex)
             {
-                if (ex.Detail.ErrorCode == "FR-002")
-                {
-                    MessageBox.Show($"Ya existe una solicitud pendiente con {userVm.Nickname}.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
-                else if (ex.Detail.ErrorCode == "FR-001")
-                {
-                    MessageBox.Show("No puedes agregarte a ti mismo.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                else
-                {
-                    MessageBox.Show(ex.Detail.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
+                ShowServiceError(ex, "No se pudo enviar");
             }
-            catch (FaultException ex) { HandleConnectionError(ex, "enviar solicitud"); }
-            catch (Exception ex) { HandleUnexpectedError(ex, "enviar solicitud"); }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
         }
 
         private async Task CancelRequest(FoundUserViewModel userVm)
         {
             if (userVm == null) return;
-
             try
             {
                 await _serviceClient.CancelFriendRequestAsync(_currentUserId, userVm.UserId);
 
                 userVm.HasPendingRequest = false;
                 userVm.PendingRequestSenderId = 0;
-                MessageBox.Show($"Solicitud a {userVm.Nickname} cancelada.");
+                MessageBox.Show($"Solicitud cancelada.");
             }
             catch (FaultException<ServiceFault> ex)
             {
-                if (ex.Detail.ErrorCode == "FR-404")
+                ShowServiceError(ex, "Error al cancelar");
+                if (ex.Detail.ErrorCode == "FRIEND_NOT_FOUND")
                 {
-                    MessageBox.Show($"La solicitud a {userVm.Nickname} ya no existe (quizás ya fue aceptada o rechazada).", "Información");
-                    await SearchUser();
-                    await LoadFriends();
-                }
-                else
-                {
-                    MessageBox.Show(ex.Detail.Message);
+                    userVm.HasPendingRequest = false;
                 }
             }
-            catch (FaultException ex) { HandleConnectionError(ex, "cancelar solicitud"); }
-            catch (Exception ex) { HandleUnexpectedError(ex, "cancelar solicitud"); }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
         }
 
         private async Task AcceptRequest(FoundUserViewModel userVm)
         {
             if (userVm == null) return;
-
             try
             {
                 await _serviceClient.AcceptFriendRequestAsync(_currentUserId, userVm.UserId);
 
                 userVm.HasPendingRequest = false;
                 userVm.IsFriend = true;
-                MessageBox.Show($"¡{userVm.Nickname} ahora es tu amigo!");
+
+                MessageBox.Show($"¡{userVm.Nickname} ahora es tu amigo!", "Éxito");
                 await LoadFriends();
             }
             catch (FaultException<ServiceFault> ex)
             {
-                var codigoRecibido = ex.Detail.ErrorCode;
-                MessageBox.Show($"Código recibido: '{codigoRecibido}'");
-
-                if (ex.Detail.ErrorCode == "FR-404")
-                {
-                    MessageBox.Show($"La solicitud de {userVm.Nickname} ya no está disponible (quizás fue cancelada).", "Aviso");
-                    await SearchUser();
-                }
-                else
-                {
-                    MessageBox.Show(ex.Detail.Message);
-                }
+                ShowServiceError(ex, "Error al aceptar");
             }
-            catch (FaultException ex) { HandleConnectionError(ex, "aceptar solicitud"); }
-            catch (Exception ex) { HandleUnexpectedError(ex, "aceptar solicitud"); }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
         }
 
         private async Task RejectRequest(FoundUserViewModel userVm)
         {
             if (userVm == null) return;
-
             try
             {
                 await _serviceClient.RejectFriendRequestAsync(_currentUserId, userVm.UserId);
 
                 userVm.HasPendingRequest = false;
                 userVm.PendingRequestSenderId = 0;
-                MessageBox.Show($"Rechazaste la solicitud de {userVm.Nickname}.");
+                MessageBox.Show($"Solicitud rechazada.");
             }
             catch (FaultException<ServiceFault> ex)
             {
-                if (ex.Detail.ErrorCode == "FR-404")
-                {
-                    MessageBox.Show($"No se encontró la solicitud de {userVm.Nickname}.", "Aviso");
-                }
-                else
-                {
-                    MessageBox.Show(ex.Detail.Message);
-                }
+                ShowServiceError(ex, "Error al rechazar");
             }
-            catch (FaultException ex) { HandleConnectionError(ex, "rechazar solicitud"); }
-            catch (Exception ex) { HandleUnexpectedError(ex, "rechazar solicitud"); }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
         }
 
         private async Task RemoveFriend(FriendViewModel selectedFriend)
         {
             if (selectedFriend == null) return;
 
-            if (MessageBox.Show($"¿Seguro que quieres eliminar a {selectedFriend.Nickname}?", "Confirmar", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (MessageBox.Show($"¿Seguro que quieres eliminar a {selectedFriend.Nickname}?", 
+                "Confirmar", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 try
                 {
@@ -329,51 +310,102 @@ namespace Lottery.ViewModel.Friends
                 }
                 catch (FaultException<ServiceFault> ex)
                 {
-                    if (ex.Detail.ErrorCode == "FR-404")
-                    {
-                        MessageBox.Show($"No existe una amistad entre {selectedFriend.Nickname} y tú.", "Información");
-                    }
-                    else
-                    {
-                        MessageBox.Show(ex.Detail.Message);
-                    }
+                    ShowServiceError(ex, "Error al eliminar");
                 }
-                catch (FaultException ex) { HandleConnectionError(ex, "eliminar amigo"); }
-                catch (Exception ex) { HandleUnexpectedError(ex, "eliminar amigo"); }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}");
+                }
             }
         }
 
-        // --- Helpers ---
+        private async Task InviteFriendToLobby(FriendViewModel friend)
+        {
+            if (!_isInviteMode || string.IsNullOrEmpty(_inviteLobbyCode)) return;
+
+            try
+            {
+                await _serviceClient.InviteFriendToLobbyAsync(_inviteLobbyCode, friend.UserId);
+                MessageBox.Show($"Invitación enviada a {friend.Nickname}.", "Enviado");
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                ShowServiceError(ex, "Error de Invitación");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+        }
+
+        private void ShowServiceError(FaultException<ServiceFault> fault, string title)
+        {
+            var detail = fault.Detail;
+            string message = detail.Message;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+
+            switch (detail.ErrorCode)
+            {
+                case "FRIEND_DUPLICATE":
+                    message = "Ya existe una solicitud pendiente o una amistad con este usuario.";
+                    break;
+
+                case "FRIEND_INVALID":
+                    message = "Operación de amistad no válida.";
+                    icon = MessageBoxImage.Error;
+                    break;
+
+                case "FRIEND_NOT_FOUND":
+                    message = "La solicitud o amistad ya no existe (quizás fue cancelada por la otra parte).";
+                    break;
+
+                case "USER_NOT_FOUND":
+                    message = "El usuario buscado no existe.";
+                    break;
+
+                case "USER_IN_LOBBY":
+                    message = "El usuario ya se encuentra ocupado en un lobby.";
+                    break;
+
+                case "USER_OFFLINE":
+                case "FRIEND_NOT_CONNECTED":
+                    message = "El usuario no está conectado actualmente o tu sesión expiró.";
+                    break;
+
+                case "FR-500":
+                    message = "Error interno del servidor.";
+                    icon = MessageBoxImage.Error;
+                    break;
+
+                default:
+                    message = $"Error del servidor ({detail.ErrorCode}): {detail.Message}";
+                    break;
+            }
+
+            MessageBox.Show(message, title, MessageBoxButton.OK, icon);
+        }
+
         public void SetInviteMode(string lobbyCode)
         {
             _isInviteMode = true;
             _inviteLobbyCode = lobbyCode;
-
-            OnPropertyChanged(nameof(InviteFriendCommand));
         }
 
         private void ViewRequests()
         {
             var requestsView = new FriendRequestsView();
             requestsView.ShowDialog();
-            LoadFriendsCommand.Execute(null);
+            _ = LoadFriends();
         }
 
         private void ExecuteGoBackToMenu(Window friendsWindow)
         {
-            var mainMenuView = new MainMenuView();
-            mainMenuView.Show();
+            if (!_isInviteMode)
+            {
+                var mainMenuView = new MainMenuView();
+                mainMenuView.Show();
+            }
             friendsWindow?.Close();
-        }
-
-        private void HandleConnectionError(FaultException ex, string operation)
-        {
-            MessageBox.Show($"Error de conexión al {operation}. Detalle: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-
-        private void HandleUnexpectedError(Exception ex, string operation)
-        {
-            MessageBox.Show($"Error inesperado al {operation}. Detalle: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

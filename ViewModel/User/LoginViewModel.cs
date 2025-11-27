@@ -60,15 +60,19 @@ namespace Lottery.ViewModel.User
         private void RecreateClient()
         {
             _callbackHandler = new ClientCallbackHandler();
-
             var context = new InstanceContext(_callbackHandler);
-
             _serviceClient = new LotteryServiceClient(context);
         }
 
         public async Task Login(Window window)
         {
             if (IsLoggingIn) return;
+
+            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
+            {
+                MessageBox.Show("Por favor, ingresa usuario y contraseña.", "Datos incompletos", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
             IsLoggingIn = true;
             ErrorMessage = string.Empty;
@@ -95,27 +99,77 @@ namespace Lottery.ViewModel.User
                 
                 UserDto user = await _serviceClient.LoginUserAsync(Username, Password);
 
-                SessionManager.Login(user);
-                SessionManager.ServiceClient = _serviceClient;
+                if (user != null)
+                {
+                    SessionManager.Login(user);
+                    SessionManager.ServiceClient = _serviceClient;
 
-                new MainMenuView().Show();
-                window.Close();
+                    MainMenuView mainMenuView = new MainMenuView();
+                    mainMenuView.Show();
+                    window.Close();
+                }
+                else
+                {
+                    ErrorMessage = "Error desconocido al obtener datos del usuario.";
+                }
             }
             catch (FaultException<ServiceFault> ex)
             {
-                MessageBox.Show(ex.Detail.Message, "Error de Inicio de Sesión", MessageBoxButton.OK, MessageBoxImage.Warning);
+                HandleLoginError(ex);
             }
             catch (FaultException)
             {
-                ErrorMessage = "Error de conexión. No se pudo contactar al servidor.";
+                ErrorMessage = "Error de comunicación WCF.";
+                MessageBox.Show($"No se pudo contactar al servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
+                AbortAndRecreateClient();
             }
             catch (Exception ex)
             {
-                ErrorMessage = "Ha ocurrido un error inesperado.";
-                MessageBox.Show($"{ErrorMessage}\nDetalle: {ex.Message}");
+                ErrorMessage = "Error inesperado.";
+                MessageBox.Show($"Ocurrió un error crítico: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 AbortAndRecreateClient();
             }
             finally { IsLoggingIn = false; }
+        }
+
+        private void HandleLoginError(FaultException<ServiceFault> fault)
+        {
+            var detail = fault.Detail;
+            string title = "Error de Inicio de Sesión";
+            string message = detail.Message;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+
+            switch (detail.ErrorCode)
+            {
+                case "AUTH_USER_NOT_FOUND":
+                case "AUTH_INVALID_CREDENTIALS":
+                    message = "El usuario o la contraseña son incorrectos.";
+                    break;
+
+                case "AUTH_ACCOUNT_LOCKED":
+                    message = "Tu cuenta ha sido bloqueada temporalmente por demasiados intentos fallidos.";
+                    title = "Cuenta Bloqueada";
+                    icon = MessageBoxImage.Error;
+                    break;
+
+                case "AUTH_USER_ALREADY_CONNECTED":
+                    message = "Este usuario ya tiene una sesión activa en otro lugar.";
+                    break;
+
+                case "AUTH_DB_ERROR":
+                case "AUTH_INTERNAL_500":
+                    message = "El servidor no está disponible en este momento. Intenta más tarde.";
+                    title = "Error del Servidor";
+                    icon = MessageBoxImage.Error;
+                    break;
+
+                default:
+                    message = $"Error del servidor ({detail.ErrorCode}): {detail.Message}";
+                    break;
+            }
+
+            ErrorMessage = message;
+            MessageBox.Show(message, title, MessageBoxButton.OK, icon);
         }
 
         private void AbortAndRecreateClient()
@@ -123,14 +177,17 @@ namespace Lottery.ViewModel.User
             if (_serviceClient != null)
             {
                 var clientChannel = _serviceClient as ICommunicationObject;
-                if (clientChannel.State == CommunicationState.Faulted)
+                if (clientChannel != null)
                 {
-                    clientChannel.Abort();
-                }
-                else
-                {
-                    try { clientChannel.Close(); }
-                    catch { clientChannel.Abort(); }
+                    if (clientChannel.State == CommunicationState.Faulted)
+                    {
+                        clientChannel.Abort();
+                    }
+                    else
+                    {
+                        try { clientChannel.Close(); }
+                        catch { clientChannel.Abort(); }
+                    }
                 }
             }
 
@@ -141,7 +198,6 @@ namespace Lottery.ViewModel.User
         {
             UserRegisterView registerView = new UserRegisterView();
             registerView.Show();
-
             loginWindow?.Close();
         }
     }

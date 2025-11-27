@@ -2,10 +2,10 @@
 using Lottery.ViewModel.Base;
 using System;
 using System.Collections.ObjectModel;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.ServiceModel;
 
 namespace Lottery.ViewModel.Friends
 {
@@ -23,19 +23,16 @@ namespace Lottery.ViewModel.Friends
         public FriendRequestsViewModel()
         {
             _serviceClient = SessionManager.ServiceClient;
-
-            if (_serviceClient == null)
-            {
-                MessageBox.Show("Error: No se pudo conectar con el servicio. Intente iniciar sesión de nuevo.");
-                return;
-            }
-
             _currentUserId = SessionManager.CurrentUser.UserId;
 
             LoadRequestsCommand = new RelayCommand(async () => await LoadRequests());
             AcceptCommand = new RelayCommand<FriendDto>(async (request) => await AcceptRequest(request));
             RejectCommand = new RelayCommand<FriendDto>(async (request) => await RejectRequest(request));
-            LoadRequestsCommand.Execute(null);
+
+            if (_serviceClient != null)
+            {
+                _ = LoadRequests();
+            }
         }
 
         private async Task LoadRequests()
@@ -43,26 +40,33 @@ namespace Lottery.ViewModel.Friends
             try
             {
                 var requests = await _serviceClient.GetPendingRequestsAsync(_currentUserId);
-                PendingRequests.Clear();
-                if (requests != null)
+
+                Application.Current.Dispatcher.Invoke(() =>
                 {
-                    foreach (var req in requests)
+                    PendingRequests.Clear();
+                    if (requests != null)
                     {
-                        PendingRequests.Add(req);
+                        foreach (var req in requests)
+                        {
+                            PendingRequests.Add(req);
+                        }
                     }
-                }
+                });
             }
             catch (FaultException<ServiceFault> ex)
             {
-                MessageBox.Show(ex.Detail.Message, "Error al Cargar Solicitudes", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-            catch (FaultException ex)
-            {
-                HandleConnectionError(ex, "cargar las solicitudes");
+                if (ex.Detail.ErrorCode == "USER_OFFLINE")
+                {
+                    ShowServiceError(ex, "Error de Sesión");
+                }
+                else
+                {
+                    Console.WriteLine($"Error cargando solicitudes: {ex.Detail.Message}");
+                }
             }
             catch (Exception ex)
             {
-                HandleUnexpectedError(ex, "cargar las solicitudes");
+                MessageBox.Show($"Error de conexión al cargar: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -72,23 +76,23 @@ namespace Lottery.ViewModel.Friends
 
             try
             {
-                int requesterId = request.FriendId;
-                await _serviceClient.AcceptFriendRequestAsync(_currentUserId, requesterId);
+                await _serviceClient.AcceptFriendRequestAsync(_currentUserId, request.FriendId);
 
                 await LoadRequests();
+
+                MessageBox.Show($"¡Ahora eres amigo de {request.Nickname}!", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (FaultException<ServiceFault> ex)
             {
-                MessageBox.Show(ex.Detail.Message, "Error al Aceptar", MessageBoxButton.OK, MessageBoxImage.Warning);
-                await LoadRequests();
-            }
-            catch (FaultException ex)
-            {
-                HandleConnectionError(ex, "aceptar la solicitud");
+                ShowServiceError(ex, "No se pudo aceptar la solicitud");
+                if (ex.Detail.ErrorCode == "FRIEND_NOT_FOUND" || ex.Detail.ErrorCode == "FRIEND_DUPLICATE")
+                {
+                    await LoadRequests();
+                }
             }
             catch (Exception ex)
             {
-                HandleUnexpectedError(ex, "aceptar la solicitud");
+                MessageBox.Show($"Ocurrió un error inesperado: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -98,40 +102,56 @@ namespace Lottery.ViewModel.Friends
 
             try
             {
-                int requesterId = request.FriendId;
-                await _serviceClient.RejectFriendRequestAsync(_currentUserId, requesterId);
-
+                await _serviceClient.RejectFriendRequestAsync(_currentUserId, request.FriendId);
                 await LoadRequests();
             }
             catch (FaultException<ServiceFault> ex)
             {
-                MessageBox.Show(ex.Detail.Message, "Error al Rechazar", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ShowServiceError(ex, "No se pudo rechazar");
                 await LoadRequests();
-            }
-            catch (FaultException ex)
-            {
-                HandleConnectionError(ex, "rechazar la solicitud");
             }
             catch (Exception ex)
             {
-                HandleUnexpectedError(ex, "rechazar la solicitud");
+                MessageBox.Show($"Ocurrió un error inesperado: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private void HandleConnectionError(FaultException ex, string operation)
+        private void ShowServiceError(FaultException<ServiceFault> fault, string title)
         {
-            string message = $"Error de conexión al {operation}.\n" +
-                             "Es posible que se haya perdido la conexión con el servidor.\n" +
-                             "Si el problema persiste, reinicie la aplicación.\n\n" +
-                             $"Detalle: {ex.Message}";
-            MessageBox.Show(message, "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
+            var detail = fault.Detail;
+            string message = detail.Message;
+            MessageBoxImage icon = MessageBoxImage.Warning;
 
-        private void HandleUnexpectedError(Exception ex, string operation)
-        {
-            string message = $"Error inesperado al {operation}.\n\n" +
-                             $"Detalle: {ex.Message}";
-            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            switch (detail.ErrorCode)
+            {
+                case "FRIEND_NOT_FOUND":
+                    message = "Esta solicitud ya no existe o fue cancelada por el otro usuario.";
+                    break;
+
+                case "FRIEND_INVALID":
+                    message = "La operación de amistad no es válida.";
+                    break;
+
+                case "FRIEND_DUPLICATE":
+                    message = "Ya eres amigo de este usuario o la solicitud ya fue procesada.";
+                    break;
+
+                case "USER_OFFLINE":
+                    message = "Tu sesión ha expirado. Por favor cierra sesión y vuelve a entrar.";
+                    icon = MessageBoxImage.Error;
+                    break;
+
+                case "FR-500":
+                    message = "El servidor tuvo un problema interno. Intenta más tarde.";
+                    icon = MessageBoxImage.Error;
+                    break;
+
+                default:
+                    message = $"Error del servidor ({detail.ErrorCode}): {detail.Message}";
+                    break;
+            }
+
+            MessageBox.Show(message, title, MessageBoxButton.OK, icon);
         }
     }
 }

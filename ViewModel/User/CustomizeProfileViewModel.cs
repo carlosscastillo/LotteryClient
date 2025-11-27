@@ -2,10 +2,11 @@
 using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;
 using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Linq;
 using Lottery.Helpers;
@@ -35,7 +36,7 @@ namespace Lottery.ViewModel.User
 
             OpenChangePasswordCommand = new RelayCommand(OpenChangePassword);
             VerifyPasswordCommand = new RelayCommand(async () => await VerifyCurrentPassword());
-            SaveNewPasswordCommand = new RelayCommand(SaveNewPassword);
+            SaveNewPasswordCommand = new RelayCommand(async () => await SaveNewPassword());
             BackToChangePasswordCommand = new RelayCommand(BackToChangePassword);
 
             OpenChangeAvatarCommand = new RelayCommand(OpenChangeAvatar);
@@ -86,10 +87,10 @@ namespace Lottery.ViewModel.User
 
         private string _avatarUrl;
         public string AvatarUrl { get => _avatarUrl; set => SetProperty(ref _avatarUrl, value); }
-        
+
         private string _currentPassword;
         public string CurrentPassword { get => _currentPassword; set => SetProperty(ref _currentPassword, value); }
-        
+
         private string _newPassword;
         public string NewPassword { get => _newPassword; set => SetProperty(ref _newPassword, value); }
 
@@ -126,15 +127,16 @@ namespace Lottery.ViewModel.User
 
         private bool _isEmailVerifiedVisible;
         public bool IsEmailVerifiedVisible { get => _isEmailVerifiedVisible; set => SetProperty(ref _isEmailVerifiedVisible, value); }
-        
+
         private bool _isChangePasswordVisible;
         public bool IsChangePasswordVisible { get => _isChangePasswordVisible; set => SetProperty(ref _isChangePasswordVisible, value); }
 
         private bool _isNewPasswordVisible;
         public bool IsNewPasswordVisible { get => _isNewPasswordVisible; set => SetProperty(ref _isNewPasswordVisible, value); }
-        
+
         private bool _isAvatarOverlayVisible;
         public bool IsAvatarOverlayVisible { get => _isAvatarOverlayVisible; set => SetProperty(ref _isAvatarOverlayVisible, value); }
+
         public bool IsAvatarSelected => _selectedAvatar != null && _selectedAvatar.AvatarId != this.IdAvatar;
         public bool IsReadOnly => !IsEditing;
         public Visibility EditButtonVisibility => IsEditing ? Visibility.Collapsed : Visibility.Visible;
@@ -142,7 +144,7 @@ namespace Lottery.ViewModel.User
 
         public RelayCommand EditCommand { get; }
         public RelayCommand SaveChangesCommand { get; }
-        public RelayCommand CancelCommand { get; }        
+        public RelayCommand CancelCommand { get; }
         public RelayCommand SendVerificationCodeCommand { get; }
         public RelayCommand VerifyEmailCodeCommand { get; }
         public RelayCommand BackToChangeEmailCommand { get; }
@@ -156,9 +158,31 @@ namespace Lottery.ViewModel.User
         public RelayCommand<AvatarItemViewModel> SelectAvatarCommand { get; }
         public RelayCommand AcceptAvatarChangeCommand { get; }
         public RelayCommand CloseAvatarOverlayCommand { get; }
-        public RelayCommand BackToProfileCommand { get; }
         public RelayCommand<object> GoBackToMenuCommand { get; }
-        private void EditProfile() => IsEditing = true;
+
+        private async Task LoadFullUserData()
+        {
+            try
+            {
+                if (SessionManager.CurrentUser == null) return;
+
+                var fullUser = await _serviceClient.GetUserProfileAsync(SessionManager.CurrentUser.UserId);
+                if (fullUser != null)
+                {
+                    _currentUserFull = fullUser;
+                    IdUser = _currentUserFull.UserId;
+                    MapFromDTO(_currentUserFull);
+                }
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                ShowServiceError(ex, "Error al cargar perfil");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"No se pudieron cargar los datos del usuario: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
         private async Task SaveChanges()
         {
@@ -174,7 +198,7 @@ namespace Lottery.ViewModel.User
             _currentUserFull.MaternalLastName = MaternalLastName;
             _currentUserFull.AvatarId = IdAvatar;
             
-            var validator = new InputValidator().ValidateRegister(); // o ValidateLogin()
+            var validator = new InputValidator().ValidateRegister();
             var validationResult = validator.Validate(_currentUserFull);
 
             if (!validationResult.IsValid)
@@ -193,11 +217,16 @@ namespace Lottery.ViewModel.User
                 {
                     MessageBox.Show("Perfil actualizado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
                     IsEditing = false;
+                    SessionManager.CurrentUser.Nickname = Nickname;
                 }
                 else
                 {
                     MessageBox.Show($"No se pudo actualizar el perfil: {message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                ShowServiceError(ex, "Error al guardar");
             }
             catch (Exception ex)
             {
@@ -209,11 +238,225 @@ namespace Lottery.ViewModel.User
             }
         }
 
+        private async Task SendVerifyEmail()
+        {
+            if (_currentUserFull == null)
+            {
+                MessageBox.Show("Los datos del usuario aún no se han cargado.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(NewEmail))
+            {
+                MessageBox.Show("Por favor, ingresa un nuevo correo electrónico.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            try
+            {
+                bool codeSent = await _serviceClient.RequestEmailChangeAsync(IdUser, NewEmail);
+                if (codeSent)
+                {
+                    MessageBox.Show("Se envió un código de verificación al nuevo correo.", "Verificación enviada");
+                    IsChangeEmailVisible = false;
+                    IsVerifyEmailVisible = true;
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo enviar el código. Verifica que el correo no esté en uso o sea diferente al actual.",
+                                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                ShowServiceError(ex, "Error de servicio");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al solicitar la verificación: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private async Task VerifyEmailCode()
+        {
+            if (string.IsNullOrWhiteSpace(VerificationCode))
+            {
+                MessageBox.Show("Ingresa el código de verificación.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            IsBusy = true;
+
+            try
+            {
+                bool verified = await _serviceClient.ConfirmEmailChangeAsync(IdUser, NewEmail, VerificationCode);
+                if (verified)
+                {
+                    _currentUserFull.Email = NewEmail;
+                    Email = NewEmail;
+                    IsVerifyEmailVisible = false;
+                    IsEmailVerifiedVisible = true;
+                    MessageBox.Show("Correo verificado y actualizado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Código incorrecto o expirado. Intenta nuevamente.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                ShowServiceError(ex, "Error de Verificación");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al verificar el código: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private async Task VerifyCurrentPassword()
+        {
+            if (string.IsNullOrWhiteSpace(CurrentPassword))
+            {
+                MessageBox.Show("Por favor ingresa tu contraseña actual.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            IsBusy = true;
+
+            try
+            {
+                bool isValid = await _serviceClient.VerifyPasswordAsync(IdUser, CurrentPassword);
+                if (isValid)
+                {
+                    IsChangePasswordVisible = false;
+                    IsNewPasswordVisible = true;
+                }
+                else
+                {
+                    MessageBox.Show("La contraseña actual es incorrecta.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                ShowServiceError(ex, "Error de Verificación");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al verificar la contraseña: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private async Task SaveNewPassword()
+        {
+            if (string.IsNullOrWhiteSpace(NewPassword) || string.IsNullOrWhiteSpace(ConfirmNewPassword))
+            {
+                MessageBox.Show("Por favor completa todos los campos.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (NewPassword != ConfirmNewPassword)
+            {
+                MessageBox.Show("Las contraseñas no coinciden.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            IsBusy = true;
+
+            try
+            {
+                bool result = await _serviceClient.ChangePasswordAsync(IdUser, NewPassword);
+                if (result)
+                {
+                    MessageBox.Show("Contraseña actualizada correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                    CloseOverlay();
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo cambiar la contraseña. Verifica los datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                ShowServiceError(ex, "Error al cambiar contraseña");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error inesperado: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                IsBusy = false;
+                NewPassword = string.Empty;
+                ConfirmNewPassword = string.Empty;
+                CurrentPassword = string.Empty;
+            }
+        }
+
+        private void ShowServiceError(FaultException<ServiceFault> fault, string title)
+        {
+            var detail = fault.Detail;
+            string message = detail.Message;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+
+            switch (detail.ErrorCode)
+            {
+                case "USER_DUPLICATE":
+                    message = "El nickname o correo electrónico ya están en uso por otro usuario.";
+                    break;
+
+                case "USER_NOT_FOUND":
+                    message = "No se encontró la información del usuario.";
+                    break;
+
+                case "VERIFY_EMAIL_SEND_FAILED":
+                    message = "No pudimos enviar el correo. Verifica que la dirección sea correcta.";
+                    break;
+
+                case "VERIFY_ERROR":
+                    message = "Código de verificación incorrecto o expirado.";
+                    break;
+
+                case "USER_OFFLINE":
+                    message = "Tu sesión ha expirado. Por favor inicia sesión nuevamente.";
+                    icon = MessageBoxImage.Error;
+                    break;
+
+                case "USER_INTERNAL_ERROR":
+                    message = "Ocurrió un error interno al procesar tu perfil.";
+                    icon = MessageBoxImage.Error;
+                    break;
+
+                default:
+                    message = $"Error del servidor: {detail.Message}";
+                    break;
+            }
+
+            MessageBox.Show(message, title, MessageBoxButton.OK, icon);
+        }
+
+        private void EditProfile() => IsEditing = true;
+
         private void CancelEdit()
         {
             if (_currentUserFull != null)
                 MapFromDTO(_currentUserFull);
             IsEditing = false;
+        }
+
+        private bool ValidateFields()
+        {
+            if (string.IsNullOrWhiteSpace(FirstName))
+            {
+                IsBusy = false;
+            }
         }
 
         private void OpenChangeEmail()
@@ -252,10 +495,25 @@ namespace Lottery.ViewModel.User
             VerificationCode = string.Empty;
         }
 
+        private void BackToChangePassword()
+        {
+            IsNewPasswordVisible = false;
+            IsChangePasswordVisible = true;
+            NewPassword = string.Empty;
+            ConfirmNewPassword = string.Empty;
+        }
+
+        private void BackToEditEmail()
+        {
+            IsVerifyEmailVisible = false;
+            IsChangeEmailVisible = true;
+            VerificationCode = string.Empty;
+        }
+
         private void CloseAvatarOverlay()
         {
             if (Avatars != null)
-            {                
+            {
                 _selectedAvatar = null;
                 foreach (var avatar in Avatars)
                 {
@@ -273,7 +531,7 @@ namespace Lottery.ViewModel.User
         private void AcceptAvatarChange()
         {
             if (_selectedAvatar != null)
-            {                
+            {
                 AvatarUrl = _selectedAvatar.AvatarUrl;
                 IdAvatar = _selectedAvatar.AvatarId;
             }
@@ -288,12 +546,12 @@ namespace Lottery.ViewModel.User
         private void SelectAvatar(AvatarItemViewModel selectedAvatar)
         {
             if (selectedAvatar == null) return;
-            
+
             foreach (var avatar in Avatars)
             {
                 avatar.IsSelected = false;
             }
-            
+
             selectedAvatar.IsSelected = true;
             _selectedAvatar = selectedAvatar;
 
@@ -301,226 +559,18 @@ namespace Lottery.ViewModel.User
             AcceptAvatarChangeCommand.RaiseCanExecuteChanged();
         }
 
-        private async Task SendVerifyEmail()
-        {
-            if (_currentUserFull == null)
-            {
-                MessageBox.Show("Los datos del usuario aún no se han cargado.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-            
-            var temporaryUser = new UserDto { Email = NewEmail };
-
-            var validator = new InputValidator().ValidateEmail();
-            var validationResult = validator.Validate(temporaryUser);
-
-            if (!validationResult.IsValid)
-            {
-                string errores = string.Join("\n", validationResult.Errors.Select(e => e.ErrorMessage));
-                MessageBox.Show(errores, "Correo inválido", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            try
-            {
-                bool codeSent = await _serviceClient.RequestEmailChangeAsync(IdUser, NewEmail);
-                if (codeSent)
-                {
-                    MessageBox.Show("Se envió un código de verificación al nuevo correo.", "Verificación enviada");
-                    IsChangeEmailVisible = false;
-                    IsVerifyEmailVisible = true;
-                }
-                else
-                {
-                    MessageBox.Show("No se pudo enviar el código. Verifica que el correo no esté en uso o sea diferente al actual.",
-                                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            catch (FaultException<ServiceFault> ex)
-            {
-                MessageBox.Show(ex.Detail.Message, "Error de servicio", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al solicitar la verificación: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-
-        private async Task VerifyEmailCode()
-        {
-            if (string.IsNullOrWhiteSpace(VerificationCode))
-            {
-                MessageBox.Show("Ingresa el código de verificación.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            IsBusy = true;
-
-            try
-            {
-                bool verified = await _serviceClient.ConfirmEmailChangeAsync(IdUser, NewEmail, VerificationCode);
-                if (verified)
-                {
-                    _currentUserFull.Email = NewEmail;
-                    Email = NewEmail;
-                    IsVerifyEmailVisible = false;
-                    IsEmailVerifiedVisible = true;
-                    MessageBox.Show("Correo verificado y actualizado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Código incorrecto o expirado. Intenta nuevamente.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al verificar el código: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            finally { IsBusy = false; }
-        }
-
-        private async Task VerifyCurrentPassword()
-        {
-            var validator = new InputValidator().ValidatePasswordOnly();
-
-            var validationResult = validator.Validate(new UserDto { Password = CurrentPassword });
-            
-            if (!validationResult.IsValid)
-            {
-                MessageBox.Show(
-                    string.Join("\n", validationResult.Errors.Select(e => e.ErrorMessage)),
-                    "Contraseña inválida",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning
-                );
-                return;
-            }
-
-            IsBusy = true;
-
-            try
-            {
-                bool isValid = await _serviceClient.VerifyPasswordAsync(IdUser, CurrentPassword);
-
-                if (isValid)
-                {
-                    IsChangePasswordVisible = false;
-                    IsNewPasswordVisible = true;
-                }
-                else
-                {
-                    MessageBox.Show("La contraseña actual es incorrecta.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al verificar la contraseña: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            finally
-            {
-                IsBusy = false;
-            }
-        }
-
-        private async void SaveNewPassword()
-        {
-            var temporaryUser = new UserDto { Password = NewPassword };
-            
-            var validator = new InputValidator().ValidatePasswordOnly();
-            var validationResult = validator.Validate(temporaryUser);
-
-            if (!validationResult.IsValid)
-            {
-                string errores = string.Join("\n• ", validationResult.Errors.Select(e => e.ErrorMessage));
-                MessageBox.Show($"Corrige los siguientes errores:\n\n• {errores}", "Validación",
-                                MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-            
-            if (NewPassword != ConfirmNewPassword)
-            {
-                MessageBox.Show("Las contraseñas no coinciden.", "Error de Contraseña",
-                                MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            IsBusy = true;
-
-            try
-            {
-                bool result = await _serviceClient.ChangePasswordAsync(IdUser, NewPassword);
-                if (result)
-                {
-                    MessageBox.Show("Contraseña actualizada correctamente.", "Éxito",
-                                    MessageBoxButton.OK, MessageBoxImage.Information);
-                    CloseOverlay();
-                }
-                else
-                {
-                    MessageBox.Show("No se pudo cambiar la contraseña. Verifica los datos.", "Error",
-                                    MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al cambiar la contraseña: {ex.Message}", "Error",
-                                MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            finally
-            {
-                IsBusy = false;
-                NewPassword = ConfirmNewPassword = CurrentPassword = string.Empty;
-            }
-        }
-
-        private void BackToChangePassword()
-        {
-            IsNewPasswordVisible = false;
-            IsChangePasswordVisible = true;
-            NewPassword = string.Empty;
-            ConfirmNewPassword = string.Empty;
-        }
-
-        private void BackToEditEmail()
-        {
-            IsVerifyEmailVisible = false;
-            IsChangeEmailVisible = true;
-            VerificationCode = string.Empty;
-        }
-        
         private void GoBackToMenu(object windowObj)
         {
             if (windowObj is Window window)
-            {                                
+            {
                 var mainMenuView = new MainMenuView();
                 mainMenuView.Show();
                 window.Close();
             }
         }
 
-        private async Task LoadFullUserData()
-        {
-            try
-            {
-                if (SessionManager.CurrentUser == null) return;
-
-                var fullUser = await _serviceClient.GetUserProfileAsync(SessionManager.CurrentUser.UserId);
-                if (fullUser != null)
-                {
-                    _currentUserFull = fullUser;
-                    IdUser = _currentUserFull.UserId;
-                    MapFromDTO(_currentUserFull);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"No se pudieron cargar los datos del usuario: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
         private void MapFromDTO(UserDto dto)
-        {            
+        {
             IdAvatar = dto.AvatarId;
             IdUser = dto.UserId;
             Nickname = dto.Nickname;
@@ -534,7 +584,7 @@ namespace Lottery.ViewModel.User
         private void LoadAvatars()
         {
             Avatars = new ObservableCollection<AvatarItemViewModel>
-            {                
+            {
                 new AvatarItemViewModel { AvatarId = 0, AvatarUrl = "/Images/Avatar/avatar00.png" },
                 new AvatarItemViewModel { AvatarId = 1, AvatarUrl = "/Images/Avatar/avatar01.jpg" },
                 new AvatarItemViewModel { AvatarId = 2, AvatarUrl = "/Images/Avatar/avatar02.jpg" },
@@ -547,7 +597,7 @@ namespace Lottery.ViewModel.User
                 new AvatarItemViewModel { AvatarId = 9, AvatarUrl = "/Images/Avatar/avatar09.jpg" },
                 new AvatarItemViewModel { AvatarId = 10, AvatarUrl = "/Images/Avatar/avatar10.jpg" },
             };
-            
+
             _selectedAvatar = Avatars.FirstOrDefault(a => a.AvatarId == this.IdAvatar);
             if (_selectedAvatar != null)
             {

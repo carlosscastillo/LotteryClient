@@ -81,7 +81,7 @@ namespace Lottery.ViewModel.Game
             IsHost = Players.FirstOrDefault(p => p.UserId == _currentUserId)?.IsHost ?? false;
 
             DeclareLoteriaCommand = new RelayCommand(async () => await DeclareLoteria());
-            PauseGameCommand = new RelayCommand(LeaveGame);
+            PauseGameCommand = new RelayCommand(async () => await LeaveGame());
 
             SubscribeToGameEvents();
 
@@ -160,33 +160,20 @@ namespace Lottery.ViewModel.Game
             }
             catch (FaultException<ServiceFault> ex)
             {
-                string errorCode = ex.Detail != null ? ex.Detail.ErrorCode : "";
-                string message = ex.Detail != null ? ex.Detail.Message : "Error desconocido";
-
-                switch (errorCode)
-                {
-                    case "GAME_NOT_RUNNING":
-                        MessageBox.Show(_gameWindow, "La partida aún no ha comenzado o ya terminó.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        break;
-                    case "INVALID_DECLARATION":
-                        MessageBox.Show(_gameWindow, "No puedes declarar Lotería todavía. Verifica tu tablero.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        break;
-                    default:
-                        MessageBox.Show(_gameWindow, message, "Error al declarar Lotería", MessageBoxButton.OK, MessageBoxImage.Error);
-                        break;
-                }
                 GameStatusMessage = "Intento de victoria fallido.";
+                ShowServiceError(ex, "Victoria Inválida");
             }
             catch (Exception ex)
             {
                 MessageBox.Show(_gameWindow, "Error de conexión al declarar victoria: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                GameStatusMessage = "Error de conexión.";
             }
         }
 
-        private async void LeaveGame()
+        private async Task LeaveGame()
         {
             var result = MessageBox.Show(_gameWindow, "¿Seguro que quieres salir? Perderás el progreso.",
-                                         "Salir", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                                        "Salir", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
             if (result != MessageBoxResult.Yes) return;
 
@@ -198,24 +185,11 @@ namespace Lottery.ViewModel.Game
             }
             catch (FaultException<ServiceFault> ex)
             {
-                string code = ex.Detail != null ? ex.Detail.ErrorCode : "";
-                string message = ex.Detail != null ? ex.Detail.Message : "Error desconocido";
-
-                if (code == "LOBBY_NOT_FOUND")
-                {
-                }
-                else if (code == "GAME_ALREADY_RUNNING")
-                {
-                    MessageBox.Show(_gameWindow, "No puedes salir de esta manera mientras el juego corre.", "Error al salir");
-                }
-                else
-                {
-                    MessageBox.Show(_gameWindow, message, "Error al notificar salida");
-                }
+                ShowServiceError(ex, "Error al Salir");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error al salir: " + ex.Message);
+                Console.WriteLine("Error al salir (red): " + ex.Message);
             }
             finally
             {
@@ -231,6 +205,67 @@ namespace Lottery.ViewModel.Game
                 mainMenuView.Show();
                 _gameWindow.Close();
             });
+        }
+
+        private void ShowServiceError(FaultException<ServiceFault> fault, string title)
+        {
+            _gameWindow.Dispatcher.Invoke(() =>
+            {
+                var detail = fault.Detail;
+                string message = detail.Message;
+                MessageBoxImage icon = MessageBoxImage.Warning;
+
+                switch (detail.ErrorCode)
+                {
+                    case "GAME_ACTION_INVALID":
+                        message = "¡Cuidado! Tu tablero no coincide con las cartas que han salido. Verifica tus casillas.";
+                        break;
+
+                    case "GAME_ALREADY_ACTIVE":
+                        message = "El estado del juego ha cambiado o ya finalizó.";
+                        break;
+
+                    case "GAME_LOBBY_NOT_FOUND":
+                        message = "La partida o el lobby ya no existen.";
+                        icon = MessageBoxImage.Error;
+                        break;
+
+                    case "USER_OFFLINE":
+                        message = "Se perdió la conexión con tu sesión.";
+                        icon = MessageBoxImage.Error;
+                        break;
+
+                    case "GAME_INTERNAL_ERROR":
+                        message = "Ocurrió un error en el servidor de juego.";
+                        icon = MessageBoxImage.Error;
+                        break;
+
+                    default:
+                        message = $"Error del servidor: {detail.Message}";
+                        break;
+                }
+
+                MessageBox.Show(_gameWindow, message, title, MessageBoxButton.OK, icon);
+            });
+        }
+
+        private void CellOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Cell.IsSelected))
+            {
+                OnPropertyChanged(nameof(AllCellsSelected));
+            }
+        }
+
+        private string GetImagePathFromId(int cardId)
+        {
+            string fileId = cardId.ToString("D2");
+            return "pack://application:,,,/Lottery;component/Images/Cards/card" + fileId + ".png";
+        }
+
+        private string GetCardBackPath()
+        {
+            return "pack://application:,,,/Lottery;component/Images/Cards/cardReverse.png";
         }
 
         private string GetResourceKeyForCard(int cardId)
@@ -293,25 +328,6 @@ namespace Lottery.ViewModel.Game
                 case 54: return "CardTextBlockWoodyWoodpecker";
                 default: return null;
             }
-        }
-
-        private void CellOnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(Cell.IsSelected))
-            {
-                OnPropertyChanged(nameof(AllCellsSelected));
-            }
-        }
-
-        private string GetImagePathFromId(int cardId)
-        {
-            string fileId = cardId.ToString("D2");
-            return "pack://application:,,,/Lottery;component/Images/Cards/card" + fileId + ".png";
-        }
-
-        private string GetCardBackPath()
-        {
-            return "pack://application:,,,/Lottery;component/Images/Cards/cardReverse.png";
         }
     }
 

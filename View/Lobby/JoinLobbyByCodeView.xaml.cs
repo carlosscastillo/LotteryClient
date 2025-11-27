@@ -6,10 +6,15 @@ namespace Lottery.View.Lobby
 {
     public partial class JoinLobbyByCodeView : Window
     {
-        public JoinLobbyByCodeView(ILotteryService service, UserDto currentUser)
+        public JoinLobbyByCodeView()
         {
             InitializeComponent();
-            DataContext = new JoinLobbyByCodeViewModel(service, currentUser);
+            DataContext = new ViewModel.Lobby.JoinLobbyByCodeViewModel();
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

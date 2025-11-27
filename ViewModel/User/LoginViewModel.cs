@@ -1,4 +1,5 @@
-﻿using Lottery.LotteryServiceReference;
+﻿using Lottery.Helpers;
+using Lottery.LotteryServiceReference;
 using Lottery.View.MainMenu;
 using Lottery.View.User;
 using Lottery.ViewModel.Base;
@@ -7,6 +8,8 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Linq;
+
 
 namespace Lottery.ViewModel.User
 {
@@ -71,37 +74,50 @@ namespace Lottery.ViewModel.User
             ErrorMessage = string.Empty;
 
             try
-            {
+            {                
+                UserDto loginUser = new UserDto
+                {
+                    Nickname = Username,
+                    Password = Password
+                };
+                
+                var validator = new InputValidator().ValidateLogin();
+                var result = validator.Validate(loginUser);
+
+                if (!result.IsValid)
+                {
+                    string errors = string.Join("\n• ", result.Errors.Select(e => e.ErrorMessage));
+                    MessageBox.Show($"Corrige los siguientes errores:\n\n• {errors}",
+                                    "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                    return;
+                }
+                
                 UserDto user = await _serviceClient.LoginUserAsync(Username, Password);
 
                 SessionManager.Login(user);
                 SessionManager.ServiceClient = _serviceClient;
 
-                MainMenuView mainMenuView = new MainMenuView();
-                mainMenuView.Show();
+                new MainMenuView().Show();
                 window.Close();
             }
             catch (FaultException<ServiceFault> ex)
             {
                 MessageBox.Show(ex.Detail.Message, "Error de Inicio de Sesión", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            catch (FaultException ex)
+            catch (FaultException)
             {
                 ErrorMessage = "Error de conexión. No se pudo contactar al servidor.";
-                MessageBox.Show(ex.Message, "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
                 ErrorMessage = "Ha ocurrido un error inesperado.";
-                MessageBox.Show($"{ErrorMessage}\nDetalle: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"{ErrorMessage}\nDetalle: {ex.Message}");
                 AbortAndRecreateClient();
             }
-            finally
-            {
-                IsLoggingIn = false;
-            }
+            finally { IsLoggingIn = false; }
         }
-        
+
         private void AbortAndRecreateClient()
         {
             if (_serviceClient != null)

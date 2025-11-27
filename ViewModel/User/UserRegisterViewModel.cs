@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Lottery.Helpers;
 
 namespace Lottery.ViewModel.User
 {
@@ -84,45 +85,45 @@ namespace Lottery.ViewModel.User
 
             CurrentState = RegistrationState.Form;
         }
-
         private Task Register(object parameter)
         {
             var passwordBox = parameter as PasswordBox;
             if (passwordBox == null)
                 return Task.CompletedTask;
-            string password = passwordBox.Password;
 
-            if (string.IsNullOrWhiteSpace(Name) ||
-                string.IsNullOrWhiteSpace(PaternalLastName) ||
-                string.IsNullOrWhiteSpace(MaternalLastName) ||
-                string.IsNullOrWhiteSpace(Nickname) ||
-                string.IsNullOrWhiteSpace(Email) ||
-                string.IsNullOrWhiteSpace(password) ||
-                string.IsNullOrWhiteSpace(ConfirmPassword))
+            Password = passwordBox.Password;
+            var newUser = new UserDto
             {
-                MessageBox.Show("Por favor, llena todos los campos obligatorios.", "Campos Vacíos");
+                FirstName = Name,
+                PaternalLastName = PaternalLastName,
+                MaternalLastName = MaternalLastName,
+                Nickname = Nickname,
+                Email = Email,
+                Password = Password
+            };
+
+            var validator = new InputValidator().ValidateRegister();
+            var validationResult = validator.Validate(newUser);
+
+            if (!validationResult.IsValid)
+            {
+                string errorList = string.Join("\n• ", validationResult.Errors.Select(e => e.ErrorMessage));
+                MessageBox.Show($"Corrige los siguientes errores:\n\n• {errorList}", "Validación",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
                 return Task.CompletedTask;
             }
 
-            if (password != ConfirmPassword)
+            if (Password != ConfirmPassword)
             {
-                MessageBox.Show("Las contraseñas no coinciden.", "Error de Contraseña");
+                MessageBox.Show("Las contraseñas no coinciden.", "Error de Contraseña",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
                 return Task.CompletedTask;
             }
 
             IsRegistering = true;
-
             try
             {
-                _pendingUser = new UserDto
-                {
-                    FirstName = Name,
-                    PaternalLastName = PaternalLastName,
-                    MaternalLastName = MaternalLastName,
-                    Nickname = Nickname,
-                    Email = Email,
-                    Password = password
-                };
+                _pendingUser = newUser;
 
                 int result = _serviceClient.RequestUserVerification(_pendingUser);
 

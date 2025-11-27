@@ -648,4 +648,70 @@
   <data name="CardTextBlockReverse" xml:space="preserve">
     <value>Esperando Carta . . .</value>
   </data>
+  <data name="NicknameRequiredMessage" xml:space="preserve">
+    <value>El nickname es obligatorio</value>
+  </data>
+  <data name="NicknameMinLengthMessage" xml:space="preserve">
+    <value>El nickname debe tener mínimo 4 caracteres.</value>
+  </data>
+  <data name="NicknameMaxLengthMessage" xml:space="preserve">
+    <value>El nickname debe contener máximo 20 caracteres permitidos.</value>
+  </data>
+  <data name="NicknameInvalidCharactersMessage" xml:space="preserve">
+    <value>El nickname solo puede contener letras, números y _ . -</value>
+  </data>
+  <data name="EmailRequiredMessage" xml:space="preserve">
+    <value>El correo es obligatorio.</value>
+  </data>
+  <data name="EmailInvalidFormatMessage" xml:space="preserve">
+    <value>Formato de correo no válido.</value>
+  </data>
+  <data name="EmailInvalidDomainOrCharsMessage" xml:space="preserve">
+    <value>El correo contiene caracteres no permitidos o dominio inválido.</value>
+  </data>
+  <data name="PasswordRequiredMessage" xml:space="preserve">
+    <value>La contraseña es obligatoria.</value>
+  </data>
+  <data name="PasswordMinLengthMessage" xml:space="preserve">
+    <value>La contraseña debe tener mínimo 8 caracteres.</value>
+  </data>
+  <data name="PasswordRequireUppercaseMessage" xml:space="preserve">
+    <value>La contraseña debe contener al menos una letra mayúscula.</value>
+  </data>
+  <data name="PasswordRequireLowercaseMessage" xml:space="preserve">
+    <value>La contraseña debe contener al menos una letra minúscula.</value>
+  </data>
+  <data name="PasswordRequireNumberMessage" xml:space="preserve">
+    <value>La contraseña debe contener al menos un número.</value>
+  </data>
+  <data name="PasswordRequireSpecialCharMessage" xml:space="preserve">
+    <value>La contraseña debe contener un carácter especial (! @ # $ % &amp; * _ - + =)</value>
+  </data>
+  <data name="PasswordInvalidCharactersMessage" xml:space="preserve">
+    <value>La contraseña contiene caracteres no permitidos.</value>
+  </data>
+  <data name="FirstNameRequiredMessage" xml:space="preserve">
+    <value>El nombre es obligatorio.</value>
+  </data>
+  <data name="FirstNameMaxLengthMessage" xml:space="preserve">
+    <value>El nombre debe contener máximo 30 caracteres.</value>
+  </data>
+  <data name="FirstNameInvalidCharactersMessage" xml:space="preserve">
+    <value>El nombre solo puede contener letras y espacios.</value>
+  </data>
+  <data name="PaternalLastNameRequiredMessage" xml:space="preserve">
+    <value>El apellido paterno es obligatorio.</value>
+  </data>
+  <data name="PaternalLastNameMaxLengthMessage" xml:space="preserve">
+    <value>El apellido paterno debe contener máximo 30 caracteres.</value>
+  </data>
+  <data name="PaternalLastNameInvalidCharactersMessage" xml:space="preserve">
+    <value>El apellido paterno solo puede contener letras y espacios.</value>
+  </data>
+  <data name="MaternalLastNameMaxLengthMessage" xml:space="preserve">
+    <value>El apellido materno debe contener máximo 30 caracteres.</value>
+  </data>
+  <data name="MaternalLastNameInvalidCharactersMessage" xml:space="preserve">
+    <value>El apellido materno solo puede contener letras y espacios.</value>
+  </data>
 </root>

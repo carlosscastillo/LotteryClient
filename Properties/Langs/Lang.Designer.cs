@@ -889,6 +889,33 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a El correo contiene caracteres no permitidos o dominio inválido..
+        /// </summary>
+        public static string EmailInvalidDomainOrCharsMessage {
+            get {
+                return ResourceManager.GetString("EmailInvalidDomainOrCharsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Formato de correo no válido..
+        /// </summary>
+        public static string EmailInvalidFormatMessage {
+            get {
+                return ResourceManager.GetString("EmailInvalidFormatMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El correo es obligatorio..
+        /// </summary>
+        public static string EmailRequiredMessage {
+            get {
+                return ResourceManager.GetString("EmailRequiredMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Inglés.
         /// </summary>
         public static string en {
@@ -912,6 +939,33 @@ namespace Lottery.Properties.Langs {
         public static string exit {
             get {
                 return ResourceManager.GetString("exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El nombre solo puede contener letras y espacios..
+        /// </summary>
+        public static string FirstNameInvalidCharactersMessage {
+            get {
+                return ResourceManager.GetString("FirstNameInvalidCharactersMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El nombre debe contener máximo 30 caracteres..
+        /// </summary>
+        public static string FirstNameMaxLengthMessage {
+            get {
+                return ResourceManager.GetString("FirstNameMaxLengthMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El nombre es obligatorio..
+        /// </summary>
+        public static string FirstNameRequiredMessage {
+            get {
+                return ResourceManager.GetString("FirstNameRequiredMessage", resourceCulture);
             }
         }
         
@@ -1542,6 +1596,150 @@ namespace Lottery.Properties.Langs {
         public static string MainMenuButtonSettings {
             get {
                 return ResourceManager.GetString("MainMenuButtonSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El apellido materno solo puede contener letras y espacios..
+        /// </summary>
+        public static string MaternalLastNameInvalidCharactersMessage {
+            get {
+                return ResourceManager.GetString("MaternalLastNameInvalidCharactersMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El apellido materno debe contener máximo 30 caracteres..
+        /// </summary>
+        public static string MaternalLastNameMaxLengthMessage {
+            get {
+                return ResourceManager.GetString("MaternalLastNameMaxLengthMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El nickname solo puede contener letras, números y _ . -.
+        /// </summary>
+        public static string NicknameInvalidCharactersMessage {
+            get {
+                return ResourceManager.GetString("NicknameInvalidCharactersMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El nickname debe contener máximo 20 caracteres permitidos..
+        /// </summary>
+        public static string NicknameMaxLengthMessage {
+            get {
+                return ResourceManager.GetString("NicknameMaxLengthMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El nickname debe tener mínimo 4 caracteres..
+        /// </summary>
+        public static string NicknameMinLengthMessage {
+            get {
+                return ResourceManager.GetString("NicknameMinLengthMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El nickname es obligatorio.
+        /// </summary>
+        public static string NicknameRequiredMessage {
+            get {
+                return ResourceManager.GetString("NicknameRequiredMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La contraseña contiene caracteres no permitidos..
+        /// </summary>
+        public static string PasswordInvalidCharactersMessage {
+            get {
+                return ResourceManager.GetString("PasswordInvalidCharactersMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La contraseña debe tener mínimo 8 caracteres..
+        /// </summary>
+        public static string PasswordMinLengthMessage {
+            get {
+                return ResourceManager.GetString("PasswordMinLengthMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La contraseña es obligatoria..
+        /// </summary>
+        public static string PasswordRequiredMessage {
+            get {
+                return ResourceManager.GetString("PasswordRequiredMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La contraseña debe contener al menos una letra minúscula..
+        /// </summary>
+        public static string PasswordRequireLowercaseMessage {
+            get {
+                return ResourceManager.GetString("PasswordRequireLowercaseMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La contraseña debe contener al menos un número..
+        /// </summary>
+        public static string PasswordRequireNumberMessage {
+            get {
+                return ResourceManager.GetString("PasswordRequireNumberMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La contraseña debe contener un carácter especial (! @ # $ % &amp; * _ - + =).
+        /// </summary>
+        public static string PasswordRequireSpecialCharMessage {
+            get {
+                return ResourceManager.GetString("PasswordRequireSpecialCharMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La contraseña debe contener al menos una letra mayúscula..
+        /// </summary>
+        public static string PasswordRequireUppercaseMessage {
+            get {
+                return ResourceManager.GetString("PasswordRequireUppercaseMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El apellido paterno solo puede contener letras y espacios..
+        /// </summary>
+        public static string PaternalLastNameInvalidCharactersMessage {
+            get {
+                return ResourceManager.GetString("PaternalLastNameInvalidCharactersMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El apellido paterno debe contener máximo 30 caracteres..
+        /// </summary>
+        public static string PaternalLastNameMaxLengthMessage {
+            get {
+                return ResourceManager.GetString("PaternalLastNameMaxLengthMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El apellido paterno es obligatorio..
+        /// </summary>
+        public static string PaternalLastNameRequiredMessage {
+            get {
+                return ResourceManager.GetString("PaternalLastNameRequiredMessage", resourceCulture);
             }
         }
         

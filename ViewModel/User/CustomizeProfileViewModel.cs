@@ -8,6 +8,7 @@ using System.Windows;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Linq;
+using Lottery.Helpers;
 
 
 namespace Lottery.ViewModel.User
@@ -161,19 +162,33 @@ namespace Lottery.ViewModel.User
 
         private async Task SaveChanges()
         {
-            if (_currentUserFull == null || !ValidateFields()) return;
-            IsBusy = true;
-
+            if (_currentUserFull == null)
+            {
+                return;
+            }
+            
             _currentUserFull.UserId = IdUser;
             _currentUserFull.Nickname = Nickname;
             _currentUserFull.FirstName = FirstName;
             _currentUserFull.PaternalLastName = PaternalLastName;
             _currentUserFull.MaternalLastName = MaternalLastName;
-            _currentUserFull.AvatarId = IdAvatar;            
+            _currentUserFull.AvatarId = IdAvatar;
+            
+            var validator = new InputValidator().ValidateRegister(); // o ValidateLogin()
+            var validationResult = validator.Validate(_currentUserFull);
 
+            if (!validationResult.IsValid)
+            {
+                string errores = string.Join("\n", validationResult.Errors.Select(e => e.ErrorMessage));
+                MessageBox.Show(errores, "Datos inválidos", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            IsBusy = true;
             try
             {
                 var (success, message) = await _serviceClient.UpdateProfileAsync(_currentUserFull.UserId, _currentUserFull);
+
                 if (success)
                 {
                     MessageBox.Show("Perfil actualizado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -188,27 +203,10 @@ namespace Lottery.ViewModel.User
             {
                 MessageBox.Show($"Error al guardar los cambios: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            finally { IsBusy = false; }
-        }
-
-        private bool ValidateFields()
-        {
-            if (string.IsNullOrWhiteSpace(FirstName))
+            finally
             {
-                MessageBox.Show("El nombre es obligatorio.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
+                IsBusy = false;
             }
-            if (string.IsNullOrWhiteSpace(PaternalLastName))
-            {
-                MessageBox.Show("El apellido paterno es obligatorio.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-            if (string.IsNullOrWhiteSpace(Nickname))
-            {
-                MessageBox.Show("El nickname es obligatorio.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-            return true;
         }
 
         private void CancelEdit()
@@ -310,10 +308,16 @@ namespace Lottery.ViewModel.User
                 MessageBox.Show("Los datos del usuario aún no se han cargado.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+            
+            var temporaryUser = new UserDto { Email = NewEmail };
 
-            if (string.IsNullOrWhiteSpace(NewEmail))
+            var validator = new InputValidator().ValidateEmail();
+            var validationResult = validator.Validate(temporaryUser);
+
+            if (!validationResult.IsValid)
             {
-                MessageBox.Show("Por favor, ingresa un nuevo correo electrónico.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                string errores = string.Join("\n", validationResult.Errors.Select(e => e.ErrorMessage));
+                MessageBox.Show(errores, "Correo inválido", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -341,6 +345,7 @@ namespace Lottery.ViewModel.User
                 MessageBox.Show($"Error al solicitar la verificación: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
         private async Task VerifyEmailCode()
         {
@@ -377,9 +382,18 @@ namespace Lottery.ViewModel.User
 
         private async Task VerifyCurrentPassword()
         {
-            if (string.IsNullOrWhiteSpace(CurrentPassword))
+            var validator = new InputValidator().ValidatePasswordOnly();
+
+            var validationResult = validator.Validate(new UserDto { Password = CurrentPassword });
+            
+            if (!validationResult.IsValid)
             {
-                MessageBox.Show("Por favor ingresa tu contraseña actual.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(
+                    string.Join("\n", validationResult.Errors.Select(e => e.ErrorMessage)),
+                    "Contraseña inválida",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning
+                );
                 return;
             }
 
@@ -388,8 +402,9 @@ namespace Lottery.ViewModel.User
             try
             {
                 bool isValid = await _serviceClient.VerifyPasswordAsync(IdUser, CurrentPassword);
+
                 if (isValid)
-                {                    
+                {
                     IsChangePasswordVisible = false;
                     IsNewPasswordVisible = true;
                 }
@@ -410,15 +425,23 @@ namespace Lottery.ViewModel.User
 
         private async void SaveNewPassword()
         {
-            if (string.IsNullOrWhiteSpace(NewPassword) || string.IsNullOrWhiteSpace(ConfirmNewPassword))
+            var temporaryUser = new UserDto { Password = NewPassword };
+            
+            var validator = new InputValidator().ValidatePasswordOnly();
+            var validationResult = validator.Validate(temporaryUser);
+
+            if (!validationResult.IsValid)
             {
-                MessageBox.Show("Por favor completa todos los campos.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                string errores = string.Join("\n• ", validationResult.Errors.Select(e => e.ErrorMessage));
+                MessageBox.Show($"Corrige los siguientes errores:\n\n• {errores}", "Validación",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-
+            
             if (NewPassword != ConfirmNewPassword)
             {
-                MessageBox.Show("Las contraseñas no coinciden.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Las contraseñas no coinciden.", "Error de Contraseña",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -429,24 +452,25 @@ namespace Lottery.ViewModel.User
                 bool result = await _serviceClient.ChangePasswordAsync(IdUser, NewPassword);
                 if (result)
                 {
-                    MessageBox.Show("Contraseña actualizada correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Contraseña actualizada correctamente.", "Éxito",
+                                    MessageBoxButton.OK, MessageBoxImage.Information);
                     CloseOverlay();
                 }
                 else
                 {
-                    MessageBox.Show("No se pudo cambiar la contraseña. Verifica los datos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("No se pudo cambiar la contraseña. Verifica los datos.", "Error",
+                                    MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cambiar la contraseña: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error al cambiar la contraseña: {ex.Message}", "Error",
+                                MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
                 IsBusy = false;
-                NewPassword = string.Empty;
-                ConfirmNewPassword = string.Empty;
-                CurrentPassword = string.Empty;
+                NewPassword = ConfirmNewPassword = CurrentPassword = string.Empty;
             }
         }
 

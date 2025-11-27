@@ -713,6 +713,7 @@
   </data>
   <data name="MaternalLastNameInvalidCharactersMessage" xml:space="preserve">
     <value>Lastname may only contain letters and spaces.</value>
+  </data>
   <data name="LoginButtonStartGuest" xml:space="preserve">
     <value>Start as guest</value>
   </data>

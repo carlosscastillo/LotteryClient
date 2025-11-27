@@ -117,7 +117,7 @@ namespace Lottery.ViewModel.User
             {
                 HandleLoginError(ex);
             }
-            catch (FaultException)
+            catch (FaultException ex)
             {
                 ErrorMessage = "Error de comunicación WCF.";
                 MessageBox.Show($"No se pudo contactar al servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);

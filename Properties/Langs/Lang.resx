@@ -713,6 +713,7 @@
   </data>
   <data name="MaternalLastNameInvalidCharactersMessage" xml:space="preserve">
     <value>El apellido materno solo puede contener letras y espacios.</value>
+  </data>
   <data name="LoginButtonStartGuest" xml:space="preserve">
     <value>Iniciar como invitado</value>
   </data>

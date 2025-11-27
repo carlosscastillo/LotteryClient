@@ -246,9 +246,13 @@ namespace Lottery.ViewModel.User
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(NewEmail))
+            var validator = new InputValidator().ValidateRegister();
+            var result = validator.Validate(new UserDto { Email = NewEmail });
+
+            if (!result.IsValid)
             {
-                MessageBox.Show("Por favor, ingresa un nuevo correo electrónico.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                string errores = string.Join("\n", result.Errors.Select(e => e.ErrorMessage));
+                MessageBox.Show(errores, "Correo inválido", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -319,9 +323,13 @@ namespace Lottery.ViewModel.User
 
         private async Task VerifyCurrentPassword()
         {
-            if (string.IsNullOrWhiteSpace(CurrentPassword))
+            var validator = new InputValidator().ValidatePasswordOnly();
+            var result = validator.Validate(new UserDto { Password = CurrentPassword });
+
+            if (!result.IsValid)
             {
-                MessageBox.Show("Por favor ingresa tu contraseña actual.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                string errores = string.Join("\n", result.Errors.Select(e => e.ErrorMessage));
+                MessageBox.Show(errores, "Contraseña inválida", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -356,9 +364,13 @@ namespace Lottery.ViewModel.User
 
         private async Task SaveNewPassword()
         {
-            if (string.IsNullOrWhiteSpace(NewPassword) || string.IsNullOrWhiteSpace(ConfirmNewPassword))
+            var validator = new InputValidator().ValidatePasswordOnly();
+            var result = validator.Validate(new UserDto { Password = NewPassword });
+
+            if (!result.IsValid)
             {
-                MessageBox.Show("Por favor completa todos los campos.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                string errores = string.Join("\n", result.Errors.Select(e => e.ErrorMessage));
+                MessageBox.Show(errores, "Contraseña inválida", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -372,8 +384,8 @@ namespace Lottery.ViewModel.User
 
             try
             {
-                bool result = await _serviceClient.ChangePasswordAsync(IdUser, NewPassword);
-                if (result)
+                bool resultChange = await _serviceClient.ChangePasswordAsync(IdUser, NewPassword);
+                if (resultChange)
                 {
                     MessageBox.Show("Contraseña actualizada correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
                     CloseOverlay();
@@ -394,11 +406,10 @@ namespace Lottery.ViewModel.User
             finally
             {
                 IsBusy = false;
-                NewPassword = string.Empty;
-                ConfirmNewPassword = string.Empty;
-                CurrentPassword = string.Empty;
+                NewPassword = ConfirmNewPassword = CurrentPassword = string.Empty;
             }
         }
+
 
         private void ShowServiceError(FaultException<ServiceFault> fault, string title)
         {
@@ -449,14 +460,6 @@ namespace Lottery.ViewModel.User
             if (_currentUserFull != null)
                 MapFromDTO(_currentUserFull);
             IsEditing = false;
-        }
-
-        private bool ValidateFields()
-        {
-            if (string.IsNullOrWhiteSpace(FirstName))
-            {
-                IsBusy = false;
-            }
         }
 
         private void OpenChangeEmail()

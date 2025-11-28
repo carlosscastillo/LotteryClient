@@ -372,7 +372,7 @@ namespace Lottery.ViewModel.Lobby
 
                     case "USER_IN_LOBBY":
                     case "LOBBY_USER_ALREADY_IN":
-                        message = "El usuario ya se encuentra jugando o en otro lobby.";
+                        message = "El usuario ya se encuentra jugando o dentro de un lobby.";
                         break;
 
                     case "LOBBY_ACTION_DENIED":

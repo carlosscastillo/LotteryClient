@@ -153,7 +153,12 @@ namespace Lottery.ViewModel.Friends
 
         private async Task SearchUser()
         {
-            if (string.IsNullOrWhiteSpace(SearchNickname)) return;
+            if (string.IsNullOrWhiteSpace(SearchNickname))
+            {
+                return;
+            }
+            
+            await LoadFriends();
 
             try
             {
@@ -338,6 +343,8 @@ namespace Lottery.ViewModel.Friends
 
         private void ShowServiceError(FaultException<ServiceFault> fault, string title)
         {
+            //var user = _serviceClient.FindUserByNicknameAsync(SearchNickname);
+
             var detail = fault.Detail;
             string message = detail.Message;
             MessageBoxImage icon = MessageBoxImage.Warning;
@@ -345,7 +352,7 @@ namespace Lottery.ViewModel.Friends
             switch (detail.ErrorCode)
             {
                 case "FRIEND_DUPLICATE":
-                    message = "Ya existe una solicitud pendiente o una amistad con este usuario.";
+                    message = "Ya existe una solicitud pendiente o una amistad con " + SearchNickname;
                     break;
 
                 case "FRIEND_INVALID":
@@ -354,7 +361,7 @@ namespace Lottery.ViewModel.Friends
                     break;
 
                 case "FRIEND_NOT_FOUND":
-                    message = "La solicitud o amistad ya no existe (quizás fue cancelada por la otra parte).";
+                    message = "La solicitud de amistad no existe, ya fue aceptada o cancelada por la otra parte.";
                     break;
 
                 case "USER_NOT_FOUND":

@@ -18,7 +18,6 @@ namespace Lottery.ViewModel.Lobby
 {
     public class LobbyViewModel : ObservableObject
     {
-        private readonly ILotteryService _serviceClient;
         private readonly int _currentUserId;
         private Window _lobbyWindow;
 
@@ -80,7 +79,6 @@ namespace Lottery.ViewModel.Lobby
 
         public LobbyViewModel(LobbyStateDto lobbyState, Window window)
         {
-            _serviceClient = SessionManager.ServiceClient;
             _currentUserId = SessionManager.CurrentUser.UserId;
             _lobbyWindow = window;
 
@@ -116,7 +114,7 @@ namespace Lottery.ViewModel.Lobby
         {
             try
             {
-                await _serviceClient.InviteFriendToLobbyAsync(LobbyCode, friendId);
+                await ServiceProxy.Instance.Client.InviteFriendToLobbyAsync(LobbyCode, friendId);
 
                 var friend = FriendsList.FirstOrDefault(f => f.FriendId == friendId);
                 string friendName = friend != null ? friend.Nickname : "tu amigo";
@@ -149,7 +147,8 @@ namespace Lottery.ViewModel.Lobby
         {
             try
             {
-                var friends = await _serviceClient.GetFriendsAsync(_currentUserId);
+                var friends = await ServiceProxy.Instance.Client.GetFriendsAsync(_currentUserId);
+
                 _lobbyWindow.Dispatcher.Invoke(() =>
                 {
                     FriendsList.Clear();
@@ -173,7 +172,7 @@ namespace Lottery.ViewModel.Lobby
         {
             try
             {
-                await _serviceClient.SendMessageAsync(ChatMessage);
+                await ServiceProxy.Instance.Client.SendMessageAsync(ChatMessage);
                 ChatMessage = string.Empty;
             }
             catch (FaultException<ServiceFault> ex)
@@ -191,7 +190,7 @@ namespace Lottery.ViewModel.Lobby
             try
             {
                 UnsubscribeFromEvents();
-                await _serviceClient.LeaveLobbyAsync();
+                await ServiceProxy.Instance.Client.LeaveLobbyAsync();
             }
             catch (Exception)
             {
@@ -207,7 +206,7 @@ namespace Lottery.ViewModel.Lobby
             if (!IsHost) return;
             try
             {
-                await _serviceClient.KickPlayerAsync(targetPlayerId);
+                await ServiceProxy.Instance.Client.KickPlayerAsync(targetPlayerId);
             }
             catch (FaultException<ServiceFault> ex)
             {
@@ -230,7 +229,8 @@ namespace Lottery.ViewModel.Lobby
                     IsPrivate = false,
                     MaxPlayers = 4
                 };
-                await _serviceClient.StartGameAsync(settings);
+
+                await ServiceProxy.Instance.Client.StartGameAsync(settings);
             }
             catch (FaultException<ServiceFault> ex)
             {

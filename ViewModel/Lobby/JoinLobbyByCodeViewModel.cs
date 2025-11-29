@@ -10,7 +10,6 @@ namespace Lottery.ViewModel.Lobby
 {
     public class JoinLobbyByCodeViewModel : ObservableObject
     {
-        private readonly ILotteryService _serviceClient;
         private readonly int _currentUserId;
 
         private string _lobbyCode;
@@ -26,7 +25,6 @@ namespace Lottery.ViewModel.Lobby
 
         public JoinLobbyByCodeViewModel()
         {
-            _serviceClient = SessionManager.ServiceClient;
             _currentUserId = SessionManager.CurrentUser.UserId;
 
             JoinLobbyCommand = new RelayCommand<Window>(async (w) => await ExecuteJoin(w));
@@ -42,7 +40,7 @@ namespace Lottery.ViewModel.Lobby
 
             try
             {
-                var lobbyState = await _serviceClient.JoinLobbyAsync(SessionManager.CurrentUser, LobbyCode);
+                var lobbyState = await ServiceProxy.Instance.Client.JoinLobbyAsync(SessionManager.CurrentUser, LobbyCode);
 
                 ResultLobbyState = lobbyState;
 

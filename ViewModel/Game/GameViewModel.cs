@@ -16,7 +16,6 @@ namespace Lottery.ViewModel.Game
 {
     public class GameViewModel : ObservableObject
     {
-        private readonly ILotteryService _serviceClient;
         private readonly int _currentUserId;
         private readonly Window _gameWindow;
 
@@ -63,7 +62,6 @@ namespace Lottery.ViewModel.Game
 
         public GameViewModel(ObservableCollection<UserDto> players, GameSettingsDto settings, Window window)
         {
-            _serviceClient = SessionManager.ServiceClient;
             _currentUserId = SessionManager.CurrentUser.UserId;
             _gameWindow = window;
 
@@ -156,7 +154,7 @@ namespace Lottery.ViewModel.Game
             try
             {
                 GameStatusMessage = "Verificando victoria...";
-                await _serviceClient.DeclareWinAsync(_currentUserId);
+                await ServiceProxy.Instance.Client.DeclareWinAsync(_currentUserId);
             }
             catch (FaultException<ServiceFault> ex)
             {
@@ -173,7 +171,7 @@ namespace Lottery.ViewModel.Game
         private async Task LeaveGame()
         {
             var result = MessageBox.Show(_gameWindow, "¿Seguro que quieres salir? Perderás el progreso.",
-                                        "Salir", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                                            "Salir", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
             if (result != MessageBoxResult.Yes) return;
 
@@ -181,7 +179,7 @@ namespace Lottery.ViewModel.Game
 
             try
             {
-                await _serviceClient.LeaveLobbyAsync();
+                await ServiceProxy.Instance.Client.LeaveLobbyAsync();
             }
             catch (FaultException<ServiceFault> ex)
             {

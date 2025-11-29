@@ -1,4 +1,4 @@
-﻿using Lottery.LotteryServiceReference; // Contiene ServiceFault
+﻿using Lottery.LotteryServiceReference;
 using Lottery.View.Friends;
 using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;
@@ -53,7 +53,7 @@ namespace Lottery.ViewModel.Friends
 
         public bool CanSendRequest => !IsFriend && !HasPendingRequest;
         public bool CanCancelRequest => !IsFriend && HasPendingRequest && PendingRequestSenderId == _currentUserId;
-        public bool CanAcceptRequest => 
+        public bool CanAcceptRequest =>
             !IsFriend && HasPendingRequest && PendingRequestSenderId != _currentUserId && PendingRequestSenderId != 0;
         public bool CanRejectRequest => CanAcceptRequest;
 
@@ -74,7 +74,6 @@ namespace Lottery.ViewModel.Friends
 
     public class InviteFriendsViewModel : ObservableObject
     {
-        private readonly ILotteryService _serviceClient;
         private readonly int _currentUserId;
 
         private string _inviteLobbyCode;
@@ -104,7 +103,6 @@ namespace Lottery.ViewModel.Friends
 
         public InviteFriendsViewModel()
         {
-            _serviceClient = SessionManager.ServiceClient;
             _currentUserId = SessionManager.CurrentUser.UserId;
 
             SearchCommand = new RelayCommand(async () => await SearchUser());
@@ -120,17 +118,14 @@ namespace Lottery.ViewModel.Friends
             LoadFriendsCommand = new RelayCommand(async () => await LoadFriends());
             GoBackToMenuCommand = new RelayCommand<Window>(ExecuteGoBackToMenu);
 
-            if (_serviceClient != null)
-            {
-                _ = LoadFriends();
-            }
+            _ = LoadFriends();
         }
 
         private async Task LoadFriends()
         {
             try
             {
-                var friends = await _serviceClient.GetFriendsAsync(_currentUserId);
+                var friends = await ServiceProxy.Instance.Client.GetFriendsAsync(_currentUserId);
 
                 FriendsList.Clear();
                 if (friends != null)
@@ -157,12 +152,14 @@ namespace Lottery.ViewModel.Friends
             {
                 return;
             }
-            
+
             await LoadFriends();
 
             try
             {
-                var user = await _serviceClient.FindUserByNicknameAsync(SearchNickname);
+                var client = ServiceProxy.Instance.Client;
+
+                var user = await client.FindUserByNicknameAsync(SearchNickname);
 
                 if (user == null)
                 {
@@ -175,9 +172,9 @@ namespace Lottery.ViewModel.Friends
                     return;
                 }
 
-                var friends = await _serviceClient.GetFriendsAsync(_currentUserId);
-                var pendingSent = await _serviceClient.GetSentRequestsAsync(_currentUserId);
-                var pendingReceived = await _serviceClient.GetPendingRequestsAsync(_currentUserId);
+                var friends = await client.GetFriendsAsync(_currentUserId);
+                var pendingSent = await client.GetSentRequestsAsync(_currentUserId);
+                var pendingReceived = await client.GetPendingRequestsAsync(_currentUserId);
 
                 bool isFriend = friends.Any(f => f.FriendId == user.UserId);
                 bool hasPendingSent = pendingSent.Any(r => r.UserId == user.UserId);
@@ -214,7 +211,7 @@ namespace Lottery.ViewModel.Friends
             if (userVm == null) return;
             try
             {
-                await _serviceClient.SendRequestFriendshipAsync(_currentUserId, userVm.UserId);
+                await ServiceProxy.Instance.Client.SendRequestFriendshipAsync(_currentUserId, userVm.UserId);
 
                 userVm.HasPendingRequest = true;
                 userVm.PendingRequestSenderId = _currentUserId;
@@ -235,7 +232,7 @@ namespace Lottery.ViewModel.Friends
             if (userVm == null) return;
             try
             {
-                await _serviceClient.CancelFriendRequestAsync(_currentUserId, userVm.UserId);
+                await ServiceProxy.Instance.Client.CancelFriendRequestAsync(_currentUserId, userVm.UserId);
 
                 userVm.HasPendingRequest = false;
                 userVm.PendingRequestSenderId = 0;
@@ -260,7 +257,7 @@ namespace Lottery.ViewModel.Friends
             if (userVm == null) return;
             try
             {
-                await _serviceClient.AcceptFriendRequestAsync(_currentUserId, userVm.UserId);
+                await ServiceProxy.Instance.Client.AcceptFriendRequestAsync(_currentUserId, userVm.UserId);
 
                 userVm.HasPendingRequest = false;
                 userVm.IsFriend = true;
@@ -283,7 +280,7 @@ namespace Lottery.ViewModel.Friends
             if (userVm == null) return;
             try
             {
-                await _serviceClient.RejectFriendRequestAsync(_currentUserId, userVm.UserId);
+                await ServiceProxy.Instance.Client.RejectFriendRequestAsync(_currentUserId, userVm.UserId);
 
                 userVm.HasPendingRequest = false;
                 userVm.PendingRequestSenderId = 0;
@@ -303,12 +300,12 @@ namespace Lottery.ViewModel.Friends
         {
             if (selectedFriend == null) return;
 
-            if (MessageBox.Show($"¿Seguro que quieres eliminar a {selectedFriend.Nickname}?", 
+            if (MessageBox.Show($"¿Seguro que quieres eliminar a {selectedFriend.Nickname}?",
                 "Confirmar", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 try
                 {
-                    await _serviceClient.RemoveFriendAsync(_currentUserId, selectedFriend.UserId);
+                    await ServiceProxy.Instance.Client.RemoveFriendAsync(_currentUserId, selectedFriend.UserId);
                     await LoadFriends();
                 }
                 catch (FaultException<ServiceFault> ex)
@@ -328,7 +325,7 @@ namespace Lottery.ViewModel.Friends
 
             try
             {
-                await _serviceClient.InviteFriendToLobbyAsync(_inviteLobbyCode, friend.UserId);
+                await ServiceProxy.Instance.Client.InviteFriendToLobbyAsync(_inviteLobbyCode, friend.UserId);
                 MessageBox.Show($"Invitación enviada a {friend.Nickname}.", "Enviado");
             }
             catch (FaultException<ServiceFault> ex)

@@ -14,7 +14,6 @@ namespace Lottery.ViewModel.MainMenu
 {
     public class MainMenuViewModel : ObservableObject
     {
-        private readonly ILotteryService _serviceClient;
         private readonly Window _mainMenuWindow;
 
         public string Nickname { get; }
@@ -28,13 +27,6 @@ namespace Lottery.ViewModel.MainMenu
         public MainMenuViewModel(Window window)
         {
             _mainMenuWindow = window;
-            _serviceClient = SessionManager.ServiceClient;
-
-            if (_serviceClient == null)
-            {
-                MessageBox.Show("Error crítico de sesión. El cliente de servicio es nulo.", "Error Fatal", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
 
             if (SessionManager.CurrentUser != null)
             {
@@ -48,7 +40,7 @@ namespace Lottery.ViewModel.MainMenu
             ProfileCommand = new RelayCommand(ExecuteShowProfileView);
             ShowFriendsViewCommand = new RelayCommand(ExecuteShowFriendsView);
             CreateLobbyCommand = new RelayCommand(async () => await ExecuteCreateLobby());
-            JoinLobbyCommand = new RelayCommand(ExecuteJoinLobbyByCode); // Ahora es síncrono porque abre un Dialog
+            JoinLobbyCommand = new RelayCommand(ExecuteJoinLobbyByCode);
             LogoutCommand = new RelayCommand(async () => await Logout());
 
             ClientCallbackHandler.LobbyInviteReceived += OnLobbyInvite;
@@ -79,7 +71,7 @@ namespace Lottery.ViewModel.MainMenu
         {
             try
             {
-                LobbyStateDto lobbyState = await _serviceClient.CreateLobbyAsync();
+                LobbyStateDto lobbyState = await ServiceProxy.Instance.Client.CreateLobbyAsync();
 
                 _mainMenuWindow.Dispatcher.Invoke(() =>
                 {
@@ -95,7 +87,6 @@ namespace Lottery.ViewModel.MainMenu
                 MessageBox.Show(_mainMenuWindow, $"Error inesperado al crear lobby: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
 
         private void ExecuteJoinLobbyByCode()
         {
@@ -116,7 +107,7 @@ namespace Lottery.ViewModel.MainMenu
         {
             try
             {
-                LobbyStateDto lobbyState = await _serviceClient.JoinLobbyAsync(SessionManager.CurrentUser, lobbyCode);
+                LobbyStateDto lobbyState = await ServiceProxy.Instance.Client.JoinLobbyAsync(SessionManager.CurrentUser, lobbyCode);
 
                 _mainMenuWindow.Dispatcher.Invoke(() =>
                 {
@@ -169,7 +160,7 @@ namespace Lottery.ViewModel.MainMenu
 
             try
             {
-                await _serviceClient.LogoutUserAsync();
+                await ServiceProxy.Instance.Client.LogoutUserAsync();
             }
             catch (Exception ex)
             {
@@ -221,7 +212,6 @@ namespace Lottery.ViewModel.MainMenu
                         message = $"Error del servidor: {detail.Message}";
                         break;
                 }
-
                 MessageBox.Show(_mainMenuWindow, message, title, MessageBoxButton.OK, icon);
             });
         }

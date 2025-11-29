@@ -14,7 +14,6 @@ namespace Lottery.ViewModel.User
 {
     public class UserRegisterViewModel : ObservableObject
     {
-        private ILotteryService _serviceClient;
         private UserDto _pendingUser;
         private bool _isRegistering;
 
@@ -75,8 +74,6 @@ namespace Lottery.ViewModel.User
 
         public UserRegisterViewModel()
         {
-            RecreateClient();
-
             RegisterCommand = new RelayCommand<object>(async param => await Register(param), param => !IsRegistering);
             VerifyCommand = new RelayCommand(async () => await VerifyCode(), () => !IsRegistering);
 
@@ -96,11 +93,6 @@ namespace Lottery.ViewModel.User
             GoToLoginCommand = new RelayCommand(() => NavigateToLogin?.Invoke());
 
             CurrentState = RegistrationState.Form;
-        }
-
-        private void RecreateClient()
-        {
-            _serviceClient = new LotteryServiceClient(new InstanceContext(new ClientCallbackHandler()));
         }
 
         private async Task Register(object parameter)
@@ -135,11 +127,12 @@ namespace Lottery.ViewModel.User
             {
                 _pendingUser = newUser;
 
-                int result = await _serviceClient.RequestUserVerificationAsync(_pendingUser);
+                int result = await ServiceProxy.Instance.Client.RequestUserVerificationAsync(_pendingUser);
 
                 if (result > 0)
                 {
-                    MessageBox.Show("Se envió un código de verificación a tu correo.", "Verifica tu cuenta", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Se envió un código de verificación a tu correo.", "Verifica tu cuenta", 
+                        MessageBoxButton.OK, MessageBoxImage.Information);
                     CurrentState = RegistrationState.Verification;
                 }
             }
@@ -149,7 +142,8 @@ namespace Lottery.ViewModel.User
             }
             catch (FaultException ex)
             {
-                MessageBox.Show($"No se pudo conectar con el servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"No se pudo conectar con el servidor: {ex.Message}", "Error de Conexión", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
                 AbortAndRecreateClient();
             }
             catch (Exception ex)
@@ -175,21 +169,24 @@ namespace Lottery.ViewModel.User
 
             try
             {
-                bool verified = await _serviceClient.VerifyCodeAsync(Email, VerificationCode);
+                var client = ServiceProxy.Instance.Client;
+                bool verified = await client.VerifyCodeAsync(Email, VerificationCode);
 
                 if (verified && _pendingUser != null)
                 {
-                    int userId = await _serviceClient.RegisterUserAsync(_pendingUser);
+                    int userId = await client.RegisterUserAsync(_pendingUser);
 
                     if (userId > 0)
                     {
                         AbortAndRecreateClient();
-                        var session = await _serviceClient.LoginUserAsync(_pendingUser.Nickname, _pendingUser.Password);
+
+                        client = ServiceProxy.Instance.Client;
+
+                        var session = await client.LoginUserAsync(_pendingUser.Nickname, _pendingUser.Password);
 
                         if (session != null)
                         {
                             SessionManager.Login(session);
-                            SessionManager.ServiceClient = _serviceClient;
                         }
 
                         _pendingUser = null;
@@ -198,7 +195,8 @@ namespace Lottery.ViewModel.User
                 }
                 else
                 {
-                    MessageBox.Show("El código es incorrecto o ha expirado.", "Verificación Fallida", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("El código es incorrecto o ha expirado.", "Verificación Fallida", 
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch (FaultException<ServiceFault> ex)
@@ -224,7 +222,8 @@ namespace Lottery.ViewModel.User
             if (!validationResult.IsValid)
             {
                 string errorList = string.Join("\n• ", validationResult.Errors.Select(e => e.ErrorMessage));
-                MessageBox.Show($"Corrige los siguientes errores:\n\n• {errorList}", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show($"Corrige los siguientes errores:\n\n• {errorList}", "Validación", 
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
             return true;
@@ -272,21 +271,7 @@ namespace Lottery.ViewModel.User
 
         private void AbortAndRecreateClient()
         {
-            if (_serviceClient != null)
-            {
-                var clientChannel = _serviceClient as ICommunicationObject;
-                if (clientChannel != null)
-                {
-                    if (clientChannel.State == CommunicationState.Faulted)
-                        clientChannel.Abort();
-                    else
-                    {
-                        try { clientChannel.Close(); }
-                        catch { clientChannel.Abort(); }
-                    }
-                }
-            }
-            RecreateClient();
+            ServiceProxy.Instance.Reconnect();
         }
     }
 }

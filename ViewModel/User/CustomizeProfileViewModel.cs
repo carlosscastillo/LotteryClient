@@ -8,22 +8,17 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Linq;
 using Lottery.Helpers;
-
 
 namespace Lottery.ViewModel.User
 {
     public class CustomizeProfileViewModel : ObservableObject
     {
-        private readonly ILotteryService _serviceClient;
         private UserDto _currentUserFull;
         private AvatarItemViewModel _selectedAvatar;
 
         public CustomizeProfileViewModel()
         {
-            _serviceClient = SessionManager.ServiceClient;
-
             EditCommand = new RelayCommand(EditProfile);
             SaveChangesCommand = new RelayCommand(async () => await SaveChanges());
             CancelCommand = new RelayCommand(CancelEdit);
@@ -164,9 +159,13 @@ namespace Lottery.ViewModel.User
         {
             try
             {
-                if (SessionManager.CurrentUser == null) return;
+                if (SessionManager.CurrentUser == null)
+                {
+                    return;
+                }
 
-                var fullUser = await _serviceClient.GetUserProfileAsync(SessionManager.CurrentUser.UserId);
+                var fullUser = await ServiceProxy.Instance.Client.GetUserProfileAsync(SessionManager.CurrentUser.UserId);
+
                 if (fullUser != null)
                 {
                     _currentUserFull = fullUser;
@@ -186,18 +185,15 @@ namespace Lottery.ViewModel.User
 
         private async Task SaveChanges()
         {
-            if (_currentUserFull == null)
-            {
-                return;
-            }
-            
+            if (_currentUserFull == null) return;
+
             _currentUserFull.UserId = IdUser;
             _currentUserFull.Nickname = Nickname;
             _currentUserFull.FirstName = FirstName;
             _currentUserFull.PaternalLastName = PaternalLastName;
             _currentUserFull.MaternalLastName = MaternalLastName;
             _currentUserFull.AvatarId = IdAvatar;
-            
+
             var validator = new InputValidator().ValidateRegister();
             var validationResult = validator.Validate(_currentUserFull);
 
@@ -211,7 +207,7 @@ namespace Lottery.ViewModel.User
             IsBusy = true;
             try
             {
-                var (success, message) = await _serviceClient.UpdateProfileAsync(_currentUserFull.UserId, _currentUserFull);
+                var (success, message) = await ServiceProxy.Instance.Client.UpdateProfileAsync(_currentUserFull.UserId, _currentUserFull);
 
                 if (success)
                 {
@@ -258,7 +254,8 @@ namespace Lottery.ViewModel.User
 
             try
             {
-                bool codeSent = await _serviceClient.RequestEmailChangeAsync(IdUser, NewEmail);
+                bool codeSent = await ServiceProxy.Instance.Client.RequestEmailChangeAsync(IdUser, NewEmail);
+
                 if (codeSent)
                 {
                     MessageBox.Show("Se envió un código de verificación al nuevo correo.", "Verificación enviada");
@@ -293,7 +290,8 @@ namespace Lottery.ViewModel.User
 
             try
             {
-                bool verified = await _serviceClient.ConfirmEmailChangeAsync(IdUser, NewEmail, VerificationCode);
+                bool verified = await ServiceProxy.Instance.Client.ConfirmEmailChangeAsync(IdUser, NewEmail, VerificationCode);
+
                 if (verified)
                 {
                     _currentUserFull.Email = NewEmail;
@@ -337,7 +335,8 @@ namespace Lottery.ViewModel.User
 
             try
             {
-                bool isValid = await _serviceClient.VerifyPasswordAsync(IdUser, CurrentPassword);
+                bool isValid = await ServiceProxy.Instance.Client.VerifyPasswordAsync(IdUser, CurrentPassword);
+
                 if (isValid)
                 {
                     IsChangePasswordVisible = false;
@@ -384,7 +383,8 @@ namespace Lottery.ViewModel.User
 
             try
             {
-                bool resultChange = await _serviceClient.ChangePasswordAsync(IdUser, NewPassword);
+                bool resultChange = await ServiceProxy.Instance.Client.ChangePasswordAsync(IdUser, NewPassword);
+
                 if (resultChange)
                 {
                     MessageBox.Show("Contraseña actualizada correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -409,7 +409,6 @@ namespace Lottery.ViewModel.User
                 NewPassword = ConfirmNewPassword = CurrentPassword = string.Empty;
             }
         }
-
 
         private void ShowServiceError(FaultException<ServiceFault> fault, string title)
         {
@@ -458,7 +457,9 @@ namespace Lottery.ViewModel.User
         private void CancelEdit()
         {
             if (_currentUserFull != null)
+            {
                 MapFromDTO(_currentUserFull);
+            }
             IsEditing = false;
         }
 
@@ -548,7 +549,10 @@ namespace Lottery.ViewModel.User
 
         private void SelectAvatar(AvatarItemViewModel selectedAvatar)
         {
-            if (selectedAvatar == null) return;
+            if (selectedAvatar == null)
+            {
+                return;
+            }
 
             foreach (var avatar in Avatars)
             {
@@ -588,17 +592,50 @@ namespace Lottery.ViewModel.User
         {
             Avatars = new ObservableCollection<AvatarItemViewModel>
             {
-                new AvatarItemViewModel { AvatarId = 0, AvatarUrl = "/Images/Avatar/avatar00.png" },
-                new AvatarItemViewModel { AvatarId = 1, AvatarUrl = "/Images/Avatar/avatar01.jpg" },
-                new AvatarItemViewModel { AvatarId = 2, AvatarUrl = "/Images/Avatar/avatar02.jpg" },
-                new AvatarItemViewModel { AvatarId = 3, AvatarUrl = "/Images/Avatar/avatar03.jpg" },
-                new AvatarItemViewModel { AvatarId = 4, AvatarUrl = "/Images/Avatar/avatar04.jpeg" },
-                new AvatarItemViewModel { AvatarId = 5, AvatarUrl = "/Images/Avatar/avatar05.jpg" },
-                new AvatarItemViewModel { AvatarId = 6, AvatarUrl = "/Images/Avatar/avatar06.jpg" },
-                new AvatarItemViewModel { AvatarId = 7, AvatarUrl = "/Images/Avatar/avatar07.jpg" },
-                new AvatarItemViewModel { AvatarId = 8, AvatarUrl = "/Images/Avatar/avatar08.jpg" },
-                new AvatarItemViewModel { AvatarId = 9, AvatarUrl = "/Images/Avatar/avatar09.jpg" },
-                new AvatarItemViewModel { AvatarId = 10, AvatarUrl = "/Images/Avatar/avatar10.jpg" },
+                new AvatarItemViewModel 
+                { 
+                    AvatarId = 0, AvatarUrl = "/Images/Avatar/avatar00.png" 
+                },
+                new AvatarItemViewModel 
+                { 
+                    AvatarId = 1, AvatarUrl = "/Images/Avatar/avatar01.jpg" 
+                },
+                new AvatarItemViewModel 
+                { 
+                    AvatarId = 2, AvatarUrl = "/Images/Avatar/avatar02.jpg" 
+                },
+                new AvatarItemViewModel 
+                { 
+                    AvatarId = 3, AvatarUrl = "/Images/Avatar/avatar03.jpg" 
+                },
+                new AvatarItemViewModel 
+                { 
+                    AvatarId = 4, AvatarUrl = "/Images/Avatar/avatar04.jpeg" 
+                },
+                new AvatarItemViewModel 
+                { 
+                    AvatarId = 5, AvatarUrl = "/Images/Avatar/avatar05.jpg" 
+                },
+                new AvatarItemViewModel 
+                { 
+                    AvatarId = 6, AvatarUrl = "/Images/Avatar/avatar06.jpg" 
+                },
+                new AvatarItemViewModel 
+                { 
+                    AvatarId = 7, AvatarUrl = "/Images/Avatar/avatar07.jpg" 
+                },
+                new AvatarItemViewModel 
+                { 
+                    AvatarId = 8, AvatarUrl = "/Images/Avatar/avatar08.jpg" 
+                },
+                new AvatarItemViewModel 
+                { 
+                    AvatarId = 9, AvatarUrl = "/Images/Avatar/avatar09.jpg" 
+                },
+                new AvatarItemViewModel 
+                { 
+                    AvatarId = 10, AvatarUrl = "/Images/Avatar/avatar10.jpg" 
+                },
             };
 
             _selectedAvatar = Avatars.FirstOrDefault(a => a.AvatarId == this.IdAvatar);

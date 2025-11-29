@@ -12,9 +12,6 @@ namespace Lottery.ViewModel.User
 {
     public class LoginViewModel : ObservableObject
     {
-        private ILotteryService _serviceClient;
-        private ClientCallbackHandler _callbackHandler;
-
         private string _username;
         public string Username
         {
@@ -48,17 +45,8 @@ namespace Lottery.ViewModel.User
 
         public LoginViewModel()
         {
-            RecreateClient();
-
             LoginCommand = new RelayCommand<Window>(async (window) => await Login(window));
             SignUpCommand = new RelayCommand<Window>(ExecuteSignUp);
-        }
-
-        private void RecreateClient()
-        {
-            _callbackHandler = new ClientCallbackHandler();
-            var context = new InstanceContext(_callbackHandler);
-            _serviceClient = new LotteryServiceClient(context);
         }
 
         public async Task Login(Window window)
@@ -76,12 +64,12 @@ namespace Lottery.ViewModel.User
 
             try
             {
-                UserDto user = await _serviceClient.LoginUserAsync(Username, Password);
+                var client = ServiceProxy.Instance.Client;
+                UserDto user = await client.LoginUserAsync(Username, Password);
 
                 if (user != null)
                 {
                     SessionManager.Login(user);
-                    SessionManager.ServiceClient = _serviceClient;
 
                     MainMenuView mainMenuView = new MainMenuView();
                     mainMenuView.Show();
@@ -156,24 +144,7 @@ namespace Lottery.ViewModel.User
 
         private void AbortAndRecreateClient()
         {
-            if (_serviceClient != null)
-            {
-                var clientChannel = _serviceClient as ICommunicationObject;
-                if (clientChannel != null)
-                {
-                    if (clientChannel.State == CommunicationState.Faulted)
-                    {
-                        clientChannel.Abort();
-                    }
-                    else
-                    {
-                        try { clientChannel.Close(); }
-                        catch { clientChannel.Abort(); }
-                    }
-                }
-            }
-
-            RecreateClient();
+            ServiceProxy.Instance.Reconnect();
         }
 
         private void ExecuteSignUp(Window loginWindow)

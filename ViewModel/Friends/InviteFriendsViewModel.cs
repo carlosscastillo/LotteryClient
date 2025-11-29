@@ -343,8 +343,6 @@ namespace Lottery.ViewModel.Friends
 
         private void ShowServiceError(FaultException<ServiceFault> fault, string title)
         {
-            //var user = _serviceClient.FindUserByNicknameAsync(SearchNickname);
-
             var detail = fault.Detail;
             string message = detail.Message;
             MessageBoxImage icon = MessageBoxImage.Warning;

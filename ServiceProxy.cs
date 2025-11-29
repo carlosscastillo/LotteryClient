@@ -32,18 +32,26 @@ namespace Lottery
         public void CloseSafe()
         {
             if (Client == null)
+            {
                 return;
+            }
 
             var channel = Client as ICommunicationObject;
             if (channel == null)
+            {
                 return;
+            }
 
             try
             {
                 if (channel.State == CommunicationState.Faulted)
+                {
                     channel.Abort();
+                }
                 else
+                {
                     channel.Close();
+                }
             }
             catch
             {

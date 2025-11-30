@@ -1,8 +1,7 @@
 ﻿using Lottery.LotteryServiceReference;
 using System;
-using System.Linq;
-using System.ServiceModel;
 using System.Windows;
+using System.ServiceModel;
 
 namespace Lottery
 {
@@ -16,16 +15,31 @@ namespace Lottery
         public static event Action LobbyClosedReceived;
         public static event Action<string, string> ChatMessageReceived;
         public static event Action<string, string> LobbyInviteReceived;
+
         public static event Action<GameSettingsDto> GameStartedReceived;
         public static event Action<CardDto> CardDrawnReceived;
-
         public static event Action<string> PlayerWonReceived;
         public static event Action GameEndedReceived;
-        public static event Action<GameSettingsDto> GameSettingsUpdatedReceived;
 
         private void RunOnUI(Action action)
         {
             Application.Current?.Dispatcher.BeginInvoke(action);
+        }
+
+        public void NotifyCard(int cardId)
+        {
+            var tempDto = new CardDto { Id = cardId };
+            RunOnUI(() => CardDrawnReceived?.Invoke(tempDto));
+        }
+
+        public void NotifyWinner(string nickname)
+        {
+            RunOnUI(() => PlayerWonReceived?.Invoke(nickname));
+        }
+
+        public void ReceiveChatMessage(string nickname, string message)
+        {
+            RunOnUI(() => ChatMessageReceived?.Invoke(nickname, message));
         }
 
         public void PlayerJoined(UserDto newPlayer)
@@ -53,58 +67,24 @@ namespace Lottery
             RunOnUI(() => LobbyClosedReceived?.Invoke());
         }
 
-        public void ReceiveChatMessage(string nickname, string message)
-        {
-            RunOnUI(() => ChatMessageReceived?.Invoke(nickname, message));
-        }
-
         public void ReceiveLobbyInvite(string inviterNickname, string lobbyCode)
         {
             RunOnUI(() => LobbyInviteReceived?.Invoke(inviterNickname, lobbyCode));
         }
 
-         public void NotifyCard(int cardId) { }
-        public void NotifyWinner(string nickname) { }
-
-        //public void GameStarted(GameStateDTO gameState)
-        //{
-        //    Console.WriteLine("El juego ha comenzado!");
-        //    Console.WriteLine($"Modo de juego: {gameState.GameMode}");
-        //    Console.WriteLine($"Jugadores en partida: {gameState.Players.Count()}");
-        //    // Aquí puedes abrir la vista de juego o actualizar el ViewModel
-        //}
-
-        public void GameSettingsUpdated(GameSettingsDto settings)
-        {
-            Console.WriteLine("Configuraciones del juego actualizadas:");
-            //Console.WriteLine($"Modo: {settings.GameMode}");
-            // Aquí puedes actualizar tu UI o ViewModel con las nuevas configuraciones
-        }
-
         public void OnGameStarted(GameSettingsDto settings)
         {
-            GameStartedReceived?.Invoke(settings);
-        }
-
-        public void OnGameFinished()
-        {
-            GameEndedReceived?.Invoke();
+            RunOnUI(() => GameStartedReceived?.Invoke(settings));
         }
 
         public void OnCardDrawn(CardDto card)
         {
-            CardDrawnReceived?.Invoke(card);
+            RunOnUI(() => CardDrawnReceived?.Invoke(card));
         }
 
-        public void PlayerWon(string nickname)
+        public void OnGameFinished()
         {
-            PlayerWonReceived?.Invoke(nickname);
+            RunOnUI(() => GameEndedReceived?.Invoke());
         }
-
-        public void GameEnded()
-        {
-            GameEndedReceived?.Invoke();
-        }
-
     }
 }

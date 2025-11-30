@@ -74,6 +74,7 @@
     <Compile Include="Helpers\CodeValidator.cs" />
     <Compile Include="Helpers\UserValidator.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
+    <Compile Include="ServiceProxy.cs" />
     <Compile Include="SessionManager.cs" />
     <Compile Include="ViewModel\Base\ObservableObject.cs" />
     <Compile Include="ViewModel\Base\RelayCommand.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="ViewModel\Friends\InviteFriendsViewModel.cs" />
     <Compile Include="ViewModel\Lobby\JoinLobbyByCodeViewModel.cs" />
     <Compile Include="ViewModel\Lobby\LobbyViewModel.cs" />
+    <Compile Include="ViewModel\User\GuestLoginViewModel.cs" />
     <Compile Include="ViewModel\User\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainMenu\MainMenuViewModel.cs" />
     <Compile Include="ViewModel\User\UserRegisterViewModel.cs" />
@@ -103,6 +105,9 @@
     </Compile>
     <Compile Include="View\Friends\InviteFriendsView.xaml.cs">
       <DependentUpon>InviteFriendsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User\GuestLoginView.xaml.cs">
+      <DependentUpon>GuestLoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User\GuestRegisterView.xaml.cs">
       <DependentUpon>GuestRegisterView.xaml</DependentUpon>
@@ -161,6 +166,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Friends\InviteFriendsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User\GuestLoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -287,24 +296,6 @@
     <Resource Include="Images\CartaDeLotería.png" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\LotteryServiceReference\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\LotteryServiceReference\item.disco" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\LotteryServiceReference\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\LotteryServiceReference\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\LotteryServiceReference\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Avatar\avatar01.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -390,6 +381,24 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Tokens\token00.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\LotteryServiceReference\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\LotteryServiceReference\item.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\LotteryServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\LotteryServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\LotteryServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

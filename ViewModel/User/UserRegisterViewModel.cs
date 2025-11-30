@@ -1,50 +1,99 @@
-﻿using FluentValidation;
-using Lottery.Helpers;
-using Lottery.LotteryServiceReference;
-using Lottery.View.MainMenu;
-using Lottery.ViewModel.Base;
-using System;
+﻿using System;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using FluentValidation;
+using Lottery.Helpers;
+using Lottery.LotteryServiceReference;
+using Lottery.View.MainMenu;
+using Lottery.ViewModel.Base;
 
 namespace Lottery.ViewModel.User
 {
     public class UserRegisterViewModel : ObservableObject
     {
-        private ILotteryService _serviceClient;
         private UserDto _pendingUser;
         private bool _isRegistering;
 
-        private string _name;
-        private string _paternalLastName;
-        private string _maternalLastName;
-        private string _nickname;
-        private string _email;
-        private string _verificationCode;
-        private string _password;
-        private string _confirmPassword;
-
         public event Action NavigateToLogin;
-        public string Name { get => _name; set => SetProperty(ref _name, value); }
-        public string PaternalLastName { get => _paternalLastName; set => SetProperty(ref _paternalLastName, value); }
-        public string MaternalLastName { get => _maternalLastName; set => SetProperty(ref _maternalLastName, value); }
-        public string Nickname { get => _nickname; set => SetProperty(ref _nickname, value); }
-        public string Email { get => _email; set => SetProperty(ref _email, value); }
-        public string VerificationCode { get => _verificationCode; set => SetProperty(ref _verificationCode, value); }
-        public string Password { get => _password; set => SetProperty(ref _password, value); }
-        public string ConfirmPassword { get => _confirmPassword; set => SetProperty(ref _confirmPassword, value); }
-        public bool IsRegistering { get => _isRegistering; set => SetProperty(ref _isRegistering, value); }
+
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
+
+        private string _paternalLastName;
+        public string PaternalLastName
+        {
+            get => _paternalLastName;
+            set => SetProperty(ref _paternalLastName, value);
+        }
+
+        private string _maternalLastName;
+        public string MaternalLastName
+        {
+            get => _maternalLastName;
+            set => SetProperty(ref _maternalLastName, value);
+        }
+
+        private string _nickname;
+        public string Nickname
+        {
+            get => _nickname;
+            set => SetProperty(ref _nickname, value);
+        }
+
+        private string _email;
+        public string Email
+        {
+            get => _email;
+            set => SetProperty(ref _email, value);
+        }
+
+        private string _verificationCode;
+        public string VerificationCode
+        {
+            get => _verificationCode;
+            set => SetProperty(ref _verificationCode, value);
+        }
+
+        private string _password;
+        public string Password
+        {
+            get => _password;
+            set => SetProperty(ref _password, value);
+        }
+
+        private string _confirmPassword;
+        public string ConfirmPassword
+        {
+            get => _confirmPassword;
+            set => SetProperty(ref _confirmPassword, value);
+        }
+
+        public bool IsRegistering
+        {
+            get => _isRegistering;
+            set => SetProperty(ref _isRegistering, value);
+        }
 
         public ICommand RegisterCommand { get; }
         public ICommand VerifyCommand { get; }
         public ICommand ContinueCommand { get; }
         public ICommand BackCommand { get; }
+        public ICommand GoToLoginCommand { get; }
 
-        public enum RegistrationState { Form, Verification, Completed }
+        public enum RegistrationState
+        {
+            Form,
+            Verification,
+            Completed,
+        }
 
         private RegistrationState _currentState;
         public RegistrationState CurrentState
@@ -67,32 +116,39 @@ namespace Lottery.ViewModel.User
 
         public UserRegisterViewModel()
         {
-            _serviceClient = new LotteryServiceClient(new InstanceContext(new ClientCallbackHandler()));
-
-            RegisterCommand = new RelayCommand<object>(async param => await Register(param), param => !IsRegistering);
+            RegisterCommand = new RelayCommand<object>(
+                async param => await Register(param),
+                param => !IsRegistering
+            );
             VerifyCommand = new RelayCommand(async () => await VerifyCode(), () => !IsRegistering);
-            ContinueCommand = new RelayCommand(() =>
-            {                
-                var mainMenu = new MainMenuView();
-                mainMenu.Show();
-                
-                Application.Current.Windows
-                    .OfType<Window>()
-                    .SingleOrDefault(w => w.DataContext == this)?
-                    .Close();
-            }, () => true);
+
+            ContinueCommand = new RelayCommand(
+                () =>
+                {
+                    var mainMenu = new MainMenuView();
+                    mainMenu.Show();
+
+                    Application
+                        .Current.Windows.OfType<Window>()
+                        .SingleOrDefault(w => w.DataContext == this)
+                        ?.Close();
+                },
+                () => true
+            );
 
             BackCommand = new RelayCommand(() => CurrentState = RegistrationState.Form, () => true);
 
+            GoToLoginCommand = new RelayCommand(() => NavigateToLogin?.Invoke());
+
             CurrentState = RegistrationState.Form;
         }
-        private Task Register(object parameter)
+
+        private async Task Register(object parameter)
         {
             var passwordBox = parameter as PasswordBox;
-            if (passwordBox == null)
-                return Task.CompletedTask;
+            if (passwordBox != null)
+                Password = passwordBox.Password;
 
-            Password = passwordBox.Password;
             var newUser = new UserDto
             {
                 FirstName = Name,
@@ -100,7 +156,7 @@ namespace Lottery.ViewModel.User
                 MaternalLastName = MaternalLastName,
                 Nickname = Nickname,
                 Email = Email,
-                Password = Password
+                Password = Password,
             };
 
             var validator = new UserValidator().ValidateRegister();
@@ -108,29 +164,47 @@ namespace Lottery.ViewModel.User
 
             if (!validationResult.IsValid)
             {
-                string errorList = string.Join("\n• ", validationResult.Errors.Select(e => e.ErrorMessage));
-                MessageBox.Show($"Corrige los siguientes errores:\n\n• {errorList}", "Validación",
-                                MessageBoxButton.OK, MessageBoxImage.Warning);
-                return Task.CompletedTask;
+                string errorList = string.Join(
+                    "\n• ",
+                    validationResult.Errors.Select(e => e.ErrorMessage)
+                );
+                MessageBox.Show(
+                    $"Corrige los siguientes errores:\n\n• {errorList}",
+                    "Validación",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning
+                );
+                return;
             }
 
             if (Password != ConfirmPassword)
             {
-                MessageBox.Show("Las contraseñas no coinciden.", "Error de Contraseña",
-                                MessageBoxButton.OK, MessageBoxImage.Warning);
-                return Task.CompletedTask;
+                MessageBox.Show(
+                    "Las contraseñas no coinciden.",
+                    "Error de Contraseña",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning
+                );
+                return;
             }
 
             IsRegistering = true;
+
             try
             {
                 _pendingUser = newUser;
-
-                int result = _serviceClient.RequestUserVerification(_pendingUser);
+                int result = await ServiceProxy.Instance.Client.RequestUserVerificationAsync(
+                    _pendingUser
+                );
 
                 if (result > 0)
                 {
-                    MessageBox.Show("Se envió un código de verificación al correo.");
+                    MessageBox.Show(
+                        "Se envió un código de verificación a tu correo.",
+                        "Verifica tu cuenta",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information
+                    );
                     CurrentState = RegistrationState.Verification;
                 }
                 else
@@ -140,36 +214,35 @@ namespace Lottery.ViewModel.User
             }
             catch (FaultException<ServiceFault> ex)
             {
-                MessageBox.Show(ex.Detail.Message, "Error de Registro", MessageBoxButton.OK, MessageBoxImage.Warning);
-                AbortAndRecreateClient();
-            }
-            catch (FaultException ex)
-            {
-                MessageBox.Show($"Error de conexión: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                AbortAndRecreateClient();
+                HandleRegistrationError(ex);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error inesperado: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(
+                    $"Error inesperado: {ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
                 AbortAndRecreateClient();
             }
             finally
             {
                 IsRegistering = false;
             }
-
-            return Task.CompletedTask;
         }
 
         private async Task VerifyCode()
         {
-            var validator = new CodeValidator();
-            var result = validator.Validate(VerificationCode);
-
+            var result = new CodeValidator().Validate(VerificationCode);
             if (!result.IsValid)
             {
-                MessageBox.Show(result.Errors.First().ErrorMessage, "Código inválido",
-                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(
+                    result.Errors.First().ErrorMessage,
+                    "Código inválido",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning
+                );
                 return;
             }
 
@@ -177,42 +250,54 @@ namespace Lottery.ViewModel.User
 
             try
             {
-                bool verified = await _serviceClient.VerifyCodeAsync(Email, VerificationCode);
+                var client = ServiceProxy.Instance.Client;
+                bool verified = await client.VerifyCodeAsync(Email, VerificationCode);
 
-                if (verified && _pendingUser != null)
+                if (!verified)
                 {
-                    int userId = await _serviceClient.RegisterUserAsync(_pendingUser);
+                    MessageBox.Show(
+                        "El código es incorrecto o ha expirado.",
+                        "Verificación fallida",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning
+                    );
+                    return;
+                }
+
+                if (_pendingUser != null)
+                {
+                    int userId = await client.RegisterUserAsync(_pendingUser);
+
                     if (userId > 0)
                     {
-                        _serviceClient = RecreateClient();
-                        var session = await _serviceClient.LoginUserAsync(_pendingUser.Nickname, _pendingUser.Password);
-                        if (session != null) {
+                        AbortAndRecreateClient();
+                        client = ServiceProxy.Instance.Client;
+
+                        var session = await client.LoginUserAsync(
+                            _pendingUser.Nickname,
+                            _pendingUser.Password
+                        );
+
+                        if (session != null)
                             SessionManager.Login(session);
-                            SessionManager.ServiceClient = _serviceClient;
-                        }
+
                         _pendingUser = null;
-                        MessageBox.Show("Cuenta verificada correctamente.");
-                        CurrentState = RegistrationState.Completed;                                                
+                        CurrentState = RegistrationState.Completed;
                     }
-                }
-                else
-                {
-                    MessageBox.Show("Código incorrecto. Intenta de nuevo.");
                 }
             }
             catch (FaultException<ServiceFault> ex)
             {
-                MessageBox.Show(ex.Detail.Message, "Error de Verificación", MessageBoxButton.OK, MessageBoxImage.Warning);
-                AbortAndRecreateClient();
-            }
-            catch (FaultException ex)
-            {
-                MessageBox.Show($"Error de conexión: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                AbortAndRecreateClient();
+                HandleRegistrationError(ex);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error inesperado: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(
+                    $"Error durante la verificación: {ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
                 AbortAndRecreateClient();
             }
             finally
@@ -221,28 +306,71 @@ namespace Lottery.ViewModel.User
             }
         }
 
-        private ILotteryService RecreateClient()
+        private bool ValidateForm(UserDto user)
         {
-            if (_serviceClient != null)
+            var validator = new InputValidator().ValidateRegister();
+            var validationResult = validator.Validate(user);
+
+            if (!validationResult.IsValid)
             {
-                var clientChannel = _serviceClient as ICommunicationObject;
-                if (clientChannel.State == CommunicationState.Faulted)
-                    clientChannel.Abort();
-                else
-                {
-                    try { clientChannel.Close(); }
-                    catch { clientChannel.Abort(); }
-                }
+                string errorList = string.Join(
+                    "\n• ",
+                    validationResult.Errors.Select(e => e.ErrorMessage)
+                );
+                MessageBox.Show(
+                    $"Corrige los siguientes errores:\n\n• {errorList}",
+                    "Validación",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning
+                );
+                return false;
+            }
+            return true;
+        }
+
+        private void HandleRegistrationError(FaultException<ServiceFault> fault)
+        {
+            var detail = fault.Detail;
+            string message = detail.Message;
+            string title = "Error de Registro";
+            MessageBoxImage icon = MessageBoxImage.Warning;
+
+            switch (detail.ErrorCode)
+            {
+                case "USER_DUPLICATE":
+                    message = "El nickname o el correo electrónico ya están registrados.";
+                    break;
+
+                case "VERIFY_EMAIL_SEND_FAILED":
+                    message = "No pudimos enviar el correo de verificación. Revisa la dirección.";
+                    icon = MessageBoxImage.Error;
+                    break;
+
+                case "VERIFY_ERROR":
+                    message = "Hubo un problema validando tu código.";
+                    break;
+
+                case "USER_BAD_REQUEST":
+                    message = "Algunos datos son inválidos.";
+                    break;
+
+                case "USER_INTERNAL_ERROR":
+                    message = "Error interno del servidor. Intenta más tarde.";
+                    icon = MessageBoxImage.Error;
+                    break;
+
+                default:
+                    message = $"Error del servidor: {detail.Message}";
+                    break;
             }
 
-            _serviceClient = new LotteryServiceClient(new InstanceContext(new ClientCallbackHandler()));
-            return _serviceClient;
+            MessageBox.Show(message, title, MessageBoxButton.OK, icon);
+            AbortAndRecreateClient();
         }
 
         private void AbortAndRecreateClient()
         {
-            _serviceClient = RecreateClient();
+            ServiceProxy.Instance.Reconnect();
         }
-
     }
 }

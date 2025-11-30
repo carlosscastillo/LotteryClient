@@ -591,10 +591,11 @@ namespace Lottery.LotteryServiceReference {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="LotteryServiceReference.ILotteryService", CallbackContract=typeof(Lottery.LotteryServiceReference.ILotteryServiceCallback))]
     public interface ILotteryService {
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/SendMessage")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatService/SendMessage", ReplyAction="http://tempuri.org/IChatService/SendMessageResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IChatService/SendMessageServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         void SendMessage(string message);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/SendMessage")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatService/SendMessage", ReplyAction="http://tempuri.org/IChatService/SendMessageResponse")]
         System.Threading.Tasks.Task SendMessageAsync(string message);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/SendRequestFriendship", ReplyAction="http://tempuri.org/IFriendService/SendRequestFriendshipResponse")]
@@ -718,6 +719,13 @@ namespace Lottery.LotteryServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/LoginUser", ReplyAction="http://tempuri.org/IAuthenticationService/LoginUserResponse")]
         System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserDto> LoginUserAsync(string username, string password);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/LoginGuest", ReplyAction="http://tempuri.org/IAuthenticationService/LoginGuestResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IAuthenticationService/LoginGuestServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        Lottery.LotteryServiceReference.UserDto LoginGuest(string nickname);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/LoginGuest", ReplyAction="http://tempuri.org/IAuthenticationService/LoginGuestResponse")]
+        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserDto> LoginGuestAsync(string nickname);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/LogoutUser", ReplyAction="http://tempuri.org/IAuthenticationService/LogoutUserResponse")]
         void LogoutUser();
         
@@ -769,6 +777,7 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task<System.ValueTuple<bool, string>> UpdateProfileAsync(int currentUserId, Lottery.LotteryServiceReference.UserDto userData);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/FindUserByNickname", ReplyAction="http://tempuri.org/IUserService/FindUserByNicknameResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IUserService/FindUserByNicknameServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         Lottery.LotteryServiceReference.FriendDto FindUserByNickname(string nickname);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/FindUserByNickname", ReplyAction="http://tempuri.org/IUserService/FindUserByNicknameResponse")]
@@ -808,14 +817,14 @@ namespace Lottery.LotteryServiceReference {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface ILotteryServiceCallback {
         
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/ReceiveChatMessage")]
+        void ReceiveChatMessage(string nickname, string message);
+        
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/NotifyCard")]
         void NotifyCard(int cardId);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/NotifyWinner")]
         void NotifyWinner(string nickname);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/ReceiveChatMessage")]
-        void ReceiveChatMessage(string nickname, string message);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/PlayerJoined")]
         void PlayerJoined(Lottery.LotteryServiceReference.UserDto newPlayer);
@@ -1023,6 +1032,14 @@ namespace Lottery.LotteryServiceReference {
         
         public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserDto> LoginUserAsync(string username, string password) {
             return base.Channel.LoginUserAsync(username, password);
+        }
+        
+        public Lottery.LotteryServiceReference.UserDto LoginGuest(string nickname) {
+            return base.Channel.LoginGuest(nickname);
+        }
+        
+        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserDto> LoginGuestAsync(string nickname) {
+            return base.Channel.LoginGuestAsync(nickname);
         }
         
         public void LogoutUser() {

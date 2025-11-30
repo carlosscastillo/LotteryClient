@@ -11,7 +11,7 @@ namespace Lottery.ViewModel.Friends
 {
     public class FriendRequestsViewModel : ObservableObject
     {
-        private readonly ILotteryService _serviceClient;
+        // CAMBIO: Se eliminó _serviceClient. Ahora usamos el Singleton.
         private readonly int _currentUserId;
 
         public ObservableCollection<FriendDto> PendingRequests { get; } = new ObservableCollection<FriendDto>();
@@ -22,24 +22,23 @@ namespace Lottery.ViewModel.Friends
 
         public FriendRequestsViewModel()
         {
-            _serviceClient = SessionManager.ServiceClient;
+            // CAMBIO: Ya no asignamos _serviceClient desde SessionManager.
             _currentUserId = SessionManager.CurrentUser.UserId;
 
             LoadRequestsCommand = new RelayCommand(async () => await LoadRequests());
             AcceptCommand = new RelayCommand<FriendDto>(async (request) => await AcceptRequest(request));
             RejectCommand = new RelayCommand<FriendDto>(async (request) => await RejectRequest(request));
 
-            if (_serviceClient != null)
-            {
-                _ = LoadRequests();
-            }
+            // Iniciamos la carga. El ServiceProxy se encarga de que Client no sea null.
+            _ = LoadRequests();
         }
 
         private async Task LoadRequests()
         {
             try
             {
-                var requests = await _serviceClient.GetPendingRequestsAsync(_currentUserId);
+                // CAMBIO: Uso de ServiceProxy.Instance.Client
+                var requests = await ServiceProxy.Instance.Client.GetPendingRequestsAsync(_currentUserId);
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
@@ -76,7 +75,8 @@ namespace Lottery.ViewModel.Friends
 
             try
             {
-                await _serviceClient.AcceptFriendRequestAsync(_currentUserId, request.FriendId);
+                // CAMBIO: Uso de ServiceProxy.Instance.Client
+                await ServiceProxy.Instance.Client.AcceptFriendRequestAsync(_currentUserId, request.FriendId);
 
                 await LoadRequests();
 
@@ -102,7 +102,8 @@ namespace Lottery.ViewModel.Friends
 
             try
             {
-                await _serviceClient.RejectFriendRequestAsync(_currentUserId, request.FriendId);
+                // CAMBIO: Uso de ServiceProxy.Instance.Client
+                await ServiceProxy.Instance.Client.RejectFriendRequestAsync(_currentUserId, request.FriendId);
                 await LoadRequests();
             }
             catch (FaultException<ServiceFault> ex)

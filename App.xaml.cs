@@ -6,12 +6,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.ServiceModel;
 
 namespace Lottery
 {
-    /// <summary>
-    /// Lógica de interacción para App.xaml
-    /// </summary>
     public partial class App : Application
     {
         protected override void OnStartup(StartupEventArgs e)
@@ -20,6 +18,22 @@ namespace Lottery
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(langCode);
 
             base.OnStartup(e);
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+
+            try
+            {
+                if (ServiceProxy.Instance.Client is ICommunicationObject comm)
+                    comm.Close();
+            }
+            catch
+            {
+                if (ServiceProxy.Instance.Client is ICommunicationObject comm)
+                    comm.Abort();
+            }
         }
     }
 }

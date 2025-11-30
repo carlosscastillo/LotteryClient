@@ -5,8 +5,6 @@ namespace Lottery
 {
     public static class SessionManager
     {
-        public static ILotteryService ServiceClient { get; set; }
-
         public static UserDto CurrentUser { get; private set; }
 
         public static bool IsLoggedIn => CurrentUser != null;
@@ -14,7 +12,9 @@ namespace Lottery
         public static void Login(UserDto user)
         {
             if (user == null)
+            {
                 throw new ArgumentNullException(nameof(user));
+            }
 
             CurrentUser = user;
         }
@@ -22,7 +22,6 @@ namespace Lottery
         public static void Logout()
         {
             CurrentUser = null;
-            ServiceClient = null;
         }
     }
 }

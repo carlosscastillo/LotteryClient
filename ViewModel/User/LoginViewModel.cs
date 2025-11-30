@@ -1,5 +1,4 @@
-﻿using Lottery.Helpers;
-using Lottery.LotteryServiceReference;
+﻿using Lottery.LotteryServiceReference;
 using Lottery.View.MainMenu;
 using Lottery.View.User;
 using Lottery.ViewModel.Base;
@@ -8,16 +7,11 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Linq;
-
 
 namespace Lottery.ViewModel.User
 {
     public class LoginViewModel : ObservableObject
     {
-        private ILotteryService _serviceClient;
-        private ClientCallbackHandler _callbackHandler;
-
         private string _username;
         public string Username
         {
@@ -48,20 +42,13 @@ namespace Lottery.ViewModel.User
 
         public ICommand LoginCommand { get; }
         public ICommand SignUpCommand { get; }
+        public ICommand GuestLoginCommand { get; }
 
         public LoginViewModel()
         {
-            RecreateClient();
-
             LoginCommand = new RelayCommand<Window>(async (window) => await Login(window));
             SignUpCommand = new RelayCommand<Window>(ExecuteSignUp);
-        }
-
-        private void RecreateClient()
-        {
-            _callbackHandler = new ClientCallbackHandler();
-            var context = new InstanceContext(_callbackHandler);
-            _serviceClient = new LotteryServiceClient(context);
+            GuestLoginCommand = new RelayCommand<Window>(ExecuteGuestLogin);
         }
 
         public async Task Login(Window window)
@@ -92,17 +79,17 @@ namespace Lottery.ViewModel.User
                 {
                     string errors = string.Join("\n• ", result.Errors.Select(e => e.ErrorMessage));
                     MessageBox.Show($"Corrige los siguientes errores:\n\n• {errors}",
-                                    "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
-
+                    "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    
                     return;
                 }
-                
-                UserDto user = await _serviceClient.LoginUserAsync(Username, Password);
+
+                var client = ServiceProxy.Instance.Client;
+                UserDto user = await client.LoginUserAsync(Username, Password);
 
                 if (user != null)
                 {
                     SessionManager.Login(user);
-                    SessionManager.ServiceClient = _serviceClient;
 
                     MainMenuView mainMenuView = new MainMenuView();
                     mainMenuView.Show();
@@ -129,7 +116,10 @@ namespace Lottery.ViewModel.User
                 MessageBox.Show($"Ocurrió un error crítico: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 AbortAndRecreateClient();
             }
-            finally { IsLoggingIn = false; }
+            finally
+            {
+                IsLoggingIn = false;
+            }
         }
 
         private void HandleLoginError(FaultException<ServiceFault> fault)
@@ -174,30 +164,21 @@ namespace Lottery.ViewModel.User
 
         private void AbortAndRecreateClient()
         {
-            if (_serviceClient != null)
-            {
-                var clientChannel = _serviceClient as ICommunicationObject;
-                if (clientChannel != null)
-                {
-                    if (clientChannel.State == CommunicationState.Faulted)
-                    {
-                        clientChannel.Abort();
-                    }
-                    else
-                    {
-                        try { clientChannel.Close(); }
-                        catch { clientChannel.Abort(); }
-                    }
-                }
-            }
-
-            RecreateClient();
+            ServiceProxy.Instance.Reconnect();
         }
 
         private void ExecuteSignUp(Window loginWindow)
         {
             UserRegisterView registerView = new UserRegisterView();
             registerView.Show();
+            loginWindow?.Close();
+        }
+
+        private void ExecuteGuestLogin(Window loginWindow)
+        {
+            GuestLoginView guestView = new GuestLoginView();
+            guestView.Show();
+
             loginWindow?.Close();
         }
     }

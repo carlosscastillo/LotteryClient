@@ -3,7 +3,6 @@ using System.Windows.Input;
 
 namespace Lottery.ViewModel.Base
 {
-    // --- COMANDO GENÉRICO (para parámetros) ---
     public class RelayCommand<T> : ICommand
     {
         private readonly Action<T> _execute;
@@ -48,7 +47,6 @@ namespace Lottery.ViewModel.Base
         }
     }
 
-    // --- COMANDO NO GENÉRICO (Con y sin parámetros) ---
     public class RelayCommand : ICommand
     {
         private readonly Action _execute;
@@ -73,9 +71,13 @@ namespace Lottery.ViewModel.Base
         public bool CanExecute(object parameter)
         {
             if (_canExecute != null)
+            {
                 return _canExecute();
+            }
             if (_canExecuteWithParam != null)
+            {
                 return _canExecuteWithParam(parameter);
+            }
 
             return true;
         }

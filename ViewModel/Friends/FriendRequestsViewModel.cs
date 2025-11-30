@@ -1,4 +1,5 @@
 ﻿using Lottery.LotteryServiceReference;
+using Lottery.Properties.Langs;
 using Lottery.ViewModel.Base;
 using System;
 using System.Collections.ObjectModel;
@@ -11,7 +12,6 @@ namespace Lottery.ViewModel.Friends
 {
     public class FriendRequestsViewModel : ObservableObject
     {
-        // CAMBIO: Se eliminó _serviceClient. Ahora usamos el Singleton.
         private readonly int _currentUserId;
 
         public ObservableCollection<FriendDto> PendingRequests { get; } = new ObservableCollection<FriendDto>();
@@ -22,14 +22,12 @@ namespace Lottery.ViewModel.Friends
 
         public FriendRequestsViewModel()
         {
-            // CAMBIO: Ya no asignamos _serviceClient desde SessionManager.
             _currentUserId = SessionManager.CurrentUser.UserId;
 
             LoadRequestsCommand = new RelayCommand(async () => await LoadRequests());
             AcceptCommand = new RelayCommand<FriendDto>(async (request) => await AcceptRequest(request));
             RejectCommand = new RelayCommand<FriendDto>(async (request) => await RejectRequest(request));
 
-            // Iniciamos la carga. El ServiceProxy se encarga de que Client no sea null.
             _ = LoadRequests();
         }
 
@@ -37,7 +35,6 @@ namespace Lottery.ViewModel.Friends
         {
             try
             {
-                // CAMBIO: Uso de ServiceProxy.Instance.Client
                 var requests = await ServiceProxy.Instance.Client.GetPendingRequestsAsync(_currentUserId);
 
                 Application.Current.Dispatcher.Invoke(() =>
@@ -56,16 +53,17 @@ namespace Lottery.ViewModel.Friends
             {
                 if (ex.Detail.ErrorCode == "USER_OFFLINE")
                 {
-                    ShowServiceError(ex, "Error de Sesión");
+                    ShowServiceError(ex, Lang.FriendRequestsSessionError);
                 }
                 else
                 {
-                    Console.WriteLine($"Error cargando solicitudes: {ex.Detail.Message}");
+                    MessageBox.Show(string.Format(Lang.FriendRequestsErrorLoadingRequests, ex.Message));
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error de conexión al cargar: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.FriendRequestsConnectionError, ex.Message), 
+                    Lang.GlobalMessageBoxTitleError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -75,16 +73,16 @@ namespace Lottery.ViewModel.Friends
 
             try
             {
-                // CAMBIO: Uso de ServiceProxy.Instance.Client
                 await ServiceProxy.Instance.Client.AcceptFriendRequestAsync(_currentUserId, request.FriendId);
 
                 await LoadRequests();
 
-                MessageBox.Show($"¡Ahora eres amigo de {request.Nickname}!", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(string.Format(Lang.FriendRequestsNowFriendWith, request.Nickname), 
+                    Lang.GlobalMessageBoxTitleSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (FaultException<ServiceFault> ex)
             {
-                ShowServiceError(ex, "No se pudo aceptar la solicitud");
+                ShowServiceError(ex, Lang.FriendRequestsRequestCouldNotBeAccepted);
                 if (ex.Detail.ErrorCode == "FRIEND_NOT_FOUND" || ex.Detail.ErrorCode == "FRIEND_DUPLICATE")
                 {
                     await LoadRequests();
@@ -92,7 +90,8 @@ namespace Lottery.ViewModel.Friends
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ocurrió un error inesperado: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.GlobalMessageBoxUnexpectedError, ex.Message), 
+                    Lang.GlobalMessageBoxTitleError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -102,18 +101,17 @@ namespace Lottery.ViewModel.Friends
 
             try
             {
-                // CAMBIO: Uso de ServiceProxy.Instance.Client
                 await ServiceProxy.Instance.Client.RejectFriendRequestAsync(_currentUserId, request.FriendId);
                 await LoadRequests();
             }
             catch (FaultException<ServiceFault> ex)
             {
-                ShowServiceError(ex, "No se pudo rechazar");
+                ShowServiceError(ex, Lang.FriendRequestsRequestCouldNotBeReject);
                 await LoadRequests();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ocurrió un error inesperado: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.GlobalMessageBoxUnexpectedError, ex.Message), Lang.GlobalMessageBoxTitleError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -126,29 +124,29 @@ namespace Lottery.ViewModel.Friends
             switch (detail.ErrorCode)
             {
                 case "FRIEND_NOT_FOUND":
-                    message = "Esta solicitud ya no existe o fue cancelada por el otro usuario.";
+                    message = Lang.FriendRequestsExceptionFriendNotFound;
                     break;
 
                 case "FRIEND_INVALID":
-                    message = "La operación de amistad no es válida.";
+                    message = Lang.FriendRequestsExceptionFriendInvalid;
                     break;
 
                 case "FRIEND_DUPLICATE":
-                    message = "Ya eres amigo de este usuario o la solicitud ya fue procesada.";
+                    message = Lang.FriendRequestsExceptionFriendDuplicate;
                     break;
 
                 case "USER_OFFLINE":
-                    message = "Tu sesión ha expirado. Por favor cierra sesión y vuelve a entrar.";
+                    message = Lang.FriendRequestsExceptionUserOffline;
                     icon = MessageBoxImage.Error;
                     break;
 
                 case "FR-500":
-                    message = "El servidor tuvo un problema interno. Intenta más tarde.";
+                    message = Lang.FriendRequestsExceptionFR500;
                     icon = MessageBoxImage.Error;
                     break;
 
                 default:
-                    message = $"Error del servidor ({detail.ErrorCode}): {detail.Message}";
+                    message = string.Format(Lang.GlobalExceptionServerError, detail.ErrorCode, detail.Message);
                     break;
             }
 

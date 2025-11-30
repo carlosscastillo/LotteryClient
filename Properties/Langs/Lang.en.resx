@@ -729,4 +729,130 @@
   <data name="NicknameMinLengthMessage" xml:space="preserve">
     <value>Nickname must be at least 4 characters.</value>
   </data>
+  <data name="FriendRequestsSessionError" xml:space="preserve">
+    <value>Session Error</value>
+  </data>
+  <data name="FriendRequestsErrorLoadingRequests" xml:space="preserve">
+    <value>Error loading requests: {0}</value>
+  </data>
+  <data name="FriendRequestsConnectionError" xml:space="preserve">
+    <value>Connection error while loading:</value>
+  </data>
+  <data name="GlobalMessageBoxTitleError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="FriendRequestsNowFriendWith" xml:space="preserve">
+    <value>Now you're friends with {0}</value>
+  </data>
+  <data name="GlobalMessageBoxTitleSuccess" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="FriendRequestsRequestCouldNotBeAccepted" xml:space="preserve">
+    <value>The friend request could not be accepted</value>
+  </data>
+  <data name="GlobalMessageBoxUnexpectedError" xml:space="preserve">
+    <value>An unexpected error occurred: {0}</value>
+  </data>
+  <data name="FriendRequestsRequestCouldNotBeReject" xml:space="preserve">
+    <value>The friend request could not be rejected</value>
+  </data>
+  <data name="FriendRequestsExceptionFriendNotFound" xml:space="preserve">
+    <value>This request has already been accepted or cancelled by the other user.</value>
+  </data>
+  <data name="FriendRequestsExceptionFriendInvalid" xml:space="preserve">
+    <value>The friendship operation is not valid.</value>
+  </data>
+  <data name="FriendRequestsExceptionFriendDuplicate" xml:space="preserve">
+    <value>You are already friends with this user or the request has already been processed.</value>
+  </data>
+  <data name="FriendRequestsExceptionUserOffline" xml:space="preserve">
+    <value>Your session has expired. Please log out and log back in.</value>
+  </data>
+  <data name="FriendRequestsExceptionFR500" xml:space="preserve">
+    <value>The server experienced an internal problem. Please try again later.</value>
+  </data>
+  <data name="GlobalExceptionServerError" xml:space="preserve">
+    <value>Server Error ({0}): {1}</value>
+  </data>
+  <data name="InviteFriendsErrorLoadingFriends" xml:space="preserve">
+    <value>Error loading friends</value>
+  </data>
+  <data name="InviteFriendsConnectionError" xml:space="preserve">
+    <value>Connection Error: {0}</value>
+  </data>
+  <data name="InviteFriendsSearch" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="InviteFriendsSearchError" xml:space="preserve">
+    <value>Search Error</value>
+  </data>
+  <data name="InviteFriendsRequestsSent" xml:space="preserve">
+    <value>Requests sent to {0}</value>
+  </data>
+  <data name="GlobalMessageBoxTitleSent" xml:space="preserve">
+    <value>Sent</value>
+  </data>
+  <data name="InviteFriendsNotSent" xml:space="preserve">
+    <value>Could not be sent</value>
+  </data>
+  <data name="InviteFriendsError" xml:space="preserve">
+    <value>Error {0}</value>
+  </data>
+  <data name="InviteFriendsCancelRequest" xml:space="preserve">
+    <value>Friend request cancelled</value>
+  </data>
+  <data name="InviteFriendErrorCanceling" xml:space="preserve">
+    <value>Error canceling</value>
+  </data>
+  <data name="IniviteFriendsSucces" xml:space="preserve">
+    <value>{0} is now your friend</value>
+  </data>
+  <data name="InviteFriendsErrorWhenAccepting" xml:space="preserve">
+    <value>Error when accepting</value>
+  </data>
+  <data name="InviteFriendsFriendRequestRejected" xml:space="preserve">
+    <value>Friend request rejected</value>
+  </data>
+  <data name="InviteFriendsErrorWhenRejecting" xml:space="preserve">
+    <value>Error when rejecting</value>
+  </data>
+  <data name="InviteFriendsAreYouSure" xml:space="preserve">
+    <value>Are you sure you want to eliminate {0}?</value>
+  </data>
+  <data name="InviteFriendsErrorWhenDeleting" xml:space="preserve">
+    <value>Error when deleting</value>
+  </data>
+  <data name="InviteFriendsSucces" xml:space="preserve">
+    <value>Invitation sent to {0}</value>
+  </data>
+  <data name="InviteFriendsErrorInvitation" xml:space="preserve">
+    <value>Invitation Error</value>
+  </data>
+  <data name="InviteFriendsExceptionFriendDuplicate" xml:space="preserve">
+    <value>There is already a pending application or a friendship with </value>
+  </data>
+  <data name="InviteFriendsExceptionFriendInvalid" xml:space="preserve">
+    <value>Invalid friendship transaction.</value>
+  </data>
+  <data name="InviteFriendsExceptionFriendNotFound" xml:space="preserve">
+    <value>The friend request does not exist, it has already been accepted or rejected by the other party.</value>
+  </data>
+  <data name="InviteFriendsExceptionUserNotFound" xml:space="preserve">
+    <value>No user with that nickname was found."</value>
+  </data>
+  <data name="InviteFriendsExceptionUserInLobby" xml:space="preserve">
+    <value>The user is already occupied in a lobby.</value>
+  </data>
+  <data name="InviteFriendsExceptionUserOffline" xml:space="preserve">
+    <value>The user is not currently logged in or your session has expired.</value>
+  </data>
+  <data name="InviteFriendsExceptionFriendGuestRestricted" xml:space="preserve">
+    <value>You can't invite friends if you're being invited.</value>
+  </data>
+  <data name="GlobalExceptionInternalServerError" xml:space="preserve">
+    <value>Internal Server Error</value>
+  </data>
+  <data name="GlobalMessageBoxTitleConfirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
 </root>

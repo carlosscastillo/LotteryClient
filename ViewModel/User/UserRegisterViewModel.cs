@@ -308,7 +308,7 @@ namespace Lottery.ViewModel.User
 
         private bool ValidateForm(UserDto user)
         {
-            var validator = new InputValidator().ValidateRegister();
+            var validator = new UserValidator().ValidateRegister();
             var validationResult = validator.Validate(user);
 
             if (!validationResult.IsValid)

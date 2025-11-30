@@ -1,7 +1,9 @@
 ﻿using Lottery.LotteryServiceReference;
 using Lottery.View.MainMenu;
+using Lottery.Helpers;
 using Lottery.View.User;
 using Lottery.ViewModel.Base;
+using System.Linq;
 using System;
 using System.ServiceModel;
 using System.Threading.Tasks;

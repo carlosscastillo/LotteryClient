@@ -374,6 +374,10 @@ namespace Lottery.ViewModel.Friends
                     message = "El usuario no está conectado actualmente o tu sesión expiró.";
                     break;
 
+                case "FRIEND_GUEST_RESTRICTED":
+                    message = "No puedes invitar amigos siendo invitado.";
+                    break;
+
                 case "FR-500":
                     message = "Error interno del servidor.";
                     icon = MessageBoxImage.Error;

@@ -53,18 +53,42 @@ namespace Lottery.ViewModel.MainMenu
 
         private void ExecuteShowFriendsView()
         {
-            Cleanup();
-            InviteFriendsView friendsView = new InviteFriendsView();
-            friendsView.Show();
-            _mainMenuWindow?.Close();
+            try
+            {
+                if (SessionManager.CurrentUser != null && SessionManager.CurrentUser.UserId < 0)
+                {
+                    throw new InvalidOperationException("Los invitados no tienen lista de amigos.");
+                }
+
+                Cleanup();
+                InviteFriendsView friendsView = new InviteFriendsView();
+                friendsView.Show();
+                _mainMenuWindow?.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(_mainMenuWindow, ex.Message, "Acceso Restringido", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void ExecuteShowProfileView()
         {
-            Cleanup();
-            CustomizeProfileView profileView = new CustomizeProfileView();
-            profileView.Show();
-            _mainMenuWindow?.Close();
+            try
+            {
+                if (SessionManager.CurrentUser != null && SessionManager.CurrentUser.UserId < 0)
+                {
+                    throw new InvalidOperationException("Los invitados no tienen perfil para editar.");
+                }
+
+                Cleanup();
+                CustomizeProfileView profileView = new CustomizeProfileView();
+                profileView.Show();
+                _mainMenuWindow?.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(_mainMenuWindow, ex.Message, "Acceso Restringido", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private async Task ExecuteCreateLobby()
@@ -205,6 +229,10 @@ namespace Lottery.ViewModel.MainMenu
 
                     case "LOBBY_PLAYER_BANNED":
                         message = "No puedes unirte a este lobby porque has sido expulsado.";
+                        break;
+
+                    case "FRIEND_GUEST_RESTRICTED":
+                        message = "No puedes agregar amigos ni ver perfil siendo invitado.";
                         break;
 
                     case "LOBBY_INTERNAL_ERROR":

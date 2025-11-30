@@ -195,6 +195,15 @@
   <wsdl:message name="ILotteryService_LoginUser_ServiceFaultFault_FaultMessage">
     <wsdl:part xmlns:q14="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q14:ServiceFault" />
   </wsdl:message>
+  <wsdl:message name="ILotteryService_LoginGuest_InputMessage">
+    <wsdl:part name="parameters" element="tns:LoginGuest" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_LoginGuest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoginGuestResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_LoginGuest_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q15="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q15:ServiceFault" />
+  </wsdl:message>
   <wsdl:message name="ILotteryService_LogoutUser_InputMessage">
     <wsdl:part name="parameters" element="tns:LogoutUser" />
   </wsdl:message>
@@ -208,7 +217,7 @@
     <wsdl:part name="parameters" element="tns:RequestUserVerificationResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RequestUserVerification_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q15="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q15:ServiceFault" />
+    <wsdl:part xmlns:q16="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q16:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RegisterUser_InputMessage">
     <wsdl:part name="parameters" element="tns:RegisterUser" />
@@ -235,7 +244,7 @@
     <wsdl:part name="parameters" element="tns:ChangePasswordResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_ChangePassword_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q16="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q16:ServiceFault" />
+    <wsdl:part xmlns:q17="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q17:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RecoverPassword_InputMessage">
     <wsdl:part name="parameters" element="tns:RecoverPassword" />
@@ -256,7 +265,7 @@
     <wsdl:part name="parameters" element="tns:FindUserByNicknameResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_FindUserByNickname_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q17="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q17:ServiceFault" />
+    <wsdl:part xmlns:q18="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q18:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_GetUserProfile_InputMessage">
     <wsdl:part name="parameters" element="tns:GetUserProfile" />
@@ -413,6 +422,11 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IAuthenticationService/LoginUser" message="tns:ILotteryService_LoginUser_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IAuthenticationService/LoginUserResponse" message="tns:ILotteryService_LoginUser_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IAuthenticationService/LoginUserServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_LoginUser_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LoginGuest">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthenticationService/LoginGuest" message="tns:ILotteryService_LoginGuest_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthenticationService/LoginGuestResponse" message="tns:ILotteryService_LoginGuest_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAuthenticationService/LoginGuestServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_LoginGuest_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="LogoutUser">
       <wsdl:input wsaw:Action="http://tempuri.org/IAuthenticationService/LogoutUser" message="tns:ILotteryService_LogoutUser_InputMessage" />
@@ -716,6 +730,18 @@
     </wsdl:operation>
     <wsdl:operation name="LoginUser">
       <soap12:operation soapAction="http://tempuri.org/IAuthenticationService/LoginUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="LoginGuest">
+      <soap12:operation soapAction="http://tempuri.org/IAuthenticationService/LoginGuest" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

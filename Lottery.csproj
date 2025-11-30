@@ -83,6 +83,7 @@
     <Compile Include="ViewModel\Friends\InviteFriendsViewModel.cs" />
     <Compile Include="ViewModel\Lobby\JoinLobbyByCodeViewModel.cs" />
     <Compile Include="ViewModel\Lobby\LobbyViewModel.cs" />
+    <Compile Include="ViewModel\User\GuestLoginViewModel.cs" />
     <Compile Include="ViewModel\User\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainMenu\MainMenuViewModel.cs" />
     <Compile Include="ViewModel\User\UserRegisterViewModel.cs" />
@@ -103,6 +104,9 @@
     </Compile>
     <Compile Include="View\Friends\InviteFriendsView.xaml.cs">
       <DependentUpon>InviteFriendsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User\GuestLoginView.xaml.cs">
+      <DependentUpon>GuestLoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User\GuestRegisterView.xaml.cs">
       <DependentUpon>GuestRegisterView.xaml</DependentUpon>
@@ -161,6 +165,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Friends\InviteFriendsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User\GuestLoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

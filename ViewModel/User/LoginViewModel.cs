@@ -42,11 +42,13 @@ namespace Lottery.ViewModel.User
 
         public ICommand LoginCommand { get; }
         public ICommand SignUpCommand { get; }
+        public ICommand GuestLoginCommand { get; }
 
         public LoginViewModel()
         {
             LoginCommand = new RelayCommand<Window>(async (window) => await Login(window));
             SignUpCommand = new RelayCommand<Window>(ExecuteSignUp);
+            GuestLoginCommand = new RelayCommand<Window>(ExecuteGuestLogin);
         }
 
         public async Task Login(Window window)
@@ -151,6 +153,14 @@ namespace Lottery.ViewModel.User
         {
             UserRegisterView registerView = new UserRegisterView();
             registerView.Show();
+            loginWindow?.Close();
+        }
+
+        private void ExecuteGuestLogin(Window loginWindow)
+        {
+            GuestLoginView guestView = new GuestLoginView();
+            guestView.Show();
+
             loginWindow?.Close();
         }
     }

@@ -719,6 +719,13 @@ namespace Lottery.LotteryServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/LoginUser", ReplyAction="http://tempuri.org/IAuthenticationService/LoginUserResponse")]
         System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserDto> LoginUserAsync(string username, string password);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/LoginGuest", ReplyAction="http://tempuri.org/IAuthenticationService/LoginGuestResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IAuthenticationService/LoginGuestServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        Lottery.LotteryServiceReference.UserDto LoginGuest(string nickname);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/LoginGuest", ReplyAction="http://tempuri.org/IAuthenticationService/LoginGuestResponse")]
+        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserDto> LoginGuestAsync(string nickname);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/LogoutUser", ReplyAction="http://tempuri.org/IAuthenticationService/LogoutUserResponse")]
         void LogoutUser();
         
@@ -1025,6 +1032,14 @@ namespace Lottery.LotteryServiceReference {
         
         public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserDto> LoginUserAsync(string username, string password) {
             return base.Channel.LoginUserAsync(username, password);
+        }
+        
+        public Lottery.LotteryServiceReference.UserDto LoginGuest(string nickname) {
+            return base.Channel.LoginGuest(nickname);
+        }
+        
+        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserDto> LoginGuestAsync(string nickname) {
+            return base.Channel.LoginGuestAsync(nickname);
         }
         
         public void LogoutUser() {

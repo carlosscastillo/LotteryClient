@@ -583,6 +583,33 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a El código solo puede contener números..
+        /// </summary>
+        public static string CodeFormatMessage {
+            get {
+                return ResourceManager.GetString("CodeFormatMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El código de verificación debe contener exactamente 6 dígitos..
+        /// </summary>
+        public static string CodeLengthMessage {
+            get {
+                return ResourceManager.GetString("CodeLengthMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El código no puede estar vacío..
+        /// </summary>
+        public static string CodeRequiredMessage {
+            get {
+                return ResourceManager.GetString("CodeRequiredMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a 1 Segundo.
         /// </summary>
         public static string CreateLobbyLabelCardDisplayOneSecond {
@@ -898,7 +925,7 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Formato de correo no válido..
+        ///   Busca una cadena traducida similar a Formato de correo electrónico no válido..
         /// </summary>
         public static string EmailInvalidFormatMessage {
             get {
@@ -1663,7 +1690,7 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a El nickname es obligatorio.
+        ///   Busca una cadena traducida similar a El nickname es obligatorio..
         /// </summary>
         public static string NicknameRequiredMessage {
             get {

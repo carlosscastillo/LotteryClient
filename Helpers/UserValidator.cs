@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Lottery.Helpers
 {
-    internal class InputValidator : AbstractValidator<UserDto>
+    internal class UserValidator : AbstractValidator<UserDto>
     {
-        public InputValidator() { 
+        public UserValidator() { 
         }
         private void ValidateNickname()
         {
@@ -34,30 +34,33 @@ namespace Lottery.Helpers
                 .Matches(@"^[a-zA-Z0-9!@#$%&*_\-+=]+$")
                 .WithMessage(Lang.PasswordInvalidCharactersMessage);
         }
-        public InputValidator ValidatePasswordOnly()
+        public UserValidator ValidatePasswordOnly()
         {
             ValidatePassword();
             return this;
         }
-        public InputValidator ValidateLogin()
+        public UserValidator ValidateLogin()
         {
             ValidateNickname();
             ValidatePassword();
 
             return this;
         }
-        public InputValidator ValidateEmail()
+        private void ValidateEmail()
         {
             RuleFor(u => u.Email)
                 .NotEmpty().WithMessage(Lang.EmailRequiredMessage)
                 .EmailAddress().WithMessage(Lang.EmailInvalidFormatMessage)
                 .Matches(@"^[a-zA-Z0-9._\-]+@[a-zA-Z0-9._\-]+(\.[a-zA-Z]{2,})+$")
-                .WithMessage(Lang.EmailInvalidDomainOrCharsMessage);
-
+                .WithMessage(Lang.EmailInvalidDomainOrCharsMessage);            
+        }
+        public UserValidator ValidateEmailOnly()
+        {
+            ValidateEmail();
             return this;
         }
 
-        public InputValidator ValidateRegister()
+        public UserValidator ValidateRegister()
         {
             ValidateNickname();
             ValidatePassword();

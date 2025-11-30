@@ -1,15 +1,16 @@
-﻿using Lottery.LotteryServiceReference;
+﻿using FluentValidation;
+using Lottery.Helpers;
+using Lottery.LotteryServiceReference;
 using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Linq;
-using Lottery.Helpers;
 
 
 namespace Lottery.ViewModel.User
@@ -198,7 +199,7 @@ namespace Lottery.ViewModel.User
             _currentUserFull.MaternalLastName = MaternalLastName;
             _currentUserFull.AvatarId = IdAvatar;
             
-            var validator = new InputValidator().ValidateRegister();
+            var validator = new UserValidator().ValidateRegister();
             var validationResult = validator.Validate(_currentUserFull);
 
             if (!validationResult.IsValid)
@@ -246,7 +247,7 @@ namespace Lottery.ViewModel.User
                 return;
             }
 
-            var validator = new InputValidator().ValidateRegister();
+            var validator = new UserValidator().ValidateEmailOnly();
             var result = validator.Validate(new UserDto { Email = NewEmail });
 
             if (!result.IsValid)
@@ -283,9 +284,13 @@ namespace Lottery.ViewModel.User
 
         private async Task VerifyEmailCode()
         {
-            if (string.IsNullOrWhiteSpace(VerificationCode))
+            var validator = new CodeValidator();
+            var result = validator.Validate(VerificationCode);
+
+            if (!result.IsValid)
             {
-                MessageBox.Show("Ingresa el código de verificación.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(result.Errors.First().ErrorMessage, "Código inválido",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -323,7 +328,7 @@ namespace Lottery.ViewModel.User
 
         private async Task VerifyCurrentPassword()
         {
-            var validator = new InputValidator().ValidatePasswordOnly();
+            var validator = new UserValidator().ValidatePasswordOnly();
             var result = validator.Validate(new UserDto { Password = CurrentPassword });
 
             if (!result.IsValid)
@@ -364,7 +369,7 @@ namespace Lottery.ViewModel.User
 
         private async Task SaveNewPassword()
         {
-            var validator = new InputValidator().ValidatePasswordOnly();
+            var validator = new UserValidator().ValidatePasswordOnly();
             var result = validator.Validate(new UserDto { Password = NewPassword });
 
             if (!result.IsValid)

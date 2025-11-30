@@ -85,7 +85,7 @@ namespace Lottery.ViewModel.User
                     Password = Password
                 };
                 
-                var validator = new InputValidator().ValidateLogin();
+                var validator = new UserValidator().ValidateLogin();
                 var result = validator.Validate(loginUser);
 
                 if (!result.IsValid)

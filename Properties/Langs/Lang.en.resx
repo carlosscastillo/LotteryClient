@@ -516,9 +516,6 @@
   <data name="CardTextBlockButtercup" xml:space="preserve">
     <value>Buttercup</value>
   </data>
-  <data name="CardTextBlockCatDog" xml:space="preserve">
-    <value>CatDog</value>
-  </data>
   <data name="CardTextBlockChuckieFinster" xml:space="preserve">
     <value>Chuckie Finster</value>
   </data>
@@ -648,56 +645,26 @@
   <data name="CardTextBlockReverse" xml:space="preserve">
     <value>Waiting For Card . . .</value>
   </data>
-  <data name="NicknameRequiredMessage" xml:space="preserve">
-    <value>Nickname is required.</value>
+  <data name="LoginButtonStartGuest" xml:space="preserve">
+    <value>Start as guest</value>
   </data>
-  <data name="NicknameMinLengthMessage" xml:space="preserve">
-    <value>Nickname must be at least 4 characters.</value>
+  <data name="MainMenuButtonLogout" xml:space="preserve">
+    <value>Logout</value>
   </data>
-  <data name="NicknameMaxLengthMessage" xml:space="preserve">
-    <value>The nickname must contain a maximum of 20 allowed characters.</value>
+  <data name="CodeLengthMessage" xml:space="preserve">
+    <value>The verification code must be exactly 6 digits.</value>
   </data>
-  <data name="NicknameInvalidCharactersMessage" xml:space="preserve">
-    <value>Nickname may only contain letters, numbers and _ . - @</value>
+  <data name="CodeRequiredMessage" xml:space="preserve">
+    <value>The code cannot be empty.</value>
   </data>
-  <data name="EmailRequiredMessage" xml:space="preserve">
-    <value>Email is required.</value>
+  <data name="CodeFormatMessage" xml:space="preserve">
+    <value>The code can only contain numbers.</value>
   </data>
-  <data name="EmailInvalidFormatMessage" xml:space="preserve">
-    <value>Invalid email format.</value>
+  <data name="MaternalLastNameMaxLengthMessage" xml:space="preserve">
+    <value>Lastname must contain a maximum of 30 characters.</value>
   </data>
   <data name="EmailInvalidDomainOrCharsMessage" xml:space="preserve">
     <value>Email contains invalid characters or domain.</value>
-  </data>
-  <data name="PasswordRequiredMessage" xml:space="preserve">
-    <value>Password is required.</value>
-  </data>
-  <data name="PasswordMinLengthMessage" xml:space="preserve">
-    <value>Password must be at least 8 characters.</value>
-  </data>
-  <data name="PasswordRequireUppercaseMessage" xml:space="preserve">
-    <value>Password must contain at least one uppercase letter.</value>
-  </data>
-  <data name="PasswordRequireLowercaseMessage" xml:space="preserve">
-    <value>Password must contain at least one lowercase letter.</value>
-  </data>
-  <data name="PasswordRequireNumberMessage" xml:space="preserve">
-    <value>Password must contain at least one number.</value>
-  </data>
-  <data name="PasswordRequireSpecialCharMessage" xml:space="preserve">
-    <value>Password must contain a special character (! @ # $ % &amp; * _ - + =)</value>
-  </data>
-  <data name="PasswordInvalidCharactersMessage" xml:space="preserve">
-    <value>Password contains invalid characters.</value>
-  </data>
-  <data name="FirstNameRequiredMessage" xml:space="preserve">
-    <value>First name is required.</value>
-  </data>
-  <data name="FirstNameMaxLengthMessage" xml:space="preserve">
-    <value>The first name must contain a maximum of 30 characters.</value>
-  </data>
-  <data name="FirstNameInvalidCharactersMessage" xml:space="preserve">
-    <value>First name can only contain letters and spaces.</value>
   </data>
   <data name="PaternalLastNameRequiredMessage" xml:space="preserve">
     <value>Lastname is required.</value>
@@ -708,16 +675,58 @@
   <data name="PaternalLastNameInvalidCharactersMessage" xml:space="preserve">
     <value>Lastname may only contain letters and spaces.</value>
   </data>
-  <data name="MaternalLastNameMaxLengthMessage" xml:space="preserve">
-    <value>Lastname must contain a maximum of 30 characters.</value>
+  <data name="PasswordRequireUppercaseMessage" xml:space="preserve">
+    <value>Password must contain at least one uppercase letter.</value>
+  </data>
+  <data name="PasswordRequireSpecialCharMessage" xml:space="preserve">
+    <value>Password must contain a special character (! @ # $ % &amp; * _ - + =)</value>
+  </data>
+  <data name="PasswordRequireNumberMessage" xml:space="preserve">
+    <value>Password must contain at least one number.</value>
+  </data>
+  <data name="PasswordRequireLowercaseMessage" xml:space="preserve">
+    <value>Password must contain at least one lowercase letter.</value>
+  </data>
+  <data name="FirstNameMaxLengthMessage" xml:space="preserve">
+    <value>The first name must contain a maximum of 30 characters.</value>
+  </data>
+  <data name="PasswordMinLengthMessage" xml:space="preserve">
+    <value>Password must be at least 8 characters.</value>
+  </data>
+  <data name="PasswordRequiredMessage" xml:space="preserve">
+    <value>Password is required.</value>
+  </data>
+  <data name="PasswordInvalidCharactersMessage" xml:space="preserve">
+    <value>Password contains invalid characters.</value>
+  </data>
+  <data name="EmailInvalidFormatMessage" xml:space="preserve">
+    <value>Invalid email format.</value>
+  </data>
+  <data name="EmailRequiredMessage" xml:space="preserve">
+    <value>Email is required.</value>
+  </data>
+  <data name="FirstNameInvalidCharactersMessage" xml:space="preserve">
+    <value>First name can only contain letters and spaces.</value>
+  </data>
+  <data name="FirstNameRequiredMessage" xml:space="preserve">
+    <value>First name is required.</value>
   </data>
   <data name="MaternalLastNameInvalidCharactersMessage" xml:space="preserve">
     <value>Lastname may only contain letters and spaces.</value>
   </data>
-  <data name="LoginButtonStartGuest" xml:space="preserve">
-    <value>Start as guest</value>
+  <data name="NicknameRequiredMessage" xml:space="preserve">
+    <value>Nickname is required.</value>
   </data>
-  <data name="MainMenuButtonLogout" xml:space="preserve">
-    <value>Logout</value>
+  <data name="NicknameInvalidCharactersMessage" xml:space="preserve">
+    <value>Nickname may only contain letters, numbers and _ . - @</value>
+  </data>
+  <data name="NicknameMaxLengthMessage" xml:space="preserve">
+    <value>The nickname must contain a maximum of 20 allowed characters.</value>
+  </data>
+  <data name="CardTextBlockCatDog" xml:space="preserve">
+    <value>CatDog</value>
+  </data>
+  <data name="NicknameMinLengthMessage" xml:space="preserve">
+    <value>Nickname must be at least 4 characters.</value>
   </data>
 </root>

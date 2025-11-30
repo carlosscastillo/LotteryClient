@@ -359,6 +359,7 @@ namespace Lottery.ViewModel.Lobby
                     case "CHAT_USER_NOT_IN_LOBBY":
                         message = "El servidor indica que no estás en un lobby activo.";
                         break;
+
                     case "CHAT_USER_OFFLINE":
                         message = "Tu sesión ha expirado.";
                         icon = MessageBoxImage.Error;
@@ -378,8 +379,13 @@ namespace Lottery.ViewModel.Lobby
                     case "LOBBY_ACTION_DENIED":
                         message = "No puedes expulsarte a ti mismo";
                         break;
+
                     case "LOBBY_NOT_FOUND":
                         message = "El lobby ya no existe.";
+                        break;
+
+                    case "CHAT_FORBIDDEN_WORD":
+                        message = "No por ser el host puedes decir palabrotas";
                         break;
 
                     case "LOBBY_INTERNAL_ERROR":

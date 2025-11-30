@@ -203,6 +203,10 @@ namespace Lottery.ViewModel.MainMenu
                         icon = MessageBoxImage.Error;
                         break;
 
+                    case "LOBBY_PLAYER_BANNED":
+                        message = "No puedes unirte a este lobby porque has sido expulsado.";
+                        break;
+
                     case "LOBBY_INTERNAL_ERROR":
                         message = "Error interno del servidor.";
                         icon = MessageBoxImage.Error;

@@ -80,6 +80,10 @@ namespace Lottery.ViewModel.Lobby
                     message = "Ya te encuentras registrado en este lobby (o en otro).";
                     break;
 
+                case "LOBBY_PLAYER_BANNED":
+                    message = "No puedes unirte a este lobby porque has sido expulsado.";
+                    break;
+
                 case "USER_OFFLINE":
                 case "LOBBY_SESSION_ERROR":
                     message = "Tu sesión ha expirado o no es válida.";

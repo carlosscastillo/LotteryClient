@@ -94,6 +94,24 @@ namespace Lottery.ViewModel.User
 
         private string _confirmNewPassword;
         public string ConfirmNewPassword { get => _confirmNewPassword; set => SetProperty(ref _confirmNewPassword, value); }
+        public bool IsCurrentPasswordVisible
+        {
+            get => _isCurrentPasswordVisible;
+            set => SetProperty(ref _isCurrentPasswordVisible, value);
+        }
+        private bool _isCurrentPasswordVisible;
+        public bool IsNewPasswordVisibleEye
+        {
+            get => _isNewPasswordVisibleEye;
+            set => SetProperty(ref _isNewPasswordVisibleEye, value);
+        }
+        private bool _isNewPasswordVisibleEye;
+        public bool IsConfirmNewPasswordVisible
+        {
+            get => _isConfirmNewPasswordVisible;
+            set => SetProperty(ref _isConfirmNewPasswordVisible, value);
+        }
+        private bool _isConfirmNewPasswordVisible;
 
         private ObservableCollection<AvatarItemViewModel> _avatars;
         public ObservableCollection<AvatarItemViewModel> Avatars { get => _avatars; set => SetProperty(ref _avatars, value); }

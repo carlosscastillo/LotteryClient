@@ -105,53 +105,63 @@
                            Foreground="White"/>
                     <Grid Margin="0,0,0,10">
                         <PasswordBox x:Name="PasswordBox"
-                                     PasswordChanged="PasswordBox_PasswordChanged"
-                                     Visibility="{Binding IsPasswordVisible, Converter={StaticResource InverseBoolToVisibilityConverter}}"/>
+                            PasswordChanged="PasswordBox_PasswordChanged"
+                            Visibility="{Binding IsPasswordVisible, Converter={StaticResource InverseBoolToVisibilityConverter}}"/>
                         <TextBox x:Name="PasswordTextBox"
-                                 Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                 Visibility="{Binding IsPasswordVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                        <ToggleButton x:Name="TogglePasswordVisibilityButton"
-                                      IsChecked="{Binding IsPasswordVisible, Mode=TwoWay}"
-                                      Width="35" Height="35"
-                                      HorizontalAlignment="Right" VerticalAlignment="Center"
-                                      Margin="0,0,5,0"
-                                      Background="Transparent" BorderThickness="0">
+                            Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Visibility="{Binding IsPasswordVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <TextBlock Text="&#xE72E;" 
+                            Style="{StaticResource IconStyle}"/>
+                        <ToggleButton x:Name="TogglePasswordVisibilityButton" 
+                            IsChecked="{Binding IsPasswordVisible, Mode=TwoWay}"
+                            Width="35" 
+                            Height="35"
+                            HorizontalAlignment="Right" 
+                            VerticalAlignment="Center"
+                            Margin="0,0,5,0"
+                            Background="Transparent" 
+                            BorderThickness="0">
                             <ToggleButton.Content>
-                                <Image Source="{Binding IsChecked, 
-                                       RelativeSource={RelativeSource AncestorType=ToggleButton}, 
-                                       Converter={StaticResource EyeIconConverter}}"
-                                       Width="20" Height="20"
-                                       Stretch="Uniform"/>
+                                <Image Width="20" 
+                                    Height="20"
+                                    Stretch="Uniform"
+                                    Source="{Binding IsChecked, 
+                                    RelativeSource={RelativeSource AncestorType=ToggleButton}, 
+                                    Converter={StaticResource EyeIconConverter}}"/>
                             </ToggleButton.Content>
                         </ToggleButton>
                     </Grid>
-
+                    
                     <Label Content="{x:Static language:Lang.GlobalLabelConfirmPassword}"
                            Style="{StaticResource LabelStyle}"
                            Foreground="White"/>
                     <Grid Margin="0,0,0,15">
                         <PasswordBox x:Name="ConfirmPasswordBox"
-                                     PasswordChanged="ConfirmPasswordBox_PasswordChanged"
-                                     Visibility="{Binding IsConfirmPasswordVisible, Converter={StaticResource InverseBoolToVisibilityConverter}}"/>
+                            PasswordChanged="ConfirmPasswordBox_PasswordChanged"
+                            Visibility="{Binding IsConfirmPasswordVisible, Converter={StaticResource InverseBoolToVisibilityConverter}}"/>
                         <TextBox x:Name="ConfirmPasswordTextBox"
-                                 Text="{Binding ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                 Visibility="{Binding IsConfirmPasswordVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            Text="{Binding ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Visibility="{Binding IsConfirmPasswordVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <TextBlock Text="&#xE72E;" Style="{StaticResource IconStyle}"/>
                         <ToggleButton x:Name="ToggleConfirmPasswordVisibilityButton"
-                                      IsChecked="{Binding IsConfirmPasswordVisible, Mode=TwoWay}"
-                                      Width="35" Height="35"
-                                      HorizontalAlignment="Right" VerticalAlignment="Center"
-                                      Margin="0,0,5,0"
-                                      Background="Transparent" BorderThickness="0">
+                            IsChecked="{Binding IsConfirmPasswordVisible, Mode=TwoWay}"
+                            Width="35"
+                            Height="35"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Margin="0,0,5,0"
+                            Background="Transparent"
+                            BorderThickness="0">
                             <ToggleButton.Content>
                                 <Image Source="{Binding IsChecked, 
-                                       RelativeSource={RelativeSource AncestorType=ToggleButton}, 
-                                       Converter={StaticResource EyeIconConverter}}"
-                                       Width="20" Height="20"
-                                       Stretch="Uniform"/>
+                                RelativeSource={RelativeSource AncestorType=ToggleButton}, 
+                                Converter={StaticResource EyeIconConverter}}"
+                                Width="20" Height="20"
+                                Stretch="Uniform"/>
                             </ToggleButton.Content>
                         </ToggleButton>
                     </Grid>
-
+                    
                     <Button Content="{x:Static language:Lang.GlobalButtonSignUp}"
                             Command="{Binding RegisterCommand}"
                             Margin="0,15,0,0"

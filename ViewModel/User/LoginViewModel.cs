@@ -44,12 +44,20 @@ namespace Lottery.ViewModel.User
             set => SetProperty(ref _isLoggingIn, value);
         }
 
+        public bool IsPasswordVisible
+        {
+            get => _isPasswordVisible;
+            set => SetProperty(ref _isPasswordVisible, value);
+        }
+        private bool _isPasswordVisible;
+
         public ICommand LoginCommand { get; }
         public ICommand SignUpCommand { get; }
         public ICommand GuestLoginCommand { get; }
 
         public LoginViewModel()
         {
+            IsPasswordVisible = false;
             LoginCommand = new RelayCommand<Window>(async (window) => await Login(window));
             SignUpCommand = new RelayCommand<Window>(ExecuteSignUp);
             GuestLoginCommand = new RelayCommand<Window>(ExecuteGuestLogin);

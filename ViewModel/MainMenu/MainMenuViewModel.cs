@@ -171,7 +171,7 @@ namespace Lottery.ViewModel.MainMenu
             {
                 var result = MessageBox.Show(
                     _mainMenuWindow,
-                    string.Format(inviterNickname, Lang.MainMenuHasInvited),
+                    string.Format(Lang.MainMenuHasInvited, inviterNickname),
                     Lang.MainMenuInvitationReceived, MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)

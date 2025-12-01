@@ -1,4 +1,5 @@
 ﻿using Lottery.LotteryServiceReference;
+using Lottery.Properties.Langs;
 using Lottery.View.Friends;
 using Lottery.View.Lobby;
 using Lottery.View.User;
@@ -53,18 +54,44 @@ namespace Lottery.ViewModel.MainMenu
 
         private void ExecuteShowFriendsView()
         {
-            Cleanup();
-            InviteFriendsView friendsView = new InviteFriendsView();
-            friendsView.Show();
-            _mainMenuWindow?.Close();
+            try
+            {
+                if (SessionManager.CurrentUser != null && SessionManager.CurrentUser.UserId < 0)
+                {
+                    throw new InvalidOperationException(Lang.MainMenuGuestFriends);
+                }
+
+                Cleanup();
+                InviteFriendsView friendsView = new InviteFriendsView();
+                friendsView.Show();
+                _mainMenuWindow?.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(_mainMenuWindow, ex.Message, 
+                    Lang.MainMenuRestrictedAccess, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void ExecuteShowProfileView()
         {
-            Cleanup();
-            CustomizeProfileView profileView = new CustomizeProfileView();
-            profileView.Show();
-            _mainMenuWindow?.Close();
+            try
+            {
+                if (SessionManager.CurrentUser != null && SessionManager.CurrentUser.UserId < 0)
+                {
+                    throw new InvalidOperationException(Lang.MainMenuGuestProfile);
+                }
+
+                Cleanup();
+                CustomizeProfileView profileView = new CustomizeProfileView();
+                profileView.Show();
+                _mainMenuWindow?.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(_mainMenuWindow, ex.Message, 
+                    Lang.MainMenuRestrictedAccess, MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private async Task ExecuteCreateLobby()
@@ -80,11 +107,12 @@ namespace Lottery.ViewModel.MainMenu
             }
             catch (FaultException<ServiceFault> ex)
             {
-                ShowServiceError(ex, "Error al Crear Lobby");
+                ShowServiceError(ex, Lang.MainMenuErrorCreateLobby);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(_mainMenuWindow, $"Error inesperado al crear lobby: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(_mainMenuWindow, string.Format(Lang.GlobalMessageBoxUnexpectedError, ex.Message), 
+                    Lang.GlobalMessageBoxTitleError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -116,11 +144,12 @@ namespace Lottery.ViewModel.MainMenu
             }
             catch (FaultException<ServiceFault> ex)
             {
-                ShowServiceError(ex, "Error al Unirse");
+                ShowServiceError(ex, Lang.MainMenuJoinError);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(_mainMenuWindow, $"Error de conexión: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(_mainMenuWindow, string.Format(Lang.InviteFriendsConnectionError, ex.Message), 
+                    Lang.GlobalMessageBoxTitleError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -142,10 +171,8 @@ namespace Lottery.ViewModel.MainMenu
             {
                 var result = MessageBox.Show(
                     _mainMenuWindow,
-                    $"{inviterNickname} te ha invitado a jugar.\nCódigo: {lobbyCode}\n\n¿Quieres unirte?",
-                    "¡Invitación Recibida!",
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question);
+                    string.Format(Lang.MainMenuHasInvited, inviterNickname),
+                    Lang.MainMenuInvitationReceived, MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
@@ -164,7 +191,7 @@ namespace Lottery.ViewModel.MainMenu
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error during logout: {ex.Message}");
+                MessageBox.Show(Lang.MainMenuErrorDuringLogout);
             }
             finally
             {
@@ -187,33 +214,33 @@ namespace Lottery.ViewModel.MainMenu
                 {
                     case "LOBBY_USER_ALREADY_IN":
                     case "USER_IN_LOBBY":
-                        message = "Ya te encuentras registrado en un lobby activo. Sal primero.";
+                        message = Lang.MainMenuExceptionRegisteredInAnActiveLobby;
                         break;
 
                     case "LOBBY_FULL":
-                        message = "El lobby ya alcanzó su capacidad máxima de jugadores.";
+                        message = Lang.MainMenuExceptionLobbyFull;
                         break;
 
                     case "LOBBY_NOT_FOUND":
-                        message = "El lobby ya no existe o la invitación expiró.";
+                        message = Lang.MainMenuExceptionNotFoundLobby;
                         break;
 
                     case "USER_OFFLINE":
-                        message = "Tu sesión ha expirado. Por favor inicia sesión de nuevo.";
+                        message = Lang.MainMenuExceptionSessionExpired;
                         icon = MessageBoxImage.Error;
                         break;
 
                     case "LOBBY_PLAYER_BANNED":
-                        message = "No puedes unirte a este lobby porque has sido expulsado.";
+                        message = Lang.MainMenuExceptionUserBanned;
                         break;
 
                     case "LOBBY_INTERNAL_ERROR":
-                        message = "Error interno del servidor.";
+                        message = Lang.GlobalExceptionInternalServerError;
                         icon = MessageBoxImage.Error;
                         break;
 
                     default:
-                        message = $"Error del servidor: {detail.Message}";
+                        message = string.Format(Lang.GlobalExceptionServerError, detail.Message);
                         break;
                 }
                 MessageBox.Show(_mainMenuWindow, message, title, MessageBoxButton.OK, icon);

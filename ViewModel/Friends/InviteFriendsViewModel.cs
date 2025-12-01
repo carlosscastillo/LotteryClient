@@ -1,4 +1,5 @@
 ﻿using Lottery.LotteryServiceReference;
+using Lottery.Properties.Langs;
 using Lottery.View.Friends;
 using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;
@@ -9,7 +10,6 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace Lottery.ViewModel.Friends
 {
@@ -18,7 +18,6 @@ namespace Lottery.ViewModel.Friends
         public FriendDto Dto { get; }
         public string Nickname => Dto.Nickname;
         public int UserId => Dto.FriendId;
-        public Brush StatusColor => Dto.Status == "Online" ? Brushes.LimeGreen : Brushes.Gray;
         public FriendViewModel(FriendDto dto) { Dto = dto; }
     }
 
@@ -32,21 +31,39 @@ namespace Lottery.ViewModel.Friends
         public bool IsFriend
         {
             get => _isFriend;
-            set { if (SetProperty(ref _isFriend, value)) NotifyChanges(); }
+            set 
+            { 
+                if (SetProperty(ref _isFriend, value))
+                {
+                    NotifyChanges();
+                }
+            }
         }
 
         private bool _hasPendingRequest;
         public bool HasPendingRequest
         {
             get => _hasPendingRequest;
-            set { if (SetProperty(ref _hasPendingRequest, value)) NotifyChanges(); }
+            set 
+            { 
+                if (SetProperty(ref _hasPendingRequest, value))
+                {
+                    NotifyChanges();
+                }
+            }
         }
 
         private int _pendingRequestSenderId = 0;
         public int PendingRequestSenderId
         {
             get => _pendingRequestSenderId;
-            set { if (SetProperty(ref _pendingRequestSenderId, value)) NotifyChanges(); }
+            set 
+            { 
+                if (SetProperty(ref _pendingRequestSenderId, value))
+                {
+                    NotifyChanges();
+                }
+            }
         }
 
         private readonly int _currentUserId;
@@ -86,8 +103,10 @@ namespace Lottery.ViewModel.Friends
             set => SetProperty(ref _searchNickname, value);
         }
 
-        public ObservableCollection<FoundUserViewModel> SearchResults { get; } = new ObservableCollection<FoundUserViewModel>();
-        public ObservableCollection<FriendViewModel> FriendsList { get; } = new ObservableCollection<FriendViewModel>();
+        public ObservableCollection<FoundUserViewModel> SearchResults { get; } = 
+            new ObservableCollection<FoundUserViewModel>();
+        public ObservableCollection<FriendViewModel> FriendsList { get; } = 
+            new ObservableCollection<FriendViewModel>();
 
         public ICommand SearchCommand { get; }
         public RelayCommand<FoundUserViewModel> SendRequestCommand { get; }
@@ -138,11 +157,12 @@ namespace Lottery.ViewModel.Friends
             }
             catch (FaultException<ServiceFault> ex)
             {
-                ShowServiceError(ex, "Error al cargar amigos");
+                ShowServiceError(ex, Lang.InviteFriendsErrorLoadingFriends);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error de conexión: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.InviteFriendsConnectionError, ex.Message), 
+                    Lang.GlobalMessageBoxTitleError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -192,17 +212,18 @@ namespace Lottery.ViewModel.Friends
             {
                 if (ex.Detail.ErrorCode == "USER_NOT_FOUND")
                 {
-                    ShowServiceError(ex, "Búsqueda");
+                    ShowServiceError(ex, Lang.InviteFriendsSearch);
                     SearchResults.Clear();
                 }
                 else
                 {
-                    ShowServiceError(ex, "Error en Búsqueda");
+                    ShowServiceError(ex, Lang.InviteFriendsSearchError);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error inesperado: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(Lang.GlobalMessageBoxUnexpectedError, ex.Message), 
+                    Lang.GlobalMessageBoxTitleError, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -215,15 +236,16 @@ namespace Lottery.ViewModel.Friends
 
                 userVm.HasPendingRequest = true;
                 userVm.PendingRequestSenderId = _currentUserId;
-                MessageBox.Show($"Solicitud enviada a {userVm.Nickname}.", "Enviado", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(string.Format(Lang.InviteFriendsRequestsSent, userVm.Nickname), 
+                    Lang.GlobalMessageBoxTitleSent, MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (FaultException<ServiceFault> ex)
             {
-                ShowServiceError(ex, "No se pudo enviar");
+                ShowServiceError(ex, Lang.InviteFriendsNotSent);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}");
+                MessageBox.Show(string.Format(Lang.InviteFriendsError, ex.Message));
             }
         }
 
@@ -236,11 +258,11 @@ namespace Lottery.ViewModel.Friends
 
                 userVm.HasPendingRequest = false;
                 userVm.PendingRequestSenderId = 0;
-                MessageBox.Show($"Solicitud cancelada.");
+                MessageBox.Show(Lang.InviteFriendsCancelRequest);
             }
             catch (FaultException<ServiceFault> ex)
             {
-                ShowServiceError(ex, "Error al cancelar");
+                ShowServiceError(ex, Lang.InviteFriendErrorCanceling);
                 if (ex.Detail.ErrorCode == "FRIEND_NOT_FOUND")
                 {
                     userVm.HasPendingRequest = false;
@@ -248,7 +270,7 @@ namespace Lottery.ViewModel.Friends
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}");
+                MessageBox.Show(string.Format(Lang.InviteFriendsError, ex.Message));
             }
         }
 
@@ -262,16 +284,17 @@ namespace Lottery.ViewModel.Friends
                 userVm.HasPendingRequest = false;
                 userVm.IsFriend = true;
 
-                MessageBox.Show($"¡{userVm.Nickname} ahora es tu amigo!", "Éxito");
+                MessageBox.Show(string.Format(userVm.Nickname, Lang.IniviteFriendsSucces), 
+                    Lang.GlobalMessageBoxTitleSuccess);
                 await LoadFriends();
             }
             catch (FaultException<ServiceFault> ex)
             {
-                ShowServiceError(ex, "Error al aceptar");
+                ShowServiceError(ex, Lang.InviteFriendsErrorWhenAccepting);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}");
+                MessageBox.Show(string.Format(Lang.InviteFriendsError, ex.Message));
             }
         }
 
@@ -284,15 +307,15 @@ namespace Lottery.ViewModel.Friends
 
                 userVm.HasPendingRequest = false;
                 userVm.PendingRequestSenderId = 0;
-                MessageBox.Show($"Solicitud rechazada.");
+                MessageBox.Show(Lang.InviteFriendsFriendRequestRejected);
             }
             catch (FaultException<ServiceFault> ex)
             {
-                ShowServiceError(ex, "Error al rechazar");
+                ShowServiceError(ex, Lang.InviteFriendsErrorWhenRejecting);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}");
+                MessageBox.Show(string.Format(Lang.InviteFriendsError, ex.Message));
             }
         }
 
@@ -300,8 +323,8 @@ namespace Lottery.ViewModel.Friends
         {
             if (selectedFriend == null) return;
 
-            if (MessageBox.Show($"¿Seguro que quieres eliminar a {selectedFriend.Nickname}?",
-                "Confirmar", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (MessageBox.Show(string.Format(Lang.InviteFriendsAreYouSure, selectedFriend.Nickname),
+                Lang.GlobalMessageBoxTitleConfirm, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 try
                 {
@@ -310,11 +333,11 @@ namespace Lottery.ViewModel.Friends
                 }
                 catch (FaultException<ServiceFault> ex)
                 {
-                    ShowServiceError(ex, "Error al eliminar");
+                    ShowServiceError(ex, Lang.InviteFriendsErrorWhenDeleting);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error: {ex.Message}");
+                    MessageBox.Show(string.Format(Lang.InviteFriendsError, ex.Message));
                 }
             }
         }
@@ -326,15 +349,16 @@ namespace Lottery.ViewModel.Friends
             try
             {
                 await ServiceProxy.Instance.Client.InviteFriendToLobbyAsync(_inviteLobbyCode, friend.UserId);
-                MessageBox.Show($"Invitación enviada a {friend.Nickname}.", "Enviado");
+                MessageBox.Show(string.Format(Lang.InviteFriendsSucces, friend.Nickname), 
+                    Lang.GlobalMessageBoxTitleSent);
             }
             catch (FaultException<ServiceFault> ex)
             {
-                ShowServiceError(ex, "Error de Invitación");
+                ShowServiceError(ex, Lang.InviteFriendsErrorInvitation);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}");
+                MessageBox.Show(string.Format(Lang.InviteFriendsError, ex.Message));
             }
         }
 
@@ -347,40 +371,44 @@ namespace Lottery.ViewModel.Friends
             switch (detail.ErrorCode)
             {
                 case "FRIEND_DUPLICATE":
-                    message = "Ya existe una solicitud pendiente o una amistad con " + SearchNickname;
+                    message = Lang.InviteFriendsExceptionFriendDuplicate + SearchNickname;
                     break;
 
                 case "FRIEND_INVALID":
-                    message = "Operación de amistad no válida.";
+                    message = Lang.InviteFriendsExceptionFriendInvalid;
                     icon = MessageBoxImage.Error;
                     break;
 
                 case "FRIEND_NOT_FOUND":
-                    message = "La solicitud de amistad no existe, ya fue aceptada o cancelada por la otra parte.";
+                    message = Lang.InviteFriendsExceptionFriendNotFound;
                     break;
 
                 case "USER_NOT_FOUND":
-                    message = "No se encontró ningún usuario con ese apodo.";
+                    message = Lang.InviteFriendsExceptionUserNotFound;
                     title = "Búsqueda";
                     icon = MessageBoxImage.Information;
                     break;
 
                 case "USER_IN_LOBBY":
-                    message = "El usuario ya se encuentra ocupado en un lobby.";
+                    message = Lang.InviteFriendsExceptionUserInLobby;
                     break;
 
                 case "USER_OFFLINE":
                 case "FRIEND_NOT_CONNECTED":
-                    message = "El usuario no está conectado actualmente o tu sesión expiró.";
+                    message = Lang.InviteFriendsExceptionUserOffline;
+                    break;
+
+                case "FRIEND_GUEST_RESTRICTED":
+                    message = Lang.InviteFriendsExceptionFriendGuestRestricted;
                     break;
 
                 case "FR-500":
-                    message = "Error interno del servidor.";
+                    message = Lang.GlobalExceptionInternalServerError;
                     icon = MessageBoxImage.Error;
                     break;
 
                 default:
-                    message = $"Error del servidor ({detail.ErrorCode}): {detail.Message}";
+                    message = string.Format(Lang.GlobalExceptionServerError, detail.ErrorCode, detail.Message);
                     break;
             }
 

@@ -388,6 +388,10 @@ namespace Lottery.ViewModel.Lobby
                         message = "No por ser el host puedes decir palabrotas";
                         break;
 
+                    case "FRIEND_GUEST_RESTRICTED":
+                        message = "No puedes invitar amigos siendo invitado.";
+                        break;
+
                     case "LOBBY_INTERNAL_ERROR":
                     case "CHAT_INTERNAL_ERROR":
                         message = "Ocurrió un error interno en el servidor.";

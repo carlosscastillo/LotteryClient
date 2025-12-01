@@ -11,8 +11,11 @@ namespace Lottery.Helpers
 {
     internal class UserValidator : AbstractValidator<UserDto>
     {
-        public UserValidator() { 
+        public UserValidator()
+        {
+            
         }
+        
         private void ValidateNickname()
         {
             RuleFor(u => u.Nickname)
@@ -22,6 +25,7 @@ namespace Lottery.Helpers
                 .Matches(@"^[a-zA-Z0-9._\-@]+$")
                 .WithMessage(Lang.NicknameInvalidCharactersMessage);
         }
+
         private void ValidatePassword()
         {
             RuleFor(u => u.Password)
@@ -34,38 +38,18 @@ namespace Lottery.Helpers
                 .Matches(@"^[a-zA-Z0-9!@#$%&*_\-+=]+$")
                 .WithMessage(Lang.PasswordInvalidCharactersMessage);
         }
-        public UserValidator ValidatePasswordOnly()
-        {
-            ValidatePassword();
-            return this;
-        }
-        public UserValidator ValidateLogin()
-        {
-            ValidateNickname();
-            ValidatePassword();
 
-            return this;
-        }
         private void ValidateEmail()
         {
             RuleFor(u => u.Email)
                 .NotEmpty().WithMessage(Lang.EmailRequiredMessage)
                 .EmailAddress().WithMessage(Lang.EmailInvalidFormatMessage)
                 .Matches(@"^[a-zA-Z0-9._\-]+@[a-zA-Z0-9._\-]+(\.[a-zA-Z]{2,})+$")
-                .WithMessage(Lang.EmailInvalidDomainOrCharsMessage);            
+                .WithMessage(Lang.EmailInvalidDomainOrCharsMessage);
         }
-        public UserValidator ValidateEmailOnly()
+        
+        private void ValidatePersonalData()
         {
-            ValidateEmail();
-            return this;
-        }
-
-        public UserValidator ValidateRegister()
-        {
-            ValidateNickname();
-            ValidatePassword();
-            ValidateEmail();
-
             RuleFor(u => u.FirstName)
                 .NotEmpty().WithMessage(Lang.FirstNameRequiredMessage)
                 .MaximumLength(30).WithMessage(Lang.FirstNameMaxLengthMessage)
@@ -82,7 +66,40 @@ namespace Lottery.Helpers
                 .MaximumLength(30).WithMessage(Lang.MaternalLastNameMaxLengthMessage)
                 .Matches(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]*$")
                 .WithMessage(Lang.MaternalLastNameInvalidCharactersMessage);
+        }
 
+        public UserValidator ValidatePasswordOnly()
+        {
+            ValidatePassword();
+            return this;
+        }
+
+        public UserValidator ValidateEmailOnly()
+        {
+            ValidateEmail();
+            return this;
+        }
+        
+        public UserValidator ValidateLogin()
+        {
+            ValidateNickname();
+            ValidatePassword();
+            return this;
+        }
+
+        public UserValidator ValidateRegister()
+        {
+            ValidateNickname();
+            ValidateEmail();
+            ValidatePassword();
+            ValidatePersonalData();
+            return this;
+        }
+        
+        public UserValidator ValidateProfileUpdate()
+        {
+            ValidateNickname();
+            ValidatePersonalData();            
             return this;
         }
     }

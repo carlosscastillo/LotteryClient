@@ -111,21 +111,33 @@
 
                         <StackPanel Grid.Row="0">
                             <Label Content="{x:Static language:Lang.CustomizeProfileLabelSocialMedia}" FontWeight="Bold" Foreground="White" FontSize="16" Margin="0,0,0,10"/>
+
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Label Content="Twitter:" Foreground="White" Width="80"/>
-                                <TextBox Text="{Binding Twitter}" Width="180"/>
+                                <TextBox Text="{Binding Twitter, UpdateSourceTrigger=PropertyChanged}" 
+                                    IsReadOnly="{Binding IsReadOnly}" 
+                                    Width="180"/>
                             </StackPanel>
+
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Label Content="Facebook:" Foreground="White" Width="80"/>
-                                <TextBox Text="{Binding Facebook}" Width="180"/>
+                                <TextBox Text="{Binding Facebook, UpdateSourceTrigger=PropertyChanged}" 
+                                    IsReadOnly="{Binding IsReadOnly}" 
+                                    Width="180"/>
                             </StackPanel>
+
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Label Content="Instagram:" Foreground="White" Width="80"/>
-                                <TextBox Text="{Binding Instagram}" Width="180"/>
+                                <TextBox Text="{Binding Instagram, UpdateSourceTrigger=PropertyChanged}" 
+                                    IsReadOnly="{Binding IsReadOnly}" 
+                                    Width="180"/>
                             </StackPanel>
+
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Label Content="TikTok:" Foreground="White" Width="80"/>
-                                <TextBox Text="{Binding TikTok}" Width="180"/>
+                                <TextBox Text="{Binding TikTok, UpdateSourceTrigger=PropertyChanged}" 
+                                    IsReadOnly="{Binding IsReadOnly}" 
+                                    Width="180"/>
                             </StackPanel>
                         </StackPanel>
 

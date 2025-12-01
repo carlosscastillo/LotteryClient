@@ -73,6 +73,7 @@
     <Compile Include="Converters\EyeIconConverter.cs" />
     <Compile Include="Converters\InverseBoolToVisibilityConverter .cs" />
     <Compile Include="Helpers\CodeValidator.cs" />
+    <Compile Include="Helpers\SocialMediaValidator.cs" />
     <Compile Include="Helpers\UserValidator.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
     <Compile Include="ServiceProxy.cs" />
@@ -263,6 +264,9 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.LobbyStateDto.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.SocialMediaDto.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.UserDto.datasource">

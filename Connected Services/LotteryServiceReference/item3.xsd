@@ -32,6 +32,17 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="LobbyStateDto" nillable="true" type="tns:LobbyStateDto" />
+  <xs:complexType name="SocialMediaDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Facebook" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IdSocialMedia" type="xs:int" />
+      <xs:element minOccurs="0" name="IdUser" type="xs:int" />
+      <xs:element minOccurs="0" name="Instagram" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TikTok" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Twitter" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SocialMediaDto" nillable="true" type="tns:SocialMediaDto" />
   <xs:complexType name="CardDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="Id" type="xs:int" />

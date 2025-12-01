@@ -364,6 +364,9 @@ namespace Lottery.LotteryServiceReference {
         private System.Nullable<int> ScoreField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Lottery.LotteryServiceReference.SocialMediaDto SocialMediaField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int UserIdField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
@@ -520,6 +523,19 @@ namespace Lottery.LotteryServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public Lottery.LotteryServiceReference.SocialMediaDto SocialMedia {
+            get {
+                return this.SocialMediaField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SocialMediaField, value) != true)) {
+                    this.SocialMediaField = value;
+                    this.RaisePropertyChanged("SocialMedia");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public int UserId {
             get {
                 return this.UserIdField;
@@ -528,6 +544,131 @@ namespace Lottery.LotteryServiceReference {
                 if ((this.UserIdField.Equals(value) != true)) {
                     this.UserIdField = value;
                     this.RaisePropertyChanged("UserId");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SocialMediaDto", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
+    [System.SerializableAttribute()]
+    public partial class SocialMediaDto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FacebookField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdSocialMediaField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IdUserField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string InstagramField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TikTokField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TwitterField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Facebook {
+            get {
+                return this.FacebookField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FacebookField, value) != true)) {
+                    this.FacebookField = value;
+                    this.RaisePropertyChanged("Facebook");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int IdSocialMedia {
+            get {
+                return this.IdSocialMediaField;
+            }
+            set {
+                if ((this.IdSocialMediaField.Equals(value) != true)) {
+                    this.IdSocialMediaField = value;
+                    this.RaisePropertyChanged("IdSocialMedia");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int IdUser {
+            get {
+                return this.IdUserField;
+            }
+            set {
+                if ((this.IdUserField.Equals(value) != true)) {
+                    this.IdUserField = value;
+                    this.RaisePropertyChanged("IdUser");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Instagram {
+            get {
+                return this.InstagramField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.InstagramField, value) != true)) {
+                    this.InstagramField = value;
+                    this.RaisePropertyChanged("Instagram");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string TikTok {
+            get {
+                return this.TikTokField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TikTokField, value) != true)) {
+                    this.TikTokField = value;
+                    this.RaisePropertyChanged("TikTok");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Twitter {
+            get {
+                return this.TwitterField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TwitterField, value) != true)) {
+                    this.TwitterField = value;
+                    this.RaisePropertyChanged("Twitter");
                 }
             }
         }
@@ -812,6 +953,20 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVerificationService/VerifyCode", ReplyAction="http://tempuri.org/IVerificationService/VerifyCodeResponse")]
         System.Threading.Tasks.Task<bool> VerifyCodeAsync(string email, string code);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISocialMediaService/GetSocialMedia", ReplyAction="http://tempuri.org/ISocialMediaService/GetSocialMediaResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/ISocialMediaService/GetSocialMediaServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        Lottery.LotteryServiceReference.SocialMediaDto GetSocialMedia(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISocialMediaService/GetSocialMedia", ReplyAction="http://tempuri.org/ISocialMediaService/GetSocialMediaResponse")]
+        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.SocialMediaDto> GetSocialMediaAsync(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISocialMediaService/SaveOrUpdateSocialMedia", ReplyAction="http://tempuri.org/ISocialMediaService/SaveOrUpdateSocialMediaResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/ISocialMediaService/SaveOrUpdateSocialMediaServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        bool SaveOrUpdateSocialMedia(Lottery.LotteryServiceReference.SocialMediaDto media);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISocialMediaService/SaveOrUpdateSocialMedia", ReplyAction="http://tempuri.org/ISocialMediaService/SaveOrUpdateSocialMediaResponse")]
+        System.Threading.Tasks.Task<bool> SaveOrUpdateSocialMediaAsync(Lottery.LotteryServiceReference.SocialMediaDto media);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1152,6 +1307,22 @@ namespace Lottery.LotteryServiceReference {
         
         public System.Threading.Tasks.Task<bool> VerifyCodeAsync(string email, string code) {
             return base.Channel.VerifyCodeAsync(email, code);
+        }
+        
+        public Lottery.LotteryServiceReference.SocialMediaDto GetSocialMedia(int userId) {
+            return base.Channel.GetSocialMedia(userId);
+        }
+        
+        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.SocialMediaDto> GetSocialMediaAsync(int userId) {
+            return base.Channel.GetSocialMediaAsync(userId);
+        }
+        
+        public bool SaveOrUpdateSocialMedia(Lottery.LotteryServiceReference.SocialMediaDto media) {
+            return base.Channel.SaveOrUpdateSocialMedia(media);
+        }
+        
+        public System.Threading.Tasks.Task<bool> SaveOrUpdateSocialMediaAsync(Lottery.LotteryServiceReference.SocialMediaDto media) {
+            return base.Channel.SaveOrUpdateSocialMediaAsync(media);
         }
     }
 }

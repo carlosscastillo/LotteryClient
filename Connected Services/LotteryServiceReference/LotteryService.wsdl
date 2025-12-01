@@ -297,6 +297,24 @@
   <wsdl:message name="ILotteryService_VerifyCode_OutputMessage">
     <wsdl:part name="parameters" element="tns:VerifyCodeResponse" />
   </wsdl:message>
+  <wsdl:message name="ILotteryService_GetSocialMedia_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSocialMedia" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetSocialMedia_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSocialMediaResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_GetSocialMedia_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q19="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q19:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_SaveOrUpdateSocialMedia_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveOrUpdateSocialMedia" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_SaveOrUpdateSocialMedia_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveOrUpdateSocialMediaResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_SaveOrUpdateSocialMedia_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q20="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q20:ServiceFault" />
+  </wsdl:message>
   <wsdl:message name="ILotteryService_NotifyCard_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:NotifyCard" />
   </wsdl:message>
@@ -486,6 +504,16 @@
     <wsdl:operation name="VerifyCode">
       <wsdl:input wsaw:Action="http://tempuri.org/IVerificationService/VerifyCode" message="tns:ILotteryService_VerifyCode_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IVerificationService/VerifyCodeResponse" message="tns:ILotteryService_VerifyCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSocialMedia">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISocialMediaService/GetSocialMedia" message="tns:ILotteryService_GetSocialMedia_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISocialMediaService/GetSocialMediaResponse" message="tns:ILotteryService_GetSocialMedia_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/ISocialMediaService/GetSocialMediaServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_GetSocialMedia_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveOrUpdateSocialMedia">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISocialMediaService/SaveOrUpdateSocialMedia" message="tns:ILotteryService_SaveOrUpdateSocialMedia_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISocialMediaService/SaveOrUpdateSocialMediaResponse" message="tns:ILotteryService_SaveOrUpdateSocialMedia_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/ISocialMediaService/SaveOrUpdateSocialMediaServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_SaveOrUpdateSocialMedia_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="NotifyCard">
       <wsdl:output wsaw:Action="http://tempuri.org/ILotteryService/NotifyCard" message="tns:ILotteryService_NotifyCard_OutputCallbackMessage" />
@@ -886,6 +914,30 @@
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSocialMedia">
+      <soap12:operation soapAction="http://tempuri.org/ISocialMediaService/GetSocialMedia" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="SaveOrUpdateSocialMedia">
+      <soap12:operation soapAction="http://tempuri.org/ISocialMediaService/SaveOrUpdateSocialMedia" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="NotifyCard">
       <soap12:operation soapAction="http://tempuri.org/ILotteryService/NotifyCard" style="document" />

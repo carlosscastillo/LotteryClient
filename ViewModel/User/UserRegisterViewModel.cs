@@ -3,7 +3,6 @@ using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using FluentValidation;
 using Lottery.Helpers;
@@ -19,62 +18,76 @@ namespace Lottery.ViewModel.User
         private bool _isRegistering;
 
         public event Action NavigateToLogin;
-
-        private string _name;
+        
         public string Name
         {
             get => _name;
             set => SetProperty(ref _name, value);
         }
+        private string _name;
 
-        private string _paternalLastName;
         public string PaternalLastName
         {
             get => _paternalLastName;
             set => SetProperty(ref _paternalLastName, value);
         }
+        private string _paternalLastName;
 
-        private string _maternalLastName;
         public string MaternalLastName
         {
             get => _maternalLastName;
             set => SetProperty(ref _maternalLastName, value);
         }
+        private string _maternalLastName;
 
-        private string _nickname;
         public string Nickname
         {
             get => _nickname;
             set => SetProperty(ref _nickname, value);
         }
+        private string _nickname;
 
-        private string _email;
         public string Email
         {
             get => _email;
             set => SetProperty(ref _email, value);
         }
+        private string _email;
 
-        private string _verificationCode;
         public string VerificationCode
         {
             get => _verificationCode;
             set => SetProperty(ref _verificationCode, value);
         }
+        private string _verificationCode;
 
-        private string _password;
         public string Password
         {
             get => _password;
             set => SetProperty(ref _password, value);
         }
+        private string _password;
 
-        private string _confirmPassword;
         public string ConfirmPassword
         {
             get => _confirmPassword;
             set => SetProperty(ref _confirmPassword, value);
         }
+        private string _confirmPassword;
+        
+        public bool IsPasswordVisible
+        {
+            get => _isPasswordVisible;
+            set => SetProperty(ref _isPasswordVisible, value);
+        }
+        private bool _isPasswordVisible;
+
+        public bool IsConfirmPasswordVisible
+        {
+            get => _isConfirmPasswordVisible;
+            set => SetProperty(ref _isConfirmPasswordVisible, value);
+        }
+        private bool _isConfirmPasswordVisible;
 
         public bool IsRegistering
         {
@@ -82,20 +95,9 @@ namespace Lottery.ViewModel.User
             set => SetProperty(ref _isRegistering, value);
         }
 
-        public ICommand RegisterCommand { get; }
-        public ICommand VerifyCommand { get; }
-        public ICommand ContinueCommand { get; }
-        public ICommand BackCommand { get; }
-        public ICommand GoToLoginCommand { get; }
-
-        public enum RegistrationState
-        {
-            Form,
-            Verification,
-            Completed,
-        }
-
+        public enum RegistrationState { Form, Verification, Completed }
         private RegistrationState _currentState;
+
         public RegistrationState CurrentState
         {
             get => _currentState;
@@ -113,42 +115,33 @@ namespace Lottery.ViewModel.User
         public bool IsFormVisible => CurrentState == RegistrationState.Form;
         public bool IsVerificationVisible => CurrentState == RegistrationState.Verification;
         public bool IsCompletedVisible => CurrentState == RegistrationState.Completed;
+        
+        public ICommand RegisterCommand { get; }
+        public ICommand VerifyCommand { get; }
+        public ICommand ContinueCommand { get; }
+        public ICommand BackCommand { get; }
+        public ICommand GoToLoginCommand { get; }
 
         public UserRegisterViewModel()
         {
-            RegisterCommand = new RelayCommand<object>(
-                async param => await Register(param),
-                param => !IsRegistering
-            );
+            IsPasswordVisible = false;
+            IsConfirmPasswordVisible = false;
+
+            RegisterCommand = new RelayCommand(async () => await Register(), () => !IsRegistering);
             VerifyCommand = new RelayCommand(async () => await VerifyCode(), () => !IsRegistering);
-
-            ContinueCommand = new RelayCommand(
-                () =>
-                {
-                    var mainMenu = new MainMenuView();
-                    mainMenu.Show();
-
-                    Application
-                        .Current.Windows.OfType<Window>()
-                        .SingleOrDefault(w => w.DataContext == this)
-                        ?.Close();
-                },
-                () => true
-            );
-
+            ContinueCommand = new RelayCommand(() => OpenMainMenu(), () => true);
             BackCommand = new RelayCommand(() => CurrentState = RegistrationState.Form, () => true);
-
             GoToLoginCommand = new RelayCommand(() => NavigateToLogin?.Invoke());
 
             CurrentState = RegistrationState.Form;
         }
-
-        private async Task Register(object parameter)
+        
+        public void UpdatePassword(string password) => Password = password;
+        public void UpdateConfirmPassword(string password) => ConfirmPassword = password;
+        
+        private async Task Register()
         {
-            var passwordBox = parameter as PasswordBox;
-            if (passwordBox != null)
-                Password = passwordBox.Password;
-
+            
             var newUser = new UserDto
             {
                 FirstName = Name,
@@ -159,23 +152,7 @@ namespace Lottery.ViewModel.User
                 Password = Password,
             };
 
-            var validator = new UserValidator().ValidateRegister();
-            var validationResult = validator.Validate(newUser);
-
-            if (!validationResult.IsValid)
-            {
-                string errorList = string.Join(
-                    "\n• ",
-                    validationResult.Errors.Select(e => e.ErrorMessage)
-                );
-                MessageBox.Show(
-                    $"Corrige los siguientes errores:\n\n• {errorList}",
-                    "Validación",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning
-                );
-                return;
-            }
+            if (!ValidateForm(newUser)) return;
 
             if (Password != ConfirmPassword)
             {
@@ -189,13 +166,11 @@ namespace Lottery.ViewModel.User
             }
 
             IsRegistering = true;
-
             try
             {
                 _pendingUser = newUser;
-                int result = await ServiceProxy.Instance.Client.RequestUserVerificationAsync(
-                    _pendingUser
-                );
+                int result = await ServiceProxy.Instance.Client
+                    .RequestUserVerificationAsync(_pendingUser);
 
                 if (result > 0)
                 {
@@ -212,10 +187,7 @@ namespace Lottery.ViewModel.User
                     MessageBox.Show("No se pudo registrar. Verifica tus datos.");
                 }
             }
-            catch (FaultException<ServiceFault> ex)
-            {
-                HandleRegistrationError(ex);
-            }
+            catch (FaultException<ServiceFault> ex) { HandleRegistrationError(ex); }
             catch (Exception ex)
             {
                 MessageBox.Show(
@@ -226,10 +198,7 @@ namespace Lottery.ViewModel.User
                 );
                 AbortAndRecreateClient();
             }
-            finally
-            {
-                IsRegistering = false;
-            }
+            finally { IsRegistering = false; }
         }
 
         private async Task VerifyCode()
@@ -247,7 +216,6 @@ namespace Lottery.ViewModel.User
             }
 
             IsRegistering = true;
-
             try
             {
                 var client = ServiceProxy.Instance.Client;
@@ -267,7 +235,6 @@ namespace Lottery.ViewModel.User
                 if (_pendingUser != null)
                 {
                     int userId = await client.RegisterUserAsync(_pendingUser);
-
                     if (userId > 0)
                     {
                         AbortAndRecreateClient();
@@ -278,18 +245,14 @@ namespace Lottery.ViewModel.User
                             _pendingUser.Password
                         );
 
-                        if (session != null)
-                            SessionManager.Login(session);
+                        if (session != null) SessionManager.Login(session);
 
                         _pendingUser = null;
                         CurrentState = RegistrationState.Completed;
                     }
                 }
             }
-            catch (FaultException<ServiceFault> ex)
-            {
-                HandleRegistrationError(ex);
-            }
+            catch (FaultException<ServiceFault> ex) { HandleRegistrationError(ex); }
             catch (Exception ex)
             {
                 MessageBox.Show(
@@ -300,15 +263,12 @@ namespace Lottery.ViewModel.User
                 );
                 AbortAndRecreateClient();
             }
-            finally
-            {
-                IsRegistering = false;
-            }
+            finally { IsRegistering = false; }
         }
 
         private bool ValidateForm(UserDto user)
         {
-            var validator = new InputValidator().ValidateRegister();
+            var validator = new UserValidator().ValidateRegister();
             var validationResult = validator.Validate(user);
 
             if (!validationResult.IsValid)
@@ -330,47 +290,42 @@ namespace Lottery.ViewModel.User
 
         private void HandleRegistrationError(FaultException<ServiceFault> fault)
         {
-            var detail = fault.Detail;
-            string message = detail.Message;
-            string title = "Error de Registro";
-            MessageBoxImage icon = MessageBoxImage.Warning;
-
-            switch (detail.ErrorCode)
+            string message = fault.Detail.Message;
+            switch (fault.Detail.ErrorCode)
             {
                 case "USER_DUPLICATE":
                     message = "El nickname o el correo electrónico ya están registrados.";
                     break;
-
                 case "VERIFY_EMAIL_SEND_FAILED":
-                    message = "No pudimos enviar el correo de verificación. Revisa la dirección.";
-                    icon = MessageBoxImage.Error;
+                    message = "No pudimos enviar el correo de verificación.";
                     break;
-
                 case "VERIFY_ERROR":
                     message = "Hubo un problema validando tu código.";
                     break;
-
                 case "USER_BAD_REQUEST":
                     message = "Algunos datos son inválidos.";
                     break;
-
                 case "USER_INTERNAL_ERROR":
                     message = "Error interno del servidor. Intenta más tarde.";
-                    icon = MessageBoxImage.Error;
-                    break;
-
-                default:
-                    message = $"Error del servidor: {detail.Message}";
                     break;
             }
-
-            MessageBox.Show(message, title, MessageBoxButton.OK, icon);
+            MessageBox.Show(
+                message,
+                "Error de Registro",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning
+            );
             AbortAndRecreateClient();
         }
 
-        private void AbortAndRecreateClient()
+        private void AbortAndRecreateClient() => ServiceProxy.Instance.Reconnect();
+
+        private void OpenMainMenu()
         {
-            ServiceProxy.Instance.Reconnect();
+            var mainMenu = new MainMenuView();
+            mainMenu.Show();
+            Application.Current.Windows.OfType<Window>()
+                .SingleOrDefault(w => w.DataContext == this)?.Close();
         }
     }
 }

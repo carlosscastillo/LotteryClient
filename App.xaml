@@ -489,6 +489,7 @@
         <conv:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
         <conv:BoolToColorConverter x:Key="BoolToColorConverter"/>
         <conv:BoolToSelectionOverlayConverter x:Key="BoolToSelectionOverlayConverter"/>
+        <conv:EyeIconConverter x:Key="EyeIconConverter"/>
 
     </Application.Resources>
 </Application>

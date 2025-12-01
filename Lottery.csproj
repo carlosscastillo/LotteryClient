@@ -70,6 +70,7 @@
     <Compile Include="Converters\BoolToColorConverter.cs" />
     <Compile Include="Converters\BoolToSelectionOverlayConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter .cs" />
+    <Compile Include="Converters\EyeIconConverter.cs" />
     <Compile Include="Converters\InverseBoolToVisibilityConverter .cs" />
     <Compile Include="Helpers\CodeValidator.cs" />
     <Compile Include="Helpers\UserValidator.cs" />
@@ -399,6 +400,10 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\eye_closed.png" />
+    <Resource Include="Images\Icons\eye_open.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

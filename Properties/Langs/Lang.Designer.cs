@@ -1105,6 +1105,132 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ¿Seguro que quieres salir? Perderás el progreso..
+        /// </summary>
+        public static string GameAreYouSureLeave {
+            get {
+                return ResourceManager.GetString("GameAreYouSureLeave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Carta.
+        /// </summary>
+        public static string GameCard {
+            get {
+                return ResourceManager.GetString("GameCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Aún no has marcado todas las casillas..
+        /// </summary>
+        public static string GamecheckedAllTheBoxesYet {
+            get {
+                return ResourceManager.GetString("GamecheckedAllTheBoxesYet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error de conexión al declarar victoria:.
+        /// </summary>
+        public static string GameConnectionErrorVictory {
+            get {
+                return ResourceManager.GetString("GameConnectionErrorVictory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Fin del juego.
+        /// </summary>
+        public static string GameEndGame {
+            get {
+                return ResourceManager.GetString("GameEndGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error al salir.
+        /// </summary>
+        public static string GameErrorWhenExiting {
+            get {
+                return ResourceManager.GetString("GameErrorWhenExiting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Intento de victoria fallido..
+        /// </summary>
+        public static string GameFailedAttemptAtVictory {
+            get {
+                return ResourceManager.GetString("GameFailedAttemptAtVictory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La partida ha terminado..
+        /// </summary>
+        public static string GameGameIsOver {
+            get {
+                return ResourceManager.GetString("GameGameIsOver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Juego Finalizado.
+        /// </summary>
+        public static string GameGameOver {
+            get {
+                return ResourceManager.GetString("GameGameOver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La partida ha comenzado.
+        /// </summary>
+        public static string GameGameStarted {
+            get {
+                return ResourceManager.GetString("GameGameStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Victoria Inválida.
+        /// </summary>
+        public static string GameInvalidVictory {
+            get {
+                return ResourceManager.GetString("GameInvalidVictory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Verificando Victoria . . ..
+        /// </summary>
+        public static string GameVerifyingVictory {
+            get {
+                return ResourceManager.GetString("GameVerifyingVictory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Esperando Carta . . ..
+        /// </summary>
+        public static string GameWaitingLetter {
+            get {
+                return ResourceManager.GetString("GameWaitingLetter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ha ganado la partida.
+        /// </summary>
+        public static string GameWonTheGame {
+            get {
+                return ResourceManager.GetString("GameWonTheGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Aceptar.
         /// </summary>
         public static string GlobalButtonAccept {
@@ -1218,6 +1344,15 @@ namespace Lottery.Properties.Langs {
         public static string GlobalButtonVerifyCode {
             get {
                 return ResourceManager.GetString("GlobalButtonVerifyCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error de conexión.
+        /// </summary>
+        public static string GlobalConnectionError {
+            get {
+                return ResourceManager.GetString("GlobalConnectionError", resourceCulture);
             }
         }
         
@@ -1375,6 +1510,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Salir.
+        /// </summary>
+        public static string GlobalMessageBoxTitleLeave {
+            get {
+                return ResourceManager.GetString("GlobalMessageBoxTitleLeave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Enviado.
         /// </summary>
         public static string GlobalMessageBoxTitleSent {
@@ -1389,6 +1533,15 @@ namespace Lottery.Properties.Langs {
         public static string GlobalMessageBoxTitleSuccess {
             get {
                 return ResourceManager.GetString("GlobalMessageBoxTitleSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Aviso.
+        /// </summary>
+        public static string GlobalMessageBoxTitleWarning {
+            get {
+                return ResourceManager.GetString("GlobalMessageBoxTitleWarning", resourceCulture);
             }
         }
         
@@ -2019,6 +2172,143 @@ namespace Lottery.Properties.Langs {
         public static string MainMenuButtonSettings {
             get {
                 return ResourceManager.GetString("MainMenuButtonSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Código {0}.
+        /// </summary>
+        public static string MainMenuCodeLobby {
+            get {
+                return ResourceManager.GetString("MainMenuCodeLobby", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¿Quieres unirte?.
+        /// </summary>
+        public static string MainMenuDoYouWantToJoin {
+            get {
+                return ResourceManager.GetString("MainMenuDoYouWantToJoin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error al Crear Lobby.
+        /// </summary>
+        public static string MainMenuErrorCreateLobby {
+            get {
+                return ResourceManager.GetString("MainMenuErrorCreateLobby", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error durante el cierre de sesión.
+        /// </summary>
+        public static string MainMenuErrorDuringLogout {
+            get {
+                return ResourceManager.GetString("MainMenuErrorDuringLogout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El lobby ya alcanzó su capacidad máxima de jugadores..
+        /// </summary>
+        public static string MainMenuExceptionLobbyFull {
+            get {
+                return ResourceManager.GetString("MainMenuExceptionLobbyFull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El lobby no existe..
+        /// </summary>
+        public static string MainMenuExceptionNotFoundLobby {
+            get {
+                return ResourceManager.GetString("MainMenuExceptionNotFoundLobby", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ya te encuentras registrado en un lobby activo. Sal primero..
+        /// </summary>
+        public static string MainMenuExceptionRegisteredInAnActiveLobby {
+            get {
+                return ResourceManager.GetString("MainMenuExceptionRegisteredInAnActiveLobby", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tu sesión ha expirado. Por favor inicia sesión de nuevo..
+        /// </summary>
+        public static string MainMenuExceptionSessionExpired {
+            get {
+                return ResourceManager.GetString("MainMenuExceptionSessionExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No puedes unirte a este lobby porque has sido expulsado..
+        /// </summary>
+        public static string MainMenuExceptionUserBanned {
+            get {
+                return ResourceManager.GetString("MainMenuExceptionUserBanned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Los invitados no tienen lista de amigos..
+        /// </summary>
+        public static string MainMenuGuestFriends {
+            get {
+                return ResourceManager.GetString("MainMenuGuestFriends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Los invitados no tienen perfil para editar..
+        /// </summary>
+        public static string MainMenuGuestProfile {
+            get {
+                return ResourceManager.GetString("MainMenuGuestProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a {0} te ha invitado a jugar.
+        ///
+        ///¿Quieres unirte?.
+        /// </summary>
+        public static string MainMenuHasInvited {
+            get {
+                return ResourceManager.GetString("MainMenuHasInvited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Invitación Recibida.
+        /// </summary>
+        public static string MainMenuInvitationReceived {
+            get {
+                return ResourceManager.GetString("MainMenuInvitationReceived", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error al Unirse.
+        /// </summary>
+        public static string MainMenuJoinError {
+            get {
+                return ResourceManager.GetString("MainMenuJoinError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Acceso Restringido.
+        /// </summary>
+        public static string MainMenuRestrictedAccess {
+            get {
+                return ResourceManager.GetString("MainMenuRestrictedAccess", resourceCulture);
             }
         }
         

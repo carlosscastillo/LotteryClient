@@ -857,4 +857,102 @@
   <data name="GlobalMessageBoxTitleConfirm" xml:space="preserve">
     <value>Confirmar</value>
   </data>
+  <data name="GameWaitingLetter" xml:space="preserve">
+    <value>Esperando Carta . . .</value>
+  </data>
+  <data name="GameGameStarted" xml:space="preserve">
+    <value>La partida ha comenzado</value>
+  </data>
+  <data name="GameCard" xml:space="preserve">
+    <value>Carta</value>
+  </data>
+  <data name="GameWonTheGame" xml:space="preserve">
+    <value>ha ganado la partida</value>
+  </data>
+  <data name="GameEndGame" xml:space="preserve">
+    <value>Fin del juego</value>
+  </data>
+  <data name="GameGameIsOver" xml:space="preserve">
+    <value>La partida ha terminado.</value>
+  </data>
+  <data name="GameGameOver" xml:space="preserve">
+    <value>Juego Finalizado</value>
+  </data>
+  <data name="GamecheckedAllTheBoxesYet" xml:space="preserve">
+    <value>Aún no has marcado todas las casillas.</value>
+  </data>
+  <data name="GlobalMessageBoxTitleWarning" xml:space="preserve">
+    <value>Aviso</value>
+  </data>
+  <data name="GameVerifyingVictory" xml:space="preserve">
+    <value>Verificando Victoria . . .</value>
+  </data>
+  <data name="GameFailedAttemptAtVictory" xml:space="preserve">
+    <value>Intento de victoria fallido.</value>
+  </data>
+  <data name="GameInvalidVictory" xml:space="preserve">
+    <value>Victoria Inválida</value>
+  </data>
+  <data name="GameConnectionErrorVictory" xml:space="preserve">
+    <value>Error de conexión al declarar victoria:</value>
+  </data>
+  <data name="GlobalConnectionError" xml:space="preserve">
+    <value>Error de conexión</value>
+  </data>
+  <data name="GameAreYouSureLeave" xml:space="preserve">
+    <value>¿Seguro que quieres salir? Perderás el progreso.</value>
+  </data>
+  <data name="GlobalMessageBoxTitleLeave" xml:space="preserve">
+    <value>Salir</value>
+  </data>
+  <data name="GameErrorWhenExiting" xml:space="preserve">
+    <value>Error al salir</value>
+  </data>
+  <data name="MainMenuGuestFriends" xml:space="preserve">
+    <value>Los invitados no tienen lista de amigos.</value>
+  </data>
+  <data name="MainMenuRestrictedAccess" xml:space="preserve">
+    <value>Acceso Restringido</value>
+  </data>
+  <data name="MainMenuGuestProfile" xml:space="preserve">
+    <value>Los invitados no tienen perfil para editar.</value>
+  </data>
+  <data name="MainMenuErrorCreateLobby" xml:space="preserve">
+    <value>Error al Crear Lobby</value>
+  </data>
+  <data name="MainMenuJoinError" xml:space="preserve">
+    <value>Error al Unirse</value>
+  </data>
+  <data name="MainMenuHasInvited" xml:space="preserve">
+    <value>{0} te ha invitado a jugar.
+
+¿Quieres unirte?</value>
+  </data>
+  <data name="MainMenuCodeLobby" xml:space="preserve">
+    <value>Código {0}</value>
+  </data>
+  <data name="MainMenuDoYouWantToJoin" xml:space="preserve">
+    <value>¿Quieres unirte?</value>
+  </data>
+  <data name="MainMenuInvitationReceived" xml:space="preserve">
+    <value>Invitación Recivida</value>
+  </data>
+  <data name="MainMenuErrorDuringLogout" xml:space="preserve">
+    <value>Error durante el cierre de sesión</value>
+  </data>
+  <data name="MainMenuExceptionRegisteredInAnActiveLobby" xml:space="preserve">
+    <value>Ya te encuentras registrado en un lobby activo. Sal primero.</value>
+  </data>
+  <data name="MainMenuExceptionLobbyFull" xml:space="preserve">
+    <value>El lobby ya alcanzó su capacidad máxima de jugadores.</value>
+  </data>
+  <data name="MainMenuExceptionNotFoundLobby" xml:space="preserve">
+    <value>El lobby no existe.</value>
+  </data>
+  <data name="MainMenuExceptionSessionExpired" xml:space="preserve">
+    <value>Tu sesión ha expirado. Por favor inicia sesión de nuevo.</value>
+  </data>
+  <data name="MainMenuExceptionUserBanned" xml:space="preserve">
+    <value>No puedes unirte a este lobby porque has sido expulsado.</value>
+  </data>
 </root>

@@ -403,7 +403,7 @@
     <value>Friend List</value>
   </data>
   <data name="InviteFriendButton" xml:space="preserve">
-    <value>Invite a friend</value>
+    <value>Invite friend</value>
   </data>
   <data name="DeleteFriendButton" xml:space="preserve">
     <value>Remove friend</value>
@@ -952,5 +952,8 @@ Do you want to join?</value>
   </data>
   <data name="MainMenuExceptionUserBanned" xml:space="preserve">
     <value>You cannot join this lobby because you have been banned.</value>
+  </data>
+  <data name="LoginTextBlockSigningIn" xml:space="preserve">
+    <value>Signing in . . .</value>
   </data>
 </root>

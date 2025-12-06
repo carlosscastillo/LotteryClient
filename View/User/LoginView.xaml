@@ -95,7 +95,7 @@
                     </Button.Resources>
                 </Button>
 
-                <TextBlock Text="Iniciando sesión..." HorizontalAlignment="Center" Foreground="#DDDDDD" Margin="0,10,0,0">
+                <TextBlock Text="{x:Static language:Lang.LoginTextBlockSigningIn}" HorizontalAlignment="Center" Foreground="#DDDDDD" Margin="0,10,0,0">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Setter Property="Visibility" Value="Collapsed"/>

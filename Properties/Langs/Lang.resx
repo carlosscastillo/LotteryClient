@@ -953,4 +953,7 @@
   <data name="MainMenuExceptionUserBanned" xml:space="preserve">
     <value>No puedes unirte a este lobby porque has sido expulsado.</value>
   </data>
+  <data name="LoginTextBlockSigningIn" xml:space="preserve">
+    <value>Iniciando Sesión . . .</value>
+  </data>
 </root>

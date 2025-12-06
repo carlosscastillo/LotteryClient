@@ -383,6 +383,7 @@ namespace Lottery.ViewModel.Friends
                     message = Lang.InviteFriendsExceptionFriendNotFound;
                     break;
 
+                case "AUTH_USER_NOT_FOUND":
                 case "USER_NOT_FOUND":
                     message = Lang.InviteFriendsExceptionUserNotFound;
                     title = "Búsqueda";

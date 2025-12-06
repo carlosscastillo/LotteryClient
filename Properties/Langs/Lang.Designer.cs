@@ -2140,6 +2140,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Iniciando Sesión . . ..
+        /// </summary>
+        public static string LoginTextBlockSigningIn {
+            get {
+                return ResourceManager.GetString("LoginTextBlockSigningIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Amigos.
         /// </summary>
         public static string MainMenuButtonFriends {

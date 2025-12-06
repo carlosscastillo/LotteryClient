@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs" />
-  <xs:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/" />
-  <xs:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/System" />
+  <xs:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/System" />
   <xs:element name="SendMessage">
     <xs:complexType>
       <xs:sequence>
@@ -180,7 +179,7 @@
   <xs:element name="DeclareWin">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="userId" type="xs:int" />
+        <xs:element minOccurs="0" name="currentUserId" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -204,7 +203,7 @@
   <xs:element name="JoinLobby">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/" minOccurs="0" name="currentUser" nillable="true" type="q7:UserDto" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="currentUser" nillable="true" type="q7:UserDto" />
         <xs:element minOccurs="0" name="lobbyCode" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
@@ -244,7 +243,7 @@
   <xs:element name="LoginUserResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/" minOccurs="0" name="LoginUserResult" nillable="true" type="q9:UserDto" />
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="LoginUserResult" nillable="true" type="q9:UserDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -258,7 +257,7 @@
   <xs:element name="LoginGuestResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/" minOccurs="0" name="LoginGuestResult" nillable="true" type="q10:UserDto" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="LoginGuestResult" nillable="true" type="q10:UserDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -275,7 +274,7 @@
   <xs:element name="RequestUserVerification">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/" minOccurs="0" name="userData" nillable="true" type="q11:UserDto" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="userData" nillable="true" type="q11:UserDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -289,7 +288,7 @@
   <xs:element name="RegisterUser">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/" minOccurs="0" name="userData" nillable="true" type="q12:UserDto" />
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="userData" nillable="true" type="q12:UserDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -315,7 +314,7 @@
   <xs:element name="VerifyPassword">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="userId" type="xs:int" />
+        <xs:element minOccurs="0" name="currentUserId" type="xs:int" />
         <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
@@ -330,7 +329,7 @@
   <xs:element name="ChangePassword">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="userId" type="xs:int" />
+        <xs:element minOccurs="0" name="currentUserId" type="xs:int" />
         <xs:element minOccurs="0" name="newPassword" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
@@ -358,7 +357,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="currentUserId" type="xs:int" />
-        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/" minOccurs="0" name="userData" nillable="true" type="q13:UserDto" />
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="userData" nillable="true" type="q13:UserDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -386,21 +385,21 @@
   <xs:element name="GetUserProfile">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="userId" type="xs:int" />
+        <xs:element minOccurs="0" name="currentUserId" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetUserProfileResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/" minOccurs="0" name="GetUserProfileResult" nillable="true" type="q16:UserDto" />
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="GetUserProfileResult" nillable="true" type="q16:UserDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RequestEmailChange">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="userId" type="xs:int" />
+        <xs:element minOccurs="0" name="currentUserId" type="xs:int" />
         <xs:element minOccurs="0" name="newEmail" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
@@ -415,7 +414,7 @@
   <xs:element name="ConfirmEmailChange">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="userId" type="xs:int" />
+        <xs:element minOccurs="0" name="currentUserId" type="xs:int" />
         <xs:element minOccurs="0" name="newEmail" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="verificationCode" nillable="true" type="xs:string" />
       </xs:sequence>
@@ -460,7 +459,7 @@
   <xs:element name="GetSocialMedia">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="userId" type="xs:int" />
+        <xs:element minOccurs="0" name="currentUserId" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -502,7 +501,7 @@
   <xs:element name="PlayerJoined">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/" minOccurs="0" name="newPlayer" nillable="true" type="q19:UserDto" />
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="newPlayer" nillable="true" type="q19:UserDto" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

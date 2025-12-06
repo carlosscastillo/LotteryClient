@@ -23,7 +23,6 @@
   </MetadataSources>
   <Metadata>
     <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="c35cf871-3179-43f5-9aad-21749769aa7b" SourceId="1" SourceUrl="http://localhost:8733/Lottery/?xsd=xsd4" />
-    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="cc116c9c-fd73-4115-8e03-3505aeae7506" SourceId="1" SourceUrl="http://localhost:8733/Lottery/?xsd=xsd5" />
     <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="1d26f1a6-d948-425f-9231-b77f834c95e3" SourceId="1" SourceUrl="http://localhost:8733/Lottery/?xsd=xsd2" />
     <MetadataFile FileName="item3.xsd" MetadataType="Schema" ID="69b68871-461e-4517-a92a-4229ae3681a2" SourceId="1" SourceUrl="http://localhost:8733/Lottery/?xsd=xsd3" />
     <MetadataFile FileName="item4.xsd" MetadataType="Schema" ID="02349587-3577-4668-85e5-586cd3cd81e7" SourceId="1" SourceUrl="http://localhost:8733/Lottery/?xsd=xsd0" />

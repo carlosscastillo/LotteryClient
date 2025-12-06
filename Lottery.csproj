@@ -245,9 +245,6 @@
     <None Include="Connected Services\LotteryServiceReference\item.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LotteryServiceReference\item1.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Connected Services\LotteryServiceReference\item2.xsd">
       <SubType>Designer</SubType>
     </None>

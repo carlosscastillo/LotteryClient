@@ -323,7 +323,7 @@ namespace Lottery.LotteryServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="UserDto", Namespace="http://schemas.datacontract.org/2004/07/")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UserDto", Namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs")]
     [System.SerializableAttribute()]
     public partial class UserDto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -821,10 +821,10 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task GetScoreboardAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/DeclareWin", ReplyAction="http://tempuri.org/IGameService/DeclareWinResponse")]
-        void DeclareWin(int userId);
+        void DeclareWin(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/DeclareWin", ReplyAction="http://tempuri.org/IGameService/DeclareWinResponse")]
-        System.Threading.Tasks.Task DeclareWinAsync(int userId);
+        System.Threading.Tasks.Task DeclareWinAsync(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/CreateLobby", ReplyAction="http://tempuri.org/ILobbyService/CreateLobbyResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/ILobbyService/CreateLobbyServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
@@ -893,17 +893,17 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task<int> RegisterGuestAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/VerifyPassword", ReplyAction="http://tempuri.org/IUserService/VerifyPasswordResponse")]
-        bool VerifyPassword(int userId, string password);
+        bool VerifyPassword(int currentUserId, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/VerifyPassword", ReplyAction="http://tempuri.org/IUserService/VerifyPasswordResponse")]
-        System.Threading.Tasks.Task<bool> VerifyPasswordAsync(int userId, string password);
+        System.Threading.Tasks.Task<bool> VerifyPasswordAsync(int currentUserId, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/ChangePassword", ReplyAction="http://tempuri.org/IUserService/ChangePasswordResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IUserService/ChangePasswordServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        bool ChangePassword(int userId, string newPassword);
+        bool ChangePassword(int currentUserId, string newPassword);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/ChangePassword", ReplyAction="http://tempuri.org/IUserService/ChangePasswordResponse")]
-        System.Threading.Tasks.Task<bool> ChangePasswordAsync(int userId, string newPassword);
+        System.Threading.Tasks.Task<bool> ChangePasswordAsync(int currentUserId, string newPassword);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RecoverPassword", ReplyAction="http://tempuri.org/IUserService/RecoverPasswordResponse")]
         void RecoverPassword(string email);
@@ -925,22 +925,22 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task<Lottery.LotteryServiceReference.FriendDto> FindUserByNicknameAsync(string nickname);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetUserProfile", ReplyAction="http://tempuri.org/IUserService/GetUserProfileResponse")]
-        Lottery.LotteryServiceReference.UserDto GetUserProfile(int userId);
+        Lottery.LotteryServiceReference.UserDto GetUserProfile(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetUserProfile", ReplyAction="http://tempuri.org/IUserService/GetUserProfileResponse")]
-        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserDto> GetUserProfileAsync(int userId);
+        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserDto> GetUserProfileAsync(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RequestEmailChange", ReplyAction="http://tempuri.org/IUserService/RequestEmailChangeResponse")]
-        bool RequestEmailChange(int userId, string newEmail);
+        bool RequestEmailChange(int currentUserId, string newEmail);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RequestEmailChange", ReplyAction="http://tempuri.org/IUserService/RequestEmailChangeResponse")]
-        System.Threading.Tasks.Task<bool> RequestEmailChangeAsync(int userId, string newEmail);
+        System.Threading.Tasks.Task<bool> RequestEmailChangeAsync(int currentUserId, string newEmail);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/ConfirmEmailChange", ReplyAction="http://tempuri.org/IUserService/ConfirmEmailChangeResponse")]
-        bool ConfirmEmailChange(int userId, string newEmail, string verificationCode);
+        bool ConfirmEmailChange(int currentUserId, string newEmail, string verificationCode);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/ConfirmEmailChange", ReplyAction="http://tempuri.org/IUserService/ConfirmEmailChangeResponse")]
-        System.Threading.Tasks.Task<bool> ConfirmEmailChangeAsync(int userId, string newEmail, string verificationCode);
+        System.Threading.Tasks.Task<bool> ConfirmEmailChangeAsync(int currentUserId, string newEmail, string verificationCode);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVerificationService/SendVerificationCode", ReplyAction="http://tempuri.org/IVerificationService/SendVerificationCodeResponse")]
         bool SendVerificationCode(string email);
@@ -956,10 +956,10 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISocialMediaService/GetSocialMedia", ReplyAction="http://tempuri.org/ISocialMediaService/GetSocialMediaResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/ISocialMediaService/GetSocialMediaServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
-        Lottery.LotteryServiceReference.SocialMediaDto GetSocialMedia(int userId);
+        Lottery.LotteryServiceReference.SocialMediaDto GetSocialMedia(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISocialMediaService/GetSocialMedia", ReplyAction="http://tempuri.org/ISocialMediaService/GetSocialMediaResponse")]
-        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.SocialMediaDto> GetSocialMediaAsync(int userId);
+        System.Threading.Tasks.Task<Lottery.LotteryServiceReference.SocialMediaDto> GetSocialMediaAsync(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISocialMediaService/SaveOrUpdateSocialMedia", ReplyAction="http://tempuri.org/ISocialMediaService/SaveOrUpdateSocialMediaResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/ISocialMediaService/SaveOrUpdateSocialMediaServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
@@ -1141,12 +1141,12 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.GetScoreboardAsync();
         }
         
-        public void DeclareWin(int userId) {
-            base.Channel.DeclareWin(userId);
+        public void DeclareWin(int currentUserId) {
+            base.Channel.DeclareWin(currentUserId);
         }
         
-        public System.Threading.Tasks.Task DeclareWinAsync(int userId) {
-            return base.Channel.DeclareWinAsync(userId);
+        public System.Threading.Tasks.Task DeclareWinAsync(int currentUserId) {
+            return base.Channel.DeclareWinAsync(currentUserId);
         }
         
         public Lottery.LotteryServiceReference.LobbyStateDto CreateLobby() {
@@ -1229,20 +1229,20 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.RegisterGuestAsync();
         }
         
-        public bool VerifyPassword(int userId, string password) {
-            return base.Channel.VerifyPassword(userId, password);
+        public bool VerifyPassword(int currentUserId, string password) {
+            return base.Channel.VerifyPassword(currentUserId, password);
         }
         
-        public System.Threading.Tasks.Task<bool> VerifyPasswordAsync(int userId, string password) {
-            return base.Channel.VerifyPasswordAsync(userId, password);
+        public System.Threading.Tasks.Task<bool> VerifyPasswordAsync(int currentUserId, string password) {
+            return base.Channel.VerifyPasswordAsync(currentUserId, password);
         }
         
-        public bool ChangePassword(int userId, string newPassword) {
-            return base.Channel.ChangePassword(userId, newPassword);
+        public bool ChangePassword(int currentUserId, string newPassword) {
+            return base.Channel.ChangePassword(currentUserId, newPassword);
         }
         
-        public System.Threading.Tasks.Task<bool> ChangePasswordAsync(int userId, string newPassword) {
-            return base.Channel.ChangePasswordAsync(userId, newPassword);
+        public System.Threading.Tasks.Task<bool> ChangePasswordAsync(int currentUserId, string newPassword) {
+            return base.Channel.ChangePasswordAsync(currentUserId, newPassword);
         }
         
         public void RecoverPassword(string email) {
@@ -1269,28 +1269,28 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.FindUserByNicknameAsync(nickname);
         }
         
-        public Lottery.LotteryServiceReference.UserDto GetUserProfile(int userId) {
-            return base.Channel.GetUserProfile(userId);
+        public Lottery.LotteryServiceReference.UserDto GetUserProfile(int currentUserId) {
+            return base.Channel.GetUserProfile(currentUserId);
         }
         
-        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserDto> GetUserProfileAsync(int userId) {
-            return base.Channel.GetUserProfileAsync(userId);
+        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.UserDto> GetUserProfileAsync(int currentUserId) {
+            return base.Channel.GetUserProfileAsync(currentUserId);
         }
         
-        public bool RequestEmailChange(int userId, string newEmail) {
-            return base.Channel.RequestEmailChange(userId, newEmail);
+        public bool RequestEmailChange(int currentUserId, string newEmail) {
+            return base.Channel.RequestEmailChange(currentUserId, newEmail);
         }
         
-        public System.Threading.Tasks.Task<bool> RequestEmailChangeAsync(int userId, string newEmail) {
-            return base.Channel.RequestEmailChangeAsync(userId, newEmail);
+        public System.Threading.Tasks.Task<bool> RequestEmailChangeAsync(int currentUserId, string newEmail) {
+            return base.Channel.RequestEmailChangeAsync(currentUserId, newEmail);
         }
         
-        public bool ConfirmEmailChange(int userId, string newEmail, string verificationCode) {
-            return base.Channel.ConfirmEmailChange(userId, newEmail, verificationCode);
+        public bool ConfirmEmailChange(int currentUserId, string newEmail, string verificationCode) {
+            return base.Channel.ConfirmEmailChange(currentUserId, newEmail, verificationCode);
         }
         
-        public System.Threading.Tasks.Task<bool> ConfirmEmailChangeAsync(int userId, string newEmail, string verificationCode) {
-            return base.Channel.ConfirmEmailChangeAsync(userId, newEmail, verificationCode);
+        public System.Threading.Tasks.Task<bool> ConfirmEmailChangeAsync(int currentUserId, string newEmail, string verificationCode) {
+            return base.Channel.ConfirmEmailChangeAsync(currentUserId, newEmail, verificationCode);
         }
         
         public bool SendVerificationCode(string email) {
@@ -1309,12 +1309,12 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.VerifyCodeAsync(email, code);
         }
         
-        public Lottery.LotteryServiceReference.SocialMediaDto GetSocialMedia(int userId) {
-            return base.Channel.GetSocialMedia(userId);
+        public Lottery.LotteryServiceReference.SocialMediaDto GetSocialMedia(int currentUserId) {
+            return base.Channel.GetSocialMedia(currentUserId);
         }
         
-        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.SocialMediaDto> GetSocialMediaAsync(int userId) {
-            return base.Channel.GetSocialMediaAsync(userId);
+        public System.Threading.Tasks.Task<Lottery.LotteryServiceReference.SocialMediaDto> GetSocialMediaAsync(int currentUserId) {
+            return base.Channel.GetSocialMediaAsync(currentUserId);
         }
         
         public bool SaveOrUpdateSocialMedia(Lottery.LotteryServiceReference.SocialMediaDto media) {

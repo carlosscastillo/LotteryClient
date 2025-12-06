@@ -35,8 +35,7 @@
       <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults" />
       <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs" />
-      <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/" />
-      <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/System" />
+      <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/System" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="ILotteryService_SendMessage_InputMessage">
@@ -1012,7 +1011,7 @@
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8080/Lottery/LotteryService</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
-          <Upn>DD\edgar</Upn>
+          <Upn>USUARIO\carlo</Upn>
         </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>

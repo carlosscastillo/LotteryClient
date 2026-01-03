@@ -2419,6 +2419,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Tablero.
+        /// </summary>
+        public static string LobbyLabelBoard {
+            get {
+                return ResourceManager.GetString("LobbyLabelBoard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Modo de juego.
         /// </summary>
         public static string LobbyLabelGameMode {
@@ -2433,6 +2442,15 @@ namespace Lottery.Properties.Langs {
         public static string LobbyLabelInviteFriends {
             get {
                 return ResourceManager.GetString("LobbyLabelInviteFriends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Fichas.
+        /// </summary>
+        public static string LobbyLabelMarkers {
+            get {
+                return ResourceManager.GetString("LobbyLabelMarkers", resourceCulture);
             }
         }
         
@@ -3087,11 +3105,20 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Tablero #{0}.
+        ///   Busca una cadena traducida similar a Tablero #.
         /// </summary>
         public static string SelectBoardLabelBoard {
             get {
                 return ResourceManager.GetString("SelectBoardLabelBoard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tablero #{0}.
+        /// </summary>
+        public static string SelectBoardLabelBoardIndividual {
+            get {
+                return ResourceManager.GetString("SelectBoardLabelBoardIndividual", resourceCulture);
             }
         }
         

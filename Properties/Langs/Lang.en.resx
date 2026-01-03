@@ -1149,7 +1149,7 @@ Do you want to join?</value>
     <value>Select your board</value>
   </data>
   <data name="SelectBoardLabelBoard" xml:space="preserve">
-    <value>Board #{0}</value>
+    <value>Board #</value>
   </data>
   <data name="SelectBoardConfirmSelection" xml:space="preserve">
     <value>Confirm Selection</value>
@@ -1171,5 +1171,14 @@ Do you want to join?</value>
   </data>
   <data name="SelectTokenSelectYourMarkers" xml:space="preserve">
     <value>Please select your markers.</value>
+  </data>
+  <data name="LobbyLabelBoard" xml:space="preserve">
+    <value>Board</value>
+  </data>
+  <data name="LobbyLabelMarkers" xml:space="preserve">
+    <value>Markers</value>
+  </data>
+  <data name="SelectBoardLabelBoardIndividual" xml:space="preserve">
+    <value>Board #{0}</value>
   </data>
 </root>

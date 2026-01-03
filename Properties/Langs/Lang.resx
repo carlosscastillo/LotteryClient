@@ -1149,7 +1149,7 @@
     <value>Selecciona tu tablero</value>
   </data>
   <data name="SelectBoardLabelBoard" xml:space="preserve">
-    <value>Tablero #{0}</value>
+    <value>Tablero #</value>
   </data>
   <data name="SelectBoardConfirmSelection" xml:space="preserve">
     <value>Confirmar Selección</value>
@@ -1171,5 +1171,14 @@
   </data>
   <data name="SelectTokenSelectYourMarkers" xml:space="preserve">
     <value>Por favor, selecciona tus fichas.</value>
+  </data>
+  <data name="LobbyLabelBoard" xml:space="preserve">
+    <value>Tablero</value>
+  </data>
+  <data name="LobbyLabelMarkers" xml:space="preserve">
+    <value>Fichas</value>
+  </data>
+  <data name="SelectBoardLabelBoardIndividual" xml:space="preserve">
+    <value>Tablero #{0}</value>
   </data>
 </root>

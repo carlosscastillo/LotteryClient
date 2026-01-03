@@ -80,7 +80,7 @@ namespace Lottery.ViewModel.Lobby
                 AvailableBoards.Add(new BoardItemViewModel
                 {
                     BoardId = kvp.Key,
-                    BoardName = string.Format(Lang.SelectBoardLabelBoard, kvp.Key),
+                    BoardName = string.Format(Lang.SelectBoardLabelBoardIndividual, kvp.Key),
                     CardIds = kvp.Value,
                     IsSelected = false
                 });

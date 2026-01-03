@@ -17,6 +17,12 @@ using System.Windows.Input;
 
 namespace Lottery.ViewModel.Lobby
 {
+    public class GameModeOption
+    {
+        public string Key { get; set; }
+        public string Name { get; set; }
+    }
+
     public class LobbyViewModel : BaseViewModel
     {
         private readonly int _currentUserId;
@@ -48,13 +54,17 @@ namespace Lottery.ViewModel.Lobby
 
         private int _selectedBoardId = 1;
 
+        public string SelectedBoardName => $"{Lang.SelectBoardLabelBoard} {SelectedBoardId}";
+
         public int SelectedBoardId
         {
             get { return _selectedBoardId; }
             set
             {
-                _selectedBoardId = value;
-                OnPropertyChanged();
+                if (SetProperty(ref _selectedBoardId, value))
+                {
+                    OnPropertyChanged(nameof(SelectedBoardName));
+                }
             }
         }
 
@@ -92,23 +102,12 @@ namespace Lottery.ViewModel.Lobby
         {
             switch (key)
             {
-                case "beans": 
-                    return Lang.SelectTokenLabelMarkersBeans;
-
-                case "bottle_caps": 
-                    return Lang.SelectTokenLabelMarkersBottleCaps;
-
-                case "pou": 
-                    return Lang.SelectTokenLabelMarkersPous;
-
-                case "corn":
-                    return Lang.SelectTokenLabelMarkersCorn;
-
-                case "coins": 
-                    return Lang.SelectTokenLabelMarkersCoins;
-
-                default: 
-                    return key;
+                case "beans": return Lang.SelectTokenLabelMarkersBeans;
+                case "bottle_caps": return Lang.SelectTokenLabelMarkersBottleCaps;
+                case "pou": return Lang.SelectTokenLabelMarkersPous;
+                case "corn": return Lang.SelectTokenLabelMarkersCorn;
+                case "coins": return Lang.SelectTokenLabelMarkersCoins;
+                default: return key;
             }
         }
 
@@ -121,10 +120,7 @@ namespace Lottery.ViewModel.Lobby
             set => SetProperty(ref _selectedBoard, value);
         }
 
-        public List<string> AvailableGameModes { get; } = new List<string>
-        {
-            "Normal", "Esquinas", "Diagonales", "Marco", "Centro"
-        };
+        public List<GameModeOption> AvailableGameModes { get; private set; }
 
         private string _selectedGameMode;
         public string SelectedGameMode
@@ -159,7 +155,16 @@ namespace Lottery.ViewModel.Lobby
             Players = new ObservableCollection<UserDto>(lobbyState.Players);
             IsHost = Players.FirstOrDefault(p => p.UserId == _currentUserId)?.IsHost ?? false;
 
-            _selectedGameMode = AvailableGameModes.FirstOrDefault();
+            AvailableGameModes = new List<GameModeOption>
+            {
+                new GameModeOption { Key = "Standard", Name = Lang.CreateLobbyLabelGameModeStandard },
+                new GameModeOption { Key = "Corners", Name = Lang.CreateLobbyLabelGameModeCorners },
+                new GameModeOption { Key = "Diagonals", Name = Lang.CreateLobbyLabelGameModeDiagonals },
+                new GameModeOption { Key = "Frame", Name = Lang.CreateLobbyLabelGameModeFrame },
+                new GameModeOption { Key = "Center", Name = Lang.CreateLobbyLabelGameModeCenter }
+            };
+
+            _selectedGameMode = AvailableGameModes.FirstOrDefault()?.Key;
             _selectedToken = AvailableTokens.FirstOrDefault();
             _selectedBoard = AvailableBoards.FirstOrDefault();
 
@@ -182,13 +187,15 @@ namespace Lottery.ViewModel.Lobby
                 { "CHAT_INTERNAL_ERROR", Lang.GlobalExceptionInternalServerError }
             };
 
-            SendChatCommand = new RelayCommand(async () => await SendChat(), () => !string.IsNullOrWhiteSpace(ChatMessage));
+            SendChatCommand = new RelayCommand(async () => await SendChat(), () => 
+                !string.IsNullOrWhiteSpace(ChatMessage));
             LeaveLobbyCommand = new RelayCommand(async () => await LeaveLobby());
             KickPlayerCommand = new RelayCommand<int>(async (id) => await KickPlayer(id));
             StartGameCommand = new RelayCommand(async () => await StartGame(), () => IsHost);
             ToggleShowFriendsCommand = new RelayCommand(async () => await ExecuteToggleShowFriends());
             InviteFriendCommand = new RelayCommand(OpenInviteFriendsWindow);
-            InviteFriendToLobbyCommand = new RelayCommand<int>(async (friendId) => await ExecuteInviteFriendToLobby(friendId));
+            InviteFriendToLobbyCommand = new RelayCommand<int>(async (friendId) => 
+                await ExecuteInviteFriendToLobby(friendId));
             OpenBoardSelectionCommand = new RelayCommand(OpenBoardSelection);
             OpenTokenSelectionCommand = new RelayCommand(OpenTokenSelection);
 

@@ -316,15 +316,6 @@
     <Resource Include="Images\background2.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\corcholata.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\card01.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\CartaDeLotería.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Avatar\avatar01.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -449,6 +440,21 @@
       <Project>{a120ac68-a8e9-42fb-92f0-0baade6ff3b8}</Project>
       <Name>Contracts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Tokens\token00-background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Tokens\token01-background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Tokens\token02-background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Tokens\token03-background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Tokens\token04-background.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

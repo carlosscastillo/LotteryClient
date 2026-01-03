@@ -1,4 +1,5 @@
-﻿using Lottery.Helpers;
+﻿using Contracts.GameData;
+using Lottery.Helpers;
 using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
 using Lottery.View.MainMenu;
@@ -64,6 +65,13 @@ namespace Lottery.ViewModel.Game
             set => SetProperty(ref _tokenImagePath, value);
         }
 
+        private string _tokenPileImagePath;
+        public string TokenPileImagePath
+        {
+            get => _tokenPileImagePath;
+            set => SetProperty(ref _tokenPileImagePath, value);
+        }
+
         private BitmapImage _currentCardImage;
         public BitmapImage CurrentCardImage
         {
@@ -85,10 +93,24 @@ namespace Lottery.ViewModel.Game
             set => SetProperty(ref _gameStatusMessage, value);
         }
 
+        private bool _isStartMessageVisible;
+        public bool IsStartMessageVisible
+        {
+            get => _isStartMessageVisible;
+            set => SetProperty(ref _isStartMessageVisible, value);
+        }
+
+        private string _startMessageText;
+        public string StartMessageText
+        {
+            get => _startMessageText;
+            set => SetProperty(ref _startMessageText, value);
+        }
+
         public ICommand DeclareLoteriaCommand { get; }
         public ICommand PauseGameCommand { get; }
 
-        public GameViewModel(ObservableCollection<UserDto> players, GameSettingsDto settings, string selectedToken, string selectedBoard, Window window)
+        public GameViewModel(ObservableCollection<UserDto> players, GameSettingsDto settings, string selectedTokenKey, int selectedBoardId, Window window)
         {
             _currentUserId = SessionManager.CurrentUser.UserId;
             _gameWindow = window;
@@ -106,8 +128,10 @@ namespace Lottery.ViewModel.Game
 
             IsHost = Players.FirstOrDefault(p => p.UserId == _currentUserId)?.IsHost ?? false;
 
-            LoadTokenResource(selectedToken);
-            LoadBoardResource(selectedBoard);
+            ShowStartMessageSequence();
+
+            LoadTokenResource(selectedTokenKey);
+            LoadBoardResource(selectedBoardId);
 
             DeclareLoteriaCommand = new RelayCommand(async () => await DeclareLoteria());
             PauseGameCommand = new RelayCommand(async () => await LeaveGame());
@@ -116,46 +140,68 @@ namespace Lottery.ViewModel.Game
 
             CurrentCardImage = new BitmapImage(new Uri(GetCardBackPath(), UriKind.Absolute));
             CurrentCardName = Lang.CardTextBlockReverse;
-            GameStatusMessage = string.Format("{0} - Modo: {1}", Lang.GameStatusStarted, _gameMode);
         }
 
-        private void LoadTokenResource(string tokenName)
+        private void LoadTokenResource(string tokenKey)
         {
-            switch (tokenName)
+            string singleFile = "token00.png";
+            string pileFile = "token00-background.png";
+
+            switch (tokenKey)
             {
-                case "Frijoles": _tokenImagePath = "pack://application:,,,/Lottery;component/Images/Tokens/bean.png"; break;
-                case "Corcholatas": _tokenImagePath = "pack://application:,,,/Lottery;component/Images/Tokens/bottle_cap.png"; break;
-                case "Monedas": _tokenImagePath = "pack://application:,,,/Lottery;component/Images/Tokens/coin.png"; break;
-                case "Maíz": _tokenImagePath = "pack://application:,,,/Lottery;component/Images/Tokens/corn.png"; break;
-                case "Bolitas de papel": _tokenImagePath = "pack://application:,,,/Lottery;component/Images/Tokens/paper_ball.png"; break;
-                default: _tokenImagePath = "pack://application:,,,/Lottery;component/Images/Tokens/bean.png"; break;
+                case "beans":
+                    singleFile = "token00.png";
+                    pileFile = "token00-background.png";
+                    break;
+
+                case "bottle_caps":
+                    singleFile = "token01.png";
+                    pileFile = "token01-background.png";
+                    break;
+
+                case "pou":
+                    singleFile = "token02.png";
+                    pileFile = "token02-background.png";
+                    break;
+
+                case "corn":
+                    singleFile = "token03.png";
+                    pileFile = "token03-background.png";
+                    break;
+
+                case "coins":
+                    singleFile = "token04.png";
+                    pileFile = "token04-background.png";
+                    break;
+
+                default:
+                    singleFile = "token00.png";
+                    pileFile = "token00-background.png";
+                    break;
             }
+
+            TokenImagePath = $"pack://application:,,,/Lottery;component/Images/Tokens/{singleFile}";
+            TokenPileImagePath = $"pack://application:,,,/Lottery;component/Images/Tokens/{pileFile}";
+
             OnPropertyChanged(nameof(TokenImagePath));
+            OnPropertyChanged(nameof(TokenPileImagePath));
         }
 
-        private void LoadBoardResource(string boardName)
+        private void LoadBoardResource(int boardId)
         {
-            int boardNumber = 1;
-            if (int.TryParse(boardName.Replace("Tablero ", ""), out int id))
-            {
-                boardNumber = id;
-            }
+            BoardBackgroundImage = $"pack://application:,,,/Lottery;component/Images/Boards/board_{boardId}.png";
 
-            BoardBackgroundImage = $"pack://application:,,,/Lottery;component/Images/Boards/board_{boardNumber}.png";
-            LoadBoardData(boardNumber);
+            LoadBoardData(boardId);
         }
 
         private void LoadBoardData(int boardId)
         {
             BoardCells.Clear();
 
-            int startId = ((boardId - 1) * 3) + 1;
+            List<int> cardIds = BoardConfigurations.GetBoardById(boardId);
 
-            for (int i = 0; i < 16; i++)
+            foreach (int cardId in cardIds)
             {
-                int cardId = ((startId + i * 2) % 54);
-                if (cardId == 0) cardId = 54;
-
                 var cell = new Cell
                 {
                     Id = cardId,
@@ -196,8 +242,6 @@ namespace Lottery.ViewModel.Game
                 {
                     CurrentCardName = "Carta " + cardDto.Id;
                 }
-
-                GameStatusMessage = string.Format(Lang.GameStatusCardDrawn, CurrentCardName);
             });
         }
 
@@ -338,6 +382,16 @@ namespace Lottery.ViewModel.Game
                 return key;
             }
             return null;
+        }
+
+        private async void ShowStartMessageSequence()
+        {
+            StartMessageText = Lang.GameStatusStarted;
+            IsStartMessageVisible = true;
+
+            await Task.Delay(3000);
+
+            IsStartMessageVisible = false;
         }
     }
 

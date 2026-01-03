@@ -74,7 +74,7 @@
                     Margin="0,40,0,0"                    
                     Padding="10"
                     HorizontalAlignment="Center">
-                <Image Source="pack://application:,,,/Images/corcholata.png"
+                <Image Source="{Binding TokenPileImagePath}"
                        Width="280"
                        Height="180"
                        Stretch="Uniform"/>
@@ -84,63 +84,47 @@
         <Grid Grid.Column="1"
             VerticalAlignment="Center"
             HorizontalAlignment="Center">
-            
-            <Border 
-                Background="#AAFFFFFF"
-                CornerRadius="24"
-                BorderBrush="White"
-                BorderThickness="0"
-                Width="500"
-                Height="770"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">
 
-                <Grid>
-                    
-                    <Image Source="pack://application:,,,/Images/CartaDeLotería.png"
-                        Stretch="Uniform"
-                        Margin="18"/>
-                    
-                    <Grid Margin="18"
-                        IsHitTestVisible="True">
-                        
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
+            <Border Background="#AAFFFFFF"
+                    CornerRadius="24"
+                    BorderBrush="White"
+                    BorderThickness="0"
+                    Width="500"
+                    Height="770"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Padding="15">
+                <ItemsControl ItemsSource="{Binding BoardCells}">
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        
-                        <ToggleButton Grid.Row="0" Grid.Column="0" IsChecked="{Binding BoardCells[0].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
-                        <ToggleButton Grid.Row="0" Grid.Column="1" IsChecked="{Binding BoardCells[1].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
-                        <ToggleButton Grid.Row="0" Grid.Column="2" IsChecked="{Binding BoardCells[2].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
-                        <ToggleButton Grid.Row="0" Grid.Column="3" IsChecked="{Binding BoardCells[3].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="4" Columns="4"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
 
-                        <ToggleButton Grid.Row="1" Grid.Column="0" IsChecked="{Binding BoardCells[4].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
-                        <ToggleButton Grid.Row="1" Grid.Column="1" IsChecked="{Binding BoardCells[5].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
-                        <ToggleButton Grid.Row="1" Grid.Column="2" IsChecked="{Binding BoardCells[6].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
-                        <ToggleButton Grid.Row="1" Grid.Column="3" IsChecked="{Binding BoardCells[7].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="4">
 
-                        <ToggleButton Grid.Row="2" Grid.Column="0" IsChecked="{Binding BoardCells[8].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
-                        <ToggleButton Grid.Row="2" Grid.Column="1" IsChecked="{Binding BoardCells[9].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
-                        <ToggleButton Grid.Row="2" Grid.Column="2" IsChecked="{Binding BoardCells[10].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
-                        <ToggleButton Grid.Row="2" Grid.Column="3" IsChecked="{Binding BoardCells[11].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
+                                <Image Source="{Binding ImagePath}" 
+                                       Stretch="Fill"/>
 
-                        <ToggleButton Grid.Row="3" Grid.Column="0" IsChecked="{Binding BoardCells[12].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
-                        <ToggleButton Grid.Row="3" Grid.Column="1" IsChecked="{Binding BoardCells[13].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
-                        <ToggleButton Grid.Row="3" Grid.Column="2" IsChecked="{Binding BoardCells[14].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
-                        <ToggleButton Grid.Row="3" Grid.Column="3" IsChecked="{Binding BoardCells[15].IsSelected, Mode=TwoWay}" Style="{StaticResource SelectableImageButton}"/>
-                        
-                    </Grid>
+                                <Image Source="{Binding DataContext.TokenImagePath, RelativeSource={RelativeSource AncestorType=Window}}"
+                                       Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibilityConverter}}"
+                                       Stretch="Uniform"
+                                       Margin="5">
+                                    <Image.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="5" Opacity="0.6"/>
+                                    </Image.Effect>
+                                </Image>
 
-                </Grid>
+                                <ToggleButton IsChecked="{Binding IsSelected}"
+                                              Opacity="0" 
+                                              Cursor="Hand"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Border>
         </Grid>
 
@@ -202,5 +186,36 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"/>
         </Grid>
+
+        <Border Grid.Column="0" Grid.ColumnSpan="3"
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center"
+                Background="#CC000000" 
+                CornerRadius="20"
+                Padding="40,20"
+                IsHitTestVisible="False"
+                Visibility="{Binding IsStartMessageVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+
+            <Border.Triggers>
+                <EventTrigger RoutedEvent="Border.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Border.Triggers>
+
+            <TextBlock Text="{Binding StartMessageText}"
+                       FontSize="40"
+                       FontWeight="Bold"
+                       Foreground="#FFC107" 
+                       TextAlignment="Center">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="4"/>
+                </TextBlock.Effect>
+            </TextBlock>
+        </Border>
+        
     </Grid>
 </Window>

@@ -467,7 +467,7 @@ namespace Lottery.ViewModel.Lobby
                     this.Players,
                     settings,
                     this.SelectedToken,
-                    this.SelectedBoard,
+                    this.SelectedBoardId,
                     gameView
                 );
 

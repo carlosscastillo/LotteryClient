@@ -168,13 +168,13 @@
   <data name="CreateLobbyLabelMarkers" xml:space="preserve">
     <value>Fichas</value>
   </data>
-  <data name="CreateLobbyLabelMarkersBeans" xml:space="preserve">
+  <data name="SelectTokenLabelMarkersBeans" xml:space="preserve">
     <value>Frijoles</value>
   </data>
-  <data name="CreateLobbyLabelMarkersBottleCaps" xml:space="preserve">
+  <data name="SelectTokenLabelMarkersBottleCaps" xml:space="preserve">
     <value>Corcholatas</value>
   </data>
-  <data name="CreateLobbyLabelMarkersCoins" xml:space="preserve">
+  <data name="SelectTokenLabelMarkersCoins" xml:space="preserve">
     <value>Monedas</value>
   </data>
   <data name="CreateLobbyLabelMarkersCorn" xml:space="preserve">
@@ -1146,5 +1146,32 @@
   </data>
   <data name="LobbyKickConfirmationTitle" xml:space="preserve">
     <value>Expulsar Jugador</value>
+  </data>
+  <data name="SelectBoardLabelTitle" xml:space="preserve">
+    <value>Selecciona tu tablero</value>
+  </data>
+  <data name="SelectBoardLabelBoard" xml:space="preserve">
+    <value>Tablero #{0}</value>
+  </data>
+  <data name="SelectBoardConfirmSelection" xml:space="preserve">
+    <value>Confirmar Selección</value>
+  </data>
+  <data name="SelectBoardExceptionSelectABoard" xml:space="preserve">
+    <value>Por favor, selecciona un tablero.</value>
+  </data>
+  <data name="SelectTokenLabelTitle" xml:space="preserve">
+    <value>Elige tus fichas</value>
+  </data>
+  <data name="SelectTokenLabelMarkersPous" xml:space="preserve">
+    <value>Pous</value>
+  </data>
+  <data name="SelectTokenLabelMarkersCorn" xml:space="preserve">
+    <value>Maíz</value>
+  </data>
+  <data name="SelectTokenButtonConfirmMarkers" xml:space="preserve">
+    <value>Confirmar Fichas</value>
+  </data>
+  <data name="SelectTokenSelectYourMarkers" xml:space="preserve">
+    <value>Por favor, selecciona tus fichas.</value>
   </data>
 </root>

@@ -259,12 +259,14 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="{x:Static language:Lang.LobbyLabelGameMode}" VerticalAlignment="Center" Margin="0,0,5,0" FontSize="14"/>
-                            <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Height="30" 
+
+                            <ComboBox Grid.Column="1" 
+                                      ItemsSource="{Binding AvailableGameModes}"
+                                      SelectedItem="{Binding SelectedGameMode}"
+                                      IsEnabled="{Binding IsHost}" 
+                                      HorizontalAlignment="Stretch" Height="30" 
                                       Style="{StaticResource GrayTransparentComboStyle}" 
-                                      ItemContainerStyle="{StaticResource GrayTransparentComboItemStyle}">
-                                      <sys:String xmlns:sys="clr-namespace:System;assembly=mscorlib">Clasica</sys:String>
-                                      <sys:String xmlns:sys="clr-namespace:System;assembly=mscorlib">Esquinas</sys:String>
-                            </ComboBox>
+                                      ItemContainerStyle="{StaticResource GrayTransparentComboItemStyle}"/>
                         </Grid>
 
                         <Grid Margin="0,0,10,0">
@@ -272,8 +274,46 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Rondas" VerticalAlignment="Center" Margin="0,0,5,0" FontSize="14"/>
-                            <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource GrayTransparentComboStyle}" ItemContainerStyle="{StaticResource GrayTransparentComboItemStyle}"/>
+
+                            <TextBlock Grid.Column="0" Text="Tablero" VerticalAlignment="Center" Margin="0,0,5,0" FontSize="14"/>
+
+                            <Button Grid.Column="1" 
+                                    Content="{Binding SelectedBoardId, StringFormat='Tablero #{0}'}"
+                                    Command="{Binding OpenBoardSelectionCommand}"
+                                    HorizontalAlignment="Stretch" 
+                                    Height="30"
+                                    Background="#33FFFFFF" 
+                                    Foreground="White" 
+                                    BorderBrush="Gray" 
+                                    BorderThickness="1"
+                                    FontWeight="Bold">
+                                <Button.ToolTip>
+                                    <ToolTip Content="Clic aquí para ver y elegir tu tablero"/>
+                                </Button.ToolTip>
+                            </Button>
+                        </Grid>
+
+                        <Grid Margin="0,0,10,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Ficha" VerticalAlignment="Center" Margin="0,0,5,0" FontSize="14"/>
+
+                            <Button Grid.Column="1" 
+                                    Content="{Binding SelectedTokenName}"
+                                    Command="{Binding OpenTokenSelectionCommand}"
+                                    HorizontalAlignment="Stretch" 
+                                    Height="30"
+                                    Background="#33FFFFFF" 
+                                    Foreground="White" 
+                                    BorderBrush="Gray" 
+                                    BorderThickness="1"
+                                    FontWeight="Bold">
+                                <Button.ToolTip>
+                                    <ToolTip Content="Clic para cambiar la apariencia de tu ficha"/>
+                                </Button.ToolTip>
+                            </Button>
                         </Grid>
 
                         <Grid Margin="0,0,10,0">
@@ -282,34 +322,11 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Tiempo" VerticalAlignment="Center" Margin="0,0,5,0" FontSize="14"/>
-                            <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource GrayTransparentComboStyle}" ItemContainerStyle="{StaticResource GrayTransparentComboItemStyle}"/>
-                        </Grid>
-
-                        <Grid Margin="0,0,10,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Dificultad" VerticalAlignment="Center" Margin="0,0,5,0" FontSize="14"/>
-                            <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource GrayTransparentComboStyle}" ItemContainerStyle="{StaticResource GrayTransparentComboItemStyle}"/>
-                        </Grid>
-
-                        <Grid Margin="0,0,10,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Mapa" VerticalAlignment="Center" Margin="0,0,5,0" FontSize="14"/>
-                            <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource GrayTransparentComboStyle}" ItemContainerStyle="{StaticResource GrayTransparentComboItemStyle}"/>
-                        </Grid>
-
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Extra" VerticalAlignment="Center" Margin="0,0,5,0" FontSize="14"/>
-                            <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource GrayTransparentComboStyle}" ItemContainerStyle="{StaticResource GrayTransparentComboItemStyle}"/>
+                            <TextBox Grid.Column="1" 
+                                     Text="{Binding CardDrawSpeedSeconds}"
+                                     IsEnabled="{Binding IsHost}"
+                                     HorizontalAlignment="Stretch" Height="30" 
+                                     VerticalContentAlignment="Center" Padding="5,0"/>
                         </Grid>
 
                     </UniformGrid>

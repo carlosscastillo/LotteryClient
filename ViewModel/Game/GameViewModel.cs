@@ -21,6 +21,8 @@ namespace Lottery.ViewModel.Game
         private readonly Window _gameWindow;
         private readonly Dictionary<string, string> _errorMap;
 
+        private readonly string _gameMode;
+
         private static readonly Dictionary<int, string> _cardResourceKeys = new Dictionary<int, string>
         {
             { 1, "CardTextBlockAang" }, { 2, "CardTextBlockArnold" }, { 3, "CardTextBlockAshKetchum" },
@@ -48,11 +50,18 @@ namespace Lottery.ViewModel.Game
 
         public bool IsHost { get; }
 
-        private string _playerCardImage;
-        public string PlayerCardImage
+        private string _boardBackgroundImage;
+        public string BoardBackgroundImage
         {
-            get => _playerCardImage;
-            set => SetProperty(ref _playerCardImage, value);
+            get => _boardBackgroundImage;
+            set => SetProperty(ref _boardBackgroundImage, value);
+        }
+
+        private string _tokenImagePath;
+        public string TokenImagePath
+        {
+            get => _tokenImagePath;
+            set => SetProperty(ref _tokenImagePath, value);
         }
 
         private BitmapImage _currentCardImage;
@@ -76,16 +85,15 @@ namespace Lottery.ViewModel.Game
             set => SetProperty(ref _gameStatusMessage, value);
         }
 
-        public bool AllCellsSelected => BoardCells != null && BoardCells.Count > 0 && BoardCells.All(c => c.IsSelected);
-
         public ICommand DeclareLoteriaCommand { get; }
         public ICommand PauseGameCommand { get; }
 
-        public GameViewModel(ObservableCollection<UserDto> players, GameSettingsDto settings, Window window)
+        public GameViewModel(ObservableCollection<UserDto> players, GameSettingsDto settings, string selectedToken, string selectedBoard, Window window)
         {
             _currentUserId = SessionManager.CurrentUser.UserId;
             _gameWindow = window;
             Players = players;
+            _gameMode = settings.GameMode;
 
             _errorMap = new Dictionary<string, string>
             {
@@ -96,16 +104,10 @@ namespace Lottery.ViewModel.Game
                 { "GAME_INTERNAL_ERROR", Lang.GameExceptionInternalError }
             };
 
-            for (int i = 0; i < 16; i++)
-            {
-                var cell = new Cell { Id = 0 };
-                cell.PropertyChanged += CellOnPropertyChanged;
-                BoardCells.Add(cell);
-            }
-
-            OnPropertyChanged(nameof(AllCellsSelected));
-
             IsHost = Players.FirstOrDefault(p => p.UserId == _currentUserId)?.IsHost ?? false;
+
+            LoadTokenResource(selectedToken);
+            LoadBoardResource(selectedBoard);
 
             DeclareLoteriaCommand = new RelayCommand(async () => await DeclareLoteria());
             PauseGameCommand = new RelayCommand(async () => await LeaveGame());
@@ -114,7 +116,54 @@ namespace Lottery.ViewModel.Game
 
             CurrentCardImage = new BitmapImage(new Uri(GetCardBackPath(), UriKind.Absolute));
             CurrentCardName = Lang.CardTextBlockReverse;
-            GameStatusMessage = Lang.GameStatusStarted;
+            GameStatusMessage = string.Format("{0} - Modo: {1}", Lang.GameStatusStarted, _gameMode);
+        }
+
+        private void LoadTokenResource(string tokenName)
+        {
+            switch (tokenName)
+            {
+                case "Frijoles": _tokenImagePath = "pack://application:,,,/Lottery;component/Images/Tokens/bean.png"; break;
+                case "Corcholatas": _tokenImagePath = "pack://application:,,,/Lottery;component/Images/Tokens/bottle_cap.png"; break;
+                case "Monedas": _tokenImagePath = "pack://application:,,,/Lottery;component/Images/Tokens/coin.png"; break;
+                case "Maíz": _tokenImagePath = "pack://application:,,,/Lottery;component/Images/Tokens/corn.png"; break;
+                case "Bolitas de papel": _tokenImagePath = "pack://application:,,,/Lottery;component/Images/Tokens/paper_ball.png"; break;
+                default: _tokenImagePath = "pack://application:,,,/Lottery;component/Images/Tokens/bean.png"; break;
+            }
+            OnPropertyChanged(nameof(TokenImagePath));
+        }
+
+        private void LoadBoardResource(string boardName)
+        {
+            int boardNumber = 1;
+            if (int.TryParse(boardName.Replace("Tablero ", ""), out int id))
+            {
+                boardNumber = id;
+            }
+
+            BoardBackgroundImage = $"pack://application:,,,/Lottery;component/Images/Boards/board_{boardNumber}.png";
+            LoadBoardData(boardNumber);
+        }
+
+        private void LoadBoardData(int boardId)
+        {
+            BoardCells.Clear();
+
+            int startId = ((boardId - 1) * 3) + 1;
+
+            for (int i = 0; i < 16; i++)
+            {
+                int cardId = ((startId + i * 2) % 54);
+                if (cardId == 0) cardId = 54;
+
+                var cell = new Cell
+                {
+                    Id = cardId,
+                    ImagePath = GetImagePathFromId(cardId),
+                    IsSelected = false
+                };
+                BoardCells.Add(cell);
+            }
         }
 
         private void SubscribeToGameEvents()
@@ -139,7 +188,6 @@ namespace Lottery.ViewModel.Game
                 CurrentCardImage = new BitmapImage(new Uri(cardImagePath, UriKind.Absolute));
 
                 var key = GetResourceKeyForCard(cardDto.Id);
-
                 if (key != null)
                 {
                     CurrentCardName = Lang.ResourceManager.GetString(key) ?? ("Carta " + cardDto.Id);
@@ -185,7 +233,7 @@ namespace Lottery.ViewModel.Game
 
         private async Task DeclareLoteria()
         {
-            if (!AllCellsSelected)
+            if (!CheckWinCondition())
             {
                 CustomMessageBox.Show(
                     Lang.GameWarningNotAllCellsSelected,
@@ -201,6 +249,42 @@ namespace Lottery.ViewModel.Game
                 {
                     await ServiceProxy.Instance.Client.DeclareWinAsync(_currentUserId);
                 }, _errorMap);
+            }
+        }
+
+        private bool CheckWinCondition()
+        {
+            if (BoardCells.Count != 16)
+            {
+                return false;
+            }
+
+            switch (_gameMode)
+            {
+                case "Esquinas":
+                    return BoardCells[0].IsSelected && BoardCells[3].IsSelected &&
+                           BoardCells[12].IsSelected && BoardCells[15].IsSelected;
+
+                case "Centro":
+                    return BoardCells[5].IsSelected && BoardCells[6].IsSelected &&
+                           BoardCells[9].IsSelected && BoardCells[10].IsSelected;
+
+                case "Marco":
+                    bool top = BoardCells[0].IsSelected && BoardCells[1].IsSelected && BoardCells[2].IsSelected && BoardCells[3].IsSelected;
+                    bool bottom = BoardCells[12].IsSelected && BoardCells[13].IsSelected && BoardCells[14].IsSelected 
+                        && BoardCells[15].IsSelected;
+                    bool left = BoardCells[4].IsSelected && BoardCells[8].IsSelected;
+                    bool right = BoardCells[7].IsSelected && BoardCells[11].IsSelected;
+                    return top && bottom && left && right;
+
+                case "Diagonales":
+                    bool diag1 = BoardCells[0].IsSelected && BoardCells[5].IsSelected && BoardCells[10].IsSelected && BoardCells[15].IsSelected;
+                    bool diag2 = BoardCells[3].IsSelected && BoardCells[6].IsSelected && BoardCells[9].IsSelected && BoardCells[12].IsSelected;
+                    return diag1 && diag2;
+
+                case "Normal":
+                default:
+                    return BoardCells.All(c => c.IsSelected);
             }
         }
 
@@ -234,14 +318,6 @@ namespace Lottery.ViewModel.Game
                 mainMenuView.Show();
                 _gameWindow.Close();
             });
-        }
-
-        private void CellOnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(Cell.IsSelected))
-            {
-                OnPropertyChanged(nameof(AllCellsSelected));
-            }
         }
 
         private string GetImagePathFromId(int cardId)

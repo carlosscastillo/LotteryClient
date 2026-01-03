@@ -1,4 +1,5 @@
-﻿using Lottery.Helpers;
+﻿using Contracts.Services.Lobby;
+using Lottery.Helpers;
 using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
 using Lottery.View.Friends;
@@ -45,6 +46,18 @@ namespace Lottery.ViewModel.Lobby
             set => SetProperty(ref _isShowingFriendsList, value);
         }
 
+        private int _selectedBoardId = 1;
+
+        public int SelectedBoardId
+        {
+            get { return _selectedBoardId; }
+            set
+            {
+                _selectedBoardId = value;
+                OnPropertyChanged();
+            }
+        }
+
         private ObservableCollection<FriendDto> _friendsList;
         public ObservableCollection<FriendDto> FriendsList
         {
@@ -54,7 +67,64 @@ namespace Lottery.ViewModel.Lobby
 
         public ObservableCollection<UserDto> Players { get; }
         public ObservableCollection<string> ChatHistory { get; } = new ObservableCollection<string>();
-        public List<string> AvailableGameModes { get; } = new List<string> { "Normal", "Diagonales", "Marco", "Centro", "Mega Lotería", "Lotería Injusta" };
+
+        public List<string> AvailableTokens { get; } = new List<string>
+        {
+            "beans", "bottle_caps", "pou", "corn", "coins"
+        };
+
+        private string _selectedToken = "beans";
+        public string SelectedToken
+        {
+            get => _selectedToken;
+            set
+            {
+                if (SetProperty(ref _selectedToken, value))
+                {
+                    OnPropertyChanged(nameof(SelectedTokenName));
+                }
+            }
+        }
+
+        public string SelectedTokenName => GetTokenDisplayName(_selectedToken);
+
+        private string GetTokenDisplayName(string key)
+        {
+            switch (key)
+            {
+                case "beans": 
+                    return Lang.SelectTokenLabelMarkersBeans;
+
+                case "bottle_caps": 
+                    return Lang.SelectTokenLabelMarkersBottleCaps;
+
+                case "pou": 
+                    return Lang.SelectTokenLabelMarkersPous;
+
+                case "corn":
+                    return Lang.SelectTokenLabelMarkersCorn;
+
+                case "coins": 
+                    return Lang.SelectTokenLabelMarkersCoins;
+
+                default: 
+                    return key;
+            }
+        }
+
+        public List<string> AvailableBoards { get; } = Enumerable.Range(1, 10).Select(i => $"Tablero {i}").ToList();
+
+        private string _selectedBoard;
+        public string SelectedBoard
+        {
+            get => _selectedBoard;
+            set => SetProperty(ref _selectedBoard, value);
+        }
+
+        public List<string> AvailableGameModes { get; } = new List<string>
+        {
+            "Normal", "Esquinas", "Diagonales", "Marco", "Centro"
+        };
 
         private string _selectedGameMode;
         public string SelectedGameMode
@@ -77,6 +147,8 @@ namespace Lottery.ViewModel.Lobby
         public ICommand InviteFriendToLobbyCommand { get; }
         public ICommand StartGameCommand { get; }
         public ICommand ToggleShowFriendsCommand { get; }
+        public ICommand OpenBoardSelectionCommand { get; set; }
+        public ICommand OpenTokenSelectionCommand { get; set; }
 
         public LobbyViewModel(LobbyStateDto lobbyState, Window window)
         {
@@ -86,7 +158,10 @@ namespace Lottery.ViewModel.Lobby
             LobbyCode = lobbyState.LobbyCode;
             Players = new ObservableCollection<UserDto>(lobbyState.Players);
             IsHost = Players.FirstOrDefault(p => p.UserId == _currentUserId)?.IsHost ?? false;
+
             _selectedGameMode = AvailableGameModes.FirstOrDefault();
+            _selectedToken = AvailableTokens.FirstOrDefault();
+            _selectedBoard = AvailableBoards.FirstOrDefault();
 
             FriendsList = new ObservableCollection<FriendDto>();
 
@@ -114,6 +189,8 @@ namespace Lottery.ViewModel.Lobby
             ToggleShowFriendsCommand = new RelayCommand(async () => await ExecuteToggleShowFriends());
             InviteFriendCommand = new RelayCommand(OpenInviteFriendsWindow);
             InviteFriendToLobbyCommand = new RelayCommand<int>(async (friendId) => await ExecuteInviteFriendToLobby(friendId));
+            OpenBoardSelectionCommand = new RelayCommand(OpenBoardSelection);
+            OpenTokenSelectionCommand = new RelayCommand(OpenTokenSelection);
 
             SubscribeToEvents();
         }
@@ -223,13 +300,57 @@ namespace Lottery.ViewModel.Lobby
                     GameSettingsDto settings = new GameSettingsDto
                     {
                         CardDrawSpeedSeconds = this.CardDrawSpeedSeconds,
-                        IsPrivate = false,
-                        MaxPlayers = 4
+                        MaxPlayers = 4,
+                        GameMode = this.SelectedGameMode
                     };
 
                     await ServiceProxy.Instance.Client.StartGameAsync(settings);
                 }, _errorMap);
             }
+        }
+
+        private void OpenBoardSelection(object obj)
+        {
+            var view = new Lottery.View.Lobby.SelectBoardView();
+            var viewModel = new Lottery.ViewModel.Lobby.SelectBoardViewModel(this.SelectedBoardId);
+
+            viewModel.OnBoardSelected = async (boardId) =>
+            {
+                this.SelectedBoardId = boardId;
+
+                view.DialogResult = true;
+                view.Close();
+
+                await ExecuteRequest(async () =>
+                {
+                    var userDto = new UserDto { UserId = _currentUserId };
+
+                    await ServiceProxy.Instance.Client.ChooseBoardAsync(userDto, boardId);
+
+                }, _errorMap);
+            };
+
+            view.DataContext = viewModel;
+            view.Owner = System.Windows.Application.Current.MainWindow;
+            view.ShowDialog();
+        }
+
+        private void OpenTokenSelection(object obj)
+        {
+            var view = new Lottery.View.Lobby.SelectTokenView();
+            var viewModel = new Lottery.ViewModel.Lobby.SelectTokenViewModel(this.SelectedToken);
+
+            viewModel.OnTokenSelected = (tokenName) =>
+            {
+                this.SelectedToken = tokenName;
+
+                view.DialogResult = true;
+                view.Close();
+            };
+
+            view.DataContext = viewModel;
+            view.Owner = System.Windows.Application.Current.MainWindow;
+            view.ShowDialog();
         }
 
         private void SubscribeToEvents()
@@ -303,8 +424,8 @@ namespace Lottery.ViewModel.Lobby
             {
                 UnsubscribeFromEvents();
                 CustomMessageBox.Show(
-                    Lang.LobbyMessageYouKicked, 
-                    Lang.LobbyTitleKicked, MessageBoxButton.OK, 
+                    Lang.LobbyMessageYouKicked,
+                    Lang.LobbyTitleKicked, MessageBoxButton.OK,
                     MessageBoxImage.Warning,
                     _lobbyWindow);
 
@@ -318,9 +439,9 @@ namespace Lottery.ViewModel.Lobby
             {
                 UnsubscribeFromEvents();
                 CustomMessageBox.Show(
-                    Lang.LobbyMessageHostClosed, 
-                    Lang.LobbyTitleClosed, 
-                    MessageBoxButton.OK, 
+                    Lang.LobbyMessageHostClosed,
+                    Lang.LobbyTitleClosed,
+                    MessageBoxButton.OK,
                     MessageBoxImage.Information,
                     _lobbyWindow);
                 NavigateToMainMenu();
@@ -332,8 +453,17 @@ namespace Lottery.ViewModel.Lobby
             _lobbyWindow.Dispatcher.Invoke(() =>
             {
                 UnsubscribeFromEvents();
+
                 GameView gameView = new GameView(this.Players, settings);
-                gameView.DataContext = new GameViewModel(this.Players, settings, gameView);
+
+                gameView.DataContext = new GameViewModel(
+                    this.Players,
+                    settings,
+                    this.SelectedToken,
+                    this.SelectedBoard,
+                    gameView
+                );
+
                 gameView.Show();
                 _lobbyWindow.Close();
             });

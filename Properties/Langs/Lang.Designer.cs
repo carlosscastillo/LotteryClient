@@ -727,33 +727,6 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Frijoles.
-        /// </summary>
-        public static string CreateLobbyLabelMarkersBeans {
-            get {
-                return ResourceManager.GetString("CreateLobbyLabelMarkersBeans", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Corcholatas.
-        /// </summary>
-        public static string CreateLobbyLabelMarkersBottleCaps {
-            get {
-                return ResourceManager.GetString("CreateLobbyLabelMarkersBottleCaps", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Monedas.
-        /// </summary>
-        public static string CreateLobbyLabelMarkersCoins {
-            get {
-                return ResourceManager.GetString("CreateLobbyLabelMarkersCoins", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a Maíz.
         /// </summary>
         public static string CreateLobbyLabelMarkersCorn {
@@ -3092,6 +3065,114 @@ namespace Lottery.Properties.Langs {
         public static string RegisterVerifyError {
             get {
                 return ResourceManager.GetString("RegisterVerifyError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Confirmar Selección.
+        /// </summary>
+        public static string SelectBoardConfirmSelection {
+            get {
+                return ResourceManager.GetString("SelectBoardConfirmSelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Por favor, selecciona un tablero..
+        /// </summary>
+        public static string SelectBoardExceptionSelectABoard {
+            get {
+                return ResourceManager.GetString("SelectBoardExceptionSelectABoard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tablero #{0}.
+        /// </summary>
+        public static string SelectBoardLabelBoard {
+            get {
+                return ResourceManager.GetString("SelectBoardLabelBoard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Selecciona tu tablero.
+        /// </summary>
+        public static string SelectBoardLabelTitle {
+            get {
+                return ResourceManager.GetString("SelectBoardLabelTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Confirmar Fichas.
+        /// </summary>
+        public static string SelectTokenButtonConfirmMarkers {
+            get {
+                return ResourceManager.GetString("SelectTokenButtonConfirmMarkers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Frijoles.
+        /// </summary>
+        public static string SelectTokenLabelMarkersBeans {
+            get {
+                return ResourceManager.GetString("SelectTokenLabelMarkersBeans", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Corcholatas.
+        /// </summary>
+        public static string SelectTokenLabelMarkersBottleCaps {
+            get {
+                return ResourceManager.GetString("SelectTokenLabelMarkersBottleCaps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Monedas.
+        /// </summary>
+        public static string SelectTokenLabelMarkersCoins {
+            get {
+                return ResourceManager.GetString("SelectTokenLabelMarkersCoins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Maíz.
+        /// </summary>
+        public static string SelectTokenLabelMarkersCorn {
+            get {
+                return ResourceManager.GetString("SelectTokenLabelMarkersCorn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Pous.
+        /// </summary>
+        public static string SelectTokenLabelMarkersPous {
+            get {
+                return ResourceManager.GetString("SelectTokenLabelMarkersPous", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Elige tus fichas.
+        /// </summary>
+        public static string SelectTokenLabelTitle {
+            get {
+                return ResourceManager.GetString("SelectTokenLabelTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Por favor, selecciona tus fichas..
+        /// </summary>
+        public static string SelectTokenSelectYourMarkers {
+            get {
+                return ResourceManager.GetString("SelectTokenSelectYourMarkers", resourceCulture);
             }
         }
         

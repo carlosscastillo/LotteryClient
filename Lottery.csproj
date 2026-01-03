@@ -71,16 +71,22 @@
     <Compile Include="Converters\BoolToSelectionOverlayConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter .cs" />
     <Compile Include="Converters\EyeIconConverter.cs" />
+    <Compile Include="Converters\IdToImageConverter.cs" />
     <Compile Include="Converters\InverseBoolToVisibilityConverter .cs" />
+    <Compile Include="Converters\TokenToImageConverter.cs" />
     <Compile Include="Helpers\CodeValidator.cs" />
+    <Compile Include="Helpers\CustomMessageBox.cs" />
     <Compile Include="Helpers\SocialMediaValidator.cs" />
     <Compile Include="Helpers\UserValidator.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
     <Compile Include="ServiceProxy.cs" />
     <Compile Include="SessionManager.cs" />
+    <Compile Include="ViewModel\Base\BaseViewModel.cs" />
     <Compile Include="ViewModel\Base\ObservableObject.cs" />
     <Compile Include="ViewModel\Base\RelayCommand.cs" />
     <Compile Include="ViewModel\Game\GameViewModel.cs" />
+    <Compile Include="ViewModel\Lobby\SelectBoardViewModel.cs" />
+    <Compile Include="ViewModel\Lobby\SelectTokenViewModel.cs" />
     <Compile Include="ViewModel\User\CustomizeProfileViewModel.cs" />
     <Compile Include="ViewModel\Friends\FriendRequestsViewModel.cs" />
     <Compile Include="ViewModel\Friends\InviteFriendsViewModel.cs" />
@@ -90,11 +96,20 @@
     <Compile Include="ViewModel\User\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainMenu\MainMenuViewModel.cs" />
     <Compile Include="ViewModel\User\UserRegisterViewModel.cs" />
+    <Compile Include="View\Components\CustomMessageBoxView.xaml.cs">
+      <DependentUpon>CustomMessageBoxView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Game\GameView.xaml.cs">
       <DependentUpon>GameView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Game\WinnerView.xaml.cs">
       <DependentUpon>WinnerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Lobby\SelectBoardView.xaml.cs">
+      <DependentUpon>SelectBoardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Lobby\SelectTokenView.xaml.cs">
+      <DependentUpon>SelectTokenView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User\ChangePasswordView.xaml.cs">
       <DependentUpon>ChangePasswordView.xaml</DependentUpon>
@@ -147,11 +162,23 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Components\CustomMessageBoxView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Game\GameView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Game\WinnerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Lobby\SelectBoardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Lobby\SelectTokenView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -289,15 +316,6 @@
     <Resource Include="Images\background2.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\corcholata.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\card01.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\CartaDeLotería.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Avatar\avatar01.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -379,7 +397,6 @@
     <Resource Include="Images\Tokens\token02.png" />
     <Resource Include="Images\Tokens\token03.png" />
     <Resource Include="Images\Tokens\token04.png" />
-    <Resource Include="Images\Tokens\token05.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Tokens\token00.png" />
@@ -405,6 +422,39 @@
   <ItemGroup>
     <Resource Include="Images\Icons\eye_closed.png" />
     <Resource Include="Images\Icons\eye_open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\question.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LotteryServer\Contracts\Contracts.csproj">
+      <Project>{a120ac68-a8e9-42fb-92f0-0baade6ff3b8}</Project>
+      <Name>Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Tokens\token00-background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Tokens\token01-background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Tokens\token02-background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Tokens\token03-background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Tokens\token04-background.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,12 +1,12 @@
-﻿using Lottery.LotteryServiceReference;
+﻿using Lottery.Helpers;
+using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
 using Lottery.View.Friends;
 using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;
-using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -18,7 +18,10 @@ namespace Lottery.ViewModel.Friends
         public FriendDto Dto { get; }
         public string Nickname => Dto.Nickname;
         public int UserId => Dto.FriendId;
-        public FriendViewModel(FriendDto dto) { Dto = dto; }
+        public FriendViewModel(FriendDto dto)
+        {
+            Dto = dto;
+        }
     }
 
     public class FoundUserViewModel : ObservableObject
@@ -31,8 +34,8 @@ namespace Lottery.ViewModel.Friends
         public bool IsFriend
         {
             get => _isFriend;
-            set 
-            { 
+            set
+            {
                 if (SetProperty(ref _isFriend, value))
                 {
                     NotifyChanges();
@@ -44,8 +47,8 @@ namespace Lottery.ViewModel.Friends
         public bool HasPendingRequest
         {
             get => _hasPendingRequest;
-            set 
-            { 
+            set
+            {
                 if (SetProperty(ref _hasPendingRequest, value))
                 {
                     NotifyChanges();
@@ -57,8 +60,8 @@ namespace Lottery.ViewModel.Friends
         public int PendingRequestSenderId
         {
             get => _pendingRequestSenderId;
-            set 
-            { 
+            set
+            {
                 if (SetProperty(ref _pendingRequestSenderId, value))
                 {
                     NotifyChanges();
@@ -70,8 +73,8 @@ namespace Lottery.ViewModel.Friends
 
         public bool CanSendRequest => !IsFriend && !HasPendingRequest;
         public bool CanCancelRequest => !IsFriend && HasPendingRequest && PendingRequestSenderId == _currentUserId;
-        public bool CanAcceptRequest =>
-            !IsFriend && HasPendingRequest && PendingRequestSenderId != _currentUserId && PendingRequestSenderId != 0;
+        public bool CanAcceptRequest => !IsFriend && HasPendingRequest 
+            && PendingRequestSenderId != _currentUserId && PendingRequestSenderId != 0;
         public bool CanRejectRequest => CanAcceptRequest;
 
         public FoundUserViewModel(FriendDto dto, int currentUserId)
@@ -89,9 +92,10 @@ namespace Lottery.ViewModel.Friends
         }
     }
 
-    public class InviteFriendsViewModel : ObservableObject
+    public class InviteFriendsViewModel : BaseViewModel
     {
         private readonly int _currentUserId;
+        private readonly Dictionary<string, string> _errorMap;
 
         private string _inviteLobbyCode;
         private bool _isInviteMode = false;
@@ -103,10 +107,8 @@ namespace Lottery.ViewModel.Friends
             set => SetProperty(ref _searchNickname, value);
         }
 
-        public ObservableCollection<FoundUserViewModel> SearchResults { get; } = 
-            new ObservableCollection<FoundUserViewModel>();
-        public ObservableCollection<FriendViewModel> FriendsList { get; } = 
-            new ObservableCollection<FriendViewModel>();
+        public ObservableCollection<FoundUserViewModel> SearchResults { get; } = new ObservableCollection<FoundUserViewModel>();
+        public ObservableCollection<FriendViewModel> FriendsList { get; } = new ObservableCollection<FriendViewModel>();
 
         public ICommand SearchCommand { get; }
         public RelayCommand<FoundUserViewModel> SendRequestCommand { get; }
@@ -123,6 +125,20 @@ namespace Lottery.ViewModel.Friends
         public InviteFriendsViewModel()
         {
             _currentUserId = SessionManager.CurrentUser.UserId;
+
+            _errorMap = new Dictionary<string, string>
+            {
+                { "FRIEND_DUPLICATE", Lang.InviteFriendsExceptionFriendDuplicate },
+                { "FRIEND_INVALID", Lang.InviteFriendsExceptionFriendInvalid },
+                { "FRIEND_NOT_FOUND", Lang.InviteFriendsExceptionFriendNotFound },
+                { "AUTH_USER_NOT_FOUND", Lang.InviteFriendsExceptionUserNotFound },
+                { "USER_NOT_FOUND", Lang.InviteFriendsExceptionUserNotFound },
+                { "USER_IN_LOBBY", Lang.InviteFriendsExceptionUserInLobby },
+                { "USER_OFFLINE", Lang.InviteFriendsExceptionUserOffline },
+                { "FRIEND_NOT_CONNECTED", Lang.InviteFriendsExceptionUserOffline },
+                { "FRIEND_GUEST_RESTRICTED", Lang.InviteFriendsExceptionFriendGuestRestricted },
+                { "FR-500", Lang.GlobalExceptionInternalServerError }
+            };
 
             SearchCommand = new RelayCommand(async () => await SearchUser());
             SendRequestCommand = new RelayCommand<FoundUserViewModel>(async (user) => await SendRequest(user));
@@ -142,7 +158,7 @@ namespace Lottery.ViewModel.Friends
 
         private async Task LoadFriends()
         {
-            try
+            await ExecuteRequest(async () =>
             {
                 var friends = await ServiceProxy.Instance.Client.GetFriendsAsync(_currentUserId);
 
@@ -154,266 +170,142 @@ namespace Lottery.ViewModel.Friends
                         FriendsList.Add(new FriendViewModel(friend));
                     }
                 }
-            }
-            catch (FaultException<ServiceFault> ex)
-            {
-                ShowServiceError(ex, Lang.InviteFriendsErrorLoadingFriends);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(string.Format(Lang.InviteFriendsConnectionError, ex.Message), 
-                    Lang.GlobalMessageBoxTitleError, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            });
         }
 
         private async Task SearchUser()
         {
-            if (string.IsNullOrWhiteSpace(SearchNickname))
+            if (!string.IsNullOrWhiteSpace(SearchNickname))
             {
-                return;
-            }
+                await LoadFriends();
 
-            await LoadFriends();
-
-            try
-            {
-                var client = ServiceProxy.Instance.Client;
-
-                var user = await client.FindUserByNicknameAsync(SearchNickname);
-
-                if (user == null)
+                await ExecuteRequest(async () =>
                 {
-                    return;
-                }
+                    var client = ServiceProxy.Instance.Client;
+                    var user = await client.FindUserByNicknameAsync(SearchNickname);
 
-                if (user.UserId == _currentUserId)
-                {
-                    SearchResults.Clear();
-                    return;
-                }
+                    if (user != null)
+                    {
+                        if (user.UserId == _currentUserId)
+                        {
+                            SearchResults.Clear();
+                        }
+                        else
+                        {
+                            var friends = await client.GetFriendsAsync(_currentUserId);
+                            var pendingSent = await client.GetSentRequestsAsync(_currentUserId);
+                            var pendingReceived = await client.GetPendingRequestsAsync(_currentUserId);
 
-                var friends = await client.GetFriendsAsync(_currentUserId);
-                var pendingSent = await client.GetSentRequestsAsync(_currentUserId);
-                var pendingReceived = await client.GetPendingRequestsAsync(_currentUserId);
+                            bool isFriend = friends.Any(f => f.FriendId == user.UserId);
+                            bool hasPendingSent = pendingSent.Any(r => r.UserId == user.UserId);
+                            var receivedRequest = pendingReceived.FirstOrDefault(r => r.FriendId == user.UserId);
 
-                bool isFriend = friends.Any(f => f.FriendId == user.UserId);
-                bool hasPendingSent = pendingSent.Any(r => r.UserId == user.UserId);
-                var receivedRequest = pendingReceived.FirstOrDefault(r => r.FriendId == user.UserId);
-
-                SearchResults.Clear();
-                SearchResults.Add(new FoundUserViewModel(user, _currentUserId)
-                {
-                    IsFriend = isFriend,
-                    HasPendingRequest = hasPendingSent || (receivedRequest != null),
-                    PendingRequestSenderId = hasPendingSent ? _currentUserId : receivedRequest?.FriendId ?? 0
-                });
-            }
-            catch (FaultException<ServiceFault> ex)
-            {
-                if (ex.Detail.ErrorCode == "USER_NOT_FOUND")
-                {
-                    ShowServiceError(ex, Lang.InviteFriendsSearch);
-                    SearchResults.Clear();
-                }
-                else
-                {
-                    ShowServiceError(ex, Lang.InviteFriendsSearchError);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(string.Format(Lang.GlobalMessageBoxUnexpectedError, ex.Message), 
-                    Lang.GlobalMessageBoxTitleError, MessageBoxButton.OK, MessageBoxImage.Error);
+                            SearchResults.Clear();
+                            SearchResults.Add(new FoundUserViewModel(user, _currentUserId)
+                            {
+                                IsFriend = isFriend,
+                                HasPendingRequest = hasPendingSent || (receivedRequest != null),
+                                PendingRequestSenderId = hasPendingSent ? _currentUserId : receivedRequest?.FriendId ?? 0
+                            });
+                        }
+                    }
+                }, _errorMap);
             }
         }
 
         private async Task SendRequest(FoundUserViewModel userVm)
         {
-            if (userVm == null) return;
-            try
+            if (userVm != null)
             {
-                await ServiceProxy.Instance.Client.SendRequestFriendshipAsync(_currentUserId, userVm.UserId);
+                await ExecuteRequest(async () =>
+                {
+                    await ServiceProxy.Instance.Client.SendRequestFriendshipAsync(_currentUserId, userVm.UserId);
 
-                userVm.HasPendingRequest = true;
-                userVm.PendingRequestSenderId = _currentUserId;
-                MessageBox.Show(string.Format(Lang.InviteFriendsRequestsSent, userVm.Nickname), 
-                    Lang.GlobalMessageBoxTitleSent, MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (FaultException<ServiceFault> ex)
-            {
-                ShowServiceError(ex, Lang.InviteFriendsNotSent);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(string.Format(Lang.InviteFriendsError, ex.Message));
+                    userVm.HasPendingRequest = true;
+                    userVm.PendingRequestSenderId = _currentUserId;
+                    ShowSuccess(string.Format(Lang.InviteFriendsRequestsSent, userVm.Nickname));
+                }, _errorMap);
             }
         }
 
         private async Task CancelRequest(FoundUserViewModel userVm)
         {
-            if (userVm == null) return;
-            try
+            if (userVm != null)
             {
-                await ServiceProxy.Instance.Client.CancelFriendRequestAsync(_currentUserId, userVm.UserId);
-
-                userVm.HasPendingRequest = false;
-                userVm.PendingRequestSenderId = 0;
-                MessageBox.Show(Lang.InviteFriendsCancelRequest);
-            }
-            catch (FaultException<ServiceFault> ex)
-            {
-                ShowServiceError(ex, Lang.InviteFriendErrorCanceling);
-                if (ex.Detail.ErrorCode == "FRIEND_NOT_FOUND")
+                await ExecuteRequest(async () =>
                 {
+                    await ServiceProxy.Instance.Client.CancelFriendRequestAsync(_currentUserId, userVm.UserId);
+
                     userVm.HasPendingRequest = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(string.Format(Lang.InviteFriendsError, ex.Message));
+                    userVm.PendingRequestSenderId = 0;
+                    ShowSuccess(Lang.InviteFriendsCancelRequest);
+                }, _errorMap);
             }
         }
 
         private async Task AcceptRequest(FoundUserViewModel userVm)
         {
-            if (userVm == null) return;
-            try
+            if (userVm != null)
             {
-                await ServiceProxy.Instance.Client.AcceptFriendRequestAsync(_currentUserId, userVm.UserId);
+                await ExecuteRequest(async () =>
+                {
+                    await ServiceProxy.Instance.Client.AcceptFriendRequestAsync(_currentUserId, userVm.UserId);
 
-                userVm.HasPendingRequest = false;
-                userVm.IsFriend = true;
+                    userVm.HasPendingRequest = false;
+                    userVm.IsFriend = true;
 
-                MessageBox.Show(string.Format(userVm.Nickname, Lang.IniviteFriendsSucces), 
-                    Lang.GlobalMessageBoxTitleSuccess);
-                await LoadFriends();
-            }
-            catch (FaultException<ServiceFault> ex)
-            {
-                ShowServiceError(ex, Lang.InviteFriendsErrorWhenAccepting);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(string.Format(Lang.InviteFriendsError, ex.Message));
+                    ShowSuccess(string.Format(userVm.Nickname, Lang.IniviteFriendsSucces));
+                    await LoadFriends();
+                }, _errorMap);
             }
         }
 
         private async Task RejectRequest(FoundUserViewModel userVm)
         {
-            if (userVm == null) return;
-            try
+            if (userVm != null)
             {
-                await ServiceProxy.Instance.Client.RejectFriendRequestAsync(_currentUserId, userVm.UserId);
+                await ExecuteRequest(async () =>
+                {
+                    await ServiceProxy.Instance.Client.RejectFriendRequestAsync(_currentUserId, userVm.UserId);
 
-                userVm.HasPendingRequest = false;
-                userVm.PendingRequestSenderId = 0;
-                MessageBox.Show(Lang.InviteFriendsFriendRequestRejected);
-            }
-            catch (FaultException<ServiceFault> ex)
-            {
-                ShowServiceError(ex, Lang.InviteFriendsErrorWhenRejecting);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(string.Format(Lang.InviteFriendsError, ex.Message));
+                    userVm.HasPendingRequest = false;
+                    userVm.PendingRequestSenderId = 0;
+                    ShowSuccess(Lang.InviteFriendsFriendRequestRejected);
+                }, _errorMap);
             }
         }
 
         private async Task RemoveFriend(FriendViewModel selectedFriend)
         {
-            if (selectedFriend == null) return;
-
-            if (MessageBox.Show(string.Format(Lang.InviteFriendsAreYouSure, selectedFriend.Nickname),
-                Lang.GlobalMessageBoxTitleConfirm, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (selectedFriend != null)
             {
-                try
+                var result = CustomMessageBox.Show(
+                    string.Format(Lang.InviteFriendsAreYouSure, selectedFriend.Nickname),
+                    Lang.GlobalMessageBoxTitleConfirm,
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
                 {
-                    await ServiceProxy.Instance.Client.RemoveFriendAsync(_currentUserId, selectedFriend.UserId);
-                    await LoadFriends();
-                }
-                catch (FaultException<ServiceFault> ex)
-                {
-                    ShowServiceError(ex, Lang.InviteFriendsErrorWhenDeleting);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(string.Format(Lang.InviteFriendsError, ex.Message));
+                    await ExecuteRequest(async () =>
+                    {
+                        await ServiceProxy.Instance.Client.RemoveFriendAsync(_currentUserId, selectedFriend.UserId);
+                        await LoadFriends();
+                    }, _errorMap);
                 }
             }
         }
 
         private async Task InviteFriendToLobby(FriendViewModel friend)
         {
-            if (!_isInviteMode || string.IsNullOrEmpty(_inviteLobbyCode)) return;
-
-            try
+            if (_isInviteMode && !string.IsNullOrEmpty(_inviteLobbyCode) && friend != null)
             {
-                await ServiceProxy.Instance.Client.InviteFriendToLobbyAsync(_inviteLobbyCode, friend.UserId);
-                MessageBox.Show(string.Format(Lang.InviteFriendsSucces, friend.Nickname), 
-                    Lang.GlobalMessageBoxTitleSent);
+                await ExecuteRequest(async () =>
+                {
+                    await ServiceProxy.Instance.Client.InviteFriendToLobbyAsync(_inviteLobbyCode, friend.UserId);
+                    ShowSuccess(string.Format(Lang.InviteFriendsSucces, friend.Nickname));
+                }, _errorMap);
             }
-            catch (FaultException<ServiceFault> ex)
-            {
-                ShowServiceError(ex, Lang.InviteFriendsErrorInvitation);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(string.Format(Lang.InviteFriendsError, ex.Message));
-            }
-        }
-
-        private void ShowServiceError(FaultException<ServiceFault> fault, string title)
-        {
-            var detail = fault.Detail;
-            string message = detail.Message;
-            MessageBoxImage icon = MessageBoxImage.Warning;
-
-            switch (detail.ErrorCode)
-            {
-                case "FRIEND_DUPLICATE":
-                    message = Lang.InviteFriendsExceptionFriendDuplicate + SearchNickname;
-                    break;
-
-                case "FRIEND_INVALID":
-                    message = Lang.InviteFriendsExceptionFriendInvalid;
-                    icon = MessageBoxImage.Error;
-                    break;
-
-                case "FRIEND_NOT_FOUND":
-                    message = Lang.InviteFriendsExceptionFriendNotFound;
-                    break;
-
-                case "AUTH_USER_NOT_FOUND":
-                case "USER_NOT_FOUND":
-                    message = Lang.InviteFriendsExceptionUserNotFound;
-                    title = "Búsqueda";
-                    icon = MessageBoxImage.Information;
-                    break;
-
-                case "USER_IN_LOBBY":
-                    message = Lang.InviteFriendsExceptionUserInLobby;
-                    break;
-
-                case "USER_OFFLINE":
-                case "FRIEND_NOT_CONNECTED":
-                    message = Lang.InviteFriendsExceptionUserOffline;
-                    break;
-
-                case "FRIEND_GUEST_RESTRICTED":
-                    message = Lang.InviteFriendsExceptionFriendGuestRestricted;
-                    break;
-
-                case "FR-500":
-                    message = Lang.GlobalExceptionInternalServerError;
-                    icon = MessageBoxImage.Error;
-                    break;
-
-                default:
-                    message = string.Format(Lang.GlobalExceptionServerError, detail.ErrorCode, detail.Message);
-                    break;
-            }
-
-            MessageBox.Show(message, title, MessageBoxButton.OK, icon);
         }
 
         public void SetInviteMode(string lobbyCode)

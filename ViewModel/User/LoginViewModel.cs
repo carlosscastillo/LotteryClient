@@ -1,21 +1,22 @@
-﻿using Lottery.Helpers;
-using Lottery.LotteryServiceReference;
-using Lottery.View.MainMenu;
+﻿using FluentValidation;
 using Lottery.Helpers;
+using Lottery.LotteryServiceReference;
+using Lottery.Properties.Langs;
+using Lottery.View.MainMenu;
 using Lottery.View.User;
 using Lottery.ViewModel.Base;
+using System.Collections.Generic;
 using System.Linq;
-using System;
-using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Linq;
 
 namespace Lottery.ViewModel.User
 {
-    public class LoginViewModel : ObservableObject
+    public class LoginViewModel : BaseViewModel
     {
+        private readonly Dictionary<string, string> _errorMap;
+
         private string _username;
         public string Username
         {
@@ -44,12 +45,12 @@ namespace Lottery.ViewModel.User
             set => SetProperty(ref _isLoggingIn, value);
         }
 
+        private bool _isPasswordVisible;
         public bool IsPasswordVisible
         {
             get => _isPasswordVisible;
             set => SetProperty(ref _isPasswordVisible, value);
         }
-        private bool _isPasswordVisible;
 
         public ICommand LoginCommand { get; }
         public ICommand SignUpCommand { get; }
@@ -57,6 +58,16 @@ namespace Lottery.ViewModel.User
 
         public LoginViewModel()
         {
+            _errorMap = new Dictionary<string, string>
+            {
+                { "AUTH_USER_NOT_FOUND", Lang.LoginInvalidCredentials },
+                { "AUTH_INVALID_CREDENTIALS", Lang.LoginInvalidCredentials },
+                { "AUTH_ACCOUNT_LOCKED", Lang.LoginAccountLocked },
+                { "AUTH_USER_ALREADY_CONNECTED", Lang.LoginAlreadyConnected },
+                { "AUTH_DB_ERROR", Lang.GlobalExceptionInternalServerError },
+                { "AUTH_INTERNAL_500", Lang.GlobalExceptionInternalServerError }
+            };
+
             IsPasswordVisible = false;
             LoginCommand = new RelayCommand<Window>(async (window) => await Login(window));
             SignUpCommand = new RelayCommand<Window>(ExecuteSignUp);
@@ -65,118 +76,59 @@ namespace Lottery.ViewModel.User
 
         public async Task Login(Window window)
         {
-            if (IsLoggingIn) return;
-
-            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
+            if (!IsLoggingIn)
             {
-                MessageBox.Show("Por favor, ingresa usuario y contraseña.", "Datos incompletos", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            IsLoggingIn = true;
-            ErrorMessage = string.Empty;
-
-            try
-            {                
-                UserDto loginUser = new UserDto
+                if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
                 {
-                    Nickname = Username,
-                    Password = Password
-                };
-                
-                var validator = new UserValidator().ValidateLogin();
-                var result = validator.Validate(loginUser);
-
-                if (!result.IsValid)
-                {
-                    string errors = string.Join("\n• ", result.Errors.Select(e => e.ErrorMessage));
-                    MessageBox.Show($"Corrige los siguientes errores:\n\n• {errors}",
-                    "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    
-                    return;
-                }
-
-                var client = ServiceProxy.Instance.Client;
-                UserDto user = await client.LoginUserAsync(Username, Password);
-
-                if (user != null)
-                {
-                    SessionManager.Login(user);
-
-                    MainMenuView mainMenuView = new MainMenuView();
-                    mainMenuView.Show();
-                    window.Close();
+                    ShowError(Lang.LoginIncompleteData, Lang.GlobalMessageBoxTitleWarning, MessageBoxImage.Warning);
                 }
                 else
                 {
-                    ErrorMessage = "Error desconocido al obtener datos del usuario.";
+                    UserDto loginUser = new UserDto
+                    {
+                        Nickname = Username,
+                        Password = Password
+                    };
+
+                    var validator = new UserValidator().ValidateLogin();
+                    var result = validator.Validate(loginUser);
+
+                    if (!result.IsValid)
+                    {
+                        string errors = string.Join("\n• ", result.Errors.Select(e => e.ErrorMessage));
+                        ShowError($"{Lang.LoginValidationMessage}\n\n• {errors}", Lang.LoginValidationTitle, MessageBoxImage.Warning);
+                    }
+                    else
+                    {
+                        IsLoggingIn = true;
+                        ErrorMessage = string.Empty;
+
+                        await ExecuteRequest(async () =>
+                        {
+                            var client = ServiceProxy.Instance.Client;
+                            UserDto user = await client.LoginUserAsync(Username, Password);
+
+                            if (user != null)
+                            {
+                                SessionManager.Login(user);
+
+                                Application.Current.Dispatcher.Invoke(() =>
+                                {
+                                    MainMenuView mainMenuView = new MainMenuView();
+                                    mainMenuView.Show();
+                                    window.Close();
+                                });
+                            }
+                            else
+                            {
+                                ErrorMessage = Lang.LoginGenericError;
+                            }
+                        }, _errorMap);
+
+                        IsLoggingIn = false;
+                    }
                 }
             }
-            catch (FaultException<ServiceFault> ex)
-            {
-                HandleLoginError(ex);
-            }
-            catch (FaultException ex)
-            {
-                ErrorMessage = "Error de comunicación WCF.";
-                MessageBox.Show($"No se pudo contactar al servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
-                AbortAndRecreateClient();
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = "Error inesperado.";
-                MessageBox.Show($"Ocurrió un error crítico: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                AbortAndRecreateClient();
-            }
-            finally
-            {
-                IsLoggingIn = false;
-            }
-        }
-
-        private void HandleLoginError(FaultException<ServiceFault> fault)
-        {
-            var detail = fault.Detail;
-            string title = "Error de Inicio de Sesión";
-            string message = detail.Message;
-            MessageBoxImage icon = MessageBoxImage.Warning;
-
-            switch (detail.ErrorCode)
-            {
-                case "AUTH_USER_NOT_FOUND":
-                case "AUTH_INVALID_CREDENTIALS":
-                    message = "El usuario o la contraseña son incorrectos.";
-                    break;
-
-                case "AUTH_ACCOUNT_LOCKED":
-                    message = "Tu cuenta ha sido bloqueada temporalmente por demasiados intentos fallidos.";
-                    title = "Cuenta Bloqueada";
-                    icon = MessageBoxImage.Error;
-                    break;
-
-                case "AUTH_USER_ALREADY_CONNECTED":
-                    message = "Este usuario ya tiene una sesión activa en otro lugar.";
-                    break;
-
-                case "AUTH_DB_ERROR":
-                case "AUTH_INTERNAL_500":
-                    message = "El servidor no está disponible en este momento. Intenta más tarde.";
-                    title = "Error del Servidor";
-                    icon = MessageBoxImage.Error;
-                    break;
-
-                default:
-                    message = $"Error del servidor ({detail.ErrorCode}): {detail.Message}";
-                    break;
-            }
-
-            ErrorMessage = message;
-            MessageBox.Show(message, title, MessageBoxButton.OK, icon);
-        }
-
-        private void AbortAndRecreateClient()
-        {
-            ServiceProxy.Instance.Reconnect();
         }
 
         private void ExecuteSignUp(Window loginWindow)
@@ -190,7 +142,6 @@ namespace Lottery.ViewModel.User
         {
             GuestLoginView guestView = new GuestLoginView();
             guestView.Show();
-
             loginWindow?.Close();
         }
     }

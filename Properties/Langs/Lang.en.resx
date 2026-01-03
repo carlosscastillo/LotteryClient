@@ -168,13 +168,13 @@
   <data name="CreateLobbyLabelMarkers" xml:space="preserve">
     <value>Markers</value>
   </data>
-  <data name="CreateLobbyLabelMarkersBeans" xml:space="preserve">
+  <data name="SelectTokenLabelMarkersBeans" xml:space="preserve">
     <value>Beans</value>
   </data>
-  <data name="CreateLobbyLabelMarkersBottleCaps" xml:space="preserve">
+  <data name="SelectTokenLabelMarkersBottleCaps" xml:space="preserve">
     <value>Bottle Caps</value>
   </data>
-  <data name="CreateLobbyLabelMarkersCoins" xml:space="preserve">
+  <data name="SelectTokenLabelMarkersCoins" xml:space="preserve">
     <value>Coins</value>
   </data>
   <data name="CreateLobbyLabelMarkersCorn" xml:space="preserve">
@@ -225,11 +225,11 @@
   <data name="es" xml:space="preserve">
     <value>Spanish</value>
   </data>
-  <data name="exit" xml:space="preserve">
+  <data name="GlobalMessageBoxTitleExit" xml:space="preserve">
     <value>Exit</value>
   </data>
-  <data name="GlobalButtonAccept" xml:space="preserve">
-    <value>Acept</value>
+  <data name="GlobalButtonOK" xml:space="preserve">
+    <value>OK</value>
   </data>
   <data name="GlobalButtonBack" xml:space="preserve">
     <value>Back</value>
@@ -339,8 +339,8 @@
   <data name="KickPlayerLabelKickOut" xml:space="preserve">
     <value>Kick Out</value>
   </data>
-  <data name="KickPlayerLabelMessage" xml:space="preserve">
-    <value>Are you sure you want to kick</value>
+  <data name="LobbyKickConfirmationMessage" xml:space="preserve">
+    <value>Are you sure you want to kick {0}? The player will not be allowed to re-enter this lobby.</value>
   </data>
   <data name="KickPlayerTextFieldChat" xml:space="preserve">
     <value>Type a message</value>
@@ -955,5 +955,230 @@ Do you want to join?</value>
   </data>
   <data name="LoginTextBlockSigningIn" xml:space="preserve">
     <value>Signing in . . .</value>
+  </data>
+  <data name="GameStatusStarted" xml:space="preserve">
+    <value>The game has started!</value>
+  </data>
+  <data name="GameStatusCardDrawn" xml:space="preserve">
+    <value>Drawn: {0}!</value>
+  </data>
+  <data name="GameStatusPlayerWon" xml:space="preserve">
+    <value>{0} has won the game!</value>
+  </data>
+  <data name="GameStatusVerifyingWin" xml:space="preserve">
+    <value>Verifying victory...</value>
+  </data>
+  <data name="GameExceptionInvalidAction" xml:space="preserve">
+    <value>Warning! Your board doesn't match the drawn cards.</value>
+  </data>
+  <data name="GameExceptionAlreadyActive" xml:space="preserve">
+    <value>Game state changed or game already ended.</value>
+  </data>
+  <data name="GameExceptionLobbyNotFound" xml:space="preserve">
+    <value>The game or lobby no longer exists.</value>
+  </data>
+  <data name="GameExceptionUserOffline" xml:space="preserve">
+    <value>Connection lost with your session.</value>
+  </data>
+  <data name="GameExceptionInternalError" xml:space="preserve">
+    <value>An internal game server error occurred.</value>
+  </data>
+  <data name="GameTitleGameOver" xml:space="preserve">
+    <value>Game Over</value>
+  </data>
+  <data name="GameMessageBoxPlayerWon" xml:space="preserve">
+    <value>{0} won the match.</value>
+  </data>
+  <data name="GameTitleGameFinished" xml:space="preserve">
+    <value>Game Finished</value>
+  </data>
+  <data name="GameMessageBoxGameEnded" xml:space="preserve">
+    <value>The game has ended.</value>
+  </data>
+  <data name="GameWarningNotAllCellsSelected" xml:space="preserve">
+    <value>You haven't marked all cells yet.</value>
+  </data>
+  <data name="GameWarningLeaveGame" xml:space="preserve">
+    <value>Are you sure you want to leave? You will lose progress.</value>
+  </data>
+  <data name="JoinLobbyCodeEmpty" xml:space="preserve">
+    <value>Please enter a lobby code.</value>
+  </data>
+  <data name="JoinLobbyNotFound" xml:space="preserve">
+    <value>The code entered does not match any active lobby.</value>
+  </data>
+  <data name="JoinLobbyFull" xml:space="preserve">
+    <value>The lobby has reached its maximum player capacity.</value>
+  </data>
+  <data name="JoinLobbyAlreadyIn" xml:space="preserve">
+    <value>You are already registered in this lobby (or another one).</value>
+  </data>
+  <data name="JoinLobbyBanned" xml:space="preserve">
+    <value>You cannot join this lobby because you have been banned.</value>
+  </data>
+  <data name="JoinLobbyUserOffline" xml:space="preserve">
+    <value>Your session has expired or is invalid.</value>
+  </data>
+  <data name="JoinLobbyInternalError" xml:space="preserve">
+    <value>Internal server error while trying to join.</value>
+  </data>
+  <data name="LobbyExceptionNotInLobby" xml:space="preserve">
+    <value>Server says you are not in an active lobby.</value>
+  </data>
+  <data name="LobbyExceptionSessionExpired" xml:space="preserve">
+    <value>Your session has expired.</value>
+  </data>
+  <data name="LobbyExceptionUserOffline" xml:space="preserve">
+    <value>User is currently offline.</value>
+  </data>
+  <data name="LobbyExceptionUserBusy" xml:space="preserve">
+    <value>User is already playing or inside a lobby.</value>
+  </data>
+  <data name="LobbyExceptionActionDenied" xml:space="preserve">
+    <value>You cannot kick yourself.</value>
+  </data>
+  <data name="LobbyExceptionLobbyNotFound" xml:space="preserve">
+    <value>The lobby no longer exists.</value>
+  </data>
+  <data name="LobbyExceptionForbiddenWord" xml:space="preserve">
+    <value>Inappropriate language detected!</value>
+  </data>
+  <data name="LobbyExceptionGuestRestricted" xml:space="preserve">
+    <value>Guests cannot invite friends.</value>
+  </data>
+  <data name="LobbyFriendGenericName" xml:space="preserve">
+    <value>your friend</value>
+  </data>
+  <data name="LobbyInviteSent" xml:space="preserve">
+    <value>Invitation sent to {0}.</value>
+  </data>
+  <data name="LobbyChatPlayerJoined" xml:space="preserve">
+    <value>--- {0} has joined. ---</value>
+  </data>
+  <data name="LobbyChatPlayerLeft" xml:space="preserve">
+    <value>--- {0} has left. ---</value>
+  </data>
+  <data name="LobbyChatPlayerKicked" xml:space="preserve">
+    <value>--- {0} has been kicked. ---</value>
+  </data>
+  <data name="LobbyMessageYouKicked" xml:space="preserve">
+    <value>You have been kicked from the lobby by the host.</value>
+  </data>
+  <data name="LobbyTitleKicked" xml:space="preserve">
+    <value>Kicked</value>
+  </data>
+  <data name="LobbyMessageHostClosed" xml:space="preserve">
+    <value>The host has closed the lobby.</value>
+  </data>
+  <data name="LobbyTitleClosed" xml:space="preserve">
+    <value>Lobby Closed</value>
+  </data>
+  <data name="GuestLoginInvalidNickname" xml:space="preserve">
+    <value>The username is invalid.</value>
+  </data>
+  <data name="GuestLoginInvalidLength" xml:space="preserve">
+    <value>Your nickname must be between 4 and 20 characters.</value>
+  </data>
+  <data name="GuestLoginEmptyNickname" xml:space="preserve">
+    <value>Please enter a nickname.</value>
+  </data>
+  <data name="GuestLoginInvalidFormat" xml:space="preserve">
+    <value>Your nickname contains invalid characters.</value>
+  </data>
+  <data name="GuestLoginGenericError" xml:space="preserve">
+    <value>Could not create guest session.</value>
+  </data>
+  <data name="LoginInvalidCredentials" xml:space="preserve">
+    <value>Incorrect username or password.</value>
+  </data>
+  <data name="LoginAccountLocked" xml:space="preserve">
+    <value>Your account has been temporarily locked due to too many failed attempts.</value>
+  </data>
+  <data name="LoginAlreadyConnected" xml:space="preserve">
+    <value>This user already has an active session elsewhere.</value>
+  </data>
+  <data name="LoginIncompleteData" xml:space="preserve">
+    <value>Please enter username and password.</value>
+  </data>
+  <data name="LoginValidationTitle" xml:space="preserve">
+    <value>Validation</value>
+  </data>
+  <data name="LoginValidationMessage" xml:space="preserve">
+    <value>Please correct the following errors:</value>
+  </data>
+  <data name="LoginGenericError" xml:space="preserve">
+    <value>Unknown error retrieving user data.</value>
+  </data>
+  <data name="RegisterUserDuplicate" xml:space="preserve">
+    <value>Nickname or email already registered.</value>
+  </data>
+  <data name="RegisterEmailSendFailed" xml:space="preserve">
+    <value>Could not send verification email.</value>
+  </data>
+  <data name="RegisterVerifyError" xml:space="preserve">
+    <value>There was a problem validating your code.</value>
+  </data>
+  <data name="RegisterBadRequest" xml:space="preserve">
+    <value>Some data is invalid.</value>
+  </data>
+  <data name="RegisterPasswordsDoNotMatch" xml:space="preserve">
+    <value>Passwords do not match.</value>
+  </data>
+  <data name="RegisterPasswordErrorTitle" xml:space="preserve">
+    <value>Password Error</value>
+  </data>
+  <data name="RegisterVerificationCodeSent" xml:space="preserve">
+    <value>A verification code was sent to your email.</value>
+  </data>
+  <data name="RegisterGenericError" xml:space="preserve">
+    <value>Could not register. Check your data.</value>
+  </data>
+  <data name="RegisterInvalidCodeTitle" xml:space="preserve">
+    <value>Invalid Code</value>
+  </data>
+  <data name="RegisterCodeExpiredOrIncorrect" xml:space="preserve">
+    <value>Code is incorrect or has expired.</value>
+  </data>
+  <data name="RegisterVerificationFailedTitle" xml:space="preserve">
+    <value>Verification Failed</value>
+  </data>
+  <data name="LobbyKickConfirmationTitle" xml:space="preserve">
+    <value>Kick Player</value>
+  </data>
+  <data name="SelectBoardLabelTitle" xml:space="preserve">
+    <value>Select your board</value>
+  </data>
+  <data name="SelectBoardLabelBoard" xml:space="preserve">
+    <value>Board #</value>
+  </data>
+  <data name="SelectBoardConfirmSelection" xml:space="preserve">
+    <value>Confirm Selection</value>
+  </data>
+  <data name="SelectBoardExceptionSelectABoard" xml:space="preserve">
+    <value>Please select a board.</value>
+  </data>
+  <data name="SelectTokenLabelTitle" xml:space="preserve">
+    <value>Choose your markers</value>
+  </data>
+  <data name="SelectTokenLabelMarkersPous" xml:space="preserve">
+    <value>Pous</value>
+  </data>
+  <data name="SelectTokenLabelMarkersCorn" xml:space="preserve">
+    <value>Corn</value>
+  </data>
+  <data name="SelectTokenButtonConfirmMarkers" xml:space="preserve">
+    <value>Confirm Markers</value>
+  </data>
+  <data name="SelectTokenSelectYourMarkers" xml:space="preserve">
+    <value>Please select your markers.</value>
+  </data>
+  <data name="LobbyLabelBoard" xml:space="preserve">
+    <value>Board</value>
+  </data>
+  <data name="LobbyLabelMarkers" xml:space="preserve">
+    <value>Markers</value>
+  </data>
+  <data name="SelectBoardLabelBoardIndividual" xml:space="preserve">
+    <value>Board #{0}</value>
   </data>
 </root>

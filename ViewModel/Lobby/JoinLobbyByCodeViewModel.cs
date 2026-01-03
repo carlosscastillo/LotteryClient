@@ -1,16 +1,18 @@
-﻿using Lottery.LotteryServiceReference;
+﻿using Lottery.Helpers;
+using Lottery.LotteryServiceReference;
+using Lottery.Properties.Langs;
 using Lottery.ViewModel.Base;
-using System;
-using System.ServiceModel;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Lottery.ViewModel.Lobby
 {
-    public class JoinLobbyByCodeViewModel : ObservableObject
+    public class JoinLobbyByCodeViewModel : BaseViewModel
     {
         private readonly int _currentUserId;
+        private readonly Dictionary<string, string> _errorMap;
 
         private string _lobbyCode;
         public string LobbyCode
@@ -27,6 +29,17 @@ namespace Lottery.ViewModel.Lobby
         {
             _currentUserId = SessionManager.CurrentUser.UserId;
 
+            _errorMap = new Dictionary<string, string>
+            {
+                { "LOBBY_NOT_FOUND", Lang.JoinLobbyNotFound },
+                { "LOBBY_FULL", Lang.JoinLobbyFull },
+                { "LOBBY_USER_ALREADY_IN", Lang.JoinLobbyAlreadyIn },
+                { "LOBBY_PLAYER_BANNED", Lang.JoinLobbyBanned },
+                { "USER_OFFLINE", Lang.JoinLobbyUserOffline },
+                { "LOBBY_SESSION_ERROR", Lang.JoinLobbyUserOffline },
+                { "LOBBY_INTERNAL_ERROR", Lang.JoinLobbyInternalError }
+            };
+
             JoinLobbyCommand = new RelayCommand<Window>(async (w) => await ExecuteJoin(w));
         }
 
@@ -34,73 +47,28 @@ namespace Lottery.ViewModel.Lobby
         {
             if (string.IsNullOrWhiteSpace(LobbyCode))
             {
-                MessageBox.Show("Por favor ingresa un código de lobby.", "Aviso", MessageBoxButton.OK);
-                return;
+                CustomMessageBox.Show(
+                    Lang.JoinLobbyCodeEmpty,
+                    Lang.GlobalMessageBoxTitleWarning,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning,
+                    window);
             }
-
-            try
+            else
             {
-                var lobbyState = await ServiceProxy.Instance.Client.JoinLobbyAsync(SessionManager.CurrentUser, LobbyCode);
-
-                ResultLobbyState = lobbyState;
-
-                if (window != null)
+                await ExecuteRequest(async () =>
                 {
-                    window.DialogResult = true;
-                    window.Close();
-                }
+                    var lobbyState = await ServiceProxy.Instance.Client.JoinLobbyAsync(SessionManager.CurrentUser, LobbyCode);
+
+                    ResultLobbyState = lobbyState;
+
+                    if (window != null)
+                    {
+                        window.DialogResult = true;
+                        window.Close();
+                    }
+                }, _errorMap);
             }
-            catch (FaultException<ServiceFault> ex)
-            {
-                ShowServiceError(ex, "No se pudo unir al Lobby");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error inesperado: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void ShowServiceError(FaultException<ServiceFault> fault, string title)
-        {
-            var detail = fault.Detail;
-            string message = detail.Message;
-            MessageBoxImage icon = MessageBoxImage.Warning;
-
-            switch (detail.ErrorCode)
-            {
-                case "LOBBY_NOT_FOUND":
-                    message = "El código ingresado no corresponde a ningún lobby activo.";
-                    break;
-
-                case "LOBBY_FULL":
-                    message = "El lobby ya alcanzó su capacidad máxima de jugadores.";
-                    break;
-
-                case "LOBBY_USER_ALREADY_IN":
-                    message = "Ya te encuentras registrado en este lobby (o en otro).";
-                    break;
-
-                case "LOBBY_PLAYER_BANNED":
-                    message = "No puedes unirte a este lobby porque has sido expulsado.";
-                    break;
-
-                case "USER_OFFLINE":
-                case "LOBBY_SESSION_ERROR":
-                    message = "Tu sesión ha expirado o no es válida.";
-                    icon = MessageBoxImage.Error;
-                    break;
-
-                case "LOBBY_INTERNAL_ERROR":
-                    message = "Error interno del servidor al intentar unirse.";
-                    icon = MessageBoxImage.Error;
-                    break;
-
-                default:
-                    message = $"Error del servidor: {detail.Message}";
-                    break;
-            }
-
-            MessageBox.Show(message, title, MessageBoxButton.OK, icon);
         }
     }
 }

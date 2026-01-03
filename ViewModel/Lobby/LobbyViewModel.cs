@@ -1,25 +1,33 @@
-﻿using Lottery.LotteryServiceReference;
+﻿using Contracts.Services.Lobby;
+using Lottery.Helpers;
+using Lottery.LotteryServiceReference;
+using Lottery.Properties.Langs;
 using Lottery.View.Friends;
 using Lottery.View.Game;
 using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;
 using Lottery.ViewModel.Friends;
 using Lottery.ViewModel.Game;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Lottery.ViewModel.Lobby
 {
-    public class LobbyViewModel : ObservableObject
+    public class GameModeOption
+    {
+        public string Key { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class LobbyViewModel : BaseViewModel
     {
         private readonly int _currentUserId;
         private Window _lobbyWindow;
+        private readonly Dictionary<string, string> _errorMap;
 
         private string _lobbyCode;
         public string LobbyCode
@@ -44,6 +52,22 @@ namespace Lottery.ViewModel.Lobby
             set => SetProperty(ref _isShowingFriendsList, value);
         }
 
+        private int _selectedBoardId = 1;
+
+        public string SelectedBoardName => $"{Lang.SelectBoardLabelBoard} {SelectedBoardId}";
+
+        public int SelectedBoardId
+        {
+            get { return _selectedBoardId; }
+            set
+            {
+                if (SetProperty(ref _selectedBoardId, value))
+                {
+                    OnPropertyChanged(nameof(SelectedBoardName));
+                }
+            }
+        }
+
         private ObservableCollection<FriendDto> _friendsList;
         public ObservableCollection<FriendDto> FriendsList
         {
@@ -53,7 +77,50 @@ namespace Lottery.ViewModel.Lobby
 
         public ObservableCollection<UserDto> Players { get; }
         public ObservableCollection<string> ChatHistory { get; } = new ObservableCollection<string>();
-        public List<string> AvailableGameModes { get; } = new List<string> { "Normal", "Diagonales", "Marco", "Centro", "Mega Lotería", "Lotería Injusta" };
+
+        public List<string> AvailableTokens { get; } = new List<string>
+        {
+            "beans", "bottle_caps", "pou", "corn", "coins"
+        };
+
+        private string _selectedToken = "beans";
+        public string SelectedToken
+        {
+            get => _selectedToken;
+            set
+            {
+                if (SetProperty(ref _selectedToken, value))
+                {
+                    OnPropertyChanged(nameof(SelectedTokenName));
+                }
+            }
+        }
+
+        public string SelectedTokenName => GetTokenDisplayName(_selectedToken);
+
+        private string GetTokenDisplayName(string key)
+        {
+            switch (key)
+            {
+                case "beans": return Lang.SelectTokenLabelMarkersBeans;
+                case "bottle_caps": return Lang.SelectTokenLabelMarkersBottleCaps;
+                case "pou": return Lang.SelectTokenLabelMarkersPous;
+                case "corn": return Lang.SelectTokenLabelMarkersCorn;
+                case "coins": return Lang.SelectTokenLabelMarkersCoins;
+                default: return key;
+            }
+        }
+
+        public List<string> AvailableBoards { get; } = Enumerable.Range(1, 10).Select(i => $"Tablero {i}").ToList();
+
+        private string _selectedBoard;
+        public string SelectedBoard
+        {
+            get => _selectedBoard;
+            set => SetProperty(ref _selectedBoard, value);
+        }
+
+        public List<GameModeOption> AvailableGameModes { get; private set; }
 
         private string _selectedGameMode;
         public string SelectedGameMode
@@ -76,6 +143,8 @@ namespace Lottery.ViewModel.Lobby
         public ICommand InviteFriendToLobbyCommand { get; }
         public ICommand StartGameCommand { get; }
         public ICommand ToggleShowFriendsCommand { get; }
+        public ICommand OpenBoardSelectionCommand { get; set; }
+        public ICommand OpenTokenSelectionCommand { get; set; }
 
         public LobbyViewModel(LobbyStateDto lobbyState, Window window)
         {
@@ -85,17 +154,50 @@ namespace Lottery.ViewModel.Lobby
             LobbyCode = lobbyState.LobbyCode;
             Players = new ObservableCollection<UserDto>(lobbyState.Players);
             IsHost = Players.FirstOrDefault(p => p.UserId == _currentUserId)?.IsHost ?? false;
-            _selectedGameMode = AvailableGameModes.FirstOrDefault();
+
+            AvailableGameModes = new List<GameModeOption>
+            {
+                new GameModeOption { Key = "Standard", Name = Lang.CreateLobbyLabelGameModeStandard },
+                new GameModeOption { Key = "Corners", Name = Lang.CreateLobbyLabelGameModeCorners },
+                new GameModeOption { Key = "Diagonals", Name = Lang.CreateLobbyLabelGameModeDiagonals },
+                new GameModeOption { Key = "Frame", Name = Lang.CreateLobbyLabelGameModeFrame },
+                new GameModeOption { Key = "Center", Name = Lang.CreateLobbyLabelGameModeCenter }
+            };
+
+            _selectedGameMode = AvailableGameModes.FirstOrDefault()?.Key;
+            _selectedToken = AvailableTokens.FirstOrDefault();
+            _selectedBoard = AvailableBoards.FirstOrDefault();
 
             FriendsList = new ObservableCollection<FriendDto>();
 
-            SendChatCommand = new RelayCommand(async () => await SendChat(), () => !string.IsNullOrWhiteSpace(ChatMessage));
+            _errorMap = new Dictionary<string, string>
+            {
+                { "CHAT_USER_NOT_IN_LOBBY", Lang.LobbyExceptionNotInLobby },
+                { "CHAT_USER_OFFLINE", Lang.LobbyExceptionSessionExpired },
+                { "USER_OFFLINE", Lang.LobbyExceptionUserOffline },
+                { "SESSION_CLIENT_NOT_FOUND", Lang.LobbyExceptionUserOffline },
+                { "FRIEND_NOT_CONNECTED", Lang.LobbyExceptionUserOffline },
+                { "USER_IN_LOBBY", Lang.LobbyExceptionUserBusy },
+                { "LOBBY_USER_ALREADY_IN", Lang.LobbyExceptionUserBusy },
+                { "LOBBY_ACTION_DENIED", Lang.LobbyExceptionActionDenied },
+                { "LOBBY_NOT_FOUND", Lang.LobbyExceptionLobbyNotFound },
+                { "CHAT_FORBIDDEN_WORD", Lang.LobbyExceptionForbiddenWord },
+                { "FRIEND_GUEST_RESTRICTED", Lang.LobbyExceptionGuestRestricted },
+                { "LOBBY_INTERNAL_ERROR", Lang.GlobalExceptionInternalServerError },
+                { "CHAT_INTERNAL_ERROR", Lang.GlobalExceptionInternalServerError }
+            };
+
+            SendChatCommand = new RelayCommand(async () => await SendChat(), () => 
+                !string.IsNullOrWhiteSpace(ChatMessage));
             LeaveLobbyCommand = new RelayCommand(async () => await LeaveLobby());
             KickPlayerCommand = new RelayCommand<int>(async (id) => await KickPlayer(id));
             StartGameCommand = new RelayCommand(async () => await StartGame(), () => IsHost);
             ToggleShowFriendsCommand = new RelayCommand(async () => await ExecuteToggleShowFriends());
             InviteFriendCommand = new RelayCommand(OpenInviteFriendsWindow);
-            InviteFriendToLobbyCommand = new RelayCommand<int>(async (friendId) => await ExecuteInviteFriendToLobby(friendId));
+            InviteFriendToLobbyCommand = new RelayCommand<int>(async (friendId) => 
+                await ExecuteInviteFriendToLobby(friendId));
+            OpenBoardSelectionCommand = new RelayCommand(OpenBoardSelection);
+            OpenTokenSelectionCommand = new RelayCommand(OpenTokenSelection);
 
             SubscribeToEvents();
         }
@@ -112,32 +214,22 @@ namespace Lottery.ViewModel.Lobby
 
         private async Task ExecuteInviteFriendToLobby(int friendId)
         {
-            try
+            await ExecuteRequest(async () =>
             {
                 await ServiceProxy.Instance.Client.InviteFriendToLobbyAsync(LobbyCode, friendId);
 
                 var friend = FriendsList.FirstOrDefault(f => f.FriendId == friendId);
-                string friendName = friend != null ? friend.Nickname : "tu amigo";
+                string friendName = friend != null ? friend.Nickname : Lang.LobbyFriendGenericName;
 
-                _lobbyWindow.Dispatcher.Invoke(() =>
-                {
-                    MessageBox.Show(_lobbyWindow, $"Invitación enviada a {friendName}.", "Enviado", MessageBoxButton.OK, MessageBoxImage.Information);
-                });
-            }
-            catch (FaultException<ServiceFault> ex)
-            {
-                ShowServiceError(ex, "No se pudo invitar");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(_lobbyWindow, $"Error inesperado al invitar: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+                ShowSuccess(string.Format(Lang.LobbyInviteSent, friendName));
+            }, _errorMap);
         }
 
         private async Task ExecuteToggleShowFriends()
         {
             IsShowingFriendsList = !IsShowingFriendsList;
-            if (IsShowingFriendsList && FriendsList.Count == 0)
+
+            if (IsShowingFriendsList)
             {
                 await LoadFriendsListAsync();
             }
@@ -145,7 +237,7 @@ namespace Lottery.ViewModel.Lobby
 
         private async Task LoadFriendsListAsync()
         {
-            try
+            await ExecuteRequest(async () =>
             {
                 var friends = await ServiceProxy.Instance.Client.GetFriendsAsync(_currentUserId);
 
@@ -157,89 +249,115 @@ namespace Lottery.ViewModel.Lobby
                         foreach (var friend in friends) FriendsList.Add(friend);
                     }
                 });
-            }
-            catch (FaultException<ServiceFault> ex)
-            {
-                ShowServiceError(ex, "Error al cargar amigos");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(_lobbyWindow, $"Error al cargar amigos: {ex.Message}");
-            }
+            }, _errorMap);
         }
 
         private async Task SendChat()
         {
-            try
+            await ExecuteRequest(async () =>
             {
                 await ServiceProxy.Instance.Client.SendMessageAsync(ChatMessage);
                 ChatMessage = string.Empty;
-            }
-            catch (FaultException<ServiceFault> ex)
-            {
-                ShowServiceError(ex, "Error de Chat");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(_lobbyWindow, ex.Message);
-            }
+            }, _errorMap);
         }
 
         private async Task LeaveLobby()
         {
-            try
+            UnsubscribeFromEvents();
+            await ExecuteRequest(async () =>
             {
-                UnsubscribeFromEvents();
                 await ServiceProxy.Instance.Client.LeaveLobbyAsync();
-            }
-            catch (Exception)
-            {
-            }
-            finally
-            {
-                NavigateToMainMenu();
-            }
+            }, _errorMap);
+
+            NavigateToMainMenu();
         }
 
         private async Task KickPlayer(int targetPlayerId)
         {
-            if (!IsHost) return;
-            try
+            if (IsHost)
             {
-                await ServiceProxy.Instance.Client.KickPlayerAsync(targetPlayerId);
-            }
-            catch (FaultException<ServiceFault> ex)
-            {
-                ShowServiceError(ex, "Error al expulsar");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(_lobbyWindow, ex.Message);
+                var playerToKick = Players.FirstOrDefault(p => p.UserId == targetPlayerId);
+
+                if (playerToKick != null)
+                {
+                    var result = CustomMessageBox.Show(
+                        string.Format(Lang.LobbyKickConfirmationMessage, playerToKick.Nickname),
+                        Lang.LobbyKickConfirmationTitle,
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Warning,
+                        _lobbyWindow);
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        await ExecuteRequest(async () =>
+                        {
+                            await ServiceProxy.Instance.Client.KickPlayerAsync(targetPlayerId);
+                        }, _errorMap);
+                    }
+                }
             }
         }
 
         private async Task StartGame()
         {
-            if (!IsHost) return;
-            try
+            if (IsHost)
             {
-                GameSettingsDto settings = new GameSettingsDto
+                await ExecuteRequest(async () =>
                 {
-                    CardDrawSpeedSeconds = this.CardDrawSpeedSeconds,
-                    IsPrivate = false,
-                    MaxPlayers = 4
-                };
+                    GameSettingsDto settings = new GameSettingsDto
+                    {
+                        CardDrawSpeedSeconds = this.CardDrawSpeedSeconds,
+                        MaxPlayers = 4,
+                        GameMode = this.SelectedGameMode
+                    };
 
-                await ServiceProxy.Instance.Client.StartGameAsync(settings);
+                    await ServiceProxy.Instance.Client.StartGameAsync(settings);
+                }, _errorMap);
             }
-            catch (FaultException<ServiceFault> ex)
+        }
+
+        private void OpenBoardSelection(object obj)
+        {
+            var view = new Lottery.View.Lobby.SelectBoardView();
+            var viewModel = new Lottery.ViewModel.Lobby.SelectBoardViewModel(this.SelectedBoardId);
+
+            viewModel.OnBoardSelected = async (boardId) =>
             {
-                ShowServiceError(ex, "No se pudo iniciar");
-            }
-            catch (Exception ex)
+                this.SelectedBoardId = boardId;
+
+                view.DialogResult = true;
+                view.Close();
+
+                await ExecuteRequest(async () =>
+                {
+                    var userDto = new UserDto { UserId = _currentUserId };
+
+                    await ServiceProxy.Instance.Client.ChooseBoardAsync(userDto, boardId);
+
+                }, _errorMap);
+            };
+
+            view.DataContext = viewModel;
+            view.Owner = System.Windows.Application.Current.MainWindow;
+            view.ShowDialog();
+        }
+
+        private void OpenTokenSelection(object obj)
+        {
+            var view = new Lottery.View.Lobby.SelectTokenView();
+            var viewModel = new Lottery.ViewModel.Lobby.SelectTokenViewModel(this.SelectedToken);
+
+            viewModel.OnTokenSelected = (tokenName) =>
             {
-                MessageBox.Show(_lobbyWindow, ex.Message);
-            }
+                this.SelectedToken = tokenName;
+
+                view.DialogResult = true;
+                view.Close();
+            };
+
+            view.DataContext = viewModel;
+            view.Owner = System.Windows.Application.Current.MainWindow;
+            view.ShowDialog();
         }
 
         private void SubscribeToEvents()
@@ -273,8 +391,11 @@ namespace Lottery.ViewModel.Lobby
         {
             _lobbyWindow.Dispatcher.Invoke(() =>
             {
-                if (!Players.Any(p => p.UserId == newPlayer.UserId)) Players.Add(newPlayer);
-                ChatHistory.Add($"--- {newPlayer.Nickname} se ha unido. ---");
+                if (!Players.Any(p => p.UserId == newPlayer.UserId))
+                {
+                    Players.Add(newPlayer);
+                }
+                ChatHistory.Add(string.Format(Lang.LobbyChatPlayerJoined, newPlayer.Nickname));
             });
         }
 
@@ -286,7 +407,7 @@ namespace Lottery.ViewModel.Lobby
                 if (player != null)
                 {
                     Players.Remove(player);
-                    ChatHistory.Add($"--- {player.Nickname} se ha ido. ---");
+                    ChatHistory.Add(string.Format(Lang.LobbyChatPlayerLeft, player.Nickname));
                 }
             });
         }
@@ -299,7 +420,7 @@ namespace Lottery.ViewModel.Lobby
                 if (player != null)
                 {
                     Players.Remove(player);
-                    ChatHistory.Add($"--- {player.Nickname} ha sido expulsado. ---");
+                    ChatHistory.Add(string.Format(Lang.LobbyChatPlayerKicked, player.Nickname));
                 }
             });
         }
@@ -309,7 +430,12 @@ namespace Lottery.ViewModel.Lobby
             _lobbyWindow.Dispatcher.Invoke(() =>
             {
                 UnsubscribeFromEvents();
-                MessageBox.Show(_lobbyWindow, "Has sido expulsado del lobby por el host.", "Expulsado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                CustomMessageBox.Show(
+                    Lang.LobbyMessageYouKicked,
+                    Lang.LobbyTitleKicked, MessageBoxButton.OK,
+                    MessageBoxImage.Warning,
+                    _lobbyWindow);
+
                 NavigateToMainMenu();
             });
         }
@@ -319,7 +445,12 @@ namespace Lottery.ViewModel.Lobby
             _lobbyWindow.Dispatcher.Invoke(() =>
             {
                 UnsubscribeFromEvents();
-                MessageBox.Show(_lobbyWindow, "El host ha cerrado el lobby.", "Lobby Cerrado", MessageBoxButton.OK, MessageBoxImage.Information);
+                CustomMessageBox.Show(
+                    Lang.LobbyMessageHostClosed,
+                    Lang.LobbyTitleClosed,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information,
+                    _lobbyWindow);
                 NavigateToMainMenu();
             });
         }
@@ -329,8 +460,17 @@ namespace Lottery.ViewModel.Lobby
             _lobbyWindow.Dispatcher.Invoke(() =>
             {
                 UnsubscribeFromEvents();
+
                 GameView gameView = new GameView(this.Players, settings);
-                gameView.DataContext = new GameViewModel(this.Players, settings, gameView);
+
+                gameView.DataContext = new GameViewModel(
+                    this.Players,
+                    settings,
+                    this.SelectedToken,
+                    this.SelectedBoardId,
+                    gameView
+                );
+
                 gameView.Show();
                 _lobbyWindow.Close();
             });
@@ -343,67 +483,6 @@ namespace Lottery.ViewModel.Lobby
                 MainMenuView mainMenuView = new MainMenuView();
                 mainMenuView.Show();
                 _lobbyWindow.Close();
-            });
-        }
-
-        private void ShowServiceError(FaultException<ServiceFault> fault, string title)
-        {
-            _lobbyWindow.Dispatcher.Invoke(() =>
-            {
-                var detail = fault.Detail;
-                string message = detail.Message;
-                MessageBoxImage icon = MessageBoxImage.Warning;
-
-                switch (detail.ErrorCode)
-                {
-                    case "CHAT_USER_NOT_IN_LOBBY":
-                        message = "El servidor indica que no estás en un lobby activo.";
-                        break;
-
-                    case "CHAT_USER_OFFLINE":
-                        message = "Tu sesión ha expirado.";
-                        icon = MessageBoxImage.Error;
-                        break;
-
-                    case "USER_OFFLINE":
-                    case "SESSION_CLIENT_NOT_FOUND":
-                    case "FRIEND_NOT_CONNECTED":
-                        message = "El usuario no está conectado actualmente.";
-                        break;
-
-                    case "USER_IN_LOBBY":
-                    case "LOBBY_USER_ALREADY_IN":
-                        message = "El usuario ya se encuentra jugando o dentro de un lobby.";
-                        break;
-
-                    case "LOBBY_ACTION_DENIED":
-                        message = "No puedes expulsarte a ti mismo";
-                        break;
-
-                    case "LOBBY_NOT_FOUND":
-                        message = "El lobby ya no existe.";
-                        break;
-
-                    case "CHAT_FORBIDDEN_WORD":
-                        message = "No por ser el host puedes decir palabrotas";
-                        break;
-
-                    case "FRIEND_GUEST_RESTRICTED":
-                        message = "No puedes invitar amigos siendo invitado.";
-                        break;
-
-                    case "LOBBY_INTERNAL_ERROR":
-                    case "CHAT_INTERNAL_ERROR":
-                        message = "Ocurrió un error interno en el servidor.";
-                        icon = MessageBoxImage.Error;
-                        break;
-
-                    default:
-                        message = $"Error del servidor: {detail.Message}";
-                        break;
-                }
-
-                MessageBox.Show(_lobbyWindow, message, title, MessageBoxButton.OK, icon);
             });
         }
     }

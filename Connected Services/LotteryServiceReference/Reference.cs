@@ -180,6 +180,9 @@ namespace Lottery.LotteryServiceReference {
         private int CardDrawSpeedSecondsField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string GameModeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool IsPrivateField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -204,6 +207,19 @@ namespace Lottery.LotteryServiceReference {
                 if ((this.CardDrawSpeedSecondsField.Equals(value) != true)) {
                     this.CardDrawSpeedSecondsField = value;
                     this.RaisePropertyChanged("CardDrawSpeedSeconds");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string GameMode {
+            get {
+                return this.GameModeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.GameModeField, value) != true)) {
+                    this.GameModeField = value;
+                    this.RaisePropertyChanged("GameMode");
                 }
             }
         }
@@ -853,6 +869,13 @@ namespace Lottery.LotteryServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/KickPlayer", ReplyAction="http://tempuri.org/ILobbyService/KickPlayerResponse")]
         System.Threading.Tasks.Task KickPlayerAsync(int targetPlayerId);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/ChooseBoard", ReplyAction="http://tempuri.org/ILobbyService/ChooseBoardResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/ILobbyService/ChooseBoardServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        void ChooseBoard(Lottery.LotteryServiceReference.UserDto user, int boardId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/ChooseBoard", ReplyAction="http://tempuri.org/ILobbyService/ChooseBoardResponse")]
+        System.Threading.Tasks.Task ChooseBoardAsync(Lottery.LotteryServiceReference.UserDto user, int boardId);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/LoginUser", ReplyAction="http://tempuri.org/IAuthenticationService/LoginUserResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Lottery.LotteryServiceReference.ServiceFault), Action="http://tempuri.org/IAuthenticationService/LoginUserServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         Lottery.LotteryServiceReference.UserDto LoginUser(string username, string password);
@@ -1179,6 +1202,14 @@ namespace Lottery.LotteryServiceReference {
         
         public System.Threading.Tasks.Task KickPlayerAsync(int targetPlayerId) {
             return base.Channel.KickPlayerAsync(targetPlayerId);
+        }
+        
+        public void ChooseBoard(Lottery.LotteryServiceReference.UserDto user, int boardId) {
+            base.Channel.ChooseBoard(user, boardId);
+        }
+        
+        public System.Threading.Tasks.Task ChooseBoardAsync(Lottery.LotteryServiceReference.UserDto user, int boardId) {
+            return base.Channel.ChooseBoardAsync(user, boardId);
         }
         
         public Lottery.LotteryServiceReference.UserDto LoginUser(string username, string password) {

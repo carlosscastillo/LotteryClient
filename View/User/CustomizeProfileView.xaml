@@ -188,7 +188,7 @@
                                     </Style>
                                 </Button.Resources>
                             </Button>
-                            <Button Content="{x:Static language:Lang.GlobalButtonAccept}" Command="{Binding SendVerificationCodeCommand}" Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Width="120" Margin="10,0,0,0">
+                            <Button Content="{x:Static language:Lang.GlobalButtonOK}" Command="{Binding SendVerificationCodeCommand}" Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Width="120" Margin="10,0,0,0">
                                 <Button.Resources>
                                     <Style TargetType="Border">
                                         <Setter Property="CornerRadius" Value="8"/>
@@ -224,7 +224,7 @@
                             <Border Background="#28a745" CornerRadius="30"/>
                             <TextBlock Text="&#xE73E;" FontFamily="Segoe MDL2 Assets" Foreground="White" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
-                        <Button Content="{x:Static language:Lang.GlobalButtonAccept}" Command="{Binding CloseOverlayCommand}" Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Width="150" HorizontalAlignment="Center">
+                        <Button Content="{x:Static language:Lang.GlobalButtonOK}" Command="{Binding CloseOverlayCommand}" Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Width="150" HorizontalAlignment="Center">
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="8"/>
@@ -433,7 +433,7 @@
 
                     <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,40,0,20">
 
-                        <Button Content="{x:Static language:Lang.GlobalButtonAccept}" 
+                        <Button Content="{x:Static language:Lang.GlobalButtonOK}" 
                             Command="{Binding AcceptAvatarChangeCommand}"
                             Padding="8" FontSize="14" FontWeight="Bold" 
                             Foreground="White" Background="Black" 

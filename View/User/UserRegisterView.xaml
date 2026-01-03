@@ -209,7 +209,7 @@
                         <TextBox x:Name="VerificationCodeTextBox"
                                  Text="{Binding VerificationCode, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource CodeInputFieldStyle}"/>
-                        <TextBlock Text="&#xE72E;" Style="{StaticResource IconStyle}" Margin="10,0,0,0"/>
+                        <TextBlock Text="&#xE72E;" Style="{StaticResource IconStyle}" Margin="30,0,0,0"/>
                     </Grid>
 
                     <Button Content="{x:Static language:Lang.GlobalButtonVerifyCode}"

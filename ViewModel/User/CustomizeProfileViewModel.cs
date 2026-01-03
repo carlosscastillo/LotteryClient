@@ -383,12 +383,11 @@ namespace Lottery.ViewModel.User
 
         private void OpenChangePassword()
         {
+            ResetPasswordPanelState();
+
             IsOverlayVisible = true;
             IsChangePasswordVisible = true;
             IsNewPasswordVisible = false;
-            CurrentPassword = "";
-            NewPassword = "";
-            ConfirmNewPassword = "";
         }
 
         private void CloseOverlay()
@@ -399,12 +398,30 @@ namespace Lottery.ViewModel.User
             IsEmailVerifiedVisible = false;
             IsChangePasswordVisible = false;
             IsNewPasswordVisible = false;
+
+            ResetPasswordPanelState();
+
+            NewEmail = string.Empty;
+            VerificationCode = string.Empty;
         }
 
         private void BackToChangePassword()
         {
+            ResetPasswordPanelState();
+
             IsNewPasswordVisible = false;
             IsChangePasswordVisible = true;
+        }
+
+        private void ResetPasswordPanelState()
+        {           
+            IsCurrentPasswordVisible = false;
+            IsNewPasswordVisibleEye = false;
+            IsConfirmNewPasswordVisible = false;
+            
+            CurrentPassword = string.Empty;
+            NewPassword = string.Empty;
+            ConfirmNewPassword = string.Empty;
         }
 
         private void BackToEditEmail()

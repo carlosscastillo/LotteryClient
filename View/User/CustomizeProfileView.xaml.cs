@@ -39,5 +39,20 @@ namespace Lottery.View.User
             if (DataContext is CustomizeProfileViewModel vm)
                 vm.ConfirmNewPassword = (sender as PasswordBox)?.Password;
         }
+        private void ChangePasswordPanel_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue)
+            {
+                CurrentPasswordBox.Password = string.Empty;
+            }
+        }
+        private void NewPasswordPanel_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue)
+            {
+                NewPasswordBox.Password = string.Empty;
+                ConfirmNewPasswordBox.Password = string.Empty;
+            }
+        }
     }
 }

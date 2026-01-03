@@ -225,7 +225,7 @@
   <data name="es" xml:space="preserve">
     <value>Español</value>
   </data>
-  <data name="exit" xml:space="preserve">
+  <data name="GlobalMessageBoxTitleExit" xml:space="preserve">
     <value>Salir</value>
   </data>
   <data name="GlobalButtonAccept" xml:space="preserve">
@@ -339,8 +339,8 @@
   <data name="KickPlayerLabelKickOut" xml:space="preserve">
     <value>Expulsión</value>
   </data>
-  <data name="KickPlayerLabelMessage" xml:space="preserve">
-    <value>¿Estas seguro que deseas expulsar a</value>
+  <data name="LobbyKickConfirmationMessage" xml:space="preserve">
+    <value>¿Estás seguro de que deseas expulsar a {0}? El jugador no podrá volver a entrar a este lobby.</value>
   </data>
   <data name="KickPlayerTextFieldChat" xml:space="preserve">
     <value>Escribe un mensaje</value>
@@ -957,5 +957,194 @@
   </data>
   <data name="LoginTextBlockSigningIn" xml:space="preserve">
     <value>Iniciando Sesión . . .</value>
+  </data>
+  <data name="GameStatusStarted" xml:space="preserve">
+    <value>¡La partida ha comenzado!</value>
+  </data>
+  <data name="GameStatusCardDrawn" xml:space="preserve">
+    <value>¡Salió: {0}!</value>
+  </data>
+  <data name="GameStatusPlayerWon" xml:space="preserve">
+    <value>¡{0} ha ganado la partida!</value>
+  </data>
+  <data name="GameStatusVerifyingWin" xml:space="preserve">
+    <value>Verificando victoria...</value>
+  </data>
+  <data name="GameExceptionInvalidAction" xml:space="preserve">
+    <value>¡Cuidado! Tu tablero no coincide con las cartas cantadas.</value>
+  </data>
+  <data name="GameExceptionAlreadyActive" xml:space="preserve">
+    <value>El estado del juego ha cambiado o ya finalizó.</value>
+  </data>
+  <data name="GameExceptionLobbyNotFound" xml:space="preserve">
+    <value>La partida o el lobby ya no existen.</value>
+  </data>
+  <data name="GameExceptionUserOffline" xml:space="preserve">
+    <value>Se perdió la conexión con tu sesión.</value>
+  </data>
+  <data name="GameExceptionInternalError" xml:space="preserve">
+    <value>Ocurrió un error en el servidor de juego.</value>
+  </data>
+  <data name="GameTitleGameOver" xml:space="preserve">
+    <value>Fin del Juego</value>
+  </data>
+  <data name="GameMessageBoxPlayerWon" xml:space="preserve">
+    <value>{0} ha ganado la partida.</value>
+  </data>
+  <data name="GameTitleGameFinished" xml:space="preserve">
+    <value>Juego Finalizado</value>
+  </data>
+  <data name="GameMessageBoxGameEnded" xml:space="preserve">
+    <value>La partida ha terminado.</value>
+  </data>
+  <data name="GameWarningNotAllCellsSelected" xml:space="preserve">
+    <value>Aún no has marcado todas las casillas.</value>
+  </data>
+  <data name="GameWarningLeaveGame" xml:space="preserve">
+    <value>¿Seguro que quieres salir? Perderás el progreso.</value>
+  </data>
+  <data name="JoinLobbyCodeEmpty" xml:space="preserve">
+    <value>Por favor ingresa un código de lobby.</value>
+  </data>
+  <data name="JoinLobbyNotFound" xml:space="preserve">
+    <value>El código ingresado no corresponde a ningún lobby activo.</value>
+  </data>
+  <data name="JoinLobbyFull" xml:space="preserve">
+    <value>El lobby ya alcanzó su capacidad máxima de jugadores.</value>
+  </data>
+  <data name="JoinLobbyAlreadyIn" xml:space="preserve">
+    <value>Ya te encuentras registrado en este lobby (o en otro).</value>
+  </data>
+  <data name="JoinLobbyBanned" xml:space="preserve">
+    <value>No puedes unirte a este lobby porque has sido expulsado.</value>
+  </data>
+  <data name="JoinLobbyUserOffline" xml:space="preserve">
+    <value>Tu sesión ha expirado o no es válida.</value>
+  </data>
+  <data name="JoinLobbyInternalError" xml:space="preserve">
+    <value>Error interno del servidor al intentar unirse.</value>
+  </data>
+  <data name="LobbyExceptionNotInLobby" xml:space="preserve">
+    <value>El servidor indica que no estás en un lobby activo.</value>
+  </data>
+  <data name="LobbyExceptionSessionExpired" xml:space="preserve">
+    <value>Tu sesión ha expirado.</value>
+  </data>
+  <data name="LobbyExceptionUserOffline" xml:space="preserve">
+    <value>El usuario no está conectado actualmente.</value>
+  </data>
+  <data name="LobbyExceptionUserBusy" xml:space="preserve">
+    <value>El usuario ya se encuentra jugando o dentro de un lobby.</value>
+  </data>
+  <data name="LobbyExceptionActionDenied" xml:space="preserve">
+    <value>No puedes expulsarte a ti mismo.</value>
+  </data>
+  <data name="LobbyExceptionLobbyNotFound" xml:space="preserve">
+    <value>El lobby ya no existe.</value>
+  </data>
+  <data name="LobbyExceptionForbiddenWord" xml:space="preserve">
+    <value>¡Lenguaje inapropiado detectado!</value>
+  </data>
+  <data name="LobbyExceptionGuestRestricted" xml:space="preserve">
+    <value>No puedes invitar amigos siendo invitado.</value>
+  </data>
+  <data name="LobbyFriendGenericName" xml:space="preserve">
+    <value>tu amigo</value>
+  </data>
+  <data name="LobbyInviteSent" xml:space="preserve">
+    <value>Invitación enviada a {0}.</value>
+  </data>
+  <data name="LobbyChatPlayerJoined" xml:space="preserve">
+    <value>--- {0} se ha unido. ---</value>
+  </data>
+  <data name="LobbyChatPlayerLeft" xml:space="preserve">
+    <value>--- {0} se ha ido. ---</value>
+  </data>
+  <data name="LobbyChatPlayerKicked" xml:space="preserve">
+    <value>--- {0} ha sido expulsado. ---</value>
+  </data>
+  <data name="LobbyMessageYouKicked" xml:space="preserve">
+    <value>Has sido expulsado del lobby por el host.</value>
+  </data>
+  <data name="LobbyTitleKicked" xml:space="preserve">
+    <value>Expulsado</value>
+  </data>
+  <data name="LobbyMessageHostClosed" xml:space="preserve">
+    <value>El host ha cerrado el lobby.</value>
+  </data>
+  <data name="LobbyTitleClosed" xml:space="preserve">
+    <value>Lobby Cerrado</value>
+  </data>
+  <data name="GuestLoginInvalidNickname" xml:space="preserve">
+    <value>El nombre de usuario no es válido.</value>
+  </data>
+  <data name="GuestLoginInvalidLength" xml:space="preserve">
+    <value>Tu apodo debe tener entre 4 y 20 caracteres.</value>
+  </data>
+  <data name="GuestLoginEmptyNickname" xml:space="preserve">
+    <value>Por favor ingresa un apodo.</value>
+  </data>
+  <data name="GuestLoginInvalidFormat" xml:space="preserve">
+    <value>Tu apodo contiene caracteres inválidos.</value>
+  </data>
+  <data name="GuestLoginGenericError" xml:space="preserve">
+    <value>No se pudo crear la sesión de invitado.</value>
+  </data>
+  <data name="LoginInvalidCredentials" xml:space="preserve">
+    <value>El usuario o la contraseña son incorrectos.</value>
+  </data>
+  <data name="LoginAccountLocked" xml:space="preserve">
+    <value>Tu cuenta ha sido bloqueada temporalmente por demasiados intentos fallidos.</value>
+  </data>
+  <data name="LoginAlreadyConnected" xml:space="preserve">
+    <value>Este usuario ya tiene una sesión activa en otro lugar.</value>
+  </data>
+  <data name="LoginIncompleteData" xml:space="preserve">
+    <value>Por favor, ingresa usuario y contraseña.</value>
+  </data>
+  <data name="LoginValidationTitle" xml:space="preserve">
+    <value>Validación</value>
+  </data>
+  <data name="LoginValidationMessage" xml:space="preserve">
+    <value>Corrige los siguientes errores:</value>
+  </data>
+  <data name="LoginGenericError" xml:space="preserve">
+    <value>Error desconocido al obtener datos del usuario.</value>
+  </data>
+  <data name="RegisterUserDuplicate" xml:space="preserve">
+    <value>El apodo o el correo electrónico ya están registrados.</value>
+  </data>
+  <data name="RegisterEmailSendFailed" xml:space="preserve">
+    <value>No pudimos enviar el correo de verificación.</value>
+  </data>
+  <data name="RegisterVerifyError" xml:space="preserve">
+    <value>Hubo un problema validando tu código.</value>
+  </data>
+  <data name="RegisterBadRequest" xml:space="preserve">
+    <value>Algunos datos son inválidos.</value>
+  </data>
+  <data name="RegisterPasswordsDoNotMatch" xml:space="preserve">
+    <value>Las contraseñas no coinciden.</value>
+  </data>
+  <data name="RegisterPasswordErrorTitle" xml:space="preserve">
+    <value>Error de Contraseña</value>
+  </data>
+  <data name="RegisterVerificationCodeSent" xml:space="preserve">
+    <value>Se envió un código de verificación a tu correo.</value>
+  </data>
+  <data name="RegisterGenericError" xml:space="preserve">
+    <value>No se pudo registrar. Verifica tus datos.</value>
+  </data>
+  <data name="RegisterInvalidCodeTitle" xml:space="preserve">
+    <value>Código inválido</value>
+  </data>
+  <data name="RegisterCodeExpiredOrIncorrect" xml:space="preserve">
+    <value>El código es incorrecto o ha expirado.</value>
+  </data>
+  <data name="RegisterVerificationFailedTitle" xml:space="preserve">
+    <value>Verificación fallida</value>
+  </data>
+  <data name="LobbyKickConfirmationTitle" xml:space="preserve">
+    <value>Expulsar Jugador</value>
   </data>
 </root>

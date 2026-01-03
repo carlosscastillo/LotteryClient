@@ -78,6 +78,7 @@
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
     <Compile Include="ServiceProxy.cs" />
     <Compile Include="SessionManager.cs" />
+    <Compile Include="ViewModel\Base\BaseViewModel.cs" />
     <Compile Include="ViewModel\Base\ObservableObject.cs" />
     <Compile Include="ViewModel\Base\RelayCommand.cs" />
     <Compile Include="ViewModel\Game\GameViewModel.cs" />

@@ -961,15 +961,6 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Salir.
-        /// </summary>
-        public static string exit {
-            get {
-                return ResourceManager.GetString("exit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a El nombre solo puede contener letras y espacios..
         /// </summary>
         public static string FirstNameInvalidCharactersMessage {
@@ -1159,6 +1150,51 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a El estado del juego ha cambiado o ya finalizó..
+        /// </summary>
+        public static string GameExceptionAlreadyActive {
+            get {
+                return ResourceManager.GetString("GameExceptionAlreadyActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ocurrió un error en el servidor de juego..
+        /// </summary>
+        public static string GameExceptionInternalError {
+            get {
+                return ResourceManager.GetString("GameExceptionInternalError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡Cuidado! Tu tablero no coincide con las cartas cantadas..
+        /// </summary>
+        public static string GameExceptionInvalidAction {
+            get {
+                return ResourceManager.GetString("GameExceptionInvalidAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La partida o el lobby ya no existen..
+        /// </summary>
+        public static string GameExceptionLobbyNotFound {
+            get {
+                return ResourceManager.GetString("GameExceptionLobbyNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Se perdió la conexión con tu sesión..
+        /// </summary>
+        public static string GameExceptionUserOffline {
+            get {
+                return ResourceManager.GetString("GameExceptionUserOffline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Intento de victoria fallido..
         /// </summary>
         public static string GameFailedAttemptAtVictory {
@@ -1204,6 +1240,78 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a La partida ha terminado..
+        /// </summary>
+        public static string GameMessageBoxGameEnded {
+            get {
+                return ResourceManager.GetString("GameMessageBoxGameEnded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a {0} ha ganado la partida..
+        /// </summary>
+        public static string GameMessageBoxPlayerWon {
+            get {
+                return ResourceManager.GetString("GameMessageBoxPlayerWon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡Salió: {0}!.
+        /// </summary>
+        public static string GameStatusCardDrawn {
+            get {
+                return ResourceManager.GetString("GameStatusCardDrawn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡{0} ha ganado la partida!.
+        /// </summary>
+        public static string GameStatusPlayerWon {
+            get {
+                return ResourceManager.GetString("GameStatusPlayerWon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡La partida ha comenzado!.
+        /// </summary>
+        public static string GameStatusStarted {
+            get {
+                return ResourceManager.GetString("GameStatusStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Verificando victoria....
+        /// </summary>
+        public static string GameStatusVerifyingWin {
+            get {
+                return ResourceManager.GetString("GameStatusVerifyingWin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Juego Finalizado.
+        /// </summary>
+        public static string GameTitleGameFinished {
+            get {
+                return ResourceManager.GetString("GameTitleGameFinished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Fin del Juego.
+        /// </summary>
+        public static string GameTitleGameOver {
+            get {
+                return ResourceManager.GetString("GameTitleGameOver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Verificando Victoria . . ..
         /// </summary>
         public static string GameVerifyingVictory {
@@ -1218,6 +1326,24 @@ namespace Lottery.Properties.Langs {
         public static string GameWaitingLetter {
             get {
                 return ResourceManager.GetString("GameWaitingLetter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¿Seguro que quieres salir? Perderás el progreso..
+        /// </summary>
+        public static string GameWarningLeaveGame {
+            get {
+                return ResourceManager.GetString("GameWarningLeaveGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Aún no has marcado todas las casillas..
+        /// </summary>
+        public static string GameWarningNotAllCellsSelected {
+            get {
+                return ResourceManager.GetString("GameWarningNotAllCellsSelected", resourceCulture);
             }
         }
         
@@ -1512,6 +1638,15 @@ namespace Lottery.Properties.Langs {
         /// <summary>
         ///   Busca una cadena traducida similar a Salir.
         /// </summary>
+        public static string GlobalMessageBoxTitleExit {
+            get {
+                return ResourceManager.GetString("GlobalMessageBoxTitleExit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Salir.
+        /// </summary>
         public static string GlobalMessageBoxTitleLeave {
             get {
                 return ResourceManager.GetString("GlobalMessageBoxTitleLeave", resourceCulture);
@@ -1596,6 +1731,51 @@ namespace Lottery.Properties.Langs {
         public static string GobalButtonSend {
             get {
                 return ResourceManager.GetString("GobalButtonSend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Por favor ingresa un apodo..
+        /// </summary>
+        public static string GuestLoginEmptyNickname {
+            get {
+                return ResourceManager.GetString("GuestLoginEmptyNickname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo crear la sesión de invitado..
+        /// </summary>
+        public static string GuestLoginGenericError {
+            get {
+                return ResourceManager.GetString("GuestLoginGenericError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tu apodo contiene caracteres inválidos..
+        /// </summary>
+        public static string GuestLoginInvalidFormat {
+            get {
+                return ResourceManager.GetString("GuestLoginInvalidFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tu apodo debe tener entre 4 y 20 caracteres..
+        /// </summary>
+        public static string GuestLoginInvalidLength {
+            get {
+                return ResourceManager.GetString("GuestLoginInvalidLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El nombre de usuario no es válido..
+        /// </summary>
+        public static string GuestLoginInvalidNickname {
+            get {
+                return ResourceManager.GetString("GuestLoginInvalidNickname", resourceCulture);
             }
         }
         
@@ -1942,11 +2122,56 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Ya te encuentras registrado en este lobby (o en otro)..
+        /// </summary>
+        public static string JoinLobbyAlreadyIn {
+            get {
+                return ResourceManager.GetString("JoinLobbyAlreadyIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No puedes unirte a este lobby porque has sido expulsado..
+        /// </summary>
+        public static string JoinLobbyBanned {
+            get {
+                return ResourceManager.GetString("JoinLobbyBanned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Unirme a la sala.
         /// </summary>
         public static string JoinLobbyButtonJoin {
             get {
                 return ResourceManager.GetString("JoinLobbyButtonJoin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Por favor ingresa un código de lobby..
+        /// </summary>
+        public static string JoinLobbyCodeEmpty {
+            get {
+                return ResourceManager.GetString("JoinLobbyCodeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El lobby ya alcanzó su capacidad máxima de jugadores..
+        /// </summary>
+        public static string JoinLobbyFull {
+            get {
+                return ResourceManager.GetString("JoinLobbyFull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error interno del servidor al intentar unirse..
+        /// </summary>
+        public static string JoinLobbyInternalError {
+            get {
+                return ResourceManager.GetString("JoinLobbyInternalError", resourceCulture);
             }
         }
         
@@ -1969,20 +2194,29 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a El código ingresado no corresponde a ningún lobby activo..
+        /// </summary>
+        public static string JoinLobbyNotFound {
+            get {
+                return ResourceManager.GetString("JoinLobbyNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tu sesión ha expirado o no es válida..
+        /// </summary>
+        public static string JoinLobbyUserOffline {
+            get {
+                return ResourceManager.GetString("JoinLobbyUserOffline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Expulsión.
         /// </summary>
         public static string KickPlayerLabelKickOut {
             get {
                 return ResourceManager.GetString("KickPlayerLabelKickOut", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a ¿Estas seguro que deseas expulsar a.
-        /// </summary>
-        public static string KickPlayerLabelMessage {
-            get {
-                return ResourceManager.GetString("KickPlayerLabelMessage", resourceCulture);
             }
         }
         
@@ -2077,6 +2311,141 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a --- {0} se ha unido. ---.
+        /// </summary>
+        public static string LobbyChatPlayerJoined {
+            get {
+                return ResourceManager.GetString("LobbyChatPlayerJoined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a --- {0} ha sido expulsado. ---.
+        /// </summary>
+        public static string LobbyChatPlayerKicked {
+            get {
+                return ResourceManager.GetString("LobbyChatPlayerKicked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a --- {0} se ha ido. ---.
+        /// </summary>
+        public static string LobbyChatPlayerLeft {
+            get {
+                return ResourceManager.GetString("LobbyChatPlayerLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No puedes expulsarte a ti mismo..
+        /// </summary>
+        public static string LobbyExceptionActionDenied {
+            get {
+                return ResourceManager.GetString("LobbyExceptionActionDenied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡Lenguaje inapropiado detectado!.
+        /// </summary>
+        public static string LobbyExceptionForbiddenWord {
+            get {
+                return ResourceManager.GetString("LobbyExceptionForbiddenWord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No puedes invitar amigos siendo invitado..
+        /// </summary>
+        public static string LobbyExceptionGuestRestricted {
+            get {
+                return ResourceManager.GetString("LobbyExceptionGuestRestricted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El lobby ya no existe..
+        /// </summary>
+        public static string LobbyExceptionLobbyNotFound {
+            get {
+                return ResourceManager.GetString("LobbyExceptionLobbyNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El servidor indica que no estás en un lobby activo..
+        /// </summary>
+        public static string LobbyExceptionNotInLobby {
+            get {
+                return ResourceManager.GetString("LobbyExceptionNotInLobby", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tu sesión ha expirado..
+        /// </summary>
+        public static string LobbyExceptionSessionExpired {
+            get {
+                return ResourceManager.GetString("LobbyExceptionSessionExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El usuario ya se encuentra jugando o dentro de un lobby..
+        /// </summary>
+        public static string LobbyExceptionUserBusy {
+            get {
+                return ResourceManager.GetString("LobbyExceptionUserBusy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El usuario no está conectado actualmente..
+        /// </summary>
+        public static string LobbyExceptionUserOffline {
+            get {
+                return ResourceManager.GetString("LobbyExceptionUserOffline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a tu amigo.
+        /// </summary>
+        public static string LobbyFriendGenericName {
+            get {
+                return ResourceManager.GetString("LobbyFriendGenericName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Invitación enviada a {0}..
+        /// </summary>
+        public static string LobbyInviteSent {
+            get {
+                return ResourceManager.GetString("LobbyInviteSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¿Estás seguro de que deseas expulsar a {0}? El jugador no podrá volver a entrar a este lobby..
+        /// </summary>
+        public static string LobbyKickConfirmationMessage {
+            get {
+                return ResourceManager.GetString("LobbyKickConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Expulsar Jugador.
+        /// </summary>
+        public static string LobbyKickConfirmationTitle {
+            get {
+                return ResourceManager.GetString("LobbyKickConfirmationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Modo de juego.
         /// </summary>
         public static string LobbyLabelGameMode {
@@ -2091,6 +2460,60 @@ namespace Lottery.Properties.Langs {
         public static string LobbyLabelInviteFriends {
             get {
                 return ResourceManager.GetString("LobbyLabelInviteFriends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El host ha cerrado el lobby..
+        /// </summary>
+        public static string LobbyMessageHostClosed {
+            get {
+                return ResourceManager.GetString("LobbyMessageHostClosed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Has sido expulsado del lobby por el host..
+        /// </summary>
+        public static string LobbyMessageYouKicked {
+            get {
+                return ResourceManager.GetString("LobbyMessageYouKicked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Lobby Cerrado.
+        /// </summary>
+        public static string LobbyTitleClosed {
+            get {
+                return ResourceManager.GetString("LobbyTitleClosed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Expulsado.
+        /// </summary>
+        public static string LobbyTitleKicked {
+            get {
+                return ResourceManager.GetString("LobbyTitleKicked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tu cuenta ha sido bloqueada temporalmente por demasiados intentos fallidos..
+        /// </summary>
+        public static string LoginAccountLocked {
+            get {
+                return ResourceManager.GetString("LoginAccountLocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Este usuario ya tiene una sesión activa en otro lugar..
+        /// </summary>
+        public static string LoginAlreadyConnected {
+            get {
+                return ResourceManager.GetString("LoginAlreadyConnected", resourceCulture);
             }
         }
         
@@ -2122,6 +2545,33 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Error desconocido al obtener datos del usuario..
+        /// </summary>
+        public static string LoginGenericError {
+            get {
+                return ResourceManager.GetString("LoginGenericError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Por favor, ingresa usuario y contraseña..
+        /// </summary>
+        public static string LoginIncompleteData {
+            get {
+                return ResourceManager.GetString("LoginIncompleteData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El usuario o la contraseña son incorrectos..
+        /// </summary>
+        public static string LoginInvalidCredentials {
+            get {
+                return ResourceManager.GetString("LoginInvalidCredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Ingresa tus datos para iniciar.
         /// </summary>
         public static string LoginLabelEnterDetail {
@@ -2145,6 +2595,24 @@ namespace Lottery.Properties.Langs {
         public static string LoginTextBlockSigningIn {
             get {
                 return ResourceManager.GetString("LoginTextBlockSigningIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Corrige los siguientes errores:.
+        /// </summary>
+        public static string LoginValidationMessage {
+            get {
+                return ResourceManager.GetString("LoginValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Validación.
+        /// </summary>
+        public static string LoginValidationTitle {
+            get {
+                return ResourceManager.GetString("LoginValidationTitle", resourceCulture);
             }
         }
         
@@ -2525,6 +2993,105 @@ namespace Lottery.Properties.Langs {
         public static string RecoverPasswordLabelTitle {
             get {
                 return ResourceManager.GetString("RecoverPasswordLabelTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Algunos datos son inválidos..
+        /// </summary>
+        public static string RegisterBadRequest {
+            get {
+                return ResourceManager.GetString("RegisterBadRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El código es incorrecto o ha expirado..
+        /// </summary>
+        public static string RegisterCodeExpiredOrIncorrect {
+            get {
+                return ResourceManager.GetString("RegisterCodeExpiredOrIncorrect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No pudimos enviar el correo de verificación..
+        /// </summary>
+        public static string RegisterEmailSendFailed {
+            get {
+                return ResourceManager.GetString("RegisterEmailSendFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo registrar. Verifica tus datos..
+        /// </summary>
+        public static string RegisterGenericError {
+            get {
+                return ResourceManager.GetString("RegisterGenericError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Código inválido.
+        /// </summary>
+        public static string RegisterInvalidCodeTitle {
+            get {
+                return ResourceManager.GetString("RegisterInvalidCodeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error de Contraseña.
+        /// </summary>
+        public static string RegisterPasswordErrorTitle {
+            get {
+                return ResourceManager.GetString("RegisterPasswordErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Las contraseñas no coinciden..
+        /// </summary>
+        public static string RegisterPasswordsDoNotMatch {
+            get {
+                return ResourceManager.GetString("RegisterPasswordsDoNotMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El apodo o el correo electrónico ya están registrados..
+        /// </summary>
+        public static string RegisterUserDuplicate {
+            get {
+                return ResourceManager.GetString("RegisterUserDuplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Se envió un código de verificación a tu correo..
+        /// </summary>
+        public static string RegisterVerificationCodeSent {
+            get {
+                return ResourceManager.GetString("RegisterVerificationCodeSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Verificación fallida.
+        /// </summary>
+        public static string RegisterVerificationFailedTitle {
+            get {
+                return ResourceManager.GetString("RegisterVerificationFailedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Hubo un problema validando tu código..
+        /// </summary>
+        public static string RegisterVerifyError {
+            get {
+                return ResourceManager.GetString("RegisterVerifyError", resourceCulture);
             }
         }
         

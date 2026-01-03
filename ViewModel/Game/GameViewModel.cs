@@ -3,10 +3,10 @@ using Lottery.Properties.Langs;
 using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -14,10 +14,33 @@ using System.Windows.Media.Imaging;
 
 namespace Lottery.ViewModel.Game
 {
-    public class GameViewModel : ObservableObject
+    public class GameViewModel : BaseViewModel
     {
         private readonly int _currentUserId;
         private readonly Window _gameWindow;
+        private readonly Dictionary<string, string> _errorMap;
+
+        private static readonly Dictionary<int, string> _cardResourceKeys = new Dictionary<int, string>
+        {
+            { 1, "CardTextBlockAang" }, { 2, "CardTextBlockArnold" }, { 3, "CardTextBlockAshKetchum" },
+            { 4, "CardTextBlockBartSimpson" }, { 5, "CardTextBlockBenTen" }, { 6, "CardTextBlockBilly" },
+            { 7, "CardTextBlockBlossom" }, { 8, "CardTextBlockBrain" }, { 9, "CardTextBlockBrock" },
+            { 10, "CardTextBlockBubbles" }, { 11, "CardTextBlockButtercup" }, { 12, "CardTextBlockCatDog" },
+            { 13, "CardTextBlockChuckieFinster" }, { 14, "CardTextBlockCosmo" }, { 15, "CardTextBlockCourage" },
+            { 16, "CardTextBlockDexter" }, { 17, "CardTextBlockDipperPines" }, { 18, "CardTextBlockEdd" },
+            { 19, "CardTextBlockEddy" }, { 20, "CardTextBlockFerb" }, { 21, "CardTextBlockFinnTheHuman" },
+            { 22, "CardTextBlockGoku" }, { 23, "CardTextBlockHomerSimpson" }, { 24, "CardTextBlockJakeTheDog" },
+            { 25, "CardTextBlockJerry" }, { 26, "CardTextBlockKimPossible" }, { 27, "CardTextBlockLisaSimpson" },
+            { 28, "CardTextBlockMabelPines" }, { 29, "CardTextBlockMickeyMouse" }, { 30, "CardTextBlockMisty" },
+            { 31, "CardTextBlockMordecai" }, { 32, "CardTextBlockMortySmith" }, { 33, "CardTextBlockMrKrabs" },
+            { 34, "CardTextBlockNaruto" }, { 35, "CardTextBlockNumberOne" }, { 36, "CardTextBlockPatrickStar" },
+            { 37, "CardTextBlockPerryThePlatypus" }, { 38, "CardTextBlockPhineas" }, { 39, "CardTextBlockPicoro" },
+            { 40, "CardTextBlockPikachu" }, { 41, "CardTextBlockPinky" }, { 42, "CardTextBlockRickSanchez" },
+            { 43, "CardTextBlockRigby" }, { 44, "CardTextBlockSailorMoon" }, { 45, "CardTextBlockScoobyDoo" },
+            { 46, "CardTextBlockShaggy" }, { 47, "CardTextBlockShego" }, { 48, "CardTextBlockSnoopy" },
+            { 49, "CardTextBlockSpongeBob" }, { 50, "CardTextBlockStich" }, { 51, "CardTextBlockTom" },
+            { 52, "CardTextBlockTommy" }, { 53, "CardTextBlockWanda" }, { 54, "CardTextBlockWoodyWoodpecker" }
+        };
 
         public ObservableCollection<UserDto> Players { get; }
         public ObservableCollection<Cell> BoardCells { get; } = new ObservableCollection<Cell>();
@@ -52,10 +75,7 @@ namespace Lottery.ViewModel.Game
             set => SetProperty(ref _gameStatusMessage, value);
         }
 
-        public bool AllCellsSelected =>
-            BoardCells != null &&
-            BoardCells.Count > 0 &&
-            BoardCells.All(c => c.IsSelected);
+        public bool AllCellsSelected => BoardCells != null && BoardCells.Count > 0 && BoardCells.All(c => c.IsSelected);
 
         public ICommand DeclareLoteriaCommand { get; }
         public ICommand PauseGameCommand { get; }
@@ -64,8 +84,16 @@ namespace Lottery.ViewModel.Game
         {
             _currentUserId = SessionManager.CurrentUser.UserId;
             _gameWindow = window;
-
             Players = players;
+
+            _errorMap = new Dictionary<string, string>
+            {
+                { "GAME_ACTION_INVALID", Lang.GameExceptionInvalidAction },
+                { "GAME_ALREADY_ACTIVE", Lang.GameExceptionAlreadyActive },
+                { "GAME_LOBBY_NOT_FOUND", Lang.GameExceptionLobbyNotFound },
+                { "USER_OFFLINE", Lang.GameExceptionUserOffline },
+                { "GAME_INTERNAL_ERROR", Lang.GameExceptionInternalError }
+            };
 
             for (int i = 0; i < 16; i++)
             {
@@ -85,7 +113,7 @@ namespace Lottery.ViewModel.Game
 
             CurrentCardImage = new BitmapImage(new Uri(GetCardBackPath(), UriKind.Absolute));
             CurrentCardName = Lang.CardTextBlockReverse;
-            GameStatusMessage = "¡La partida ha comenzado!";
+            GameStatusMessage = Lang.GameStatusStarted;
         }
 
         private void SubscribeToGameEvents()
@@ -120,7 +148,7 @@ namespace Lottery.ViewModel.Game
                     CurrentCardName = "Carta " + cardDto.Id;
                 }
 
-                GameStatusMessage = "¡Salió: " + CurrentCardName + "!";
+                GameStatusMessage = string.Format(Lang.GameStatusCardDrawn, CurrentCardName);
             });
         }
 
@@ -128,8 +156,8 @@ namespace Lottery.ViewModel.Game
         {
             _gameWindow.Dispatcher.Invoke(() =>
             {
-                GameStatusMessage = "¡" + nickname + " ha ganado la partida!";
-                MessageBox.Show(_gameWindow, nickname + " ha ganado la partida.", "Fin del juego", MessageBoxButton.OK, MessageBoxImage.Information);
+                GameStatusMessage = string.Format(Lang.GameStatusPlayerWon, nickname);
+                MessageBox.Show(_gameWindow, string.Format(Lang.GameMessageBoxPlayerWon, nickname), Lang.GameTitleGameOver, MessageBoxButton.OK, MessageBoxImage.Information);
             });
         }
 
@@ -138,7 +166,7 @@ namespace Lottery.ViewModel.Game
             _gameWindow.Dispatcher.Invoke(() =>
             {
                 UnsubscribeFromGameEvents();
-                MessageBox.Show(_gameWindow, "La partida ha terminado.", "Juego Finalizado", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(_gameWindow, Lang.GameMessageBoxGameEnded, Lang.GameTitleGameFinished, MessageBoxButton.OK, MessageBoxImage.Information);
                 NavigateToMainMenu();
             });
         }
@@ -147,50 +175,31 @@ namespace Lottery.ViewModel.Game
         {
             if (!AllCellsSelected)
             {
-                MessageBox.Show(_gameWindow, "Aún no has marcado todas las casillas.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                MessageBox.Show(_gameWindow, Lang.GameWarningNotAllCellsSelected, Lang.GlobalMessageBoxTitleWarning, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-
-            try
+            else
             {
-                GameStatusMessage = "Verificando victoria...";
-                await ServiceProxy.Instance.Client.DeclareWinAsync(_currentUserId);
-            }
-            catch (FaultException<ServiceFault> ex)
-            {
-                GameStatusMessage = "Intento de victoria fallido.";
-                ShowServiceError(ex, "Victoria Inválida");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(_gameWindow, "Error de conexión al declarar victoria: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                GameStatusMessage = "Error de conexión.";
+                GameStatusMessage = Lang.GameStatusVerifyingWin;
+                await ExecuteRequest(async () =>
+                {
+                    await ServiceProxy.Instance.Client.DeclareWinAsync(_currentUserId);
+                }, _errorMap);
             }
         }
 
         private async Task LeaveGame()
         {
-            var result = MessageBox.Show(_gameWindow, "¿Seguro que quieres salir? Perderás el progreso.",
-                                            "Salir", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            var result = MessageBox.Show(_gameWindow, Lang.GameWarningLeaveGame, Lang.GlobalMessageBoxTitleExit, MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
-            if (result != MessageBoxResult.Yes) return;
+            if (result == MessageBoxResult.Yes)
+            {
+                UnsubscribeFromGameEvents();
 
-            UnsubscribeFromGameEvents();
+                await ExecuteRequest(async () =>
+                {
+                    await ServiceProxy.Instance.Client.LeaveLobbyAsync();
+                }, _errorMap);
 
-            try
-            {
-                await ServiceProxy.Instance.Client.LeaveLobbyAsync();
-            }
-            catch (FaultException<ServiceFault> ex)
-            {
-                ShowServiceError(ex, "Error al Salir");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al salir (red): " + ex.Message);
-            }
-            finally
-            {
                 NavigateToMainMenu();
             }
         }
@@ -202,48 +211,6 @@ namespace Lottery.ViewModel.Game
                 MainMenuView mainMenuView = new MainMenuView();
                 mainMenuView.Show();
                 _gameWindow.Close();
-            });
-        }
-
-        private void ShowServiceError(FaultException<ServiceFault> fault, string title)
-        {
-            _gameWindow.Dispatcher.Invoke(() =>
-            {
-                var detail = fault.Detail;
-                string message = detail.Message;
-                MessageBoxImage icon = MessageBoxImage.Warning;
-
-                switch (detail.ErrorCode)
-                {
-                    case "GAME_ACTION_INVALID":
-                        message = "¡Cuidado! Tu tablero no coincide con las cartas que han salido. Verifica tus casillas.";
-                        break;
-
-                    case "GAME_ALREADY_ACTIVE":
-                        message = "El estado del juego ha cambiado o ya finalizó.";
-                        break;
-
-                    case "GAME_LOBBY_NOT_FOUND":
-                        message = "La partida o el lobby ya no existen.";
-                        icon = MessageBoxImage.Error;
-                        break;
-
-                    case "USER_OFFLINE":
-                        message = "Se perdió la conexión con tu sesión.";
-                        icon = MessageBoxImage.Error;
-                        break;
-
-                    case "GAME_INTERNAL_ERROR":
-                        message = "Ocurrió un error en el servidor de juego.";
-                        icon = MessageBoxImage.Error;
-                        break;
-
-                    default:
-                        message = $"Error del servidor: {detail.Message}";
-                        break;
-                }
-
-                MessageBox.Show(_gameWindow, message, title, MessageBoxButton.OK, icon);
             });
         }
 
@@ -268,64 +235,11 @@ namespace Lottery.ViewModel.Game
 
         private string GetResourceKeyForCard(int cardId)
         {
-            switch (cardId)
+            if (_cardResourceKeys.TryGetValue(cardId, out var key))
             {
-                case 1: return "CardTextBlockAang";
-                case 2: return "CardTextBlockArnold";
-                case 3: return "CardTextBlockAshKetchum";
-                case 4: return "CardTextBlockBartSimpson";
-                case 5: return "CardTextBlockBenTen";
-                case 6: return "CardTextBlockBilly";
-                case 7: return "CardTextBlockBlossom";
-                case 8: return "CardTextBlockBrain";
-                case 9: return "CardTextBlockBrock";
-                case 10: return "CardTextBlockBubbles";
-                case 11: return "CardTextBlockButtercup";
-                case 12: return "CardTextBlockCatDog";
-                case 13: return "CardTextBlockChuckieFinster";
-                case 14: return "CardTextBlockCosmo";
-                case 15: return "CardTextBlockCourage";
-                case 16: return "CardTextBlockDexter";
-                case 17: return "CardTextBlockDipperPines";
-                case 18: return "CardTextBlockEdd";
-                case 19: return "CardTextBlockEddy";
-                case 20: return "CardTextBlockFerb";
-                case 21: return "CardTextBlockFinnTheHuman";
-                case 22: return "CardTextBlockGoku";
-                case 23: return "CardTextBlockHomerSimpson";
-                case 24: return "CardTextBlockJakeTheDog";
-                case 25: return "CardTextBlockJerry";
-                case 26: return "CardTextBlockKimPossible";
-                case 27: return "CardTextBlockLisaSimpson";
-                case 28: return "CardTextBlockMabelPines";
-                case 29: return "CardTextBlockMickeyMouse";
-                case 30: return "CardTextBlockMisty";
-                case 31: return "CardTextBlockMordecai";
-                case 32: return "CardTextBlockMortySmith";
-                case 33: return "CardTextBlockMrKrabs";
-                case 34: return "CardTextBlockNaruto";
-                case 35: return "CardTextBlockNumberOne";
-                case 36: return "CardTextBlockPatrickStar";
-                case 37: return "CardTextBlockPerryThePlatypus";
-                case 38: return "CardTextBlockPhineas";
-                case 39: return "CardTextBlockPicoro";
-                case 40: return "CardTextBlockPikachu";
-                case 41: return "CardTextBlockPinky";
-                case 42: return "CardTextBlockRickSanchez";
-                case 43: return "CardTextBlockRigby";
-                case 44: return "CardTextBlockSailorMoon";
-                case 45: return "CardTextBlockScoobyDoo";
-                case 46: return "CardTextBlockShaggy";
-                case 47: return "CardTextBlockShego";
-                case 48: return "CardTextBlockSnoopy";
-                case 49: return "CardTextBlockSpongeBob";
-                case 50: return "CardTextBlockStich";
-                case 51: return "CardTextBlockTom";
-                case 52: return "CardTextBlockTommy";
-                case 53: return "CardTextBlockWanda";
-                case 54: return "CardTextBlockWoodyWoodpecker";
-                default: return null;
+                return key;
             }
+            return null;
         }
     }
 

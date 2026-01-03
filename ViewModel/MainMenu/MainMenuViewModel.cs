@@ -6,6 +6,7 @@ using Lottery.View.User;
 using Lottery.ViewModel.Base;
 using Lottery.ViewModel.Lobby;
 using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,9 +14,10 @@ using System.Windows.Input;
 
 namespace Lottery.ViewModel.MainMenu
 {
-    public class MainMenuViewModel : ObservableObject
+    public class MainMenuViewModel : BaseViewModel
     {
         private readonly Window _mainMenuWindow;
+        private readonly Dictionary<string, string> _errorMap;
 
         public string Nickname { get; }
 
@@ -38,6 +40,17 @@ namespace Lottery.ViewModel.MainMenu
                 Nickname = "Invitado";
             }
 
+            _errorMap = new Dictionary<string, string>
+            {
+                { "LOBBY_USER_ALREADY_IN", Lang.MainMenuExceptionRegisteredInAnActiveLobby },
+                { "USER_IN_LOBBY", Lang.MainMenuExceptionRegisteredInAnActiveLobby },
+                { "LOBBY_FULL", Lang.MainMenuExceptionLobbyFull },
+                { "LOBBY_NOT_FOUND", Lang.MainMenuExceptionNotFoundLobby },
+                { "USER_OFFLINE", Lang.MainMenuExceptionSessionExpired },
+                { "LOBBY_PLAYER_BANNED", Lang.MainMenuExceptionUserBanned },
+                { "LOBBY_INTERNAL_ERROR", Lang.GlobalExceptionInternalServerError }
+            };
+
             ProfileCommand = new RelayCommand(ExecuteShowProfileView);
             ShowFriendsViewCommand = new RelayCommand(ExecuteShowFriendsView);
             CreateLobbyCommand = new RelayCommand(async () => await ExecuteCreateLobby());
@@ -54,49 +67,37 @@ namespace Lottery.ViewModel.MainMenu
 
         private void ExecuteShowFriendsView()
         {
-            try
+            if (IsGuestSession())
             {
-                if (SessionManager.CurrentUser != null && SessionManager.CurrentUser.UserId < 0)
-                {
-                    throw new InvalidOperationException(Lang.MainMenuGuestFriends);
-                }
-
+                ShowError(Lang.MainMenuGuestFriends, Lang.MainMenuRestrictedAccess, MessageBoxImage.Warning);
+            }
+            else
+            {
                 Cleanup();
                 InviteFriendsView friendsView = new InviteFriendsView();
                 friendsView.Show();
                 _mainMenuWindow?.Close();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(_mainMenuWindow, ex.Message, 
-                    Lang.MainMenuRestrictedAccess, MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
         }
 
         private void ExecuteShowProfileView()
         {
-            try
+            if (IsGuestSession())
             {
-                if (SessionManager.CurrentUser != null && SessionManager.CurrentUser.UserId < 0)
-                {
-                    throw new InvalidOperationException(Lang.MainMenuGuestProfile);
-                }
-
+                ShowError(Lang.MainMenuGuestProfile, Lang.MainMenuRestrictedAccess, MessageBoxImage.Warning);
+            }
+            else
+            {
                 Cleanup();
                 CustomizeProfileView profileView = new CustomizeProfileView();
                 profileView.Show();
                 _mainMenuWindow?.Close();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(_mainMenuWindow, ex.Message, 
-                    Lang.MainMenuRestrictedAccess, MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
         }
 
         private async Task ExecuteCreateLobby()
         {
-            try
+            await ExecuteRequest(async () =>
             {
                 LobbyStateDto lobbyState = await ServiceProxy.Instance.Client.CreateLobbyAsync();
 
@@ -104,16 +105,7 @@ namespace Lottery.ViewModel.MainMenu
                 {
                     NavigateToLobby(lobbyState);
                 });
-            }
-            catch (FaultException<ServiceFault> ex)
-            {
-                ShowServiceError(ex, Lang.MainMenuErrorCreateLobby);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(_mainMenuWindow, string.Format(Lang.GlobalMessageBoxUnexpectedError, ex.Message), 
-                    Lang.GlobalMessageBoxTitleError, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            }, _errorMap);
         }
 
         private void ExecuteJoinLobbyByCode()
@@ -133,7 +125,7 @@ namespace Lottery.ViewModel.MainMenu
 
         private async Task JoinLobbyByInvite(string lobbyCode)
         {
-            try
+            await ExecuteRequest(async () =>
             {
                 LobbyStateDto lobbyState = await ServiceProxy.Instance.Client.JoinLobbyAsync(SessionManager.CurrentUser, lobbyCode);
 
@@ -141,22 +133,12 @@ namespace Lottery.ViewModel.MainMenu
                 {
                     NavigateToLobby(lobbyState);
                 });
-            }
-            catch (FaultException<ServiceFault> ex)
-            {
-                ShowServiceError(ex, Lang.MainMenuJoinError);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(_mainMenuWindow, string.Format(Lang.InviteFriendsConnectionError, ex.Message), 
-                    Lang.GlobalMessageBoxTitleError, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            }, _errorMap);
         }
 
         private void NavigateToLobby(LobbyStateDto lobbyState)
         {
             Cleanup();
-
             LobbyView lobbyView = new LobbyView();
             lobbyView.DataContext = new LobbyViewModel(lobbyState, lobbyView);
             lobbyView.Show();
@@ -165,20 +147,21 @@ namespace Lottery.ViewModel.MainMenu
 
         private void OnLobbyInvite(string inviterNickname, string lobbyCode)
         {
-            if (_mainMenuWindow == null) return;
-
-            _mainMenuWindow.Dispatcher.Invoke(async () =>
+            if (_mainMenuWindow != null)
             {
-                var result = MessageBox.Show(
-                    _mainMenuWindow,
-                    string.Format(Lang.MainMenuHasInvited, inviterNickname),
-                    Lang.MainMenuInvitationReceived, MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-                if (result == MessageBoxResult.Yes)
+                _mainMenuWindow.Dispatcher.Invoke(async () =>
                 {
-                    await JoinLobbyByInvite(lobbyCode);
-                }
-            });
+                    var result = MessageBox.Show(
+                        _mainMenuWindow,
+                        string.Format(Lang.MainMenuHasInvited, inviterNickname),
+                        Lang.MainMenuInvitationReceived, MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        await JoinLobbyByInvite(lobbyCode);
+                    }
+                });
+            }
         }
 
         private async Task Logout()
@@ -189,7 +172,7 @@ namespace Lottery.ViewModel.MainMenu
             {
                 await ServiceProxy.Instance.Client.LogoutUserAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show(Lang.MainMenuErrorDuringLogout);
             }
@@ -202,49 +185,9 @@ namespace Lottery.ViewModel.MainMenu
             }
         }
 
-        private void ShowServiceError(FaultException<ServiceFault> fault, string title)
+        private bool IsGuestSession()
         {
-            _mainMenuWindow.Dispatcher.Invoke(() =>
-            {
-                var detail = fault.Detail;
-                string message = detail.Message;
-                MessageBoxImage icon = MessageBoxImage.Warning;
-
-                switch (detail.ErrorCode)
-                {
-                    case "LOBBY_USER_ALREADY_IN":
-                    case "USER_IN_LOBBY":
-                        message = Lang.MainMenuExceptionRegisteredInAnActiveLobby;
-                        break;
-
-                    case "LOBBY_FULL":
-                        message = Lang.MainMenuExceptionLobbyFull;
-                        break;
-
-                    case "LOBBY_NOT_FOUND":
-                        message = Lang.MainMenuExceptionNotFoundLobby;
-                        break;
-
-                    case "USER_OFFLINE":
-                        message = Lang.MainMenuExceptionSessionExpired;
-                        icon = MessageBoxImage.Error;
-                        break;
-
-                    case "LOBBY_PLAYER_BANNED":
-                        message = Lang.MainMenuExceptionUserBanned;
-                        break;
-
-                    case "LOBBY_INTERNAL_ERROR":
-                        message = Lang.GlobalExceptionInternalServerError;
-                        icon = MessageBoxImage.Error;
-                        break;
-
-                    default:
-                        message = string.Format(Lang.GlobalExceptionServerError, detail.Message);
-                        break;
-                }
-                MessageBox.Show(_mainMenuWindow, message, title, MessageBoxButton.OK, icon);
-            });
+            return SessionManager.CurrentUser != null && SessionManager.CurrentUser.UserId < 0;
         }
     }
 }

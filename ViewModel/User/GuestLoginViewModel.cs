@@ -1,7 +1,9 @@
 ﻿using Lottery.LotteryServiceReference;
+using Lottery.Properties.Langs;
 using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;
 using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
@@ -9,11 +11,12 @@ using System.Windows.Input;
 
 namespace Lottery.ViewModel.User
 {
-    public class GuestLoginViewModel : ObservableObject
+    public class GuestLoginViewModel : BaseViewModel
     {
         private string _nickname;
         private bool _isBusy;
         private string _errorMessage;
+        private readonly Dictionary<string, string> _errorMap;
 
         public event Action RequestClose;
 
@@ -39,6 +42,16 @@ namespace Lottery.ViewModel.User
 
         public GuestLoginViewModel()
         {
+            _errorMap = new Dictionary<string, string>
+            {
+                { "AUTH_BAD_REQUEST", Lang.GuestLoginInvalidNickname },
+                { "AUTH_INVALID_LENGTH", Lang.GuestLoginInvalidLength },
+                { "AUTH_EMPTY_NICKNAME", Lang.GuestLoginEmptyNickname },
+                { "AUTH_INVALID_FORMAT", Lang.GuestLoginInvalidFormat },
+                { "AUTH_DB_ERROR", Lang.GlobalExceptionInternalServerError },
+                { "AUTH_INTERNAL_500", Lang.GlobalExceptionInternalServerError }
+            };
+
             LoginGuestCommand = new RelayCommand(async () => await LoginGuest());
         }
 
@@ -46,98 +59,38 @@ namespace Lottery.ViewModel.User
         {
             if (string.IsNullOrWhiteSpace(Nickname))
             {
-                return;
+                ErrorMessage = Lang.GuestLoginEmptyNickname;
             }
-
-            IsBusy = true;
-            ErrorMessage = string.Empty;
-
-            try
+            else
             {
-                var client = ServiceProxy.Instance.Client;
-                UserDto guestUser = await client.LoginGuestAsync(Nickname);
+                IsBusy = true;
+                ErrorMessage = string.Empty;
 
-                if (guestUser != null)
+                await ExecuteRequest(async () =>
                 {
-                    SessionManager.Login(guestUser);
+                    var client = ServiceProxy.Instance.Client;
+                    UserDto guestUser = await client.LoginGuestAsync(Nickname);
 
-                    MainMenuView mainMenu = new MainMenuView();
-                    mainMenu.Show();
+                    if (guestUser != null)
+                    {
+                        SessionManager.Login(guestUser);
 
-                    RequestClose?.Invoke();
-                }
-                else
-                {
-                    ErrorMessage = "No se pudo crear la sesión de invitado.";
-                    MessageBox.Show("No se pudo ingresar como invitado. Intenta con otro nombre.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            catch (FaultException<ServiceFault> ex)
-            {
-                HandleGuestLoginError(ex);
-            }
-            catch (FaultException ex)
-            {
-                ErrorMessage = "Error de comunicación WCF.";
-                MessageBox.Show($"No se pudo conectar con el servidor: {ex.Message}", "Error de Conexión", MessageBoxButton.OK, MessageBoxImage.Error);
-                AbortAndRecreateClient();
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = "Error inesperado.";
-                MessageBox.Show($"Ocurrió un error inesperado: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                AbortAndRecreateClient();
-            }
-            finally
-            {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            MainMenuView mainMenu = new MainMenuView();
+                            mainMenu.Show();
+                            RequestClose?.Invoke();
+                        });
+                    }
+                    else
+                    {
+                        ErrorMessage = Lang.GuestLoginGenericError;
+                        ShowError(Lang.GuestLoginGenericError, Lang.GlobalMessageBoxTitleError);
+                    }
+                }, _errorMap);
+
                 IsBusy = false;
             }
-        }
-
-        private void HandleGuestLoginError(FaultException<ServiceFault> fault)
-        {
-            var detail = fault.Detail;
-            string title = "Error de Ingreso";
-            string message = detail.Message;
-            MessageBoxImage icon = MessageBoxImage.Warning;
-
-            switch (detail.ErrorCode)
-            {
-                case "AUTH_BAD_REQUEST":
-                    message = "El nombre de usuario no es válido (vacío o muy largo).";
-                    break;
-
-                case "AUTH_INVALID_LENGTH":
-                    message = "Tu apodo debe tener entre 4 y 20 caracteres.";
-                    break;
-
-                case "AUTH_EMPTY_NICKNAME":
-                    message = "Por favor ingresa un apodo para que los demás jugadores puedan reconocerte.";
-                    break;
-
-                case "AUTH_INVALID_FORMAT":
-                    message = "Tu apodo contiene caracteres inválidos.";
-                    break;
-
-                case "AUTH_DB_ERROR":
-                case "AUTH_INTERNAL_500":
-                    message = "El servidor no está disponible en este momento. Intenta más tarde.";
-                    title = "Error del Servidor";
-                    icon = MessageBoxImage.Error;
-                    break;
-
-                default:
-                    message = $"Error del servidor ({detail.ErrorCode}): {detail.Message}";
-                    break;
-            }
-
-            ErrorMessage = message;
-            MessageBox.Show(message, title, MessageBoxButton.OK, icon);
-        }
-
-        private void AbortAndRecreateClient()
-        {
-            ServiceProxy.Instance.Reconnect();
         }
     }
 }

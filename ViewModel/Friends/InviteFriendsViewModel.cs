@@ -1,9 +1,9 @@
-﻿using Lottery.LotteryServiceReference;
+﻿using Lottery.Helpers;
+using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
 using Lottery.View.Friends;
 using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -73,7 +73,8 @@ namespace Lottery.ViewModel.Friends
 
         public bool CanSendRequest => !IsFriend && !HasPendingRequest;
         public bool CanCancelRequest => !IsFriend && HasPendingRequest && PendingRequestSenderId == _currentUserId;
-        public bool CanAcceptRequest => !IsFriend && HasPendingRequest && PendingRequestSenderId != _currentUserId && PendingRequestSenderId != 0;
+        public bool CanAcceptRequest => !IsFriend && HasPendingRequest 
+            && PendingRequestSenderId != _currentUserId && PendingRequestSenderId != 0;
         public bool CanRejectRequest => CanAcceptRequest;
 
         public FoundUserViewModel(FriendDto dto, int currentUserId)
@@ -278,8 +279,13 @@ namespace Lottery.ViewModel.Friends
         {
             if (selectedFriend != null)
             {
-                if (MessageBox.Show(string.Format(Lang.InviteFriendsAreYouSure, selectedFriend.Nickname),
-                    Lang.GlobalMessageBoxTitleConfirm, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                var result = CustomMessageBox.Show(
+                    string.Format(Lang.InviteFriendsAreYouSure, selectedFriend.Nickname),
+                    Lang.GlobalMessageBoxTitleConfirm,
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
                 {
                     await ExecuteRequest(async () =>
                     {

@@ -1,4 +1,5 @@
-﻿using Lottery.LotteryServiceReference;
+﻿using Lottery.Helpers;
+using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
 using Lottery.View.Friends;
 using Lottery.View.Game;
@@ -195,12 +196,12 @@ namespace Lottery.ViewModel.Lobby
 
                 if (playerToKick != null)
                 {
-                    var result = MessageBox.Show(
-                        _lobbyWindow,
+                    var result = CustomMessageBox.Show(
                         string.Format(Lang.LobbyKickConfirmationMessage, playerToKick.Nickname),
                         Lang.LobbyKickConfirmationTitle,
                         MessageBoxButton.YesNo,
-                        MessageBoxImage.Warning);
+                        MessageBoxImage.Warning,
+                        _lobbyWindow);
 
                     if (result == MessageBoxResult.Yes)
                     {
@@ -262,7 +263,10 @@ namespace Lottery.ViewModel.Lobby
         {
             _lobbyWindow.Dispatcher.Invoke(() =>
             {
-                if (!Players.Any(p => p.UserId == newPlayer.UserId)) Players.Add(newPlayer);
+                if (!Players.Any(p => p.UserId == newPlayer.UserId))
+                {
+                    Players.Add(newPlayer);
+                }
                 ChatHistory.Add(string.Format(Lang.LobbyChatPlayerJoined, newPlayer.Nickname));
             });
         }
@@ -298,7 +302,12 @@ namespace Lottery.ViewModel.Lobby
             _lobbyWindow.Dispatcher.Invoke(() =>
             {
                 UnsubscribeFromEvents();
-                MessageBox.Show(_lobbyWindow, Lang.LobbyMessageYouKicked, Lang.LobbyTitleKicked, MessageBoxButton.OK, MessageBoxImage.Warning);
+                CustomMessageBox.Show(
+                    Lang.LobbyMessageYouKicked, 
+                    Lang.LobbyTitleKicked, MessageBoxButton.OK, 
+                    MessageBoxImage.Warning,
+                    _lobbyWindow);
+
                 NavigateToMainMenu();
             });
         }
@@ -308,7 +317,12 @@ namespace Lottery.ViewModel.Lobby
             _lobbyWindow.Dispatcher.Invoke(() =>
             {
                 UnsubscribeFromEvents();
-                MessageBox.Show(_lobbyWindow, Lang.LobbyMessageHostClosed, Lang.LobbyTitleClosed, MessageBoxButton.OK, MessageBoxImage.Information);
+                CustomMessageBox.Show(
+                    Lang.LobbyMessageHostClosed, 
+                    Lang.LobbyTitleClosed, 
+                    MessageBoxButton.OK, 
+                    MessageBoxImage.Information,
+                    _lobbyWindow);
                 NavigateToMainMenu();
             });
         }

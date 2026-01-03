@@ -1,4 +1,5 @@
-﻿using Lottery.LotteryServiceReference;
+﻿using Lottery.Helpers;
+using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
 using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;
@@ -157,7 +158,12 @@ namespace Lottery.ViewModel.Game
             _gameWindow.Dispatcher.Invoke(() =>
             {
                 GameStatusMessage = string.Format(Lang.GameStatusPlayerWon, nickname);
-                MessageBox.Show(_gameWindow, string.Format(Lang.GameMessageBoxPlayerWon, nickname), Lang.GameTitleGameOver, MessageBoxButton.OK, MessageBoxImage.Information);
+                CustomMessageBox.Show(
+                    string.Format(Lang.GameMessageBoxPlayerWon, nickname),
+                    Lang.GameTitleGameOver,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information,
+                    _gameWindow);
             });
         }
 
@@ -166,7 +172,13 @@ namespace Lottery.ViewModel.Game
             _gameWindow.Dispatcher.Invoke(() =>
             {
                 UnsubscribeFromGameEvents();
-                MessageBox.Show(_gameWindow, Lang.GameMessageBoxGameEnded, Lang.GameTitleGameFinished, MessageBoxButton.OK, MessageBoxImage.Information);
+                CustomMessageBox.Show(
+                    Lang.GameMessageBoxGameEnded,
+                    Lang.GameTitleGameFinished,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information,
+                    _gameWindow);
+
                 NavigateToMainMenu();
             });
         }
@@ -175,7 +187,12 @@ namespace Lottery.ViewModel.Game
         {
             if (!AllCellsSelected)
             {
-                MessageBox.Show(_gameWindow, Lang.GameWarningNotAllCellsSelected, Lang.GlobalMessageBoxTitleWarning, MessageBoxButton.OK, MessageBoxImage.Warning);
+                CustomMessageBox.Show(
+                    Lang.GameWarningNotAllCellsSelected,
+                    Lang.GlobalMessageBoxTitleWarning,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning,
+                    _gameWindow);
             }
             else
             {
@@ -189,7 +206,12 @@ namespace Lottery.ViewModel.Game
 
         private async Task LeaveGame()
         {
-            var result = MessageBox.Show(_gameWindow, Lang.GameWarningLeaveGame, Lang.GlobalMessageBoxTitleExit, MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            var result = CustomMessageBox.Show(
+                Lang.GameWarningLeaveGame,
+                Lang.GlobalMessageBoxTitleExit,
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning,
+                _gameWindow);
 
             if (result == MessageBoxResult.Yes)
             {

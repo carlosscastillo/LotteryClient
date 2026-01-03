@@ -228,7 +228,7 @@
   <data name="GlobalMessageBoxTitleExit" xml:space="preserve">
     <value>Salir</value>
   </data>
-  <data name="GlobalButtonAccept" xml:space="preserve">
+  <data name="GlobalButtonOK" xml:space="preserve">
     <value>Aceptar</value>
   </data>
   <data name="GlobalButtonBack" xml:space="preserve">

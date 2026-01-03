@@ -1,4 +1,5 @@
-﻿using Lottery.LotteryServiceReference;
+﻿using Lottery.Helpers;
+using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
 using Lottery.ViewModel.Base;
 using System.Collections.Generic;
@@ -46,7 +47,12 @@ namespace Lottery.ViewModel.Lobby
         {
             if (string.IsNullOrWhiteSpace(LobbyCode))
             {
-                MessageBox.Show(Lang.JoinLobbyCodeEmpty, Lang.GlobalMessageBoxTitleWarning, MessageBoxButton.OK, MessageBoxImage.Warning);
+                CustomMessageBox.Show(
+                    Lang.JoinLobbyCodeEmpty,
+                    Lang.GlobalMessageBoxTitleWarning,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning,
+                    window);
             }
             else
             {

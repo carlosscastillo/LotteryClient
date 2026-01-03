@@ -109,7 +109,7 @@
                                                 FontWeight="Bold"
                                                 Visibility="{Binding CanSendRequest, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
-                                        <Button Content="{x:Static language:Lang.GlobalButtonAccept}" Grid.Column="1"
+                                        <Button Content="{x:Static language:Lang.GlobalButtonOK}" Grid.Column="1"
                                                 Command="{Binding DataContext.AcceptRequestCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
                                                 CommandParameter="{Binding}"
                                                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"

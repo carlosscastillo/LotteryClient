@@ -1,15 +1,13 @@
-﻿using FluentValidation;
-using Lottery.Helpers;
+﻿using Lottery.Helpers;
 using Lottery.LotteryServiceReference;
+using Lottery.Properties.Langs;
 using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 
 namespace Lottery.ViewModel.User
 {
@@ -263,11 +261,11 @@ namespace Lottery.ViewModel.User
         {
             _errorMap = new Dictionary<string, string>
             {
-                { "USER_DUPLICATE", "El nombre de usuario o correo ya existe." },
-                { "AUTH_INVALID_CREDENTIALS", "La contraseña actual es incorrecta." },
-                { "VERIFY_ERROR", "Error al verificar el código." },
-                { "VERIFY_EMAIL_SEND_FAILED", "No se pudo enviar el correo." },
-                { "USER_NOT_FOUND", "Usuario no encontrado." }
+                { "USER_DUPLICATE", Lang.RegisterUserDuplicate },
+                { "AUTH_INVALID_CREDENTIALS", Lang.LoginInvalidCredentials },
+                { "VERIFY_ERROR", Lang.RegisterVerifyError },
+                { "VERIFY_EMAIL_SEND_FAILED", Lang.RegisterEmailSendFailed },
+                { "USER_NOT_FOUND", Lang.LoginGenericError }
             };
 
             EditCommand = new RelayCommand(EditProfile);
@@ -359,7 +357,7 @@ namespace Lottery.ViewModel.User
                 if (!userValResult.IsValid)
                 {
                     string errores = string.Join("\n", userValResult.Errors.Select(e => e.ErrorMessage));
-                    ShowError(errores, "Datos de usuario inválidos", MessageBoxImage.Warning);
+                    ShowError(errores, Lang.LoginValidationTitle, MessageBoxImage.Warning);
                 }
                 else
                 {
@@ -369,7 +367,7 @@ namespace Lottery.ViewModel.User
                     if (!socialValResult.IsValid)
                     {
                         string errores = string.Join("\n", socialValResult.Errors.Select(e => e.ErrorMessage));
-                        ShowError(errores, "Datos de Redes Sociales inválidos", MessageBoxImage.Warning);
+                        ShowError(errores, Lang.LoginValidationTitle, MessageBoxImage.Warning);
                     }
                     else
                     {
@@ -380,7 +378,7 @@ namespace Lottery.ViewModel.User
 
                             if (!successUser)
                             {
-                                ShowError($"Error al guardar perfil: {msgUser}", "Error");
+                                ShowError($"{Lang.GlobalMessageBoxTitleError}: {msgUser}", Lang.GlobalMessageBoxTitleError);
                             }
                             else
                             {
@@ -388,13 +386,13 @@ namespace Lottery.ViewModel.User
 
                                 if (successSocial)
                                 {
-                                    ShowSuccess("Perfil y redes sociales actualizados correctamente.");
+                                    ShowSuccess(Lang.GlobalMessageBoxTitleSuccess);
                                     IsEditing = false;
                                     SessionManager.CurrentUser.Nickname = Nickname;
                                 }
                                 else
                                 {
-                                    ShowError("El perfil se guardó, pero hubo un error al guardar las redes sociales.", "Advertencia", MessageBoxImage.Warning);
+                                    ShowError(Lang.GlobalMessageBoxTitleWarning, Lang.GlobalMessageBoxTitleWarning, MessageBoxImage.Warning);
                                 }
                             }
                         }, _errorMap);
@@ -413,7 +411,7 @@ namespace Lottery.ViewModel.User
 
                 if (!result.IsValid)
                 {
-                    ShowError(result.Errors.First().ErrorMessage, "Email inválido", MessageBoxImage.Warning);
+                    ShowError(result.Errors.First().ErrorMessage, Lang.LoginValidationTitle, MessageBoxImage.Warning);
                 }
                 else
                 {
@@ -427,7 +425,7 @@ namespace Lottery.ViewModel.User
                         }
                         else
                         {
-                            ShowError("No se pudo enviar código.", "Error");
+                            ShowError(Lang.RegisterEmailSendFailed, Lang.GlobalMessageBoxTitleError);
                         }
                     }, _errorMap);
                 }
@@ -447,7 +445,7 @@ namespace Lottery.ViewModel.User
                 }
                 else
                 {
-                    ShowError("Código incorrecto.", "Validación", MessageBoxImage.Warning);
+                    ShowError(Lang.RegisterCodeExpiredOrIncorrect, Lang.LoginValidationTitle, MessageBoxImage.Warning);
                 }
             }, _errorMap);
         }
@@ -464,7 +462,7 @@ namespace Lottery.ViewModel.User
                 }
                 else
                 {
-                    ShowError("Contraseña incorrecta.", "Validación", MessageBoxImage.Warning);
+                    ShowError(Lang.LoginInvalidCredentials, Lang.LoginValidationTitle, MessageBoxImage.Warning);
                 }
             }, _errorMap);
         }
@@ -473,7 +471,7 @@ namespace Lottery.ViewModel.User
         {
             if (NewPassword != ConfirmNewPassword)
             {
-                ShowError("Las contraseñas no coinciden.", "Validación", MessageBoxImage.Warning);
+                ShowError(Lang.RegisterPasswordsDoNotMatch, Lang.LoginValidationTitle, MessageBoxImage.Warning);
             }
             else
             {
@@ -482,7 +480,7 @@ namespace Lottery.ViewModel.User
                     bool ok = await ServiceProxy.Instance.Client.ChangePasswordAsync(IdUser, NewPassword);
                     if (ok)
                     {
-                        ShowSuccess("Contraseña cambiada exitosamente.");
+                        ShowSuccess(Lang.GlobalMessageBoxTitleSuccess);
                         CloseOverlay();
                     }
                 }, _errorMap);

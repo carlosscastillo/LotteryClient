@@ -1,4 +1,5 @@
-﻿using Lottery.LotteryServiceReference;
+﻿using Lottery.Helpers;
+using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
 using Lottery.View.Friends;
 using Lottery.View.Lobby;
@@ -7,7 +8,6 @@ using Lottery.ViewModel.Base;
 using Lottery.ViewModel.Lobby;
 using System;
 using System.Collections.Generic;
-using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -151,10 +151,12 @@ namespace Lottery.ViewModel.MainMenu
             {
                 _mainMenuWindow.Dispatcher.Invoke(async () =>
                 {
-                    var result = MessageBox.Show(
-                        _mainMenuWindow,
+                    var result = CustomMessageBox.Show(
                         string.Format(Lang.MainMenuHasInvited, inviterNickname),
-                        Lang.MainMenuInvitationReceived, MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        Lang.MainMenuInvitationReceived,
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Question,
+                        _mainMenuWindow);
 
                     if (result == MessageBoxResult.Yes)
                     {
@@ -174,7 +176,12 @@ namespace Lottery.ViewModel.MainMenu
             }
             catch (Exception)
             {
-                MessageBox.Show(Lang.MainMenuErrorDuringLogout);
+                CustomMessageBox.Show(
+                    Lang.MainMenuErrorDuringLogout,
+                    Lang.GlobalMessageBoxTitleError,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error,
+                    _mainMenuWindow);
             }
             finally
             {

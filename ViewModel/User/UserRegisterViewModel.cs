@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using Lottery.Helpers;
+﻿using Lottery.Helpers;
 using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
 using Lottery.View.MainMenu;
@@ -259,7 +258,9 @@ namespace Lottery.ViewModel.User
         {
             var mainMenu = new MainMenuView();
             mainMenu.Show();
-            Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.DataContext == this)?.Close();
+
+            Application.Current.Windows.OfType<Window>()
+                .SingleOrDefault(w => w.DataContext == this)?.Close();
         }
     }
 }

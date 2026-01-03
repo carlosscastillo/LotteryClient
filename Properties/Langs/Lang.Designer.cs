@@ -1357,15 +1357,6 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Aceptar.
-        /// </summary>
-        public static string GlobalButtonAccept {
-            get {
-                return ResourceManager.GetString("GlobalButtonAccept", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a Regresar.
         /// </summary>
         public static string GlobalButtonBack {
@@ -1416,6 +1407,15 @@ namespace Lottery.Properties.Langs {
         public static string GlobalButtonJoinLobby {
             get {
                 return ResourceManager.GetString("GlobalButtonJoinLobby", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Aceptar.
+        /// </summary>
+        public static string GlobalButtonOK {
+            get {
+                return ResourceManager.GetString("GlobalButtonOK", resourceCulture);
             }
         }
         

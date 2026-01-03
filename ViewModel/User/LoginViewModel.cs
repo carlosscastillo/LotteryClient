@@ -1,4 +1,5 @@
-﻿using Lottery.Helpers;
+﻿using FluentValidation;
+using Lottery.Helpers;
 using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
 using Lottery.View.MainMenu;

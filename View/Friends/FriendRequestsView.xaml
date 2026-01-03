@@ -36,7 +36,7 @@
                                        VerticalAlignment="Center" 
                                        Grid.Column="0" FontWeight="Bold" Foreground="White"/>
 
-                            <Button Content="{x:Static language:Lang.GlobalButtonAccept}" Grid.Column="1" Margin="5,0,0,0"
+                            <Button Content="{x:Static language:Lang.GlobalButtonOK}" Grid.Column="1" Margin="5,0,0,0"
                                     Command="{Binding DataContext.AcceptCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
                                     CommandParameter="{Binding}"
                                     Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"

@@ -4,7 +4,6 @@ using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;
 using System;
 using System.Collections.Generic;
-using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -60,6 +59,7 @@ namespace Lottery.ViewModel.User
             if (string.IsNullOrWhiteSpace(Nickname))
             {
                 ErrorMessage = Lang.GuestLoginEmptyNickname;
+                ShowError(Lang.GuestLoginEmptyNickname, Lang.GlobalMessageBoxTitleWarning, MessageBoxImage.Warning);
             }
             else
             {
@@ -79,13 +79,14 @@ namespace Lottery.ViewModel.User
                         {
                             MainMenuView mainMenu = new MainMenuView();
                             mainMenu.Show();
+
                             RequestClose?.Invoke();
                         });
                     }
                     else
                     {
                         ErrorMessage = Lang.GuestLoginGenericError;
-                        ShowError(Lang.GuestLoginGenericError, Lang.GlobalMessageBoxTitleError);
+                        ShowError(Lang.GuestLoginGenericError);
                     }
                 }, _errorMap);
 

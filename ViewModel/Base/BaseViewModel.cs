@@ -1,4 +1,5 @@
-﻿using Lottery.LotteryServiceReference;
+﻿using Lottery.Helpers;
+using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
 using System;
 using System.Collections.Generic;
@@ -51,7 +52,7 @@ namespace Lottery.ViewModel.Base
 
         protected void ShowSuccess(string message)
         {
-            MessageBox.Show(message, Lang.GlobalMessageBoxTitleSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
+            CustomMessageBox.Show(message, Lang.GlobalMessageBoxTitleSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         protected void ShowError(string message)
@@ -61,7 +62,7 @@ namespace Lottery.ViewModel.Base
 
         protected void ShowError(string message, string title, MessageBoxImage icon = MessageBoxImage.Error)
         {
-            MessageBox.Show(message, title, MessageBoxButton.OK, icon);
+            CustomMessageBox.Show(message, title, MessageBoxButton.OK, icon);
         }
     }
 }

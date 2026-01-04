@@ -1,4 +1,5 @@
-﻿using Lottery.Helpers;
+﻿using Contracts.DTOs;
+using Lottery.Helpers;
 using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
 using Lottery.View.MainMenu;
@@ -15,7 +16,7 @@ namespace Lottery.ViewModel.User
     public class UserRegisterViewModel : BaseViewModel
     {
         private readonly Dictionary<string, string> _errorMap;
-        private UserDto _pendingUser;
+        private  UserDto _pendingUser;
         private bool _isRegistering;
 
         public event Action NavigateToLogin;

@@ -2,6 +2,7 @@
 using System;
 using System.Windows;
 using System.ServiceModel;
+using Contracts.DTOs;
 
 namespace Lottery
 {

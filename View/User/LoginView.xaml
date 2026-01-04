@@ -108,8 +108,14 @@
                     </TextBlock.Style>
                 </TextBlock>
 
-                <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Margin="0,20,0,0" HorizontalAlignment="Center" Cursor="Hand">
-                    <TextBlock Text="{x:Static language:Lang.LoginButtonForgotMyPassword}" Foreground="#BBBBBB" FontSize="13"/>
+                <Button Command="{Binding ForgotPasswordCommand}"
+                    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    Margin="0,20,0,0"
+                    HorizontalAlignment="Center"
+                    Cursor="Hand">
+                    <TextBlock Text="{x:Static language:Lang.LoginButtonForgotMyPassword}"
+                       Foreground="#BBBBBB"
+                       FontSize="13"/>
                 </Button>
 
                 <Button x:Name="SignUpButton"

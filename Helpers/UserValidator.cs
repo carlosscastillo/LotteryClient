@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Contracts.DTOs;
+using FluentValidation;
 using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
 using System;

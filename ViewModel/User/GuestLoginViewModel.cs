@@ -1,4 +1,5 @@
-﻿using Lottery.LotteryServiceReference;
+﻿using Contracts.DTOs;
+using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
 using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;

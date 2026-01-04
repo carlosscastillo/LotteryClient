@@ -1,4 +1,5 @@
-﻿using Lottery.Helpers;
+﻿using Contracts.DTOs;
+using Lottery.Helpers;
 using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
 using Lottery.View.MainMenu;
@@ -469,7 +470,14 @@ namespace Lottery.ViewModel.User
 
         private async Task SaveNewPassword()
         {
-            if (NewPassword != ConfirmNewPassword)
+            var userValidator = new UserValidator().ValidatePasswordOnly();            
+            var userValResult = userValidator.Validate(new UserDto { Password = NewPassword });
+
+            if (!userValResult.IsValid)
+            {                
+                ShowError(userValResult.Errors.First().ErrorMessage, Lang.LoginValidationTitle, MessageBoxImage.Warning);
+            }
+            else if (NewPassword != ConfirmNewPassword)
             {
                 ShowError(Lang.RegisterPasswordsDoNotMatch, Lang.LoginValidationTitle, MessageBoxImage.Warning);
             }

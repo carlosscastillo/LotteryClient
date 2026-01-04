@@ -19,8 +19,10 @@ namespace Lottery.View.User
             viewModel.RequestClose += () => this.Close();
         }
 
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        private void BackButton_Click(object sender, RoutedEventArgs e)
         {
+            LoginView loginView = new LoginView();
+            loginView.Show();
             this.Close();
         }
     }

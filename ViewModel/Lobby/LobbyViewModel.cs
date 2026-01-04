@@ -1,4 +1,5 @@
-﻿using Contracts.Services.Lobby;
+﻿using Contracts.DTOs;
+using Contracts.Services.Lobby;
 using Lottery.Helpers;
 using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;

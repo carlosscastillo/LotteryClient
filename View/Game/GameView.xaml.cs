@@ -1,4 +1,5 @@
-﻿using Lottery.LotteryServiceReference;
+﻿using Contracts.DTOs;
+using Lottery.LotteryServiceReference;
 using Lottery.ViewModel.Game;
 using System.Collections.ObjectModel;
 using System.Windows;

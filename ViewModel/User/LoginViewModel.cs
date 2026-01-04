@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Contracts.DTOs;
+using FluentValidation;
 using Lottery.Helpers;
 using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
@@ -53,6 +54,7 @@ namespace Lottery.ViewModel.User
         }
 
         public ICommand LoginCommand { get; }
+        public ICommand ForgotPasswordCommand { get; }
         public ICommand SignUpCommand { get; }
         public ICommand GuestLoginCommand { get; }
 
@@ -70,6 +72,7 @@ namespace Lottery.ViewModel.User
 
             IsPasswordVisible = false;
             LoginCommand = new RelayCommand<Window>(async (window) => await Login(window));
+            ForgotPasswordCommand = new RelayCommand<Window>(ExecuteRecoverPassword);
             SignUpCommand = new RelayCommand<Window>(ExecuteSignUp);
             GuestLoginCommand = new RelayCommand<Window>(ExecuteGuestLogin);
         }
@@ -137,11 +140,16 @@ namespace Lottery.ViewModel.User
             registerView.Show();
             loginWindow?.Close();
         }
-
         private void ExecuteGuestLogin(Window loginWindow)
         {
             GuestLoginView guestView = new GuestLoginView();
             guestView.Show();
+            loginWindow?.Close();
+        }
+        private void ExecuteRecoverPassword(Window loginWindow)
+        {
+            RecoverPasswordView recoverPasswordView = new RecoverPasswordView();
+            recoverPasswordView.Show();
             loginWindow?.Close();
         }
     }

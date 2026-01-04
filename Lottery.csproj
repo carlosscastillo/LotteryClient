@@ -95,6 +95,7 @@
     <Compile Include="ViewModel\User\GuestLoginViewModel.cs" />
     <Compile Include="ViewModel\User\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainMenu\MainMenuViewModel.cs" />
+    <Compile Include="ViewModel\User\RecoverPasswordViewModel.cs" />
     <Compile Include="ViewModel\User\UserRegisterViewModel.cs" />
     <Compile Include="View\Components\CustomMessageBoxView.xaml.cs">
       <DependentUpon>CustomMessageBoxView.xaml</DependentUpon>
@@ -125,9 +126,6 @@
     </Compile>
     <Compile Include="View\User\GuestLoginView.xaml.cs">
       <DependentUpon>GuestLoginView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\User\GuestRegisterView.xaml.cs">
-      <DependentUpon>GuestRegisterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Lobby\JoinLobbyByCodeView.xaml.cs">
       <DependentUpon>JoinLobbyByCodeView.xaml</DependentUpon>
@@ -199,10 +197,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User\GuestLoginView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\User\GuestRegisterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -284,20 +278,12 @@
     <None Include="Connected Services\LotteryServiceReference\item5.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.FriendDto.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.LobbyStateDto.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.SocialMediaDto.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.UserDto.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
     <None Include="Connected Services\LotteryServiceReference\LotteryService.wsdl" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Contracts.DTOs.FriendDto.datasource" />
+    <None Include="Properties\DataSources\Contracts.DTOs.LobbyStateDto.datasource" />
+    <None Include="Properties\DataSources\Contracts.DTOs.SocialMediaDto.datasource" />
+    <None Include="Properties\DataSources\Contracts.DTOs.UserDto.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -436,12 +422,6 @@
     <Resource Include="Images\Icons\warning.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LotteryServer\Contracts\Contracts.csproj">
-      <Project>{a120ac68-a8e9-42fb-92f0-0baade6ff3b8}</Project>
-      <Name>Contracts</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Tokens\token00-background.png" />
   </ItemGroup>
   <ItemGroup>
@@ -455,6 +435,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Tokens\token04-background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LotteryServer\Contracts\Contracts.csproj">
+      <Project>{a120ac68-a8e9-42fb-92f0-0baade6ff3b8}</Project>
+      <Name>Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

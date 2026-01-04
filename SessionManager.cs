@@ -1,4 +1,5 @@
-﻿using Lottery.LotteryServiceReference;
+﻿using Contracts.DTOs;
+using Lottery.LotteryServiceReference;
 using System;
 
 namespace Lottery

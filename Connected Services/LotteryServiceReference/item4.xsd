@@ -358,12 +358,15 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="email" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="newPassword" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RecoverPasswordResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="RecoverPasswordResult" type="xs:boolean" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="UpdateProfile">
@@ -437,6 +440,20 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="ConfirmEmailChangeResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RecoverPasswordRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="email" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RecoverPasswordRequestResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="RecoverPasswordRequestResult" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

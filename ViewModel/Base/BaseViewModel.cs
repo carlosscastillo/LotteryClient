@@ -1,4 +1,5 @@
-﻿using Lottery.Helpers;
+﻿using Contracts.Faults;
+using Lottery.Helpers;
 using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
 using System;

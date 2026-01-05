@@ -4,6 +4,7 @@ using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
 using Lottery.View.Friends;
 using Lottery.View.Lobby;
+using Lottery.View.MainMenu;
 using Lottery.View.User;
 using Lottery.ViewModel.Base;
 using Lottery.ViewModel.Lobby;
@@ -27,6 +28,7 @@ namespace Lottery.ViewModel.MainMenu
         public ICommand JoinLobbyCommand { get; }
         public ICommand LogoutCommand { get; }
         public ICommand ProfileCommand { get; }
+        public ICommand ShowLeaderboardCommand { get; }
 
         public MainMenuViewModel(Window window)
         {
@@ -57,6 +59,7 @@ namespace Lottery.ViewModel.MainMenu
             CreateLobbyCommand = new RelayCommand(async () => await ExecuteCreateLobby());
             JoinLobbyCommand = new RelayCommand(ExecuteJoinLobbyByCode);
             LogoutCommand = new RelayCommand(async () => await Logout());
+            ShowLeaderboardCommand = new RelayCommand(ExecuteShowLeaderboardView);
 
             ClientCallbackHandler.LobbyInviteReceived += OnLobbyInvite;
         }
@@ -94,6 +97,14 @@ namespace Lottery.ViewModel.MainMenu
                 profileView.Show();
                 _mainMenuWindow?.Close();
             }
+        }
+
+        private void ExecuteShowLeaderboardView()
+        {
+            Cleanup();
+            LeaderboardView leaderboardView = new LeaderboardView();
+            leaderboardView.Show();
+            _mainMenuWindow?.Close();
         }
 
         private async Task ExecuteCreateLobby()

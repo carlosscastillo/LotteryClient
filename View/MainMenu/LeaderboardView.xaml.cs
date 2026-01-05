@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lottery.ViewModel.MainMenu;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,15 +15,13 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Lottery.View.MainMenu
-{
-    /// <summary>
-    /// Lógica de interacción para ScoreboardView.xaml
-    /// </summary>
-    public partial class LeaderboardView : Page
+{       
+    public partial class LeaderboardView : Window
     {
         public LeaderboardView()
         {
             InitializeComponent();
-        }
+            DataContext = new LeaderboardViewModel();
+        }        
     }
 }

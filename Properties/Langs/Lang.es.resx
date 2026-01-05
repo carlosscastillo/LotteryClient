@@ -1183,4 +1183,10 @@
   <data name="SelectBoardLabelBoardIndividual" xml:space="preserve">
     <value>Tablero #{0}</value>
   </data>
+  <data name="LeaderboardPlayerLabel" xml:space="preserve">
+    <value>Jugador</value>
+  </data>
+  <data name="LeaderboardCurrentUserLabel" xml:space="preserve">
+    <value>(Tú)</value>
+  </data>
 </root>

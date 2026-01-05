@@ -1181,4 +1181,10 @@ Do you want to join?</value>
   <data name="SelectBoardLabelBoardIndividual" xml:space="preserve">
     <value>Board #{0}</value>
   </data>
+  <data name="LeaderboardPlayerLabel" xml:space="preserve">
+    <value>Player</value>
+  </data>
+  <data name="LeaderboardCurrentUserLabel" xml:space="preserve">
+    <value>(You)</value>
+  </data>
 </root>

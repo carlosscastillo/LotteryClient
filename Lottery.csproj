@@ -87,6 +87,7 @@
     <Compile Include="ViewModel\Game\GameViewModel.cs" />
     <Compile Include="ViewModel\Lobby\SelectBoardViewModel.cs" />
     <Compile Include="ViewModel\Lobby\SelectTokenViewModel.cs" />
+    <Compile Include="ViewModel\MainMenu\LeaderboardViewModel.cs" />
     <Compile Include="ViewModel\User\CustomizeProfileViewModel.cs" />
     <Compile Include="ViewModel\Friends\FriendRequestsViewModel.cs" />
     <Compile Include="ViewModel\Friends\InviteFriendsViewModel.cs" />
@@ -281,6 +282,7 @@
     <None Include="Connected Services\LotteryServiceReference\LotteryService.wsdl" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Contracts.DTOs.FriendDto.datasource" />
+    <None Include="Properties\DataSources\Contracts.DTOs.LeaderboardPlayerDto.datasource" />
     <None Include="Properties\DataSources\Contracts.DTOs.LobbyStateDto.datasource" />
     <None Include="Properties\DataSources\Contracts.DTOs.SocialMediaDto.datasource" />
     <None Include="Properties\DataSources\Contracts.DTOs.UserDto.datasource" />

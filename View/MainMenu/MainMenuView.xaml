@@ -73,6 +73,21 @@
                         <TextBlock Text="{x:Static language:Lang.MainMenuButtonProfile}" FontSize="14" HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Button>
+
+                <Button Style="{StaticResource SideIconButtonStyle}"
+                    Command="{Binding ShowLeaderboardCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                    Margin="0,20,0,0">
+
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <TextBlock Text="&#xE9D2;"
+                           Style="{StaticResource SideIconTextStyle}"
+                           HorizontalAlignment="Center"/>
+                        <TextBlock Text="{x:Static language:Lang.LeaderboardLabelTitle}"
+                           FontSize="14"
+                           HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
             </StackPanel>
         </Border>
 

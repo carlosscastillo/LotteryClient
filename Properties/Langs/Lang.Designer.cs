@@ -2203,11 +2203,29 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a (Tú).
+        /// </summary>
+        public static string LeaderboardCurrentUserLabel {
+            get {
+                return ResourceManager.GetString("LeaderboardCurrentUserLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Tabla de clasificación.
         /// </summary>
         public static string LeaderboardLabelTitle {
             get {
                 return ResourceManager.GetString("LeaderboardLabelTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Jugador.
+        /// </summary>
+        public static string LeaderboardPlayerLabel {
+            get {
+                return ResourceManager.GetString("LeaderboardPlayerLabel", resourceCulture);
             }
         }
         

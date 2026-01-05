@@ -67,6 +67,19 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="SocialMediaDto" nillable="true" type="tns:SocialMediaDto" />
+  <xs:complexType name="ArrayOfLeaderboardPlayerDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="LeaderboardPlayerDto" nillable="true" type="tns:LeaderboardPlayerDto" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfLeaderboardPlayerDto" nillable="true" type="tns:ArrayOfLeaderboardPlayerDto" />
+  <xs:complexType name="LeaderboardPlayerDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Nickname" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Score" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LeaderboardPlayerDto" nillable="true" type="tns:LeaderboardPlayerDto" />
   <xs:complexType name="CardDto">
     <xs:sequence>
       <xs:element minOccurs="0" name="Id" type="xs:int" />

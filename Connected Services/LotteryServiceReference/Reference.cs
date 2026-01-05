@@ -238,6 +238,12 @@ namespace Lottery.LotteryServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RecoverPasswordRequest", ReplyAction="http://tempuri.org/IUserService/RecoverPasswordRequestResponse")]
         System.Threading.Tasks.Task<bool> RecoverPasswordRequestAsync(string email);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetLeaderboard", ReplyAction="http://tempuri.org/IUserService/GetLeaderboardResponse")]
+        Contracts.DTOs.LeaderboardPlayerDto[] GetLeaderboard();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetLeaderboard", ReplyAction="http://tempuri.org/IUserService/GetLeaderboardResponse")]
+        System.Threading.Tasks.Task<Contracts.DTOs.LeaderboardPlayerDto[]> GetLeaderboardAsync();
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVerificationService/SendVerificationCode", ReplyAction="http://tempuri.org/IVerificationService/SendVerificationCodeResponse")]
         bool SendVerificationCode(string email);
         
@@ -603,6 +609,14 @@ namespace Lottery.LotteryServiceReference {
         
         public System.Threading.Tasks.Task<bool> RecoverPasswordRequestAsync(string email) {
             return base.Channel.RecoverPasswordRequestAsync(email);
+        }
+        
+        public Contracts.DTOs.LeaderboardPlayerDto[] GetLeaderboard() {
+            return base.Channel.GetLeaderboard();
+        }
+        
+        public System.Threading.Tasks.Task<Contracts.DTOs.LeaderboardPlayerDto[]> GetLeaderboardAsync() {
+            return base.Channel.GetLeaderboardAsync();
         }
         
         public bool SendVerificationCode(string email) {

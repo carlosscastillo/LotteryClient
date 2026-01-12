@@ -483,9 +483,6 @@
   <data name="LobbyLabelInviteFriends" xml:space="preserve">
     <value>Invite Friends</value>
   </data>
-  <data name="CardTextBlockAang" xml:space="preserve">
-    <value>Aang</value>
-  </data>
   <data name="CardTextBlockArnold" xml:space="preserve">
     <value>Arnold Shortman</value>
   </data>
@@ -1186,5 +1183,26 @@ Do you want to join?</value>
   </data>
   <data name="LeaderboardCurrentUserLabel" xml:space="preserve">
     <value>(You)</value>
+  </data>
+  <data name="CardTextBlockAang" xml:space="preserve">
+    <value>Aang</value>
+  </data>
+  <data name="SelectBoardMessageSelectAvailable" xml:space="preserve">
+    <value>Please select an available board.</value>
+  </data>
+  <data name="SelectBoardTitleError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="GameMessageBoxFalseLoteriaFailed" xml:space="preserve">
+    <value>False Lottery failed!</value>
+  </data>
+  <data name="GameMessageBoxFalseLoteriaSuccess" xml:space="preserve">
+    <value>False Lottery successful!</value>
+  </data>
+  <data name="GlobalMessageBoxTitleInfo" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="RegisterServerTimeout" xml:space="preserve">
+    <value>Server timeout</value>
   </data>
 </root>

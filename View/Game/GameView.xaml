@@ -157,7 +157,11 @@
                 </StackPanel>
             </Border>
 
-            <Button Content="Loteria" Style="{StaticResource PrimaryButtonStyle2}" Visibility="{Binding AllCellsSelected, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,25,0,0"/>
+            <Button Content="¡Lotería!"
+                Style="{StaticResource PrimaryButtonStyle2}"
+                Command="{Binding DeclareLoteriaCommand}"
+                Visibility="{Binding AllCellsSelected, Converter={StaticResource BoolToVisibilityConverter}}"
+                Margin="0,25,0,0"/>
 
         </StackPanel>
 

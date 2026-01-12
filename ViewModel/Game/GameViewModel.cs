@@ -3,6 +3,7 @@ using Contracts.GameData;
 using Lottery.Helpers;
 using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
+using Lottery.View.Game;
 using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;
 using System;
@@ -21,9 +22,13 @@ namespace Lottery.ViewModel.Game
     {
         private readonly int _currentUserId;
         private readonly Window _gameWindow;
+        private readonly Window _lobbyWindow;
         private readonly Dictionary<string, string> _errorMap;
 
         private readonly string _gameMode;
+
+        private int _selectedBoardId;
+
 
         private static readonly Dictionary<int, string> _cardResourceKeys = new Dictionary<int, string>
         {
@@ -109,12 +114,19 @@ namespace Lottery.ViewModel.Game
         }
 
         public ICommand DeclareLoteriaCommand { get; }
-        public ICommand PauseGameCommand { get; }
+        public ICommand PauseGameCommand { get; }        
 
-        public GameViewModel(ObservableCollection<UserDto> players, GameSettingsDto settings, string selectedTokenKey, int selectedBoardId, Window window)
+        public GameViewModel(
+            ObservableCollection<UserDto> players,
+            GameSettingsDto settings,
+            string selectedTokenKey,
+            int selectedBoardId,
+            Window gameWindow,
+            Window lobbyWindow)
         {
             _currentUserId = SessionManager.CurrentUser.UserId;
-            _gameWindow = window;
+            _gameWindow = gameWindow;
+            _lobbyWindow = lobbyWindow;
             Players = players;
             _gameMode = settings.GameMode;
 
@@ -132,10 +144,12 @@ namespace Lottery.ViewModel.Game
             ShowStartMessageSequence();
 
             LoadTokenResource(selectedTokenKey);
+            _selectedBoardId = selectedBoardId;
             LoadBoardResource(selectedBoardId);
 
             DeclareLoteriaCommand = new RelayCommand(async () => await DeclareLoteria());
-            PauseGameCommand = new RelayCommand(async () => await LeaveGame());
+            PauseGameCommand = new RelayCommand(async () => await LeaveGame());                 
+
 
             SubscribeToGameEvents();
 
@@ -201,13 +215,14 @@ namespace Lottery.ViewModel.Game
 
             List<int> cardIds = BoardConfigurations.GetBoardById(boardId);
 
-            foreach (int cardId in cardIds)
+            for (int i = 0; i < cardIds.Count; i++)
             {
                 var cell = new Cell
                 {
-                    Id = cardId,
-                    ImagePath = GetImagePathFromId(cardId),
-                    IsSelected = false
+                    Id = cardIds[i],
+                    ImagePath = GetImagePathFromId(cardIds[i]),
+                    IsSelected = false,
+                    Position = i
                 };
                 BoardCells.Add(cell);
             }
@@ -250,13 +265,25 @@ namespace Lottery.ViewModel.Game
         {
             _gameWindow.Dispatcher.Invoke(() =>
             {
-                GameStatusMessage = string.Format(Lang.GameStatusPlayerWon, nickname);
-                CustomMessageBox.Show(
-                    string.Format(Lang.GameMessageBoxPlayerWon, nickname),
-                    Lang.GameTitleGameOver,
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information,
-                    _gameWindow);
+                UnsubscribeFromGameEvents();
+
+                var winnerViewModel = new WinnerViewModel(
+                    _currentUserId,
+                    nickname,
+                    BoardCells.ToList(),
+                    _gameWindow,
+                    _lobbyWindow)
+                {
+                    IsCurrentUserWinner = SessionManager.CurrentUser.Nickname == nickname
+                };
+
+                var winnerView = new WinnerView
+                {
+                    DataContext = winnerViewModel
+                };
+
+                winnerView.Show();
+                _gameWindow.Hide();
             });
         }
 
@@ -286,15 +313,25 @@ namespace Lottery.ViewModel.Game
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning,
                     _gameWindow);
+                return;
             }
-            else
+
+            GameStatusMessage = Lang.GameStatusVerifyingWin;
+
+            var playerBoardDto = new PlayerBoardDto
             {
-                GameStatusMessage = Lang.GameStatusVerifyingWin;
-                await ExecuteRequest(async () =>
-                {
-                    await ServiceProxy.Instance.Client.DeclareWinAsync(_currentUserId);
-                }, _errorMap);
-            }
+                PlayerId = _currentUserId,
+                BoardId = _selectedBoardId,
+                MarkedPositions = BoardCells
+                    .Where(c => c.IsSelected)
+                    .Select(c => c.Position)
+                    .ToList()
+            };
+
+            await ExecuteRequest(async () =>
+            {
+                await ServiceProxy.Instance.Client.DeclareWinAsync(playerBoardDto);
+            }, _errorMap);
         }
 
         private bool CheckWinCondition()
@@ -331,6 +368,19 @@ namespace Lottery.ViewModel.Game
                 default:
                     return BoardCells.All(c => c.IsSelected);
             }
+        }
+
+        private PlayerBoardDto GetPlayerBoardDto()
+        {
+            return new PlayerBoardDto
+            {
+                PlayerId = _currentUserId,
+                BoardId = _selectedBoardId,
+                MarkedPositions = BoardCells
+                    .Where(c => c.IsSelected)
+                    .Select(c => c.Position)
+                    .ToList()
+            };
         }
 
         private async Task LeaveGame()
@@ -417,6 +467,8 @@ namespace Lottery.ViewModel.Game
         {
             get => _isSelected;
             set => SetProperty(ref _isSelected, value);
-        }
+        }        
+        public int Position { get; set; }
     }
+
 }

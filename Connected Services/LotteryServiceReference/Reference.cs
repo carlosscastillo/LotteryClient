@@ -104,10 +104,16 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task GetScoreboardAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/DeclareWin", ReplyAction="http://tempuri.org/IGameService/DeclareWinResponse")]
-        void DeclareWin(int currentUserId);
+        void DeclareWin(Contracts.DTOs.PlayerBoardDto playerBoard);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/DeclareWin", ReplyAction="http://tempuri.org/IGameService/DeclareWinResponse")]
-        System.Threading.Tasks.Task DeclareWinAsync(int currentUserId);
+        System.Threading.Tasks.Task DeclareWinAsync(Contracts.DTOs.PlayerBoardDto playerBoard);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/ValidateFalseLoteria", ReplyAction="http://tempuri.org/IGameService/ValidateFalseLoteriaResponse")]
+        bool ValidateFalseLoteria(int challengerUserId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/ValidateFalseLoteria", ReplyAction="http://tempuri.org/IGameService/ValidateFalseLoteriaResponse")]
+        System.Threading.Tasks.Task<bool> ValidateFalseLoteriaAsync(int challengerUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/CreateLobby", ReplyAction="http://tempuri.org/ILobbyService/CreateLobbyResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Contracts.Faults.ServiceFault), Action="http://tempuri.org/ILobbyService/CreateLobbyServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
@@ -301,6 +307,9 @@ namespace Lottery.LotteryServiceReference {
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/ReceiveLobbyInvite")]
         void ReceiveLobbyInvite(string inviterNickname, string lobbyCode);
         
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/BoardSelected")]
+        void BoardSelected(int userId, int boardId);
+        
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/OnGameStarted")]
         void OnGameStarted(Contracts.DTOs.GameSettingsDto settings);
         
@@ -309,6 +318,9 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/OnGameFinished")]
         void OnGameFinished();
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/LobbyStateUpdated")]
+        void LobbyStateUpdated(Contracts.DTOs.LobbyStateDto lobbyState);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -443,12 +455,20 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.GetScoreboardAsync();
         }
         
-        public void DeclareWin(int currentUserId) {
-            base.Channel.DeclareWin(currentUserId);
+        public void DeclareWin(Contracts.DTOs.PlayerBoardDto playerBoard) {
+            base.Channel.DeclareWin(playerBoard);
         }
         
-        public System.Threading.Tasks.Task DeclareWinAsync(int currentUserId) {
-            return base.Channel.DeclareWinAsync(currentUserId);
+        public System.Threading.Tasks.Task DeclareWinAsync(Contracts.DTOs.PlayerBoardDto playerBoard) {
+            return base.Channel.DeclareWinAsync(playerBoard);
+        }
+        
+        public bool ValidateFalseLoteria(int challengerUserId) {
+            return base.Channel.ValidateFalseLoteria(challengerUserId);
+        }
+        
+        public System.Threading.Tasks.Task<bool> ValidateFalseLoteriaAsync(int challengerUserId) {
+            return base.Channel.ValidateFalseLoteriaAsync(challengerUserId);
         }
         
         public Contracts.DTOs.LobbyStateDto CreateLobby() {

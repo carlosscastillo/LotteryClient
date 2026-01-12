@@ -1213,6 +1213,24 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ¡Falsa Lotería fallida!.
+        /// </summary>
+        public static string GameMessageBoxFalseLoteriaFailed {
+            get {
+                return ResourceManager.GetString("GameMessageBoxFalseLoteriaFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡Falsa Lotería exitosa!.
+        /// </summary>
+        public static string GameMessageBoxFalseLoteriaSuccess {
+            get {
+                return ResourceManager.GetString("GameMessageBoxFalseLoteriaSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a La partida ha terminado..
         /// </summary>
         public static string GameMessageBoxGameEnded {
@@ -1614,6 +1632,15 @@ namespace Lottery.Properties.Langs {
         public static string GlobalMessageBoxTitleExit {
             get {
                 return ResourceManager.GetString("GlobalMessageBoxTitleExit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Información.
+        /// </summary>
+        public static string GlobalMessageBoxTitleInfo {
+            get {
+                return ResourceManager.GetString("GlobalMessageBoxTitleInfo", resourceCulture);
             }
         }
         
@@ -3069,6 +3096,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Tiempo de espera del servidor agotado.
+        /// </summary>
+        public static string RegisterServerTimeout {
+            get {
+                return ResourceManager.GetString("RegisterServerTimeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a El apodo o el correo electrónico ya están registrados..
         /// </summary>
         public static string RegisterUserDuplicate {
@@ -3146,6 +3182,24 @@ namespace Lottery.Properties.Langs {
         public static string SelectBoardLabelTitle {
             get {
                 return ResourceManager.GetString("SelectBoardLabelTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Por favor selecciona un tablero disponible.
+        /// </summary>
+        public static string SelectBoardMessageSelectAvailable {
+            get {
+                return ResourceManager.GetString("SelectBoardMessageSelectAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error.
+        /// </summary>
+        public static string SelectBoardTitleError {
+            get {
+                return ResourceManager.GetString("SelectBoardTitleError", resourceCulture);
             }
         }
         

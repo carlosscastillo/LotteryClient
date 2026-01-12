@@ -1,12 +1,8 @@
 ﻿<Window x:Class="Lottery.View.Lobby.SelectBoardView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:converters="clr-namespace:Lottery.Converters"
-        mc:Ignorable="d"
         xmlns:language="clr-namespace:Lottery.Properties.Langs"
-        
         Title="SelectBoardView"
         Height="700" Width="1100" 
         WindowStartupLocation="CenterOwner" 
@@ -17,6 +13,8 @@
 
     <Window.Resources>
         <converters:IdToImageConverter x:Key="IdToImageConverter"/>
+        <converters:BoolToColorConverter x:Key="BoolToColorConverter"/>
+        <converters:BoolToSelectionOverlayConverter x:Key="BoolToSelectionOverlayConverter"/>
         <Style TargetType="Button" BasedOn="{StaticResource PrimaryButton}"/>
     </Window.Resources>
 
@@ -36,7 +34,6 @@
                         FontWeight="Bold"
                         FontSize="14"
                         Click="CloseButton_Click"
-                        Panel.ZIndex="1"
                         Cursor="Hand"/>
 
                 <Grid Margin="0,10,0,0">
@@ -66,6 +63,17 @@
                              ScrollViewer.VerticalScrollBarVisibility="Disabled"
                              VerticalContentAlignment="Center">
 
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsOccupied}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
@@ -77,45 +85,29 @@
                                 <Border Margin="15,10" 
                                         Padding="10" 
                                         CornerRadius="8"
-                                        BorderThickness="2">
-                                    <Border.Style>
-                                        <Style TargetType="Border">
-                                            <Setter Property="Background" Value="#CCFFFFFF"/>
-                                            <Setter Property="BorderBrush" Value="Transparent"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                                    <Setter Property="Background" Value="White"/>
-                                                    <Setter Property="BorderBrush" Value="#FFC107"/>
-                                                    <Setter Property="BorderThickness" Value="4"/>
-                                                    <Setter Property="Effect">
-                                                        <Setter.Value>
-                                                            <DropShadowEffect Color="#FFC107" BlurRadius="20" ShadowDepth="0"/>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding BoardName}" 
-                                                   FontSize="18" FontWeight="Bold" Foreground="#333"
-                                                   HorizontalAlignment="Center" Margin="0,0,0,10"/>
-
-                                        <ItemsControl ItemsSource="{Binding CardIds}">
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <UniformGrid Rows="4" Columns="4" Width="280" Height="400"/>
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Image Source="{Binding Converter={StaticResource IdToImageConverter}}" 
-                                                           Margin="1" Stretch="Fill"/>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </StackPanel>
+                                        BorderThickness="2"
+                                        Background="{Binding IsSelected, Converter={StaticResource BoolToColorConverter}}">
+                                    <Grid>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding BoardName}" 
+                                                       FontSize="18" FontWeight="Bold" Foreground="#333"
+                                                       HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                                            <ItemsControl ItemsSource="{Binding CardIds}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <UniformGrid Rows="4" Columns="4" Width="280" Height="400"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Image Source="{Binding Converter={StaticResource IdToImageConverter}}" 
+                                                               Margin="1" Stretch="Fill"/>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                        <Border Background="{Binding IsOccupied, Converter={StaticResource BoolToSelectionOverlayConverter}}" CornerRadius="4"/>
+                                    </Grid>
                                 </Border>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

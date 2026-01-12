@@ -85,6 +85,7 @@
     <Compile Include="ViewModel\Base\ObservableObject.cs" />
     <Compile Include="ViewModel\Base\RelayCommand.cs" />
     <Compile Include="ViewModel\Game\GameViewModel.cs" />
+    <Compile Include="ViewModel\Game\WinnerViewModel.cs" />
     <Compile Include="ViewModel\Lobby\SelectBoardViewModel.cs" />
     <Compile Include="ViewModel\Lobby\SelectTokenViewModel.cs" />
     <Compile Include="ViewModel\MainMenu\LeaderboardViewModel.cs" />
@@ -264,22 +265,25 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Connected Services\LotteryServiceReference\item.xsd">
+    <None Include="Connected Services\LotteryServiceReference\item6.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LotteryServiceReference\item2.xsd">
+    <None Include="Connected Services\LotteryServiceReference\item61.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LotteryServiceReference\item3.xsd">
+    <None Include="Connected Services\LotteryServiceReference\item62.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LotteryServiceReference\item4.xsd">
+    <None Include="Connected Services\LotteryServiceReference\item63.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LotteryServiceReference\item5.xsd">
+    <None Include="Connected Services\LotteryServiceReference\item64.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LotteryServiceReference\LotteryService.wsdl" />
+    <None Include="Connected Services\LotteryServiceReference\item65.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LotteryServiceReference\LotteryService1.wsdl" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Contracts.DTOs.FriendDto.datasource" />
     <None Include="Properties\DataSources\Contracts.DTOs.LeaderboardPlayerDto.datasource" />
@@ -393,9 +397,6 @@
     <WCFMetadataStorage Include="Connected Services\LotteryServiceReference\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\LotteryServiceReference\item.disco" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Connected Services\LotteryServiceReference\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
@@ -443,6 +444,9 @@
       <Project>{a120ac68-a8e9-42fb-92f0-0baade6ff3b8}</Project>
       <Name>Contracts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\LotteryServiceReference\item1.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

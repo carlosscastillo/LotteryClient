@@ -16,6 +16,8 @@ namespace Lottery
         public static event Action LobbyClosedReceived;
         public static event Action<string, string> ChatMessageReceived;
         public static event Action<string, string> LobbyInviteReceived;
+        public static event Action<int, int> BoardSelectedReceived;
+        public static event Action<LobbyStateDto> LobbyStateUpdatedReceived;
 
         public static event Action<GameSettingsDto> GameStartedReceived;
         public static event Action<CardDto> CardDrawnReceived;
@@ -86,6 +88,15 @@ namespace Lottery
         public void OnGameFinished()
         {
             RunOnUI(() => GameEndedReceived?.Invoke());
+        }
+        public void BoardSelected(int userId, int boardId)
+        {
+            RunOnUI(() => BoardSelectedReceived?.Invoke(userId, boardId));
+        }
+
+        public void LobbyStateUpdated(LobbyStateDto lobbyState)
+        {
+            RunOnUI(() => LobbyStateUpdatedReceived?.Invoke(lobbyState));
         }
     }
 }

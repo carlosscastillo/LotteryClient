@@ -1,8 +1,10 @@
 ﻿using Contracts.GameData;
 using Lottery.Properties.Langs;
 using Lottery.ViewModel.Base;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -18,7 +20,14 @@ namespace Lottery.ViewModel.Lobby
         public bool IsSelected
         {
             get => _isSelected;
-            set { _isSelected = value; OnPropertyChanged(); }
+            set => SetProperty(ref _isSelected, value);
+        }
+
+        private bool _isOccupied;
+        public bool IsOccupied
+        {
+            get => _isOccupied;
+            set => SetProperty(ref _isOccupied, value);
         }
     }
 
@@ -31,71 +40,77 @@ namespace Lottery.ViewModel.Lobby
         {
             get => _selectedBoard;
             set
-            {
-                _selectedBoard = value;
-
-                if (AvailableBoards != null)
+            {                
+                if (value == null || value.IsOccupied)
+                    return;
+                
+                foreach (var board in AvailableBoards)
+                    board.IsSelected = false;
+                
+                if (SetProperty(ref _selectedBoard, value))
                 {
-                    foreach (var board in AvailableBoards)
-                    {
-                        board.IsSelected = false;
-                    }
-
-                    if (_selectedBoard != null)
-                    {
-                        _selectedBoard.IsSelected = true;
-                    }
+                    _selectedBoard.IsSelected = true;
                 }
-
-                OnPropertyChanged();
             }
         }
 
         public ICommand ConfirmSelectionCommand { get; set; }
-        public System.Action<int> OnBoardSelected;
+        public Action<int> OnBoardSelected;
 
-        public SelectBoardViewModel(int currentBoardId = 1)
+        public SelectBoardViewModel(int currentBoardId, List<int> occupiedBoards = null)
         {
             AvailableBoards = new ObservableCollection<BoardItemViewModel>();
-            LoadBoards();
-
-            foreach (var board in AvailableBoards)
-            {
-                if (board.BoardId == currentBoardId)
-                {
-                    SelectedBoard = board;
-                    break;
-                }
-            }
-
-            ConfirmSelectionCommand = new RelayCommand(ConfirmSelection);
-        }
-
-        private void LoadBoards()
-        {
             var configurations = BoardConfigurations.FixedBoards;
-
+            
             foreach (var kvp in configurations)
-            {
-                AvailableBoards.Add(new BoardItemViewModel
+            {                
+                var isOccupied = occupiedBoards != null && occupiedBoards.Contains(kvp.Key);
+
+                var boardItem = new BoardItemViewModel
                 {
                     BoardId = kvp.Key,
                     BoardName = string.Format(Lang.SelectBoardLabelBoardIndividual, kvp.Key),
                     CardIds = kvp.Value,
-                    IsSelected = false
-                });
+                    IsSelected = kvp.Key == currentBoardId,
+                    IsOccupied = isOccupied
+                };
+
+                AvailableBoards.Add(boardItem);
             }
+           
+            SelectedBoard = AvailableBoards.FirstOrDefault(b => b.BoardId == currentBoardId);
+
+            ConfirmSelectionCommand = new RelayCommand(ConfirmSelection);
         }
 
-        private void ConfirmSelection(object obj)
+        private void ConfirmSelection()
         {
-            if (SelectedBoard != null)
+            if (SelectedBoard != null && !SelectedBoard.IsOccupied)
             {
                 OnBoardSelected?.Invoke(SelectedBoard.BoardId);
             }
             else
             {
-                MessageBox.Show("Por favor selecciona un tablero.");
+                MessageBox.Show(
+                    Lang.SelectBoardMessageSelectAvailable ?? "Por favor selecciona un tablero disponible.",
+                    Lang.SelectBoardTitleError ?? "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning
+                );
+            }
+        }
+        
+        public void UpdateOccupiedBoards(List<int> occupiedBoards, int currentBoardId)
+        {
+            foreach (var board in AvailableBoards)
+            {               
+                board.IsOccupied = occupiedBoards.Contains(board.BoardId);
+            }
+            
+            if (SelectedBoard != null && SelectedBoard.IsOccupied)
+            {
+                SelectedBoard.IsSelected = false;
+                SelectedBoard = null;
             }
         }
     }

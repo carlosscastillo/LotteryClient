@@ -7,6 +7,7 @@ using Lottery.ViewModel.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -169,32 +170,51 @@ namespace Lottery.ViewModel.User
                 Password = Password,
             };
 
-            if (ValidateForm(newUser))
+            if (!ValidateForm(newUser))
+                return;
+
+            if (Password != ConfirmPassword)
             {
-                if (Password != ConfirmPassword)
+                ShowError(Lang.RegisterPasswordsDoNotMatch, Lang.RegisterPasswordErrorTitle, MessageBoxImage.Warning);
+                return;
+            }
+
+            IsRegistering = true;
+
+            try
+            {
+                _pendingUser = newUser;
+                int result = await ServiceProxy.Instance.Client.RequestUserVerificationAsync(_pendingUser);
+
+                if (result > 0)
                 {
-                    ShowError(Lang.RegisterPasswordsDoNotMatch, Lang.RegisterPasswordErrorTitle, MessageBoxImage.Warning);
+                    ShowSuccess(Lang.RegisterVerificationCodeSent);
+                    CurrentState = RegistrationState.Verification;
                 }
                 else
                 {
-                    IsRegistering = true;
-                    await ExecuteRequest(async () =>
-                    {
-                        _pendingUser = newUser;
-                        int result = await ServiceProxy.Instance.Client.RequestUserVerificationAsync(_pendingUser);
-
-                        if (result > 0)
-                        {
-                            ShowSuccess(Lang.RegisterVerificationCodeSent);
-                            CurrentState = RegistrationState.Verification;
-                        }
-                        else
-                        {
-                            ShowError(Lang.RegisterGenericError);
-                        }
-                    }, _errorMap);
-                    IsRegistering = false;
+                    ShowError(Lang.RegisterGenericError);
                 }
+            }
+            catch (EndpointNotFoundException)
+            {
+                ShowError(Lang.FriendRequestsExceptionFR500, Lang.SelectBoardTitleError, MessageBoxImage.Error);
+            }
+            catch (TimeoutException)
+            {
+                ShowError(Lang.RegisterServerTimeout, Lang.SelectBoardTitleError, MessageBoxImage.Warning);
+            }
+            catch (CommunicationException)
+            {
+                ShowError(Lang.FriendRequestsExceptionFR500, Lang.SelectBoardTitleError, MessageBoxImage.Error);                               
+            }
+            catch (Exception ex)
+            {
+                ShowError(string.Format(Lang.GlobalMessageBoxUnexpectedError, ex.Message), Lang.SelectBoardTitleError, MessageBoxImage.Error);
+            }
+            finally
+            {
+                IsRegistering = false;
             }
         }
 

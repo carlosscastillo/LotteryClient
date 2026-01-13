@@ -177,12 +177,14 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task<int> RequestUserVerificationAsync(Contracts.DTOs.UserDto userData);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RegisterUserWithCode", ReplyAction="http://tempuri.org/IUserService/RegisterUserWithCodeResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Contracts.Faults.ServiceFault), Action="http://tempuri.org/IUserService/RegisterUserWithCodeServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         int RegisterUserWithCode(Contracts.DTOs.UserDto userData, string code);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RegisterUserWithCode", ReplyAction="http://tempuri.org/IUserService/RegisterUserWithCodeResponse")]
         System.Threading.Tasks.Task<int> RegisterUserWithCodeAsync(Contracts.DTOs.UserDto userData, string code);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RegisterGuest", ReplyAction="http://tempuri.org/IUserService/RegisterGuestResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Contracts.Faults.ServiceFault), Action="http://tempuri.org/IUserService/RegisterGuestServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         int RegisterGuest();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RegisterGuest", ReplyAction="http://tempuri.org/IUserService/RegisterGuestResponse")]
@@ -202,12 +204,14 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task<bool> ChangePasswordAsync(int currentUserId, string newPassword);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RecoverPassword", ReplyAction="http://tempuri.org/IUserService/RecoverPasswordResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Contracts.Faults.ServiceFault), Action="http://tempuri.org/IUserService/RecoverPasswordServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         bool RecoverPassword(string email, string newPassword);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RecoverPassword", ReplyAction="http://tempuri.org/IUserService/RecoverPasswordResponse")]
         System.Threading.Tasks.Task<bool> RecoverPasswordAsync(string email, string newPassword);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/UpdateProfile", ReplyAction="http://tempuri.org/IUserService/UpdateProfileResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Contracts.Faults.ServiceFault), Action="http://tempuri.org/IUserService/UpdateProfileServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         System.ValueTuple<bool, string> UpdateProfile(int currentUserId, Contracts.DTOs.UserDto userData);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/UpdateProfile", ReplyAction="http://tempuri.org/IUserService/UpdateProfileResponse")]
@@ -221,6 +225,7 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task<Contracts.DTOs.FriendDto> FindUserByNicknameAsync(string nickname);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetUserProfile", ReplyAction="http://tempuri.org/IUserService/GetUserProfileResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Contracts.Faults.ServiceFault), Action="http://tempuri.org/IUserService/GetUserProfileServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         Contracts.DTOs.UserDto GetUserProfile(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetUserProfile", ReplyAction="http://tempuri.org/IUserService/GetUserProfileResponse")]
@@ -233,6 +238,7 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task<bool> ChangeEmailWithCodeAsync(int currentUserId, string newEmail, string verificationCode);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RecoverPasswordRequest", ReplyAction="http://tempuri.org/IUserService/RecoverPasswordRequestResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Contracts.Faults.ServiceFault), Action="http://tempuri.org/IUserService/RecoverPasswordRequestServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         bool RecoverPasswordRequest(string email);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RecoverPasswordRequest", ReplyAction="http://tempuri.org/IUserService/RecoverPasswordRequestResponse")]

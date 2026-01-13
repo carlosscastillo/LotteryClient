@@ -266,7 +266,6 @@ namespace Lottery.ViewModel.User
                 { "AUTH_INVALID_CREDENTIALS", Lang.LoginInvalidCredentials },
                 { "VERIFY_ERROR", Lang.RegisterVerifyError },
                 { "VERIFY_EMAIL_SEND_FAILED", Lang.RegisterEmailSendFailed },
-                { "DB_ERROR", Lang.GlobalExceptionConnectionDatabaseMessage },
                 { "USER_NOT_FOUND", Lang.LoginGenericError }
             };
 

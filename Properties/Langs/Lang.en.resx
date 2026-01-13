@@ -1205,4 +1205,7 @@ Do you want to join?</value>
   <data name="RegisterServerTimeout" xml:space="preserve">
     <value>Server timeout</value>
   </data>
+  <data name="GlobalExceptionConnectionLostMessage" xml:space="preserve">
+    <value>The connection to the server has been lost.</value>
+  </data>
 </root>

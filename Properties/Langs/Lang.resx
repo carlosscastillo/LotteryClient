@@ -1205,4 +1205,7 @@
   <data name="RegisterServerTimeout" xml:space="preserve">
     <value>Tiempo de espera del servidor agotado</value>
   </data>
+  <data name="GlobalExceptionConnectionLostMessage" xml:space="preserve">
+    <value>Se ha perdido la conexión con el servidor.</value>
+  </data>
 </root>

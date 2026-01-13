@@ -117,6 +117,9 @@
   <wsdl:message name="ILotteryService_StartGame_OutputMessage">
     <wsdl:part name="parameters" element="tns:StartGameResponse" />
   </wsdl:message>
+  <wsdl:message name="ILotteryService_StartGame_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q11="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q11:ServiceFault" />
+  </wsdl:message>
   <wsdl:message name="ILotteryService_UpdateGameSettings_InputMessage">
     <wsdl:part name="parameters" element="tns:UpdateGameSettings" />
   </wsdl:message>
@@ -148,7 +151,7 @@
     <wsdl:part name="parameters" element="tns:CreateLobbyResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_CreateLobby_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q11="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q11:ServiceFault" />
+    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q12:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_JoinLobby_InputMessage">
     <wsdl:part name="parameters" element="tns:JoinLobby" />
@@ -157,7 +160,7 @@
     <wsdl:part name="parameters" element="tns:JoinLobbyResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_JoinLobby_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q12:ServiceFault" />
+    <wsdl:part xmlns:q13="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q13:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_LeaveLobby_InputMessage">
     <wsdl:part name="parameters" element="tns:LeaveLobby" />
@@ -169,7 +172,7 @@
     <wsdl:part name="parameters" element="tns:KickPlayerResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_KickPlayer_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q13="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q13:ServiceFault" />
+    <wsdl:part xmlns:q14="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q14:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_ChooseBoard_InputMessage">
     <wsdl:part name="parameters" element="tns:ChooseBoard" />
@@ -178,7 +181,7 @@
     <wsdl:part name="parameters" element="tns:ChooseBoardResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_ChooseBoard_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q14="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q14:ServiceFault" />
+    <wsdl:part xmlns:q15="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q15:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_LoginUser_InputMessage">
     <wsdl:part name="parameters" element="tns:LoginUser" />
@@ -187,7 +190,7 @@
     <wsdl:part name="parameters" element="tns:LoginUserResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_LoginUser_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q15="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q15:ServiceFault" />
+    <wsdl:part xmlns:q16="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q16:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_LoginGuest_InputMessage">
     <wsdl:part name="parameters" element="tns:LoginGuest" />
@@ -196,7 +199,7 @@
     <wsdl:part name="parameters" element="tns:LoginGuestResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_LoginGuest_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q16="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q16:ServiceFault" />
+    <wsdl:part xmlns:q17="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q17:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_LogoutUser_InputMessage">
     <wsdl:part name="parameters" element="tns:LogoutUser" />
@@ -211,7 +214,7 @@
     <wsdl:part name="parameters" element="tns:RequestUserVerificationResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RequestUserVerification_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q17="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q17:ServiceFault" />
+    <wsdl:part xmlns:q18="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q18:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RegisterUserWithCode_InputMessage">
     <wsdl:part name="parameters" element="tns:RegisterUserWithCode" />
@@ -220,7 +223,7 @@
     <wsdl:part name="parameters" element="tns:RegisterUserWithCodeResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RegisterUserWithCode_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q18="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q18:ServiceFault" />
+    <wsdl:part xmlns:q19="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q19:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RegisterGuest_InputMessage">
     <wsdl:part name="parameters" element="tns:RegisterGuest" />
@@ -229,7 +232,7 @@
     <wsdl:part name="parameters" element="tns:RegisterGuestResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RegisterGuest_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q19="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q19:ServiceFault" />
+    <wsdl:part xmlns:q20="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q20:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_VerifyPassword_InputMessage">
     <wsdl:part name="parameters" element="tns:VerifyPassword" />
@@ -244,7 +247,7 @@
     <wsdl:part name="parameters" element="tns:ChangePasswordResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_ChangePassword_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q20="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q20:ServiceFault" />
+    <wsdl:part xmlns:q21="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q21:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RecoverPassword_InputMessage">
     <wsdl:part name="parameters" element="tns:RecoverPassword" />
@@ -253,7 +256,7 @@
     <wsdl:part name="parameters" element="tns:RecoverPasswordResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RecoverPassword_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q21="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q21:ServiceFault" />
+    <wsdl:part xmlns:q22="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q22:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_UpdateProfile_InputMessage">
     <wsdl:part name="parameters" element="tns:UpdateProfile" />
@@ -262,7 +265,7 @@
     <wsdl:part name="parameters" element="tns:UpdateProfileResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_UpdateProfile_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q22="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q22:ServiceFault" />
+    <wsdl:part xmlns:q23="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q23:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_FindUserByNickname_InputMessage">
     <wsdl:part name="parameters" element="tns:FindUserByNickname" />
@@ -271,7 +274,7 @@
     <wsdl:part name="parameters" element="tns:FindUserByNicknameResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_FindUserByNickname_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q23="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q23:ServiceFault" />
+    <wsdl:part xmlns:q24="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q24:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_GetUserProfile_InputMessage">
     <wsdl:part name="parameters" element="tns:GetUserProfile" />
@@ -280,7 +283,7 @@
     <wsdl:part name="parameters" element="tns:GetUserProfileResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_GetUserProfile_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q24="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q24:ServiceFault" />
+    <wsdl:part xmlns:q25="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q25:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_ChangeEmailWithCode_InputMessage">
     <wsdl:part name="parameters" element="tns:ChangeEmailWithCode" />
@@ -295,7 +298,7 @@
     <wsdl:part name="parameters" element="tns:RecoverPasswordRequestResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RecoverPasswordRequest_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q25="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q25:ServiceFault" />
+    <wsdl:part xmlns:q26="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q26:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_GetLeaderboard_InputMessage">
     <wsdl:part name="parameters" element="tns:GetLeaderboard" />
@@ -328,7 +331,7 @@
     <wsdl:part name="parameters" element="tns:GetSocialMediaResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_GetSocialMedia_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q26="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q26:ServiceFault" />
+    <wsdl:part xmlns:q27="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q27:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_SaveOrUpdateSocialMedia_InputMessage">
     <wsdl:part name="parameters" element="tns:SaveOrUpdateSocialMedia" />
@@ -337,7 +340,7 @@
     <wsdl:part name="parameters" element="tns:SaveOrUpdateSocialMediaResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_SaveOrUpdateSocialMedia_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q27="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q27:ServiceFault" />
+    <wsdl:part xmlns:q28="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q28:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_NotifyCard_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:NotifyCard" />
@@ -435,6 +438,7 @@
     <wsdl:operation name="StartGame">
       <wsdl:input wsaw:Action="http://tempuri.org/IGameService/StartGame" message="tns:ILotteryService_StartGame_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGameService/StartGameResponse" message="tns:ILotteryService_StartGame_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IGameService/StartGameServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_StartGame_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="UpdateGameSettings">
       <wsdl:input wsaw:Action="http://tempuri.org/IGameService/UpdateGameSettings" message="tns:ILotteryService_UpdateGameSettings_InputMessage" />
@@ -745,6 +749,9 @@
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="UpdateGameSettings">
       <soap12:operation soapAction="http://tempuri.org/IGameService/UpdateGameSettings" style="document" />

@@ -149,6 +149,7 @@ namespace Lottery.ViewModel.Base
                 { "DB_ERROR", Lang.GlobalExceptionConnectionDatabaseMessage },
                 { "INTERNAL_SERVER_ERROR", Lang.GlobalExceptionInternalServerError },
                 { "GLOBAL_TIMEOUT", Lang.GlobalExceptionConnectionLostMessage },
+                { "GAME_NOT_ENOUGH_PLAYERS", Lang.LobbyStartGameNotEnoughPlayers },
                 { "GLOBAL_BAD_REQUEST", Lang.GlobalMessageBoxUnexpectedError }
             };
 

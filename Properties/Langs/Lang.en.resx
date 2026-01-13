@@ -1241,4 +1241,7 @@ Do you want to join?</value>
   <data name="Validation_Facebook_Format" xml:space="preserve">
     <value>Facebook path contains invalid characters.</value>
   </data>
+  <data name="LobbyStartGameNotEnoughPlayers" xml:space="preserve">
+    <value>At least 2 players are needed to start the game.</value>
+  </data>
 </root>

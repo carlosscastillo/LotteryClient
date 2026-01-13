@@ -2536,6 +2536,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Se necesitan al menos 2 jugadores para iniciar la partida..
+        /// </summary>
+        public static string LobbyStartGameNotEnoughPlayers {
+            get {
+                return ResourceManager.GetString("LobbyStartGameNotEnoughPlayers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Lobby Cerrado.
         /// </summary>
         public static string LobbyTitleClosed {

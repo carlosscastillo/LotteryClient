@@ -1243,4 +1243,7 @@
   <data name="Validation_Facebook_Format" xml:space="preserve">
     <value>La ruta de Facebook contiene caracteres inválidos.</value>
   </data>
+  <data name="LobbyStartGameNotEnoughPlayers" xml:space="preserve">
+    <value>Se necesitan al menos 2 jugadores para iniciar la partida.</value>
+  </data>
 </root>

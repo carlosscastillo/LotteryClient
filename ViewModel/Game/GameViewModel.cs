@@ -149,10 +149,13 @@ namespace Lottery.ViewModel.Game
             IsHost = Players.FirstOrDefault(p => p.UserId == _currentUserId)?.IsHost ?? false;
 
             OtherPlayers = new ObservableCollection<PlayerGameViewModel>(
-                Players.Where(p => p.UserId != _currentUserId)
-                .Select(p => new PlayerGameViewModel(p))
-            );
-            
+                players
+                .Where(p => p.UserId != _currentUserId)
+                .GroupBy(p => p.UserId)
+                .Select(g => new PlayerGameViewModel(g.First()))
+                );
+
+
             LoadTokenResource(selectedTokenKey);
             _selectedBoardId = selectedBoardId;
             LoadBoardResource(selectedBoardId);

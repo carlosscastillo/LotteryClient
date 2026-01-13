@@ -76,6 +76,8 @@
     <Compile Include="Converters\TokenToImageConverter.cs" />
     <Compile Include="Helpers\CodeValidator.cs" />
     <Compile Include="Helpers\CustomMessageBox.cs" />
+    <Compile Include="Helpers\LangProxy.cs" />
+    <Compile Include="Helpers\LocalizationManager.cs" />
     <Compile Include="Helpers\SocialMediaValidator.cs" />
     <Compile Include="Helpers\UserValidator.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
@@ -89,6 +91,7 @@
     <Compile Include="ViewModel\Lobby\SelectBoardViewModel.cs" />
     <Compile Include="ViewModel\Lobby\SelectTokenViewModel.cs" />
     <Compile Include="ViewModel\MainMenu\LeaderboardViewModel.cs" />
+    <Compile Include="ViewModel\MainMenu\SettingsViewModel.cs" />
     <Compile Include="ViewModel\User\CustomizeProfileViewModel.cs" />
     <Compile Include="ViewModel\Friends\FriendRequestsViewModel.cs" />
     <Compile Include="ViewModel\Friends\InviteFriendsViewModel.cs" />
@@ -113,6 +116,9 @@
     </Compile>
     <Compile Include="View\Lobby\SelectTokenView.xaml.cs">
       <DependentUpon>SelectTokenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainMenu\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User\ChangePasswordView.xaml.cs">
       <DependentUpon>ChangePasswordView.xaml</DependentUpon>
@@ -179,6 +185,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Lobby\SelectTokenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainMenu\SettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -44,7 +44,19 @@ namespace Lottery.ViewModel.Lobby
 
         public string LobbyCode { get => _lobbyCode; set => SetProperty(ref _lobbyCode, value); }
         public string ChatMessage { get => _chatMessage; set => SetProperty(ref _chatMessage, value); }
-        public bool IsHost { get; }
+        private bool _isHost;
+        public bool IsHost
+        {
+            get => _isHost;
+            set
+            {
+                if (SetProperty(ref _isHost, value))
+                {
+                    StartGameCommand?.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
         public bool IsShowingFriendsList { get => _isShowingFriendsList; set => SetProperty(ref _isShowingFriendsList, value); }
         public int SelectedBoardId
         {
@@ -71,7 +83,8 @@ namespace Lottery.ViewModel.Lobby
         public ICommand KickPlayerCommand { get; }
         public ICommand InviteFriendCommand { get; }
         public ICommand InviteFriendToLobbyCommand { get; }
-        public ICommand StartGameCommand { get; }
+        public RelayCommand StartGameCommand { get; }
+
         public ICommand ToggleShowFriendsCommand { get; }
         public ICommand OpenBoardSelectionCommand { get; }
         public ICommand OpenTokenSelectionCommand { get; }
@@ -82,11 +95,15 @@ namespace Lottery.ViewModel.Lobby
             _lobbyWindow = window;
             LobbyCode = lobbyState.LobbyCode;
             Players = new ObservableCollection<UserDto>(lobbyState.Players);
-            IsHost = Players.FirstOrDefault(p => p.UserId == _currentUserId)?.IsHost ?? false;
-
-            foreach (var p in Players)
+            
+            IsHost = lobbyState.Players
+                .FirstOrDefault(p => p.UserId == _currentUserId)
+                ?.IsHost ?? false;
+            
+            foreach (var p in lobbyState.Players)
             {
                 _playersSelectedBoard[p.UserId] = p.SelectedBoardId;
+
                 if (p.UserId == _currentUserId)
                     SelectedBoardId = p.SelectedBoardId;
             }
@@ -120,19 +137,23 @@ namespace Lottery.ViewModel.Lobby
             InviteFriendToLobbyCommand = new RelayCommand<int>(async id => await ExecuteInviteFriendToLobby(id));
             OpenBoardSelectionCommand = new RelayCommand(OpenBoardSelection);
             OpenTokenSelectionCommand = new RelayCommand(OpenTokenSelection);
-
+            
             SubscribeToEvents();
+
+            StartGameCommand.RaiseCanExecuteChanged();
         }
 
         internal void SubscribeToEvents()
         {
-            if (_eventsSubscribed) return;
-            _eventsSubscribed = true;
+            UnsubscribeFromEvents();
+
             ClientCallbackHandler.ChatMessageReceived += OnChatMessageReceived;
             ClientCallbackHandler.YouWereKickedReceived += OnYouWereKicked;
             ClientCallbackHandler.LobbyClosedReceived += OnLobbyClosed;
             ClientCallbackHandler.GameStartedReceived += HandleGameStarted;
             ClientCallbackHandler.LobbyStateUpdatedReceived += OnLobbyStateUpdated;
+
+            _eventsSubscribed = true;
         }
 
         private void UnsubscribeFromEvents()
@@ -142,8 +163,10 @@ namespace Lottery.ViewModel.Lobby
             ClientCallbackHandler.LobbyClosedReceived -= OnLobbyClosed;
             ClientCallbackHandler.GameStartedReceived -= HandleGameStarted;
             ClientCallbackHandler.LobbyStateUpdatedReceived -= OnLobbyStateUpdated;
+
             _eventsSubscribed = false;
         }
+
 
         private void OnLobbyStateUpdated(LobbyStateDto lobby)
         {
@@ -151,16 +174,37 @@ namespace Lottery.ViewModel.Lobby
             {
                 _playersSelectedBoard.Clear();
 
+                var currentIds = lobby.Players.Select(p => p.UserId).ToHashSet();
+                for (int i = Players.Count - 1; i >= 0; i--)
+                {
+                    if (!currentIds.Contains(Players[i].UserId))
+                        Players.RemoveAt(i);
+                }
+                
                 foreach (var p in lobby.Players)
-                {                   
-                    if (!Players.Any(x => x.UserId == p.UserId))
+                {
+                    var existing = Players.FirstOrDefault(x => x.UserId == p.UserId);
+                    if (existing == null)
+                    {
                         Players.Add(p);
+                    }
+                    else
+                    {
+                        existing.SelectedBoardId = p.SelectedBoardId;
+                        existing.Nickname = p.Nickname;
+                    }
 
                     _playersSelectedBoard[p.UserId] = p.SelectedBoardId;
 
                     if (p.UserId == _currentUserId)
                         SelectedBoardId = p.SelectedBoardId;
                 }
+                
+                IsHost = lobby.Players
+                    .FirstOrDefault(p => p.UserId == _currentUserId)
+                    ?.IsHost ?? false;
+
+                StartGameCommand.RaiseCanExecuteChanged();
 
                 UpdateOccupancyInSelectionWindow();
             });
@@ -219,7 +263,14 @@ namespace Lottery.ViewModel.Lobby
                 UnsubscribeFromEvents();
 
                 var gameView = new GameView();
-                var vm = new GameViewModel(Players, settings, SelectedToken, SelectedBoardId, gameView, _lobbyWindow);
+                var vm = new GameViewModel(
+                    new ObservableCollection<UserDto>(Players),
+                    settings,
+                    SelectedToken,
+                    SelectedBoardId,
+                    gameView,
+                    _lobbyWindow
+                    );
                 gameView.DataContext = vm;
 
                 gameView.Show();

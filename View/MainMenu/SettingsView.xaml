@@ -1,0 +1,78 @@
+﻿<Window x:Class="Lottery.View.Settings.SettingsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:language="clr-namespace:Lottery.Properties.Langs"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight"
+        FontFamily="Segoe UI">
+
+    <Window.Background>
+        <ImageBrush ImageSource="/Images/background.jpg"
+                    Stretch="UniformToFill"/>
+    </Window.Background>
+
+    <Grid>
+
+        <Border Background="{StaticResource OverlayBackgroundBrush}"
+                Padding="40"
+                CornerRadius="20"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+            <Border.Effect>
+                <DropShadowEffect Color="Black"
+                                  BlurRadius="25"
+                                  ShadowDepth="0"
+                                  Opacity="0.6"/>
+            </Border.Effect>
+
+            <StackPanel Width="320">
+
+                <TextBlock Text="{x:Static language:Lang.MainMenuButtonSettings}"
+                           Style="{StaticResource TitleTextStyle}"
+                           Foreground="White"
+                           Margin="0,0,0,25"/>
+
+                <TextBlock Text="{x:Static language:Lang.SettingsLanguage}"
+                           Style="{StaticResource SubtitleTextStyle}"
+                           Foreground="White"
+                           HorizontalAlignment="Left"/>
+
+                <ComboBox ItemsSource="{Binding AvailableLanguages}"
+                          SelectedItem="{Binding SelectedLanguage}"
+                          Style="{StaticResource ComboStyle}"
+                          Margin="0,0,0,30"/>
+
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+
+                    <Button Content="{x:Static language:Lang.GlobalButtonCancel}"
+                            Width="100"
+                            Style="{StaticResource SecondaryButton}"
+                            Command="{Binding CancelCommand}"/>
+
+                    <Button Content="{x:Static language:Lang.GlobalButtonOK}"
+                            Width="100"
+                            Style="{StaticResource PrimaryButton}"
+                            Command="{Binding SaveCommand}"/>
+                </StackPanel>
+
+            </StackPanel>
+        </Border>
+
+        <Button Content="&#xE72B;"
+                FontFamily="Segoe MDL2 Assets"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="15"
+                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                Foreground="White"
+                Command="{Binding CancelCommand}"/>
+
+    </Grid>
+</Window>

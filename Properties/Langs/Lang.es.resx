@@ -1207,4 +1207,7 @@
   <data name="RegisterServerTimeout" xml:space="preserve">
     <value>Tiempo de espera del servidor agotado</value>
   </data>
+  <data name="SettingsLanguage" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
 </root>

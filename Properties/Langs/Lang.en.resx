@@ -1205,4 +1205,7 @@ Do you want to join?</value>
   <data name="RegisterServerTimeout" xml:space="preserve">
     <value>Server timeout</value>
   </data>
+  <data name="SettingsLanguage" xml:space="preserve">
+    <value>Language</value>
+  </data>
 </root>

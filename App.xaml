@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Lottery"
              xmlns:conv="clr-namespace:Lottery.Converters"
+             xmlns:helpers="clr-namespace:Lottery.Helpers"
              StartupUri="View/User/LoginView.xaml">
 
     <Application.Resources>
@@ -512,6 +513,8 @@
         <conv:BoolToColorConverter x:Key="BoolToColorConverter"/>
         <conv:BoolToSelectionOverlayConverter x:Key="BoolToSelectionOverlayConverter"/>
         <conv:EyeIconConverter x:Key="EyeIconConverter"/>
+
+        <helpers:LangProxy x:Key="Lang"/>
 
     </Application.Resources>
 </Application>

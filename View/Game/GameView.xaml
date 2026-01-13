@@ -5,14 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:Lottery.ViewModel.Game"
         xmlns:converters="clr-namespace:Lottery.Converters"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=vm:GameViewModel, IsDesignTimeCreatable=False}"
         Title="Partida en curso"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
-        WindowState="Maximized"
-        Loaded="Window_Loaded">
+        WindowState="Maximized">
 
     <Window.Resources>
         <converters:IdToImageConverter x:Key="IdToImageConverter"/>
@@ -26,75 +24,99 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400"/>
-            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="420"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="460"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Left"
-                    Margin="10,0,0,0"
-                    Width="390">
+        <Grid Grid.Column="0" Margin="20" Width="400">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="220"/>
+                <RowDefinition Height="220"/>
+                <RowDefinition Height="220"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-            <ItemsControl ItemsSource="{Binding OtherPlayers}">
+            <ItemsControl Grid.Row="0"
+                          Grid.RowSpan="3"
+                          ItemsSource="{Binding OtherPlayers}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Margin="0,5,0,15" Orientation="Vertical">
-                            <TextBlock Text="{Binding Name}" 
-                           Foreground="White" FontWeight="Bold" FontSize="16"
-                           HorizontalAlignment="Center"/>
+                        <Border Background="#66000000"
+                                CornerRadius="14"
+                                Padding="8"
+                                Margin="0,6"
+                                Height="200">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="160"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                            <ItemsControl ItemsSource="{Binding CardIds}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <UniformGrid Rows="4" Columns="4" Width="120" Height="160"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Image Source="{Binding Converter={StaticResource IdToImageConverter}}" 
-                                   Stretch="Fill" Margin="1"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                                <ItemsControl Grid.Column="0"
+                                              ItemsSource="{Binding CardIds}"
+                                              Width="160"
+                                              Height="160">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Rows="4" Columns="4"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Image Source="{Binding Converter={StaticResource IdToImageConverter}}"
+                                                   Stretch="UniformToFill"
+                                                   Margin="1"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
 
-                            <TextBlock Text="{Binding TokensLeft, StringFormat='Fichas: {0}'}"
-                           Foreground="#DDDDDD" FontSize="13" 
-                           HorizontalAlignment="Center" Margin="0,5,0,0"/>
-                        </StackPanel>
+                                <StackPanel Grid.Column="1"
+                                            Margin="12,0,0,0"
+                                            VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Name}"
+                                               Foreground="White"
+                                               FontWeight="Bold"
+                                               FontSize="15"
+                                               TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding TokensLeft, StringFormat='Fichas: {0}'}"
+                                               Foreground="#DDDDDD"
+                                               FontSize="13"
+                                               Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <Border BorderBrush="Transparent"
-                    BorderThickness="2"
-                    CornerRadius="10"
-                    Margin="0,40,0,0"                     
-                    Padding="10"
-                    HorizontalAlignment="Center">
+            <Border Grid.Row="3"
+                    Background="#66000000"
+                    CornerRadius="14"
+                    Padding="12"
+                    VerticalAlignment="Center">
                 <Image Source="{Binding TokenPileImagePath}"
-                       Width="280"
-                       Height="180"
+                       Width="320"
+                       Height="220"
                        Stretch="Uniform"/>
             </Border>
-        </StackPanel>
+        </Grid>
 
         <Grid Grid.Column="1"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center">
-
+              VerticalAlignment="Center"
+              HorizontalAlignment="Center">
             <Border Background="#AAFFFFFF"
-                    CornerRadius="24"
-                    BorderBrush="White"
-                    BorderThickness="0"
-                    Width="500"
-                    Height="770"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Padding="15">
+                    CornerRadius="28"
+                    Width="620"
+                    Height="900"
+                    Padding="20">
                 <ItemsControl ItemsSource="{Binding BoardCells}">
-
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Rows="4" Columns="4"/>
@@ -103,22 +125,15 @@
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid Margin="4">
-
-                                <Image Source="{Binding ImagePath}" 
+                            <Grid Margin="6">
+                                <Image Source="{Binding ImagePath}"
                                        Stretch="Fill"/>
-
                                 <Image Source="{Binding DataContext.TokenImagePath, RelativeSource={RelativeSource AncestorType=Window}}"
                                        Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibilityConverter}}"
                                        Stretch="Uniform"
-                                       Margin="5">
-                                    <Image.Effect>
-                                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="5" Opacity="0.6"/>
-                                    </Image.Effect>
-                                </Image>
-
+                                       Margin="8"/>
                                 <ToggleButton IsChecked="{Binding IsSelected}"
-                                              Opacity="0" 
+                                              Opacity="0"
                                               Cursor="Hand"/>
                             </Grid>
                         </DataTemplate>
@@ -132,42 +147,36 @@
                     HorizontalAlignment="Center"
                     Margin="0,60,40,0">
             <Border Background="#AAFFFFFF"
-                    CornerRadius="14"
-                    Padding="12"
-                    BorderBrush="White"
-                    BorderThickness="0"
-                    Width="260">
+                    CornerRadius="16"
+                    Padding="14"
+                    Width="300">
                 <StackPanel>
-
                     <Image Source="{Binding CurrentCardImage}"
-                           Width="260"
-                           Height="360"
+                           Width="300"
+                           Height="420"
                            Stretch="Uniform"/>
-
                     <TextBlock Text="{Binding CurrentCardName}"
-                               FontSize="20"
+                               FontSize="22"
                                FontWeight="Bold"
                                Foreground="#333333"
                                HorizontalAlignment="Center"
                                TextAlignment="Center"
                                TextWrapping="Wrap"
-                               Margin="0,10,0,5"/>
-
+                               Margin="0,12,0,6"/>
                 </StackPanel>
             </Border>
 
             <Button Content="¡Lotería!"
-                Style="{StaticResource PrimaryButtonStyle2}"
-                Command="{Binding DeclareLoteriaCommand}"
-                Visibility="{Binding AllCellsSelected, Converter={StaticResource BoolToVisibilityConverter}}"
-                Margin="0,25,0,0"/>
-
+                    Style="{StaticResource PrimaryButtonStyle2}"
+                    Command="{Binding DeclareLoteriaCommand}"
+                    Visibility="{Binding AllCellsSelected, Converter={StaticResource BoolToVisibilityConverter}}"
+                    Margin="0,30,0,0"/>
         </StackPanel>
 
         <Button Content="⏸ Pausa"
                 Command="{Binding PauseGameCommand}"
-                Width="120"
-                Height="45"
+                Width="130"
+                Height="48"
                 FontSize="16"
                 FontWeight="Bold"
                 Foreground="White"
@@ -185,40 +194,22 @@
             <TextBlock Text="{Binding GameStatusMessage}"
                        FontSize="18"
                        FontWeight="Bold"
-                       Foreground="White"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Left"/>
+                       Foreground="White"/>
         </Grid>
 
-        <Border Grid.Column="0" Grid.ColumnSpan="3"
-                VerticalAlignment="Center" 
+        <Border Grid.ColumnSpan="3"
+                VerticalAlignment="Center"
                 HorizontalAlignment="Center"
-                Background="#CC000000" 
+                Background="#CC000000"
                 CornerRadius="20"
                 Padding="40,20"
                 IsHitTestVisible="False"
                 Visibility="{Binding IsStartMessageVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-
-            <Border.Triggers>
-                <EventTrigger RoutedEvent="Border.Loaded">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Border.Triggers>
-
             <TextBlock Text="{Binding StartMessageText}"
                        FontSize="40"
                        FontWeight="Bold"
-                       Foreground="#FFC107" 
-                       TextAlignment="Center">
-                <TextBlock.Effect>
-                    <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="4"/>
-                </TextBlock.Effect>
-            </TextBlock>
+                       Foreground="#FFC107"
+                       TextAlignment="Center"/>
         </Border>
-
     </Grid>
 </Window>

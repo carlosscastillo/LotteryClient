@@ -10,8 +10,9 @@
 
 namespace Lottery.Properties.Langs {
     using System;
-    
-    
+    using System.ComponentModel;
+
+
     /// <summary>
     ///   Clase de recurso fuertemente tipado, para buscar cadenas traducidas, etc.
     /// </summary>
@@ -22,8 +23,16 @@ namespace Lottery.Properties.Langs {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Lang {
-        
+    public partial class Lang : INotifyPropertyChanged
+    {
+        public static event PropertyChangedEventHandler StaticPropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        internal static void OnStaticPropertyChanged(string propertyName)
+        {
+            StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(propertyName));
+        }
+
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
@@ -3272,6 +3281,15 @@ namespace Lottery.Properties.Langs {
         public static string SelectTokenSelectYourMarkers {
             get {
                 return ResourceManager.GetString("SelectTokenSelectYourMarkers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Idioma.
+        /// </summary>
+        public static string SettingsLanguage {
+            get {
+                return ResourceManager.GetString("SettingsLanguage", resourceCulture);
             }
         }
         

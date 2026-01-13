@@ -10,12 +10,12 @@
   </wsp:Policy>
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
-      <xsd:import schemaLocation="http://172.27.202.173:8733/Lottery/?xsd=xsd0" namespace="http://tempuri.org/" />
-      <xsd:import schemaLocation="http://172.27.202.173:8733/Lottery/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults" />
-      <xsd:import schemaLocation="http://172.27.202.173:8733/Lottery/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import schemaLocation="http://172.27.202.173:8733/Lottery/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs" />
-      <xsd:import schemaLocation="http://172.27.202.173:8733/Lottery/?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-      <xsd:import schemaLocation="http://172.27.202.173:8733/Lottery/?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/System" />
+      <xsd:import schemaLocation="http://192.168.100.166:8733/Lottery/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://192.168.100.166:8733/Lottery/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults" />
+      <xsd:import schemaLocation="http://192.168.100.166:8733/Lottery/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://192.168.100.166:8733/Lottery/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs" />
+      <xsd:import schemaLocation="http://192.168.100.166:8733/Lottery/?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://192.168.100.166:8733/Lottery/?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/System" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="ILotteryService_SendMessage_InputMessage">
@@ -213,11 +213,11 @@
   <wsdl:message name="ILotteryService_RequestUserVerification_ServiceFaultFault_FaultMessage">
     <wsdl:part xmlns:q17="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q17:ServiceFault" />
   </wsdl:message>
-  <wsdl:message name="ILotteryService_RegisterUser_InputMessage">
-    <wsdl:part name="parameters" element="tns:RegisterUser" />
+  <wsdl:message name="ILotteryService_RegisterUserWithCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterUserWithCode" />
   </wsdl:message>
-  <wsdl:message name="ILotteryService_RegisterUser_OutputMessage">
-    <wsdl:part name="parameters" element="tns:RegisterUserResponse" />
+  <wsdl:message name="ILotteryService_RegisterUserWithCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterUserWithCodeResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RegisterGuest_InputMessage">
     <wsdl:part name="parameters" element="tns:RegisterGuest" />
@@ -267,17 +267,11 @@
   <wsdl:message name="ILotteryService_GetUserProfile_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetUserProfileResponse" />
   </wsdl:message>
-  <wsdl:message name="ILotteryService_RequestEmailChange_InputMessage">
-    <wsdl:part name="parameters" element="tns:RequestEmailChange" />
+  <wsdl:message name="ILotteryService_ChangeEmailWithCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeEmailWithCode" />
   </wsdl:message>
-  <wsdl:message name="ILotteryService_RequestEmailChange_OutputMessage">
-    <wsdl:part name="parameters" element="tns:RequestEmailChangeResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILotteryService_ConfirmEmailChange_InputMessage">
-    <wsdl:part name="parameters" element="tns:ConfirmEmailChange" />
-  </wsdl:message>
-  <wsdl:message name="ILotteryService_ConfirmEmailChange_OutputMessage">
-    <wsdl:part name="parameters" element="tns:ConfirmEmailChangeResponse" />
+  <wsdl:message name="ILotteryService_ChangeEmailWithCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeEmailWithCodeResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RecoverPasswordRequest_InputMessage">
     <wsdl:part name="parameters" element="tns:RecoverPasswordRequest" />
@@ -302,6 +296,12 @@
   </wsdl:message>
   <wsdl:message name="ILotteryService_VerifyCode_OutputMessage">
     <wsdl:part name="parameters" element="tns:VerifyCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_ConsumeVerificationCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsumeVerificationCode" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_ConsumeVerificationCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsumeVerificationCodeResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_GetSocialMedia_InputMessage">
     <wsdl:part name="parameters" element="tns:GetSocialMedia" />
@@ -476,9 +476,9 @@
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/RequestUserVerificationResponse" message="tns:ILotteryService_RequestUserVerification_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/RequestUserVerificationServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_RequestUserVerification_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
-    <wsdl:operation name="RegisterUser">
-      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/RegisterUser" message="tns:ILotteryService_RegisterUser_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/RegisterUserResponse" message="tns:ILotteryService_RegisterUser_OutputMessage" />
+    <wsdl:operation name="RegisterUserWithCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/RegisterUserWithCode" message="tns:ILotteryService_RegisterUserWithCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/RegisterUserWithCodeResponse" message="tns:ILotteryService_RegisterUserWithCode_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="RegisterGuest">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/RegisterGuest" message="tns:ILotteryService_RegisterGuest_InputMessage" />
@@ -510,13 +510,9 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/GetUserProfile" message="tns:ILotteryService_GetUserProfile_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/GetUserProfileResponse" message="tns:ILotteryService_GetUserProfile_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="RequestEmailChange">
-      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/RequestEmailChange" message="tns:ILotteryService_RequestEmailChange_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/RequestEmailChangeResponse" message="tns:ILotteryService_RequestEmailChange_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="ConfirmEmailChange">
-      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/ConfirmEmailChange" message="tns:ILotteryService_ConfirmEmailChange_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/ConfirmEmailChangeResponse" message="tns:ILotteryService_ConfirmEmailChange_OutputMessage" />
+    <wsdl:operation name="ChangeEmailWithCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/ChangeEmailWithCode" message="tns:ILotteryService_ChangeEmailWithCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/ChangeEmailWithCodeResponse" message="tns:ILotteryService_ChangeEmailWithCode_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="RecoverPasswordRequest">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/RecoverPasswordRequest" message="tns:ILotteryService_RecoverPasswordRequest_InputMessage" />
@@ -533,6 +529,10 @@
     <wsdl:operation name="VerifyCode">
       <wsdl:input wsaw:Action="http://tempuri.org/IVerificationService/VerifyCode" message="tns:ILotteryService_VerifyCode_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IVerificationService/VerifyCodeResponse" message="tns:ILotteryService_VerifyCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsumeVerificationCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IVerificationService/ConsumeVerificationCode" message="tns:ILotteryService_ConsumeVerificationCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IVerificationService/ConsumeVerificationCodeResponse" message="tns:ILotteryService_ConsumeVerificationCode_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetSocialMedia">
       <wsdl:input wsaw:Action="http://tempuri.org/ISocialMediaService/GetSocialMedia" message="tns:ILotteryService_GetSocialMedia_InputMessage" />
@@ -857,8 +857,8 @@
         <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="RegisterUser">
-      <soap12:operation soapAction="http://tempuri.org/IUserService/RegisterUser" style="document" />
+    <wsdl:operation name="RegisterUserWithCode">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/RegisterUserWithCode" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -935,17 +935,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="RequestEmailChange">
-      <soap12:operation soapAction="http://tempuri.org/IUserService/RequestEmailChange" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="ConfirmEmailChange">
-      <soap12:operation soapAction="http://tempuri.org/IUserService/ConfirmEmailChange" style="document" />
+    <wsdl:operation name="ChangeEmailWithCode">
+      <soap12:operation soapAction="http://tempuri.org/IUserService/ChangeEmailWithCode" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -982,6 +973,15 @@
     </wsdl:operation>
     <wsdl:operation name="VerifyCode">
       <soap12:operation soapAction="http://tempuri.org/IVerificationService/VerifyCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsumeVerificationCode">
+      <soap12:operation soapAction="http://tempuri.org/IVerificationService/ConsumeVerificationCode" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1094,9 +1094,9 @@
   </wsdl:binding>
   <wsdl:service name="LotteryService">
     <wsdl:port name="NetTcpBinding_ILotteryService" binding="tns:NetTcpBinding_ILotteryService">
-      <soap12:address location="net.tcp://172.27.202.173:8080/Lottery/LotteryService" />
+      <soap12:address location="net.tcp://192.168.100.166:8080/Lottery/LotteryService" />
       <wsa10:EndpointReference>
-        <wsa10:Address>net.tcp://172.27.202.173:8080/Lottery/LotteryService</wsa10:Address>
+        <wsa10:Address>net.tcp://192.168.100.166:8080/Lottery/LotteryService</wsa10:Address>
       </wsa10:EndpointReference>
     </wsdl:port>
   </wsdl:service>

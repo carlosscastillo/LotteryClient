@@ -241,15 +241,13 @@ namespace Lottery.ViewModel.User
                     {
                         if (_pendingUser != null)
                         {
-                            int userId = await client.RegisterUserAsync(_pendingUser);
+                            int userId = await client.RegisterUserWithCodeAsync(_pendingUser, VerificationCode);
+
                             if (userId > 0)
                             {
                                 var session = await client.LoginUserAsync(_pendingUser.Nickname, _pendingUser.Password);
-
                                 if (session != null)
-                                {
                                     SessionManager.Login(session);
-                                }
 
                                 _pendingUser = null;
                                 CurrentState = RegistrationState.Completed;

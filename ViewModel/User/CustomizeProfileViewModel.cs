@@ -413,23 +413,22 @@ namespace Lottery.ViewModel.User
                 if (!result.IsValid)
                 {
                     ShowError(result.Errors.First().ErrorMessage, Lang.LoginValidationTitle, MessageBoxImage.Warning);
+                    return;
                 }
-                else
+
+                await ExecuteRequest(async () =>
                 {
-                    await ExecuteRequest(async () =>
+                    bool sent = await ServiceProxy.Instance.Client.SendVerificationCodeAsync(NewEmail);
+                    if (sent)
                     {
-                        bool sent = await ServiceProxy.Instance.Client.RequestEmailChangeAsync(IdUser, NewEmail);
-                        if (sent)
-                        {
-                            IsChangeEmailVisible = false;
-                            IsVerifyEmailVisible = true;
-                        }
-                        else
-                        {
-                            ShowError(Lang.RegisterEmailSendFailed, Lang.GlobalMessageBoxTitleError);
-                        }
-                    }, _errorMap);
-                }
+                        IsChangeEmailVisible = false;
+                        IsVerifyEmailVisible = true;                        
+                    }
+                    else
+                    {
+                        ShowError(Lang.RegisterEmailSendFailed, Lang.GlobalMessageBoxTitleError);
+                    }
+                }, _errorMap);
             }
         }
 
@@ -437,12 +436,12 @@ namespace Lottery.ViewModel.User
         {
             await ExecuteRequest(async () =>
             {
-                bool ok = await ServiceProxy.Instance.Client.ConfirmEmailChangeAsync(IdUser, NewEmail, VerificationCode);
+                bool ok = await ServiceProxy.Instance.Client.ChangeEmailWithCodeAsync(IdUser, NewEmail, VerificationCode);
                 if (ok)
                 {
                     Email = NewEmail;
                     IsVerifyEmailVisible = false;
-                    IsEmailVerifiedVisible = true;
+                    IsEmailVerifiedVisible = true;                    
                 }
                 else
                 {
@@ -487,7 +486,7 @@ namespace Lottery.ViewModel.User
                 {
                     bool ok = await ServiceProxy.Instance.Client.ChangePasswordAsync(IdUser, NewPassword);
                     if (ok)
-                    {
+                    {                        
                         ShowSuccess(Lang.GlobalMessageBoxTitleSuccess);
                         CloseOverlay();
                     }

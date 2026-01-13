@@ -177,6 +177,7 @@ namespace Lottery.ViewModel.User
 
                     if (ok)
                     {
+                        await ServiceProxy.Instance.Client.ConsumeVerificationCodeAsync(_verifiedEmail);
                         ShowSuccess(Lang.GlobalMessageBoxTitleSuccess);
                         
                         Application.Current.Windows.OfType<Window>()

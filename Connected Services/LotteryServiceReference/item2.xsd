@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://172.27.202.173:8733/Lottery/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs" />
-  <xs:import schemaLocation="http://172.27.202.173:8733/Lottery/?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/System" />
+  <xs:import schemaLocation="http://192.168.100.166:8733/Lottery/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs" />
+  <xs:import schemaLocation="http://192.168.100.166:8733/Lottery/?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/System" />
   <xs:element name="SendMessage">
     <xs:complexType>
       <xs:sequence>
@@ -312,17 +312,18 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="RegisterUser">
+  <xs:element name="RegisterUserWithCode">
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="userData" nillable="true" type="q14:UserDto" />
+        <xs:element minOccurs="0" name="code" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="RegisterUserResponse">
+  <xs:element name="RegisterUserWithCodeResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="RegisterUserResult" type="xs:int" />
+        <xs:element minOccurs="0" name="RegisterUserWithCodeResult" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -426,22 +427,7 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="RequestEmailChange">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="currentUserId" type="xs:int" />
-        <xs:element minOccurs="0" name="newEmail" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="RequestEmailChangeResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="RequestEmailChangeResult" type="xs:boolean" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="ConfirmEmailChange">
+  <xs:element name="ChangeEmailWithCode">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="currentUserId" type="xs:int" />
@@ -450,10 +436,10 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="ConfirmEmailChangeResponse">
+  <xs:element name="ChangeEmailWithCodeResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="ConfirmEmailChangeResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="ChangeEmailWithCodeResult" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -509,6 +495,20 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="VerifyCodeResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConsumeVerificationCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="email" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConsumeVerificationCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ConsumeVerificationCodeResult" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

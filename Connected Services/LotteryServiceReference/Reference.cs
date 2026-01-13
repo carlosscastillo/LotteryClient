@@ -176,11 +176,11 @@ namespace Lottery.LotteryServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RequestUserVerification", ReplyAction="http://tempuri.org/IUserService/RequestUserVerificationResponse")]
         System.Threading.Tasks.Task<int> RequestUserVerificationAsync(Contracts.DTOs.UserDto userData);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RegisterUser", ReplyAction="http://tempuri.org/IUserService/RegisterUserResponse")]
-        int RegisterUser(Contracts.DTOs.UserDto userData);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RegisterUserWithCode", ReplyAction="http://tempuri.org/IUserService/RegisterUserWithCodeResponse")]
+        int RegisterUserWithCode(Contracts.DTOs.UserDto userData, string code);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RegisterUser", ReplyAction="http://tempuri.org/IUserService/RegisterUserResponse")]
-        System.Threading.Tasks.Task<int> RegisterUserAsync(Contracts.DTOs.UserDto userData);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RegisterUserWithCode", ReplyAction="http://tempuri.org/IUserService/RegisterUserWithCodeResponse")]
+        System.Threading.Tasks.Task<int> RegisterUserWithCodeAsync(Contracts.DTOs.UserDto userData, string code);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RegisterGuest", ReplyAction="http://tempuri.org/IUserService/RegisterGuestResponse")]
         int RegisterGuest();
@@ -226,17 +226,11 @@ namespace Lottery.LotteryServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetUserProfile", ReplyAction="http://tempuri.org/IUserService/GetUserProfileResponse")]
         System.Threading.Tasks.Task<Contracts.DTOs.UserDto> GetUserProfileAsync(int currentUserId);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RequestEmailChange", ReplyAction="http://tempuri.org/IUserService/RequestEmailChangeResponse")]
-        bool RequestEmailChange(int currentUserId, string newEmail);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/ChangeEmailWithCode", ReplyAction="http://tempuri.org/IUserService/ChangeEmailWithCodeResponse")]
+        bool ChangeEmailWithCode(int currentUserId, string newEmail, string verificationCode);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RequestEmailChange", ReplyAction="http://tempuri.org/IUserService/RequestEmailChangeResponse")]
-        System.Threading.Tasks.Task<bool> RequestEmailChangeAsync(int currentUserId, string newEmail);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/ConfirmEmailChange", ReplyAction="http://tempuri.org/IUserService/ConfirmEmailChangeResponse")]
-        bool ConfirmEmailChange(int currentUserId, string newEmail, string verificationCode);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/ConfirmEmailChange", ReplyAction="http://tempuri.org/IUserService/ConfirmEmailChangeResponse")]
-        System.Threading.Tasks.Task<bool> ConfirmEmailChangeAsync(int currentUserId, string newEmail, string verificationCode);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/ChangeEmailWithCode", ReplyAction="http://tempuri.org/IUserService/ChangeEmailWithCodeResponse")]
+        System.Threading.Tasks.Task<bool> ChangeEmailWithCodeAsync(int currentUserId, string newEmail, string verificationCode);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RecoverPasswordRequest", ReplyAction="http://tempuri.org/IUserService/RecoverPasswordRequestResponse")]
         bool RecoverPasswordRequest(string email);
@@ -261,6 +255,12 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVerificationService/VerifyCode", ReplyAction="http://tempuri.org/IVerificationService/VerifyCodeResponse")]
         System.Threading.Tasks.Task<bool> VerifyCodeAsync(string email, string code);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVerificationService/ConsumeVerificationCode", ReplyAction="http://tempuri.org/IVerificationService/ConsumeVerificationCodeResponse")]
+        bool ConsumeVerificationCode(string email);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVerificationService/ConsumeVerificationCode", ReplyAction="http://tempuri.org/IVerificationService/ConsumeVerificationCodeResponse")]
+        System.Threading.Tasks.Task<bool> ConsumeVerificationCodeAsync(string email);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISocialMediaService/GetSocialMedia", ReplyAction="http://tempuri.org/ISocialMediaService/GetSocialMediaResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Contracts.Faults.ServiceFault), Action="http://tempuri.org/ISocialMediaService/GetSocialMediaServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
@@ -543,12 +543,12 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.RequestUserVerificationAsync(userData);
         }
         
-        public int RegisterUser(Contracts.DTOs.UserDto userData) {
-            return base.Channel.RegisterUser(userData);
+        public int RegisterUserWithCode(Contracts.DTOs.UserDto userData, string code) {
+            return base.Channel.RegisterUserWithCode(userData, code);
         }
         
-        public System.Threading.Tasks.Task<int> RegisterUserAsync(Contracts.DTOs.UserDto userData) {
-            return base.Channel.RegisterUserAsync(userData);
+        public System.Threading.Tasks.Task<int> RegisterUserWithCodeAsync(Contracts.DTOs.UserDto userData, string code) {
+            return base.Channel.RegisterUserWithCodeAsync(userData, code);
         }
         
         public int RegisterGuest() {
@@ -607,20 +607,12 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.GetUserProfileAsync(currentUserId);
         }
         
-        public bool RequestEmailChange(int currentUserId, string newEmail) {
-            return base.Channel.RequestEmailChange(currentUserId, newEmail);
+        public bool ChangeEmailWithCode(int currentUserId, string newEmail, string verificationCode) {
+            return base.Channel.ChangeEmailWithCode(currentUserId, newEmail, verificationCode);
         }
         
-        public System.Threading.Tasks.Task<bool> RequestEmailChangeAsync(int currentUserId, string newEmail) {
-            return base.Channel.RequestEmailChangeAsync(currentUserId, newEmail);
-        }
-        
-        public bool ConfirmEmailChange(int currentUserId, string newEmail, string verificationCode) {
-            return base.Channel.ConfirmEmailChange(currentUserId, newEmail, verificationCode);
-        }
-        
-        public System.Threading.Tasks.Task<bool> ConfirmEmailChangeAsync(int currentUserId, string newEmail, string verificationCode) {
-            return base.Channel.ConfirmEmailChangeAsync(currentUserId, newEmail, verificationCode);
+        public System.Threading.Tasks.Task<bool> ChangeEmailWithCodeAsync(int currentUserId, string newEmail, string verificationCode) {
+            return base.Channel.ChangeEmailWithCodeAsync(currentUserId, newEmail, verificationCode);
         }
         
         public bool RecoverPasswordRequest(string email) {
@@ -653,6 +645,14 @@ namespace Lottery.LotteryServiceReference {
         
         public System.Threading.Tasks.Task<bool> VerifyCodeAsync(string email, string code) {
             return base.Channel.VerifyCodeAsync(email, code);
+        }
+        
+        public bool ConsumeVerificationCode(string email) {
+            return base.Channel.ConsumeVerificationCode(email);
+        }
+        
+        public System.Threading.Tasks.Task<bool> ConsumeVerificationCodeAsync(string email) {
+            return base.Channel.ConsumeVerificationCodeAsync(email);
         }
         
         public Contracts.DTOs.SocialMediaDto GetSocialMedia(int currentUserId) {

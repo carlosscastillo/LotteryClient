@@ -1474,6 +1474,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a No hay conexión con la base de datos..
+        /// </summary>
+        public static string GlobalExceptionConnectionDatabaseMessage {
+            get {
+                return ResourceManager.GetString("GlobalExceptionConnectionDatabaseMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Se ha perdido la conexión con el servidor..
         /// </summary>
         public static string GlobalExceptionConnectionLostMessage {

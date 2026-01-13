@@ -1267,6 +1267,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ¡El juego continúa!.
+        /// </summary>
+        public static string GameStatusResumed {
+            get {
+                return ResourceManager.GetString("GameStatusResumed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a ¡La partida ha comenzado!.
         /// </summary>
         public static string GameStatusStarted {

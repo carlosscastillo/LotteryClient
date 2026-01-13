@@ -1244,4 +1244,7 @@
   <data name="LobbyStartGameNotEnoughPlayers" xml:space="preserve">
     <value>Se necesitan al menos 2 jugadores para iniciar la partida.</value>
   </data>
+  <data name="GameStatusResumed" xml:space="preserve">
+    <value>¡El juego continúa!</value>
+  </data>
 </root>

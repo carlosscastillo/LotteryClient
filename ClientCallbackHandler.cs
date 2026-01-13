@@ -23,6 +23,8 @@ namespace Lottery
         public static event Action<CardDto> CardDrawnReceived;
         public static event Action<string> PlayerWonReceived;
         public static event Action GameEndedReceived;
+        public static event Action GameResumedReceived;
+        public static event Action<string, string, bool> FalseLoteriaResultReceived;
 
         private void RunOnUI(Action action)
         {
@@ -88,6 +90,14 @@ namespace Lottery
         public void OnGameFinished()
         {
             RunOnUI(() => GameEndedReceived?.Invoke());
+        }
+        public void OnGameResumed()
+        {
+            RunOnUI(() => GameResumedReceived?.Invoke());
+        }   
+        public void OnFalseLoteriaResult(string declarerNickname, string challengerNickname, bool wasCorrect)
+        {
+            RunOnUI(() => FalseLoteriaResultReceived?.Invoke(declarerNickname, challengerNickname, wasCorrect));
         }
         public void BoardSelected(int userId, int boardId)
         {

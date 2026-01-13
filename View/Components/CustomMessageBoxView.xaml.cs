@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -9,22 +10,36 @@ namespace Lottery.View.Components
     {
         public MessageBoxResult Result { get; private set; } = MessageBoxResult.Cancel;
 
-        public CustomMessageBoxView(string message, string title, MessageBoxButton buttons, MessageBoxImage icon)
+        public CustomMessageBoxView(string message, string title, MessageBoxButton buttons, MessageBoxImage icon, bool hideButtons = false)
         {
             InitializeComponent();
             TxtTitle.Text = title;
             TxtMessage.Text = message;
 
-            SetButtons(buttons);
+            if (!hideButtons)
+                SetButtons(buttons);
+            else
+            {
+                BtnOk.Visibility = Visibility.Collapsed;
+                BtnCancel.Visibility = Visibility.Collapsed;
+                BtnYes.Visibility = Visibility.Collapsed;
+                BtnNo.Visibility = Visibility.Collapsed;
+            }
+
             SetIcon(icon);
+
+            if (hideButtons)
+            {
+                this.WindowStyle = WindowStyle.None;
+                this.AllowsTransparency = true;
+                this.Background = null;
+            }
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ButtonState == MouseButtonState.Pressed)
-            {
                 this.DragMove();
-            }
         }
 
         private void SetButtons(MessageBoxButton buttons)
@@ -53,7 +68,6 @@ namespace Lottery.View.Components
         private void SetIcon(MessageBoxImage icon)
         {
             string iconUri = "";
-
             switch (icon)
             {
                 case MessageBoxImage.Error:
@@ -72,14 +86,8 @@ namespace Lottery.View.Components
 
             if (!string.IsNullOrEmpty(iconUri))
             {
-                try
-                {
-                    ImgIcon.Source = new BitmapImage(new Uri(iconUri));
-                }
-                catch
-                {
-                    ImgIcon.Visibility = Visibility.Collapsed;
-                }
+                try { ImgIcon.Source = new BitmapImage(new Uri(iconUri)); }
+                catch { ImgIcon.Visibility = Visibility.Collapsed; }
             }
             else
             {
@@ -87,28 +95,9 @@ namespace Lottery.View.Components
             }
         }
 
-        private void BtnYes_Click(object sender, RoutedEventArgs e)
-        {
-            Result = MessageBoxResult.Yes;
-            Close();
-        }
-
-        private void BtnNo_Click(object sender, RoutedEventArgs e)
-        {
-            Result = MessageBoxResult.No;
-            Close();
-        }
-
-        private void BtnOk_Click(object sender, RoutedEventArgs e)
-        {
-            Result = MessageBoxResult.OK;
-            Close();
-        }
-
-        private void BtnCancel_Click(object sender, RoutedEventArgs e)
-        {
-            Result = MessageBoxResult.Cancel;
-            Close();
-        }
+        private void BtnYes_Click(object sender, RoutedEventArgs e) { Result = MessageBoxResult.Yes; Close(); }
+        private void BtnNo_Click(object sender, RoutedEventArgs e) { Result = MessageBoxResult.No; Close(); }
+        private void BtnOk_Click(object sender, RoutedEventArgs e) { Result = MessageBoxResult.OK; Close(); }
+        private void BtnCancel_Click(object sender, RoutedEventArgs e) { Result = MessageBoxResult.Cancel; Close(); }
     }
 }

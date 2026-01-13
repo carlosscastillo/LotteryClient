@@ -328,6 +328,12 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/LobbyStateUpdated")]
         void LobbyStateUpdated(Contracts.DTOs.LobbyStateDto lobbyState);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/OnGameResumed")]
+        void OnGameResumed();
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/OnFalseLoteriaResult")]
+        void OnFalseLoteriaResult(string declarerNickname, string challengerNickname, bool wasCorrect);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]

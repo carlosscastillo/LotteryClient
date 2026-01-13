@@ -50,8 +50,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-
-                <!-- Botón cerrar -->
+                
                 <Button Content="X"
                         Grid.Row="0"
                         HorizontalAlignment="Right"
@@ -65,7 +64,6 @@
                         Panel.ZIndex="1"
                         Cursor="Hand"/>
 
-                <!-- Título -->
                 <TextBlock x:Name="TxtTitle"
                            Grid.Row="0"
                            Text="Title"
@@ -73,8 +71,7 @@
                            FontSize="18"
                            HorizontalAlignment="Center"
                            Margin="0,0,0,15"/>
-
-                <!-- Contenido -->
+                
                 <Grid Grid.Row="1" Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -104,8 +101,7 @@
                                    TextAlignment="Left"/>
                     </ScrollViewer>
                 </Grid>
-
-                <!-- Botones -->
+                
                 <StackPanel Grid.Row="2"
                             Orientation="Horizontal"
                             HorizontalAlignment="Center"

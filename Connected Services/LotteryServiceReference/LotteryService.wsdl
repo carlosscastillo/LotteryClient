@@ -10,12 +10,12 @@
   </wsp:Policy>
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
-      <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd0" namespace="http://tempuri.org/" />
-      <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults" />
-      <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs" />
-      <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-      <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/System" />
+      <xsd:import schemaLocation="http://192.168.100.166:8733/Lottery/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://192.168.100.166:8733/Lottery/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults" />
+      <xsd:import schemaLocation="http://192.168.100.166:8733/Lottery/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://192.168.100.166:8733/Lottery/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs" />
+      <xsd:import schemaLocation="http://192.168.100.166:8733/Lottery/?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://192.168.100.166:8733/Lottery/?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/System" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="ILotteryService_SendMessage_InputMessage">
@@ -381,6 +381,12 @@
   <wsdl:message name="ILotteryService_LobbyStateUpdated_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:LobbyStateUpdated" />
   </wsdl:message>
+  <wsdl:message name="ILotteryService_OnGameResumed_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnGameResumed" />
+  </wsdl:message>
+  <wsdl:message name="ILotteryService_OnFalseLoteriaResult_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnFalseLoteriaResult" />
+  </wsdl:message>
   <wsdl:portType name="ILotteryService">
     <wsdl:operation name="SendMessage">
       <wsdl:input wsaw:Action="http://tempuri.org/IChatService/SendMessage" message="tns:ILotteryService_SendMessage_InputMessage" />
@@ -610,6 +616,12 @@
     </wsdl:operation>
     <wsdl:operation name="LobbyStateUpdated">
       <wsdl:output wsaw:Action="http://tempuri.org/ILotteryService/LobbyStateUpdated" message="tns:ILotteryService_LobbyStateUpdated_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnGameResumed">
+      <wsdl:output wsaw:Action="http://tempuri.org/ILotteryService/OnGameResumed" message="tns:ILotteryService_OnGameResumed_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnFalseLoteriaResult">
+      <wsdl:output wsaw:Action="http://tempuri.org/ILotteryService/OnFalseLoteriaResult" message="tns:ILotteryService_OnFalseLoteriaResult_OutputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_ILotteryService" type="tns:ILotteryService">
@@ -1140,12 +1152,24 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="OnGameResumed">
+      <soap12:operation soapAction="http://tempuri.org/ILotteryService/OnGameResumed" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnFalseLoteriaResult">
+      <soap12:operation soapAction="http://tempuri.org/ILotteryService/OnFalseLoteriaResult" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="LotteryService">
     <wsdl:port name="NetTcpBinding_ILotteryService" binding="tns:NetTcpBinding_ILotteryService">
-      <soap12:address location="net.tcp://localhost:8080/Lottery/LotteryService" />
+      <soap12:address location="net.tcp://192.168.100.166:8080/Lottery/LotteryService" />
       <wsa10:EndpointReference>
-        <wsa10:Address>net.tcp://localhost:8080/Lottery/LotteryService</wsa10:Address>
+        <wsa10:Address>net.tcp://192.168.100.166:8080/Lottery/LotteryService</wsa10:Address>
       </wsa10:EndpointReference>
     </wsdl:port>
   </wsdl:service>

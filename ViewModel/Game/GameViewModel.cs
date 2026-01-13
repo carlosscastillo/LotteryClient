@@ -293,13 +293,21 @@ namespace Lottery.ViewModel.Game
             ClientCallbackHandler.CardDrawnReceived += OnCardDrawn;
             ClientCallbackHandler.PlayerWonReceived += OnPlayerWon;
             ClientCallbackHandler.GameEndedReceived += OnGameEnded;
+            ClientCallbackHandler.GameResumedReceived += OnGameResumed;
         }
 
-        private void UnsubscribeFromGameEvents()
+        public void UnsubscribeFromGameEvents()
         {
             ClientCallbackHandler.CardDrawnReceived -= OnCardDrawn;
             ClientCallbackHandler.PlayerWonReceived -= OnPlayerWon;
             ClientCallbackHandler.GameEndedReceived -= OnGameEnded;
+            ClientCallbackHandler.GameResumedReceived -= OnGameResumed;
+        }
+
+        public void ResubscribeToGameEvents()
+        {        
+            UnsubscribeFromGameEvents();
+            SubscribeToGameEvents();
         }
 
         private void OnCardDrawn(CardDto cardDto)
@@ -326,12 +334,19 @@ namespace Lottery.ViewModel.Game
         {
             _gameWindow.Dispatcher.Invoke(() =>
             {
-                UnsubscribeFromGameEvents();
+                UnsubscribeFromGameEvents();                
+                var winnerCells = BoardCells.Select(c => new Cell
+                {
+                    Id = c.Id,
+                    ImageSource = c.ImageSource,
+                    IsSelected = c.IsSelected,
+                    Position = c.Position
+                }).ToList();
 
                 var winnerViewModel = new WinnerViewModel(
                     _currentUserId,
                     nickname,
-                    BoardCells.ToList(),
+                    winnerCells,
                     _gameWindow,
                     _lobbyWindow)
                 {
@@ -353,14 +368,30 @@ namespace Lottery.ViewModel.Game
             _gameWindow.Dispatcher.Invoke(() =>
             {
                 UnsubscribeFromGameEvents();
-                CustomMessageBox.Show(
+                TimedMessageBox.Show(
                     Lang.GameMessageBoxGameEnded,
                     Lang.GameTitleGameFinished,
                     MessageBoxButton.OK,
                     MessageBoxImage.Information,
-                    _gameWindow);
+                    2,
+                    NavigateToLobby);
+            });
+        }
 
-                NavigateToMainMenu();
+        private void NavigateToLobby()
+        {
+            _gameWindow.Dispatcher.Invoke(() =>
+            {
+                _lobbyWindow.Show();
+                _gameWindow.Close();
+            });
+        }
+
+        private void OnGameResumed()
+        {
+            _gameWindow.Dispatcher.InvokeAsync(() =>
+            {
+                GameStatusMessage = Lang.GameStatusResumed;                
             });
         }
 

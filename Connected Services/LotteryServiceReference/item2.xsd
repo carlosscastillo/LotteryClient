@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs" />
-  <xs:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/System" />
+  <xs:import schemaLocation="http://192.168.100.166:8733/Lottery/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs" />
+  <xs:import schemaLocation="http://192.168.100.166:8733/Lottery/?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/System" />
   <xs:element name="SendMessage">
     <xs:complexType>
       <xs:sequence>
@@ -624,6 +624,20 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/Contracts.DTOs" minOccurs="0" name="lobbyState" nillable="true" type="q25:LobbyStateDto" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnGameResumed">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnFalseLoteriaResult">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="declarerNickname" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="challengerNickname" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="wasCorrect" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

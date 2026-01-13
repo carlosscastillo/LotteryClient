@@ -31,76 +31,77 @@
 
         <Grid Grid.Column="0" Margin="20" Width="400">
             <Grid.RowDefinitions>
-                <RowDefinition Height="220"/>
-                <RowDefinition Height="220"/>
-                <RowDefinition Height="220"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <ItemsControl Grid.Row="0"
-                          Grid.RowSpan="3"
-                          ItemsSource="{Binding OtherPlayers}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
+            <ScrollViewer Grid.Row="0"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled"
+                          Background="Transparent"
+                          Focusable="False"
+                          Padding="0">
+                <ItemsControl ItemsSource="{Binding OtherPlayers}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
 
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Background="#66000000"
-                                CornerRadius="14"
-                                Padding="8"
-                                Margin="0,6"
-                                Height="200">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="160"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#66000000"
+                                    CornerRadius="14"
+                                    Padding="8"
+                                    Margin="0,6">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="160"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <ItemsControl Grid.Column="0"
-                                              ItemsSource="{Binding CardIds}"
-                                              Width="160"
-                                              Height="160">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <UniformGrid Rows="4" Columns="4"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Image Source="{Binding Converter={StaticResource IdToImageConverter}}"
-                                                   Stretch="UniformToFill"
-                                                   Margin="1"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                    <Viewbox Grid.Column="0"
+                                             Width="160"
+                                             Height="160"
+                                             Stretch="Uniform">
+                                        <ItemsControl ItemsSource="{Binding CardIds}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <UniformGrid Rows="4" Columns="4"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Image Source="{Binding Converter={StaticResource IdToImageConverter}}"
+                                                           Stretch="UniformToFill"
+                                                           Margin="1"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Viewbox>
 
-                                <StackPanel Grid.Column="1"
-                                            Margin="12,0,0,0"
-                                            VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding Name}"
-                                               Foreground="White"
-                                               FontWeight="Bold"
-                                               FontSize="15"
-                                               TextWrapping="Wrap"/>
-                                    <TextBlock Text="{Binding TokensLeft, StringFormat='Fichas: {0}'}"
-                                               Foreground="#DDDDDD"
-                                               FontSize="13"
-                                               Margin="0,6,0,0"/>
-                                </StackPanel>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                                    <StackPanel Grid.Column="1"
+                                                Margin="12,0,0,0"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Name}"
+                                                   Foreground="White"
+                                                   FontWeight="Bold"
+                                                   FontSize="15"
+                                                   TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
 
-            <Border Grid.Row="3"
+            <Border Grid.Row="1"
                     Background="#66000000"
                     CornerRadius="14"
                     Padding="12"
-                    VerticalAlignment="Center">
+                    VerticalAlignment="Center"
+                    Margin="0,10,0,0">
                 <Image Source="{Binding TokenPileImagePath}"
                        Width="320"
                        Height="220"

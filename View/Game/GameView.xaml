@@ -126,7 +126,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="6">
-                                <Image Source="{Binding ImagePath}"
+                                <Image Source="{Binding ImageSource}"
                                        Stretch="Fill"/>
                                 <Image Source="{Binding DataContext.TokenImagePath, RelativeSource={RelativeSource AncestorType=Window}}"
                                        Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibilityConverter}}"

@@ -22,6 +22,8 @@ namespace Lottery.ViewModel.MainMenu
         private readonly Window _mainMenuWindow;
         private readonly Dictionary<string, string> _errorMap;
 
+        private bool _isShowingInvitation = false;
+
         public string Nickname { get; }
 
         public ICommand ShowFriendsViewCommand { get; }
@@ -178,16 +180,30 @@ namespace Lottery.ViewModel.MainMenu
             {
                 _mainMenuWindow.Dispatcher.Invoke(async () =>
                 {
-                    var result = CustomMessageBox.Show(
-                        string.Format(Lang.MainMenuHasInvited, inviterNickname),
-                        Lang.MainMenuInvitationReceived,
-                        MessageBoxButton.YesNo,
-                        MessageBoxImage.Question,
-                        _mainMenuWindow);
-
-                    if (result == MessageBoxResult.Yes)
+                    if (_isShowingInvitation)
                     {
-                        await JoinLobbyByInvite(lobbyCode);
+                        return;
+                    }
+
+                    _isShowingInvitation = true;
+
+                    try
+                    {
+                        var result = CustomMessageBox.Show(
+                            string.Format(Lang.MainMenuHasInvited, inviterNickname),
+                            Lang.MainMenuInvitationReceived,
+                            MessageBoxButton.YesNo,
+                            MessageBoxImage.Question,
+                            _mainMenuWindow);
+
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            await JoinLobbyByInvite(lobbyCode);
+                        }
+                    }
+                    finally
+                    {
+                        _isShowingInvitation = false;
                     }
                 });
             }

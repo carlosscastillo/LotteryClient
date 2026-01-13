@@ -126,6 +126,7 @@ namespace Lottery.ViewModel.Lobby
                 { "CHAT_USER_NOT_IN_LOBBY", Lang.LobbyExceptionNotInLobby },
                 { "LOBBY_ACTION_DENIED", Lang.LobbyExceptionActionDenied },
                 { "DB_ERROR", Lang.GlobalExceptionConnectionDatabaseMessage },
+                { "LOBBY_USER_ALREADY_IN", Lang.LobbyExceptionUserBusy },
                 { "LOBBY_INTERNAL_ERROR", Lang.GlobalExceptionInternalServerError }
             };
 
@@ -258,12 +259,18 @@ namespace Lottery.ViewModel.Lobby
         }
 
         private void HandleGameStarted(GameSettingsDto settings)
-        {            
-            _lobbyWindow.Dispatcher.Invoke(() =>
+        {
+            _lobbyWindow.Dispatcher.InvokeAsync(() =>
             {
                 UnsubscribeFromEvents();
 
                 var gameView = new GameView();
+
+                gameView.ContentRendered += (s, e) =>
+                {
+                    _lobbyWindow.Hide();
+                };
+
                 var vm = new GameViewModel(
                     new ObservableCollection<UserDto>(Players),
                     settings,
@@ -271,12 +278,13 @@ namespace Lottery.ViewModel.Lobby
                     SelectedBoardId,
                     gameView,
                     _lobbyWindow
-                    );
+                );
+
                 gameView.DataContext = vm;
 
                 gameView.Show();
-                _lobbyWindow.Hide();
-            });
+
+            }, System.Windows.Threading.DispatcherPriority.Normal);
         }
 
         private void NavigateToMainMenu()

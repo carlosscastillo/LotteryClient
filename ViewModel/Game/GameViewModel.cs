@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Lottery.ViewModel.Game
@@ -33,9 +34,7 @@ namespace Lottery.ViewModel.Game
         }
 
         private readonly string _gameMode;
-
         private int _selectedBoardId;
-
 
         private static readonly Dictionary<int, string> _cardResourceKeys = new Dictionary<int, string>
         {
@@ -64,8 +63,8 @@ namespace Lottery.ViewModel.Game
 
         public bool IsHost { get; }
 
-        private string _boardBackgroundImage;
-        public string BoardBackgroundImage
+        private ImageSource _boardBackgroundImage;
+        public ImageSource BoardBackgroundImage
         {
             get => _boardBackgroundImage;
             set => SetProperty(ref _boardBackgroundImage, value);
@@ -156,7 +155,6 @@ namespace Lottery.ViewModel.Game
                 .Select(g => new PlayerGameViewModel(g.First()))
                 );
 
-
             LoadTokenResource(selectedTokenKey);
             _selectedBoardId = selectedBoardId;
             LoadBoardResource(selectedBoardId);
@@ -166,8 +164,62 @@ namespace Lottery.ViewModel.Game
 
             SubscribeToGameEvents();
 
-            CurrentCardImage = new BitmapImage(new Uri(GetCardBackPath(), UriKind.Absolute));
+            CurrentCardImage = CreateBitmapImage(GetCardBackPath());
             CurrentCardName = Lang.CardTextBlockReverse;
+
+            Task.Run(() => LoadBoardResourcesAsync(_selectedBoardId));
+        }
+
+        private BitmapImage CreateBitmapImage(string uriSource)
+        {
+            try
+            {
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(uriSource, UriKind.Absolute);
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.CreateOptions = BitmapCreateOptions.DelayCreation;
+                bitmap.EndInit();
+                if (bitmap.CanFreeze) bitmap.Freeze();
+                return bitmap;
+            }
+            catch 
+            { 
+                return null; 
+            }
+        }
+
+        private async Task LoadBoardResourcesAsync(int boardId)
+        {
+            string bgPath = $"pack://application:,,,/Lottery;component/Images/Boards/board_{boardId}.png";
+            var bgImage = CreateBitmapImage(bgPath);
+
+            List<int> cardIds = BoardConfigurations.GetBoardById(boardId);
+            var tempCells = new List<Cell>();
+
+            for (int i = 0; i < cardIds.Count; i++)
+            {
+                string path = GetImagePathFromId(cardIds[i]);
+                var img = CreateBitmapImage(path);
+
+                tempCells.Add(new Cell
+                {
+                    Id = cardIds[i],
+                    ImageSource = img,
+                    IsSelected = false,
+                    Position = i
+                });
+            }
+
+            await Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                BoardBackgroundImage = bgImage;
+                BoardCells.Clear();
+                foreach (var cell in tempCells)
+                {
+                    BoardCells.Add(cell);
+                }
+            });
         }
 
         private void LoadTokenResource(string tokenKey)
@@ -181,27 +233,22 @@ namespace Lottery.ViewModel.Game
                     singleFile = "token00.png";
                     pileFile = "token00-background.png";
                     break;
-
                 case "bottle_caps":
                     singleFile = "token01.png";
                     pileFile = "token01-background.png";
                     break;
-
                 case "pou":
                     singleFile = "token02.png";
                     pileFile = "token02-background.png";
                     break;
-
                 case "corn":
                     singleFile = "token03.png";
                     pileFile = "token03-background.png";
                     break;
-
                 case "coins":
                     singleFile = "token04.png";
                     pileFile = "token04-background.png";
                     break;
-
                 default:
                     singleFile = "token00.png";
                     pileFile = "token00-background.png";
@@ -217,7 +264,8 @@ namespace Lottery.ViewModel.Game
 
         private void LoadBoardResource(int boardId)
         {
-            BoardBackgroundImage = $"pack://application:,,,/Lottery;component/Images/Boards/board_{boardId}.png";
+            string path = $"pack://application:,,,/Lottery;component/Images/Boards/board_{boardId}.png";
+            BoardBackgroundImage = CreateBitmapImage(path);
 
             LoadBoardData(boardId);
         }
@@ -225,7 +273,6 @@ namespace Lottery.ViewModel.Game
         private void LoadBoardData(int boardId)
         {
             BoardCells.Clear();
-
             List<int> cardIds = BoardConfigurations.GetBoardById(boardId);
 
             for (int i = 0; i < cardIds.Count; i++)
@@ -233,7 +280,7 @@ namespace Lottery.ViewModel.Game
                 var cell = new Cell
                 {
                     Id = cardIds[i],
-                    ImagePath = GetImagePathFromId(cardIds[i]),
+                    ImageSource = CreateBitmapImage(GetImagePathFromId(cardIds[i])),
                     IsSelected = false,
                     Position = i
                 };
@@ -257,10 +304,11 @@ namespace Lottery.ViewModel.Game
 
         private void OnCardDrawn(CardDto cardDto)
         {
-            _gameWindow.Dispatcher.Invoke(() =>
+            _gameWindow.Dispatcher.InvokeAsync(() =>
             {
                 string cardImagePath = GetImagePathFromId(cardDto.Id);
-                CurrentCardImage = new BitmapImage(new Uri(cardImagePath, UriKind.Absolute));
+
+                CurrentCardImage = CreateBitmapImage(cardImagePath);
 
                 var key = GetResourceKeyForCard(cardDto.Id);
                 if (key != null)
@@ -317,14 +365,8 @@ namespace Lottery.ViewModel.Game
         }
 
         public void OnWindowLoaded()
-        {            
+        {
             ShowStartMessageSequence();
-            CurrentCardImage = new BitmapImage(new Uri(GetCardBackPath(), UriKind.Absolute));
-            CurrentCardName = Lang.CardTextBlockReverse;            
-            foreach (var p in Players.Where(u => u.UserId != _currentUserId))
-            {
-                OtherPlayers.Add(new PlayerGameViewModel(p));
-            }
         }
 
         private async Task DeclareLoteria()
@@ -377,7 +419,7 @@ namespace Lottery.ViewModel.Game
 
                 case "Marco":
                     bool top = BoardCells[0].IsSelected && BoardCells[1].IsSelected && BoardCells[2].IsSelected && BoardCells[3].IsSelected;
-                    bool bottom = BoardCells[12].IsSelected && BoardCells[13].IsSelected && BoardCells[14].IsSelected 
+                    bool bottom = BoardCells[12].IsSelected && BoardCells[13].IsSelected && BoardCells[14].IsSelected
                         && BoardCells[15].IsSelected;
                     bool left = BoardCells[4].IsSelected && BoardCells[8].IsSelected;
                     bool right = BoardCells[7].IsSelected && BoardCells[11].IsSelected;
@@ -392,19 +434,6 @@ namespace Lottery.ViewModel.Game
                 default:
                     return BoardCells.All(c => c.IsSelected);
             }
-        }
-
-        private PlayerBoardDto GetPlayerBoardDto()
-        {
-            return new PlayerBoardDto
-            {
-                PlayerId = _currentUserId,
-                BoardId = _selectedBoardId,
-                MarkedPositions = BoardCells
-                    .Where(c => c.IsSelected)
-                    .Select(c => c.Position)
-                    .ToList()
-            };
         }
 
         private async Task LeaveGame()
@@ -463,12 +492,11 @@ namespace Lottery.ViewModel.Game
         {
             StartMessageText = Lang.GameStatusStarted;
             IsStartMessageVisible = true;
-
             await Task.Delay(3000);
-
             IsStartMessageVisible = false;
         }
     }
+
     public class Cell : ObservableObject
     {
         private int _id;
@@ -478,11 +506,11 @@ namespace Lottery.ViewModel.Game
             set => SetProperty(ref _id, value);
         }
 
-        private string _imagePath;
-        public string ImagePath
+        private System.Windows.Media.ImageSource _imageSource;
+        public System.Windows.Media.ImageSource ImageSource
         {
-            get => _imagePath;
-            set => SetProperty(ref _imagePath, value);
+            get => _imageSource;
+            set => SetProperty(ref _imageSource, value);
         }
 
         private bool _isSelected;
@@ -490,7 +518,7 @@ namespace Lottery.ViewModel.Game
         {
             get => _isSelected;
             set => SetProperty(ref _isSelected, value);
-        }        
+        }
         public int Position { get; set; }
     }
 
@@ -507,5 +535,4 @@ namespace Lottery.ViewModel.Game
             TokensLeft = 5;
         }
     }
-
 }

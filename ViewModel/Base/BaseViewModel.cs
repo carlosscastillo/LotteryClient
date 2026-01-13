@@ -138,35 +138,37 @@ namespace Lottery.ViewModel.Base
             }
         }
 
-        private void HandleServiceFault(FaultException<ServiceFault> fault, Dictionary<string, string> errorMap)
+        private void HandleServiceFault(FaultException<ServiceFault> fault, Dictionary<string, string> viewErrorMap)
         {
-            string message;
-            if (fault.Detail == null)
+            string message = null;
+            string errorCode = fault.Detail?.ErrorCode;
+            string serverMessage = fault.Detail?.Message;
+
+            var globalErrorMap = new Dictionary<string, string>
             {
-                ShowError(Lang.GlobalExceptionInternalServerError);
-                return;
+                { "DB_ERROR", Lang.GlobalExceptionConnectionDatabaseMessage },
+                { "INTERNAL_SERVER_ERROR", Lang.GlobalExceptionInternalServerError },
+                { "GLOBAL_TIMEOUT", Lang.GlobalExceptionConnectionLostMessage },
+                { "GLOBAL_BAD_REQUEST", Lang.GlobalMessageBoxUnexpectedError }
+            };
+
+            if (!string.IsNullOrEmpty(errorCode) && viewErrorMap != null && viewErrorMap.ContainsKey(errorCode))
+            {
+                message = viewErrorMap[errorCode];
             }
-
-            string errorCode = fault.Detail.ErrorCode;
-            MessageBoxImage icon = MessageBoxImage.Warning;
-
-            if (errorMap != null && errorMap.ContainsKey(errorCode))
+            else if (!string.IsNullOrEmpty(errorCode) && globalErrorMap.ContainsKey(errorCode))
             {
-                message = errorMap[errorCode];
+                message = globalErrorMap[errorCode];
             }
             else
             {
-                if (!string.IsNullOrEmpty(fault.Detail.Message))
-                {
-                    message = fault.Detail.Message;
-                }
-                else
-                {
-                    message = string.Format(Lang.GlobalExceptionServerError, errorCode, "Error desconocido");
-                }
+                message = !string.IsNullOrEmpty(serverMessage)
+                    ? serverMessage
+                    : string.Format(Lang.GlobalExceptionServerError, errorCode ?? "UNKNOWN", "Error");
             }
 
-            if (errorCode == "USER_OFFLINE" || errorCode == "SERVER_ERROR" || errorCode == "DB_ERROR")
+            MessageBoxImage icon = MessageBoxImage.Warning;
+            if (errorCode == "DB_ERROR" || errorCode == "INTERNAL_SERVER_ERROR" || errorCode == "USER_OFFLINE")
             {
                 icon = MessageBoxImage.Error;
             }

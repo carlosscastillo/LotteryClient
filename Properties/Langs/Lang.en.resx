@@ -1207,10 +1207,38 @@ Do you want to join?</value>
   </data>
   <data name="SettingsLanguage" xml:space="preserve">
     <value>Language</value>
+  </data>
   <data name="GlobalExceptionConnectionLostMessage" xml:space="preserve">
     <value>The connection to the server has been lost.</value>
   </data>
   <data name="GlobalExceptionConnectionDatabaseMessage" xml:space="preserve">
     <value>There is no connection to the database.</value>
+  </data>
+  <data name="ValidationTwitterMaxLength" xml:space="preserve">
+    <value>Twitter/X username must be shorter than 16 characters.</value>
+  </data>
+  <data name="ValidationTwitterFormat" xml:space="preserve">
+    <value>Twitter/X username may only contain letters, numbers, and underscores.</value>
+  </data>
+  <data name="ValidationInstagramMaxLength" xml:space="preserve">
+    <value>Instagram username must be shorter than 31 characters.</value>
+  </data>
+  <data name="ValidationInstagramFormat" xml:space="preserve">
+    <value>Instagram username may only contain letters, numbers, dots, and underscores.</value>
+  </data>
+  <data name="Validation_TikTok_MinLength" xml:space="preserve">
+    <value>TikTok username must be at least 2 characters long.</value>
+  </data>
+  <data name="ValidationTikTokMaxLength" xml:space="preserve">
+    <value>TikTok username must be shorter than 25 characters.</value>
+  </data>
+  <data name="ValidationTikTokFormat" xml:space="preserve">
+    <value>TikTok username may only contain letters, numbers, dots, and underscores.</value>
+  </data>
+  <data name="ValidationFacebookMaxLength" xml:space="preserve">
+    <value>Facebook path must be shorter than 51 characters.</value>
+  </data>
+  <data name="Validation_Facebook_Format" xml:space="preserve">
+    <value>Facebook path contains invalid characters.</value>
   </data>
 </root>

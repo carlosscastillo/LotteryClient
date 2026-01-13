@@ -49,6 +49,7 @@ namespace Lottery.ViewModel.User
                 { "AUTH_EMPTY_NICKNAME", Lang.GuestLoginEmptyNickname },
                 { "AUTH_INVALID_FORMAT", Lang.GuestLoginInvalidFormat },
                 { "AUTH_DB_ERROR", Lang.GlobalExceptionInternalServerError },
+                { "DB_ERROR", Lang.GlobalExceptionConnectionDatabaseMessage },
                 { "AUTH_INTERNAL_500", Lang.GlobalExceptionInternalServerError }
             };
 

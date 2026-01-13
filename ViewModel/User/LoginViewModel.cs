@@ -67,6 +67,7 @@ namespace Lottery.ViewModel.User
                 { "AUTH_ACCOUNT_LOCKED", Lang.LoginAccountLocked },
                 { "AUTH_USER_ALREADY_CONNECTED", Lang.LoginAlreadyConnected },
                 { "AUTH_DB_ERROR", Lang.GlobalExceptionInternalServerError },
+                { "DB_ERROR", Lang.GlobalExceptionConnectionDatabaseMessage },
                 { "AUTH_INTERNAL_500", Lang.GlobalExceptionInternalServerError }
             };
 

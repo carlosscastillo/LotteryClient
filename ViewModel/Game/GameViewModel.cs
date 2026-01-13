@@ -143,6 +143,7 @@ namespace Lottery.ViewModel.Game
                 { "GAME_ALREADY_ACTIVE", Lang.GameExceptionAlreadyActive },
                 { "GAME_LOBBY_NOT_FOUND", Lang.GameExceptionLobbyNotFound },
                 { "USER_OFFLINE", Lang.GameExceptionUserOffline },
+                { "DB_ERROR", Lang.GlobalExceptionConnectionDatabaseMessage },
                 { "GAME_INTERNAL_ERROR", Lang.GameExceptionInternalError }
             };
 

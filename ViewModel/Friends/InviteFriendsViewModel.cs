@@ -138,6 +138,7 @@ namespace Lottery.ViewModel.Friends
                 { "USER_OFFLINE", Lang.InviteFriendsExceptionUserOffline },
                 { "FRIEND_NOT_CONNECTED", Lang.InviteFriendsExceptionUserOffline },
                 { "FRIEND_GUEST_RESTRICTED", Lang.InviteFriendsExceptionFriendGuestRestricted },
+                { "DB_ERROR", Lang.GlobalExceptionConnectionDatabaseMessage },
                 { "FR-500", Lang.GlobalExceptionInternalServerError }
             };
 

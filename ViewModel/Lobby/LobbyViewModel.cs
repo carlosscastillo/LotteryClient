@@ -125,6 +125,7 @@ namespace Lottery.ViewModel.Lobby
             {
                 { "CHAT_USER_NOT_IN_LOBBY", Lang.LobbyExceptionNotInLobby },
                 { "LOBBY_ACTION_DENIED", Lang.LobbyExceptionActionDenied },
+                { "DB_ERROR", Lang.GlobalExceptionConnectionDatabaseMessage },
                 { "LOBBY_INTERNAL_ERROR", Lang.GlobalExceptionInternalServerError }
             };
 
@@ -391,7 +392,9 @@ namespace Lottery.ViewModel.Lobby
         {
             var view = new InviteFriendsView();
             if (view.DataContext is InviteFriendsViewModel vm)
+            {
                 vm.SetInviteMode(LobbyCode);
+            }
             view.ShowDialog();
         }
 
@@ -407,7 +410,9 @@ namespace Lottery.ViewModel.Lobby
         {
             IsShowingFriendsList = !IsShowingFriendsList;
             if (IsShowingFriendsList)
+            {
                 await LoadFriendsListAsync();
+            }
         }
 
         private async Task LoadFriendsListAsync()

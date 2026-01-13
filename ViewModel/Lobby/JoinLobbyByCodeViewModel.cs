@@ -38,6 +38,7 @@ namespace Lottery.ViewModel.Lobby
                 { "LOBBY_PLAYER_BANNED", Lang.JoinLobbyBanned },
                 { "USER_OFFLINE", Lang.JoinLobbyUserOffline },
                 { "LOBBY_SESSION_ERROR", Lang.JoinLobbyUserOffline },
+                { "DB_ERROR", Lang.GlobalExceptionConnectionDatabaseMessage },
                 { "LOBBY_INTERNAL_ERROR", Lang.JoinLobbyInternalError }
             };
 

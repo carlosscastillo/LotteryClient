@@ -1209,10 +1209,38 @@
   </data>
   <data name="SettingsLanguage" xml:space="preserve">
     <value>Idioma</value>
+  </data>
   <data name="GlobalExceptionConnectionLostMessage" xml:space="preserve">
     <value>Se ha perdido la conexión con el servidor.</value>
   </data>
   <data name="GlobalExceptionConnectionDatabaseMessage" xml:space="preserve">
     <value>No hay conexión con la base de datos.</value>
+  </data>
+  <data name="ValidationTwitterMaxLength" xml:space="preserve">
+    <value>El usuario de Twitter/X debe tener menos de 16 caracteres.</value>
+  </data>
+  <data name="ValidationTwitterFormat" xml:space="preserve">
+    <value>El usuario de Twitter/X solo puede contener letras, números y guiones bajos.</value>
+  </data>
+  <data name="ValidationInstagramMaxLength" xml:space="preserve">
+    <value>El usuario de Instagram debe tener menos de 31 caracteres.</value>
+  </data>
+  <data name="ValidationInstagramFormat" xml:space="preserve">
+    <value>El usuario de Instagram solo puede contener letras, números, puntos y guiones bajos.</value>
+  </data>
+  <data name="Validation_TikTok_MinLength" xml:space="preserve">
+    <value>El usuario de TikTok debe tener al menos 2 caracteres.</value>
+  </data>
+  <data name="ValidationTikTokMaxLength" xml:space="preserve">
+    <value>El usuario de TikTok debe tener menos de 25 caracteres.</value>
+  </data>
+  <data name="ValidationTikTokFormat" xml:space="preserve">
+    <value>El usuario de TikTok solo puede contener letras, números, puntos y guiones bajos.</value>
+  </data>
+  <data name="ValidationFacebookMaxLength" xml:space="preserve">
+    <value>La ruta de Facebook debe tener menos de 51 caracteres.</value>
+  </data>
+  <data name="Validation_Facebook_Format" xml:space="preserve">
+    <value>La ruta de Facebook contiene caracteres inválidos.</value>
   </data>
 </root>

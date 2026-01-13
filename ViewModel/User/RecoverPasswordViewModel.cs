@@ -72,6 +72,7 @@ namespace Lottery.ViewModel.User
             {
                 { "USER_NOT_FOUND", Lang.LoginGenericError },
                 { "EMAIL_SEND_FAILED", Lang.RegisterEmailSendFailed },
+                { "DB_ERROR", Lang.GlobalExceptionConnectionDatabaseMessage },
                 { "INVALID_CODE", Lang.RegisterCodeExpiredOrIncorrect }
             };
             

@@ -53,6 +53,7 @@ namespace Lottery.ViewModel.MainMenu
                 { "LOBBY_NOT_FOUND", Lang.MainMenuExceptionNotFoundLobby },
                 { "USER_OFFLINE", Lang.MainMenuExceptionSessionExpired },
                 { "LOBBY_PLAYER_BANNED", Lang.MainMenuExceptionUserBanned },
+                { "DB_ERROR", Lang.GlobalExceptionConnectionDatabaseMessage },
                 { "LOBBY_INTERNAL_ERROR", Lang.GlobalExceptionInternalServerError }
             };
 

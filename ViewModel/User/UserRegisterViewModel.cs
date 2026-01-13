@@ -133,6 +133,7 @@ namespace Lottery.ViewModel.User
                 { "VERIFY_EMAIL_SEND_FAILED", Lang.RegisterEmailSendFailed },
                 { "VERIFY_ERROR", Lang.RegisterVerifyError },
                 { "USER_BAD_REQUEST", Lang.RegisterBadRequest },
+                { "DB_ERROR", Lang.GlobalExceptionConnectionDatabaseMessage },
                 { "USER_INTERNAL_ERROR", Lang.GlobalExceptionInternalServerError }
             };
 

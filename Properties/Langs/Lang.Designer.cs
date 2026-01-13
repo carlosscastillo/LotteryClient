@@ -10,9 +10,8 @@
 
 namespace Lottery.Properties.Langs {
     using System;
-    using System.ComponentModel;
-
-
+    
+    
     /// <summary>
     ///   Clase de recurso fuertemente tipado, para buscar cadenas traducidas, etc.
     /// </summary>
@@ -23,16 +22,8 @@ namespace Lottery.Properties.Langs {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class Lang : INotifyPropertyChanged
-    {
-        public static event PropertyChangedEventHandler StaticPropertyChanged;
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        internal static void OnStaticPropertyChanged(string propertyName)
-        {
-            StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(propertyName));
-        }
-
+    public class Lang {
+        
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
@@ -3335,6 +3326,87 @@ namespace Lottery.Properties.Langs {
         public static string UserSignUpLabelTitle {
             get {
                 return ResourceManager.GetString("UserSignUpLabelTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La ruta de Facebook contiene caracteres inválidos..
+        /// </summary>
+        public static string Validation_Facebook_Format {
+            get {
+                return ResourceManager.GetString("Validation_Facebook_Format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El usuario de TikTok debe tener al menos 2 caracteres..
+        /// </summary>
+        public static string Validation_TikTok_MinLength {
+            get {
+                return ResourceManager.GetString("Validation_TikTok_MinLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La ruta de Facebook debe tener menos de 51 caracteres..
+        /// </summary>
+        public static string ValidationFacebookMaxLength {
+            get {
+                return ResourceManager.GetString("ValidationFacebookMaxLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El usuario de Instagram solo puede contener letras, números, puntos y guiones bajos..
+        /// </summary>
+        public static string ValidationInstagramFormat {
+            get {
+                return ResourceManager.GetString("ValidationInstagramFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El usuario de Instagram debe tener menos de 31 caracteres..
+        /// </summary>
+        public static string ValidationInstagramMaxLength {
+            get {
+                return ResourceManager.GetString("ValidationInstagramMaxLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El usuario de TikTok solo puede contener letras, números, puntos y guiones bajos..
+        /// </summary>
+        public static string ValidationTikTokFormat {
+            get {
+                return ResourceManager.GetString("ValidationTikTokFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El usuario de TikTok debe tener menos de 25 caracteres..
+        /// </summary>
+        public static string ValidationTikTokMaxLength {
+            get {
+                return ResourceManager.GetString("ValidationTikTokMaxLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El usuario de Twitter/X solo puede contener letras, números y guiones bajos..
+        /// </summary>
+        public static string ValidationTwitterFormat {
+            get {
+                return ResourceManager.GetString("ValidationTwitterFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El usuario de Twitter/X debe tener menos de 16 caracteres..
+        /// </summary>
+        public static string ValidationTwitterMaxLength {
+            get {
+                return ResourceManager.GetString("ValidationTwitterMaxLength", resourceCulture);
             }
         }
         

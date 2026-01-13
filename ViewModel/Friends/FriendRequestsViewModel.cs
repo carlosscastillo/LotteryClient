@@ -31,6 +31,7 @@ namespace Lottery.ViewModel.Friends
                 { "FRIEND_INVALID", Lang.FriendRequestsExceptionFriendInvalid },
                 { "FRIEND_DUPLICATE", Lang.FriendRequestsExceptionFriendDuplicate },
                 { "USER_OFFLINE", Lang.FriendRequestsExceptionUserOffline },
+                { "DB_ERROR", Lang.GlobalExceptionConnectionDatabaseMessage },
                 { "FR-500", Lang.FriendRequestsExceptionFR500 }
             };
 

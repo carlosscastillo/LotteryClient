@@ -5,20 +5,20 @@ using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace Lottery.View.Game
-{
-    /// <summary>
-    /// Lógica de interacción para GameView.xaml
-    /// </summary>
+{    
     public partial class GameView : Window
     {
-        public GameView(ObservableCollection<UserDto> players, GameSettingsDto settings)
+        public GameView()
         {
             InitializeComponent();
         }
 
-        public GameView()
-        {
-            InitializeComponent();
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {            
+            if (DataContext is GameViewModel vm)
+            {
+                vm.OnWindowLoaded();
+            }
         }
     }
 }

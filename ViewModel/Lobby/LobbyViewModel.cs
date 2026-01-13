@@ -150,14 +150,18 @@ namespace Lottery.ViewModel.Lobby
             _lobbyWindow.Dispatcher.Invoke(() =>
             {
                 _playersSelectedBoard.Clear();
-                Players.Clear();
+
                 foreach (var p in lobby.Players)
-                {
-                    Players.Add(p);
+                {                   
+                    if (!Players.Any(x => x.UserId == p.UserId))
+                        Players.Add(p);
+
                     _playersSelectedBoard[p.UserId] = p.SelectedBoardId;
+
                     if (p.UserId == _currentUserId)
                         SelectedBoardId = p.SelectedBoardId;
                 }
+
                 UpdateOccupancyInSelectionWindow();
             });
         }
@@ -209,12 +213,15 @@ namespace Lottery.ViewModel.Lobby
         }
 
         private void HandleGameStarted(GameSettingsDto settings)
-        {
+        {            
             _lobbyWindow.Dispatcher.Invoke(() =>
             {
                 UnsubscribeFromEvents();
-                var gameView = new GameView(Players, settings);
-                gameView.DataContext = new GameViewModel(Players, settings, SelectedToken, SelectedBoardId, gameView, _lobbyWindow);
+
+                var gameView = new GameView();
+                var vm = new GameViewModel(Players, settings, SelectedToken, SelectedBoardId, gameView, _lobbyWindow);
+                gameView.DataContext = vm;
+
                 gameView.Show();
                 _lobbyWindow.Hide();
             });
@@ -274,22 +281,31 @@ namespace Lottery.ViewModel.Lobby
                 .Select(p => p.Value)
                 .Distinct()
                 .ToList();
+
             var view = new SelectBoardView();
             var vm = new SelectBoardViewModel(SelectedBoardId, occupied);
             _currentBoardSelectionVM = vm;
+
             vm.OnBoardSelected = async boardId =>
             {
                 SelectedBoardId = boardId;
+
                 await ExecuteRequest(async () =>
                 {
-                    await ServiceProxy.Instance.Client.ChooseBoardAsync(new UserDto { UserId = _currentUserId }, boardId);
+                    await ServiceProxy.Instance.Client.ChooseBoardAsync(
+                        new UserDto { UserId = _currentUserId },
+                        boardId
+                    );
                 }, _errorMap);
+                
                 view.DialogResult = true;
                 view.Close();
             };
+
             view.Closed += (_, __) => _currentBoardSelectionVM = null;
             view.DataContext = vm;
             view.Owner = Application.Current.MainWindow;
+            
             view.ShowDialog();
         }
 

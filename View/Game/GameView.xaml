@@ -4,13 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:Lottery.ViewModel.Game"
+        xmlns:converters="clr-namespace:Lottery.Converters"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=vm:GameViewModel, IsDesignTimeCreatable=False}"
         Title="Partida en curso"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
-        WindowState="Maximized">
+        WindowState="Maximized"
+        Loaded="Window_Loaded">
+
+    <Window.Resources>
+        <converters:IdToImageConverter x:Key="IdToImageConverter"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </Window.Resources>
 
     <Window.Background>
         <ImageBrush ImageSource="pack://application:,,,/Images/background2.jpg"
@@ -30,39 +37,31 @@
                     Margin="10,0,0,0"
                     Width="390">
 
-            <ItemsControl>
-                <ItemsControl.ItemsSource>
-                    <x:Array Type="{x:Type sys:Int32}">
-                        <sys:Int32>1</sys:Int32>
-                        <sys:Int32>2</sys:Int32>
-                        <sys:Int32>3</sys:Int32>
-                    </x:Array>
-                </ItemsControl.ItemsSource>
-
+            <ItemsControl ItemsSource="{Binding OtherPlayers}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Margin="0,5,0,1"
-                                    Orientation="Horizontal">
-                            <Border Width="114" Height="180"
-                                    BorderBrush="Transparent"
-                                    BorderThickness="0"
-                                    CornerRadius="0"
-                                    Background="Transparent"
-                                    Margin="0,0,10,0">
-                                <Image Source="pack://application:,,,/Images/tabla.jpg"
-                                       Stretch="Uniform"/>
-                            </Border>
+                        <StackPanel Margin="0,5,0,15" Orientation="Vertical">
+                            <TextBlock Text="{Binding Name}" 
+                           Foreground="White" FontWeight="Bold" FontSize="16"
+                           HorizontalAlignment="Center"/>
 
-                            <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Jugador"
-                                           Foreground="White"
-                                           FontWeight="Bold"
-                                           FontSize="16"/>
-                                <TextBlock Text="Fichas restantes: 5"
-                                           Foreground="#DDDDDD"
-                                           FontSize="13"
-                                           Margin="0,5,0,0"/>
-                            </StackPanel>
+                            <ItemsControl ItemsSource="{Binding CardIds}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Rows="4" Columns="4" Width="120" Height="160"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding Converter={StaticResource IdToImageConverter}}" 
+                                   Stretch="Fill" Margin="1"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <TextBlock Text="{Binding TokensLeft, StringFormat='Fichas: {0}'}"
+                           Foreground="#DDDDDD" FontSize="13" 
+                           HorizontalAlignment="Center" Margin="0,5,0,0"/>
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -71,7 +70,7 @@
             <Border BorderBrush="Transparent"
                     BorderThickness="2"
                     CornerRadius="10"
-                    Margin="0,40,0,0"                    
+                    Margin="0,40,0,0"                     
                     Padding="10"
                     HorizontalAlignment="Center">
                 <Image Source="{Binding TokenPileImagePath}"
@@ -80,7 +79,7 @@
                        Stretch="Uniform"/>
             </Border>
         </StackPanel>
-        
+
         <Grid Grid.Column="1"
             VerticalAlignment="Center"
             HorizontalAlignment="Center">
@@ -220,6 +219,6 @@
                 </TextBlock.Effect>
             </TextBlock>
         </Border>
-        
+
     </Grid>
 </Window>

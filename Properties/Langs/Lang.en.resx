@@ -1207,5 +1207,10 @@ Do you want to join?</value>
   </data>
   <data name="SettingsLanguage" xml:space="preserve">
     <value>Language</value>
+  <data name="GlobalExceptionConnectionLostMessage" xml:space="preserve">
+    <value>The connection to the server has been lost.</value>
+  </data>
+  <data name="GlobalExceptionConnectionDatabaseMessage" xml:space="preserve">
+    <value>There is no connection to the database.</value>
   </data>
 </root>

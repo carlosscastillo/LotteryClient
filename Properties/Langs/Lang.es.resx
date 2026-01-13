@@ -1209,5 +1209,10 @@
   </data>
   <data name="SettingsLanguage" xml:space="preserve">
     <value>Idioma</value>
+  <data name="GlobalExceptionConnectionLostMessage" xml:space="preserve">
+    <value>Se ha perdido la conexión con el servidor.</value>
+  </data>
+  <data name="GlobalExceptionConnectionDatabaseMessage" xml:space="preserve">
+    <value>No hay conexión con la base de datos.</value>
   </data>
 </root>

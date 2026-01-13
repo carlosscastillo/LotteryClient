@@ -2,6 +2,7 @@
 using Lottery.Helpers;
 using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
+using Lottery.View.User;
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;
@@ -12,15 +13,124 @@ namespace Lottery.ViewModel.Base
 {
     public abstract class BaseViewModel : ObservableObject
     {
+        private static bool _isHandlingDisconnection = false;
+
+        public BaseViewModel()
+        {
+            ServiceProxy.Instance.ConnectionLost -= HandleConnectionLost;
+            ServiceProxy.Instance.ConnectionLost += HandleConnectionLost;
+        }
+
+        private void HandleConnectionLost()
+        {
+            HandleConnectionError();
+        }
+
+        private void HandleConnectionError()
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (_isHandlingDisconnection)
+                {
+                    return;
+                }
+
+                _isHandlingDisconnection = true;
+
+                try
+                {
+                    CustomMessageBox.Show(
+                        Lang.GlobalExceptionConnectionLostMessage,
+                        Lang.GlobalMessageBoxTitleError,
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+
+                    try
+                    {
+                        ServiceProxy.Instance.CloseSafe();
+                    }
+                    catch { }
+
+                    NavigateToLoginOrExit();
+                }
+                finally
+                {
+                    ResetDisconnectionFlagAsync();
+                }
+            });
+        }
+
+        private async void ResetDisconnectionFlagAsync()
+        {
+            await Task.Delay(2000);
+            _isHandlingDisconnection = false;
+        }
+
+        private void NavigateToLoginOrExit()
+        {
+            var currentWindow = Application.Current.MainWindow;
+
+            if (currentWindow != null && currentWindow.GetType().Name == "LoginView")
+            {
+                return;
+            }
+
+            LoginView loginScreen = new LoginView();
+
+            loginScreen.Show();
+
+            var windowsToClose = new List<Window>();
+            foreach (Window win in Application.Current.Windows)
+            {
+                if (win != loginScreen)
+                {
+                    windowsToClose.Add(win);
+                }
+            }
+
+            foreach (var win in windowsToClose)
+            {
+                win.Close();
+            }
+
+            Application.Current.MainWindow = loginScreen;
+        }
+
         protected async Task ExecuteRequest(Func<Task> action, Dictionary<string, string> errorMap = null)
         {
             try
             {
+                var client = ServiceProxy.Instance.Client as ICommunicationObject;
+
+                if (client == null ||
+                    client.State == CommunicationState.Faulted ||
+                    client.State == CommunicationState.Closed)
+                {
+                    HandleConnectionError();
+                    return;
+                }
+
                 await action();
             }
             catch (FaultException<ServiceFault> ex)
             {
                 HandleServiceFault(ex, errorMap);
+            }
+            catch (CommunicationObjectAbortedException)
+            {
+                HandleConnectionError();
+            }
+            catch (CommunicationObjectFaultedException)
+            {
+                HandleConnectionError();
+            }
+            catch (CommunicationException)
+            {
+                HandleConnectionError();
+            }
+            catch (TimeoutException)
+            {
+                HandleConnectionError();
             }
             catch (Exception ex)
             {
@@ -31,19 +141,32 @@ namespace Lottery.ViewModel.Base
         private void HandleServiceFault(FaultException<ServiceFault> fault, Dictionary<string, string> errorMap)
         {
             string message;
+            if (fault.Detail == null)
+            {
+                ShowError(Lang.GlobalExceptionInternalServerError);
+                return;
+            }
+
             string errorCode = fault.Detail.ErrorCode;
             MessageBoxImage icon = MessageBoxImage.Warning;
 
-            if (errorMap != null && errorMap.TryGetValue(errorCode, out var customMessage))
+            if (errorMap != null && errorMap.ContainsKey(errorCode))
             {
-                message = customMessage;
+                message = errorMap[errorCode];
             }
             else
             {
-                message = string.Format(Lang.GlobalExceptionServerError, errorCode, fault.Detail.Message);
+                if (!string.IsNullOrEmpty(fault.Detail.Message))
+                {
+                    message = fault.Detail.Message;
+                }
+                else
+                {
+                    message = string.Format(Lang.GlobalExceptionServerError, errorCode, "Error desconocido");
+                }
             }
 
-            if (errorCode == "USER_OFFLINE" || errorCode == "SERVER_ERROR")
+            if (errorCode == "USER_OFFLINE" || errorCode == "SERVER_ERROR" || errorCode == "DB_ERROR")
             {
                 icon = MessageBoxImage.Error;
             }

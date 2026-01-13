@@ -12,7 +12,6 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
-        Topmost="True"
         MouseLeftButtonDown="Window_MouseLeftButtonDown">
 
     <Window.Resources>

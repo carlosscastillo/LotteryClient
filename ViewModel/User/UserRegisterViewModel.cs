@@ -181,7 +181,7 @@ namespace Lottery.ViewModel.User
 
             IsRegistering = true;
 
-            try
+            await ExecuteRequest(async () =>
             {
                 _pendingUser = newUser;
                 int result = await ServiceProxy.Instance.Client.RequestUserVerificationAsync(_pendingUser);
@@ -195,27 +195,9 @@ namespace Lottery.ViewModel.User
                 {
                     ShowError(Lang.RegisterGenericError);
                 }
-            }
-            catch (EndpointNotFoundException)
-            {
-                ShowError(Lang.FriendRequestsExceptionFR500, Lang.SelectBoardTitleError, MessageBoxImage.Error);
-            }
-            catch (TimeoutException)
-            {
-                ShowError(Lang.RegisterServerTimeout, Lang.SelectBoardTitleError, MessageBoxImage.Warning);
-            }
-            catch (CommunicationException)
-            {
-                ShowError(Lang.FriendRequestsExceptionFR500, Lang.SelectBoardTitleError, MessageBoxImage.Error);                               
-            }
-            catch (Exception ex)
-            {
-                ShowError(string.Format(Lang.GlobalMessageBoxUnexpectedError, ex.Message), Lang.SelectBoardTitleError, MessageBoxImage.Error);
-            }
-            finally
-            {
-                IsRegistering = false;
-            }
+            }, _errorMap);
+
+            IsRegistering = false;
         }
 
         private async Task VerifyCode()

@@ -1,4 +1,5 @@
 ﻿using Lottery.LotteryServiceReference;
+using System;
 using System.ServiceModel;
 
 namespace Lottery
@@ -11,6 +12,8 @@ namespace Lottery
         public ILotteryService Client { get; private set; }
         private ClientCallbackHandler _callbackHandler;
 
+        public event Action ConnectionLost;
+
         private ServiceProxy()
         {
             CreateClient();
@@ -20,7 +23,15 @@ namespace Lottery
         {
             _callbackHandler = new ClientCallbackHandler();
             var context = new InstanceContext(_callbackHandler);
-            Client = new LotteryServiceClient(context);
+
+            var client = new LotteryServiceClient(context);
+            Client = client;
+
+            if (Client is ICommunicationObject channel)
+            {
+                channel.Faulted += OnConnectionLost;
+                channel.Closed += OnConnectionLost;
+            }
         }
 
         public void Reconnect()
@@ -56,6 +67,14 @@ namespace Lottery
             catch
             {
                 channel.Abort();
+            }
+        }
+
+        private void OnConnectionLost(object sender, EventArgs e)
+        {
+            if (Client != null)
+            {
+                ConnectionLost?.Invoke();
             }
         }
     }

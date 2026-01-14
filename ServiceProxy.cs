@@ -20,6 +20,11 @@ namespace Lottery
         private DispatcherTimer _offlineTimeoutTimer;
         public bool IsOfflineMode { get; private set; } = false;
 
+        public bool IsDuplexDead =>
+                    _client is ICommunicationObject ch &&
+                    (ch.State == CommunicationState.Faulted ||
+                     ch.State == CommunicationState.Closed);
+
         public ILotteryService Client
         {
             get
@@ -52,11 +57,13 @@ namespace Lottery
             _offlineTimeoutTimer.Interval = TimeSpan.FromMinutes(1);
             _offlineTimeoutTimer.Tick += (s, e) =>
             {
-                StopOfflineMode();
-                _pendingActions.Clear();
-
-                ConnectionLost?.Invoke();
+                _reconnectTimer.Stop();
             };
+        }
+
+        private bool IsNetworkAvailable()
+        {
+            return System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable();
         }
 
         private void CreateClient()
@@ -88,13 +95,27 @@ namespace Lottery
 
         private async Task TryFlushQueueAsync()
         {
-            if (_pendingActions.Count == 0) return;
+            if (IsDuplexDead)
+            {
+                ReconnectAndRejoin();
+                return;
+            }
+
+            if (_pendingActions.Count == 0)
+            {
+                return;
+            }
+
+            if (!IsNetworkAvailable())
+            {
+                return;
+            }
 
             try
             {
                 var action = _pendingActions.Peek();
 
-                var forceCheck = Client;
+                var clientCheck = Client;
 
                 await action();
 
@@ -106,6 +127,25 @@ namespace Lottery
                 }
             }
             catch (Exception)
+            {
+                var channel = _client as ICommunicationObject;
+                channel?.Abort();
+                _client = null;
+            }
+        }
+
+        public async void ReconnectAndRejoin()
+        {
+            try
+            {
+                CloseSafe();
+                CreateClient();
+
+                await Client.ReconnectAsync(SessionManager.CurrentUser.UserId);
+
+                StopOfflineMode();
+            }
+            catch
             {
             }
         }
@@ -126,7 +166,6 @@ namespace Lottery
         public void CloseSafe()
         {
             StopOfflineMode();
-            _pendingActions.Clear();
 
             if (_client == null)
             {

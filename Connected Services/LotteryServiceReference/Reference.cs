@@ -22,6 +22,12 @@ namespace Lottery.LotteryServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatService/SendMessage", ReplyAction="http://tempuri.org/IChatService/SendMessageResponse")]
         System.Threading.Tasks.Task SendMessageAsync(string message);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatService/Reconnect", ReplyAction="http://tempuri.org/IChatService/ReconnectResponse")]
+        void Reconnect(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatService/Reconnect", ReplyAction="http://tempuri.org/IChatService/ReconnectResponse")]
+        System.Threading.Tasks.Task ReconnectAsync(int userId);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendService/SendRequestFriendship", ReplyAction="http://tempuri.org/IFriendService/SendRequestFriendshipResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Contracts.Faults.ServiceFault), Action="http://tempuri.org/IFriendService/SendRequestFriendshipServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         void SendRequestFriendship(int currentUserId, int targetUserId);
@@ -299,53 +305,53 @@ namespace Lottery.LotteryServiceReference {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface ILotteryServiceCallback {
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/ReceiveChatMessage")]
-        void ReceiveChatMessage(string nickname, string message);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/NotifyCard")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/NotifyCard")]
         void NotifyCard(int cardId);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/NotifyWinner")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/NotifyWinner")]
         void NotifyWinner(string nickname, int winnerId, int winnerBoardId, int[] markedPositions);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/PlayerJoined")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/PlayerJoined")]
         void PlayerJoined(Contracts.DTOs.UserDto newPlayer);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/PlayerLeft")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/PlayerLeft")]
         void PlayerLeft(int playerId);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/PlayerKicked")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/PlayerKicked")]
         void PlayerKicked(int playerId);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/YouWereKicked")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/YouWereKicked")]
         void YouWereKicked();
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/LobbyClosed")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/LobbyClosed")]
         void LobbyClosed();
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/ReceiveLobbyInvite")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/ReceiveLobbyInvite")]
         void ReceiveLobbyInvite(string inviterNickname, string lobbyCode);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/BoardSelected")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/BoardSelected")]
         void BoardSelected(int userId, int boardId);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/OnGameStarted")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/OnGameStarted")]
         void OnGameStarted(Contracts.DTOs.GameSettingsDto settings);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/OnCardDrawn")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/OnCardDrawn")]
         void OnCardDrawn(Contracts.DTOs.CardDto card);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/OnGameFinished")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/OnGameFinished")]
         void OnGameFinished();
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/LobbyStateUpdated")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/LobbyStateUpdated")]
         void LobbyStateUpdated(Contracts.DTOs.LobbyStateDto lobbyState);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/OnGameResumed")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/OnGameResumed")]
         void OnGameResumed();
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/OnFalseLoteriaResult")]
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/OnFalseLoteriaResult")]
         void OnFalseLoteriaResult(string declarerNickname, string challengerNickname, bool wasCorrect);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/ReceiveChatMessage")]
+        void ReceiveChatMessage(string nickname, string message);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -382,6 +388,14 @@ namespace Lottery.LotteryServiceReference {
         
         public System.Threading.Tasks.Task SendMessageAsync(string message) {
             return base.Channel.SendMessageAsync(message);
+        }
+        
+        public void Reconnect(int userId) {
+            base.Channel.Reconnect(userId);
+        }
+        
+        public System.Threading.Tasks.Task ReconnectAsync(int userId) {
+            return base.Channel.ReconnectAsync(userId);
         }
         
         public void SendRequestFriendship(int currentUserId, int targetUserId) {

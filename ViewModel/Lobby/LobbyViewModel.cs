@@ -448,10 +448,18 @@ namespace Lottery.ViewModel.Lobby
 
         private async Task SendChat()
         {
+            string messageToSend = ChatMessage;
+            ChatMessage = string.Empty;
+
+            if (ServiceProxy.Instance.IsOfflineMode)
+            {
+                ChatHistory.Add($"Yo (offline): {messageToSend}");
+                ScrollChatToEnd();
+            }
+
             await ExecuteRequest(async () =>
             {
-                await ServiceProxy.Instance.Client.SendMessageAsync(ChatMessage);
-                ChatMessage = string.Empty;
+                await ServiceProxy.Instance.Client.SendMessageAsync(messageToSend);
             }, _errorMap);
         }
 

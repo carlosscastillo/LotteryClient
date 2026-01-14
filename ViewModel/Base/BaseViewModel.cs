@@ -24,7 +24,10 @@ namespace Lottery.ViewModel.Base
 
         private void HandleConnectionLost()
         {
-            HandleConnectionError();
+            if (!ServiceProxy.Instance.IsOfflineMode)
+            {
+                HandleConnectionError();
+            }
         }
 
         private void HandleConnectionError()
@@ -97,9 +100,24 @@ namespace Lottery.ViewModel.Base
 
         protected async Task ExecuteRequest(Func<Task> action, Dictionary<string, string> errorMap = null)
         {
+            if (ServiceProxy.Instance.IsOfflineMode)
+            {
+                ServiceProxy.Instance.EnqueueAction(action);
+                return;
+            }
+
             try
             {
-                var client = ServiceProxy.Instance.Client as ICommunicationObject;
+                var client = ServiceProxy.Instance.Client;
+                var channel = client as ICommunicationObject;
+
+                if (channel == null ||
+                    channel.State == CommunicationState.Faulted ||
+                    channel.State == CommunicationState.Closed)
+                {
+                    ServiceProxy.Instance.EnqueueAction(action);
+                    return;
+                }
 
                 await action();
             }
@@ -111,23 +129,19 @@ namespace Lottery.ViewModel.Base
                     return;
                 }
 
-                if (ex is CommunicationException || ex is TimeoutException || ex is EndpointNotFoundException)
+                if (ex is CommunicationException ||
+                    ex is TimeoutException ||
+                    ex is EndpointNotFoundException ||
+                    ex is ObjectDisposedException)
                 {
-                    bool isUserLoggedIn = Application.Current.Windows.OfType<Window>().Any(w => w.GetType().Name != "LoginView");
+                    ServiceProxy.Instance.EnqueueAction(action);
 
-                    if (isUserLoggedIn)
-                    {
-                        ServiceProxy.Instance.EnqueueAction(action);
-                        return;
-                    }
-                    else
-                    {
-                        HandleConnectionError();
-                        return;
-                    }
+                    return;
                 }
 
-                ShowError(string.Format(Lang.GlobalMessageBoxUnexpectedError, ex.Message), Lang.GlobalMessageBoxTitleError);
+                ShowError(
+                    string.Format(Lang.GlobalMessageBoxUnexpectedError, ex.Message),
+                    Lang.GlobalMessageBoxTitleError);
             }
         }
 

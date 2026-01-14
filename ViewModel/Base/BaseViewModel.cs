@@ -102,9 +102,13 @@ namespace Lottery.ViewModel.Base
             {
                 var client = ServiceProxy.Instance.Client as ICommunicationObject;
 
-                if (client == null ||
-                    client.State == CommunicationState.Faulted ||
-                    client.State == CommunicationState.Closed)
+                if (client == null)
+                {
+                    HandleConnectionError();
+                    return;
+                }
+                
+                if (client.State == CommunicationState.Closed)
                 {
                     HandleConnectionError();
                     return;
@@ -113,7 +117,12 @@ namespace Lottery.ViewModel.Base
                 await action();
             }
             catch (FaultException<ServiceFault> ex)
-            {
+            {                
+                if (ex.Detail?.ErrorCode == "DB_ERROR")
+                {
+                    HandleServiceFault(ex, errorMap);
+                    return;
+                }                
                 HandleServiceFault(ex, errorMap);
             }
             catch (CommunicationObjectAbortedException)

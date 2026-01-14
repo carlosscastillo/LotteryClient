@@ -1285,6 +1285,7 @@
   </data>
   <data name="GameMsgLeftAlone" xml:space="preserve">
     <value>La partida terminó porque los demás jugadores abandonaron.</value>
+  </data>
   <data name="MainMenuExceptionUserBannedOffensive" xml:space="preserve">
     <value>No puedes unirte a este lobby porque has dicho palabras altisonantes.</value>
   </data>

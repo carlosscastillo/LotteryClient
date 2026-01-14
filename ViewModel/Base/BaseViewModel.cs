@@ -105,6 +105,12 @@ namespace Lottery.ViewModel.Base
             }
             catch (Exception ex)
             {
+                if (ex is FaultException<ServiceFault> faultEx)
+                {
+                    HandleServiceFault(faultEx, errorMap);
+                    return;
+                }
+
                 if (ex is CommunicationException || ex is TimeoutException || ex is EndpointNotFoundException)
                 {
                     bool isUserLoggedIn = Application.Current.Windows.OfType<Window>().Any(w => w.GetType().Name != "LoginView");
@@ -119,12 +125,6 @@ namespace Lottery.ViewModel.Base
                         HandleConnectionError();
                         return;
                     }
-                }
-
-                if (ex is FaultException<ServiceFault> faultEx)
-                {
-                    HandleServiceFault(faultEx, errorMap);
-                    return;
                 }
 
                 ShowError(string.Format(Lang.GlobalMessageBoxUnexpectedError, ex.Message), Lang.GlobalMessageBoxTitleError);

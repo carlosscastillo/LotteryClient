@@ -1,4 +1,5 @@
 ﻿using Contracts.DTOs;
+using Lottery.Helpers;
 using Lottery.Properties.Langs;
 using Lottery.View.Friends;
 using Lottery.View.Game;
@@ -154,6 +155,8 @@ namespace Lottery.ViewModel.Lobby
             ClientCallbackHandler.LobbyClosedReceived += OnLobbyClosed;
             ClientCallbackHandler.GameStartedReceived += HandleGameStarted;
             ClientCallbackHandler.LobbyStateUpdatedReceived += OnLobbyStateUpdated;
+            ClientCallbackHandler.PlayerKickedReceived += OnPlayerKicked;
+            ClientCallbackHandler.PlayerLeftReceived += OnPlayerLeft;
 
             _eventsSubscribed = true;
         }
@@ -165,10 +168,43 @@ namespace Lottery.ViewModel.Lobby
             ClientCallbackHandler.LobbyClosedReceived -= OnLobbyClosed;
             ClientCallbackHandler.GameStartedReceived -= HandleGameStarted;
             ClientCallbackHandler.LobbyStateUpdatedReceived -= OnLobbyStateUpdated;
+            ClientCallbackHandler.PlayerKickedReceived -= OnPlayerKicked;
+            ClientCallbackHandler.PlayerLeftReceived -= OnPlayerLeft;
 
             _eventsSubscribed = false;
         }
 
+        private void OnPlayerKicked(int playerId)
+        {
+            _lobbyWindow.Dispatcher.Invoke(() =>
+            {
+                RemovePlayerFromList(playerId);
+                var player = Players.FirstOrDefault(p => p.UserId == playerId);
+            });
+        }
+
+        private void OnPlayerLeft(int playerId)
+        {
+            _lobbyWindow.Dispatcher.Invoke(() =>
+            {
+                RemovePlayerFromList(playerId);
+            });
+        }
+
+        private void RemovePlayerFromList(int playerId)
+        {
+            var playerToRemove = Players.FirstOrDefault(p => p.UserId == playerId);
+            if (playerToRemove != null)
+            {
+                Players.Remove(playerToRemove);
+            }
+
+            if (_playersSelectedBoard.ContainsKey(playerId))
+            {
+                _playersSelectedBoard.Remove(playerId);
+                UpdateOccupancyInSelectionWindow();
+            }
+        }
 
         private void OnLobbyStateUpdated(LobbyStateDto lobby)
         {
@@ -245,6 +281,12 @@ namespace Lottery.ViewModel.Lobby
             _lobbyWindow.Dispatcher.Invoke(() =>
             {
                 UnsubscribeFromEvents();
+
+                CustomMessageBox.Show(Lang.LobbyMessageYouKicked, Lang.LobbyTitleKicked,
+                MessageBoxButton.OK,
+                MessageBoxImage.Information,
+                _lobbyWindow);
+
                 NavigateToMainMenu();
             });
         }
@@ -315,9 +357,43 @@ namespace Lottery.ViewModel.Lobby
 
         private async Task KickPlayer(int id)
         {
+            var playerToKick = Players.FirstOrDefault(p => p.UserId == id);
+            if (playerToKick == null)
+            {
+                return;
+            }
+
+            var result = CustomMessageBox.Show(
+            string.Format(Lang.LobbyKickConfirmationMessage, playerToKick.Nickname), 
+            Lang.GlobalMessageBoxTitleConfirm,
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Warning,
+            _lobbyWindow);
+
+            if (result != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
             await ExecuteRequest(async () =>
             {
                 await ServiceProxy.Instance.Client.KickPlayerAsync(id);
+
+                _lobbyWindow.Dispatcher.Invoke(() =>
+                {
+                    var playerToRemove = Players.FirstOrDefault(p => p.UserId == id);
+                    if (playerToRemove != null)
+                    {
+                        Players.Remove(playerToRemove);
+                    }
+
+                    if (_playersSelectedBoard.ContainsKey(id))
+                    {
+                        _playersSelectedBoard.Remove(id);
+                        UpdateOccupancyInSelectionWindow();
+                    }
+                });
+
             }, _errorMap);
         }
 

@@ -1249,4 +1249,10 @@
   <data name="GameStatusResumed" xml:space="preserve">
     <value>¡El juego continúa!</value>
   </data>
+  <data name="MainMenuExceptionUserBannedOffensive" xml:space="preserve">
+    <value>No puedes unirte a este lobby porque has dicho palabras altisonantes.</value>
+  </data>
+  <data name="MainMenuExceptionUserBannedSpam" xml:space="preserve">
+    <value>No puedes unirte a este lobby porque has hecho spam.</value>
+  </data>
 </root>

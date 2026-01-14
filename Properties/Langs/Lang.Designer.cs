@@ -2806,6 +2806,24 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a No puedes unirte a este lobby porque has dicho palabras altisonantes..
+        /// </summary>
+        public static string MainMenuExceptionUserBannedOffensive {
+            get {
+                return ResourceManager.GetString("MainMenuExceptionUserBannedOffensive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No puedes unirte a este lobby porque has hecho spam..
+        /// </summary>
+        public static string MainMenuExceptionUserBannedSpam {
+            get {
+                return ResourceManager.GetString("MainMenuExceptionUserBannedSpam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Los invitados no tienen lista de amigos..
         /// </summary>
         public static string MainMenuGuestFriends {

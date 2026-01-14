@@ -1247,4 +1247,10 @@ Do you want to join?</value>
   <data name="GameStatusResumed" xml:space="preserve">
     <value>The game continues!</value>
   </data>
+  <data name="MainMenuExceptionUserBannedOffensive" xml:space="preserve">
+    <value>You cannot join this lobby because you have used offensive language.</value>
+  </data>
+  <data name="MainMenuExceptionUserBannedSpam" xml:space="preserve">
+    <value>You cannot join this lobby because you have spammed.</value>
+  </data>
 </root>

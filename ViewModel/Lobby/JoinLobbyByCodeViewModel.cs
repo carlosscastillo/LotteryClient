@@ -1,9 +1,11 @@
 ﻿using Contracts.DTOs;
+using Contracts.Faults;
 using Lottery.Helpers;
 using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
 using Lottery.ViewModel.Base;
 using System.Collections.Generic;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -60,14 +62,50 @@ namespace Lottery.ViewModel.Lobby
             {
                 await ExecuteRequest(async () =>
                 {
-                    var lobbyState = await ServiceProxy.Instance.Client.JoinLobbyAsync(SessionManager.CurrentUser, LobbyCode);
-
-                    ResultLobbyState = lobbyState;
-
-                    if (window != null)
+                    try
                     {
-                        window.DialogResult = true;
-                        window.Close();
+                        var lobbyState = await ServiceProxy.Instance.Client.JoinLobbyAsync(SessionManager.CurrentUser, LobbyCode);
+
+                        ResultLobbyState = lobbyState;
+
+                        if (window != null)
+                        {
+                            window.Dispatcher.Invoke(() =>
+                            {
+                                window.DialogResult = true;
+                                window.Close();
+                            });
+                        }
+                    }
+                    catch (FaultException<ServiceFault> ex) when (ex.Detail.ErrorCode == "LOBBY_PLAYER_BANNED")
+                    {
+                        if (window != null)
+                        {
+                            window.Dispatcher.Invoke(() =>
+                            {
+                                CustomMessageBox.Show(
+                                    Lang.JoinLobbyBanned,
+                                    Lang.GlobalMessageBoxTitleInfo,
+                                    MessageBoxButton.OK,
+                                    MessageBoxImage.Warning,
+                                    window);
+                            });
+                        }
+                    }
+                    catch (FaultException<ServiceFault> ex) when (ex.Detail.ErrorCode == "LOBBY_NOT_FOUND")
+                    {
+                        if (window != null)
+                        {
+                            window.Dispatcher.Invoke(() =>
+                            {
+                                CustomMessageBox.Show(
+                                    Lang.JoinLobbyNotFound,
+                                    Lang.GlobalMessageBoxTitleInfo,
+                                    MessageBoxButton.OK,
+                                    MessageBoxImage.Information,
+                                    window);
+                            });
+                        }
                     }
                 }, _errorMap);
             }

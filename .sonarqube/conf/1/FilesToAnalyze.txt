@@ -1,30 +1,46 @@
-﻿C:\Users\carlo\source\repos\LotteryClient\App.xaml
-C:\Users\carlo\source\repos\LotteryClient\ClientCallbackHandler.cs
+﻿C:\Users\carlo\source\repos\LotteryClient\ClientCallbackHandler.cs
 C:\Users\carlo\source\repos\LotteryClient\Converters\BoolToColorConverter.cs
 C:\Users\carlo\source\repos\LotteryClient\Converters\BoolToSelectionOverlayConverter.cs
 C:\Users\carlo\source\repos\LotteryClient\Converters\BoolToVisibilityConverter .cs
+C:\Users\carlo\source\repos\LotteryClient\Converters\EyeIconConverter.cs
+C:\Users\carlo\source\repos\LotteryClient\Converters\IdToImageConverter.cs
 C:\Users\carlo\source\repos\LotteryClient\Converters\InverseBoolToVisibilityConverter .cs
+C:\Users\carlo\source\repos\LotteryClient\Converters\TokenToImageConverter.cs
+C:\Users\carlo\source\repos\LotteryClient\Helpers\CodeValidator.cs
+C:\Users\carlo\source\repos\LotteryClient\Helpers\CustomMessageBox.cs
+C:\Users\carlo\source\repos\LotteryClient\Helpers\SocialMediaValidator.cs
+C:\Users\carlo\source\repos\LotteryClient\Helpers\UserValidator.cs
 C:\Users\carlo\source\repos\LotteryClient\Helpers\PasswordBoxHelper.cs
+C:\Users\carlo\source\repos\LotteryClient\ServiceProxy.cs
 C:\Users\carlo\source\repos\LotteryClient\SessionManager.cs
+C:\Users\carlo\source\repos\LotteryClient\ViewModel\Base\BaseViewModel.cs
 C:\Users\carlo\source\repos\LotteryClient\ViewModel\Base\ObservableObject.cs
 C:\Users\carlo\source\repos\LotteryClient\ViewModel\Base\RelayCommand.cs
 C:\Users\carlo\source\repos\LotteryClient\ViewModel\Game\GameViewModel.cs
+C:\Users\carlo\source\repos\LotteryClient\ViewModel\Game\WinnerViewModel.cs
+C:\Users\carlo\source\repos\LotteryClient\ViewModel\Lobby\SelectBoardViewModel.cs
+C:\Users\carlo\source\repos\LotteryClient\ViewModel\Lobby\SelectTokenViewModel.cs
+C:\Users\carlo\source\repos\LotteryClient\ViewModel\MainMenu\LeaderboardViewModel.cs
 C:\Users\carlo\source\repos\LotteryClient\ViewModel\User\CustomizeProfileViewModel.cs
 C:\Users\carlo\source\repos\LotteryClient\ViewModel\Friends\FriendRequestsViewModel.cs
 C:\Users\carlo\source\repos\LotteryClient\ViewModel\Friends\InviteFriendsViewModel.cs
 C:\Users\carlo\source\repos\LotteryClient\ViewModel\Lobby\JoinLobbyByCodeViewModel.cs
-C:\Users\carlo\source\repos\LotteryClient\ViewModel\Lobby\JoinLobbyViewModel.cs
 C:\Users\carlo\source\repos\LotteryClient\ViewModel\Lobby\LobbyViewModel.cs
+C:\Users\carlo\source\repos\LotteryClient\ViewModel\User\GuestLoginViewModel.cs
 C:\Users\carlo\source\repos\LotteryClient\ViewModel\User\LoginViewModel.cs
 C:\Users\carlo\source\repos\LotteryClient\ViewModel\MainMenu\MainMenuViewModel.cs
+C:\Users\carlo\source\repos\LotteryClient\ViewModel\User\RecoverPasswordViewModel.cs
 C:\Users\carlo\source\repos\LotteryClient\ViewModel\User\UserRegisterViewModel.cs
+C:\Users\carlo\source\repos\LotteryClient\View\Components\CustomMessageBoxView.xaml.cs
 C:\Users\carlo\source\repos\LotteryClient\View\Game\GameView.xaml.cs
 C:\Users\carlo\source\repos\LotteryClient\View\Game\WinnerView.xaml.cs
+C:\Users\carlo\source\repos\LotteryClient\View\Lobby\SelectBoardView.xaml.cs
+C:\Users\carlo\source\repos\LotteryClient\View\Lobby\SelectTokenView.xaml.cs
 C:\Users\carlo\source\repos\LotteryClient\View\User\ChangePasswordView.xaml.cs
 C:\Users\carlo\source\repos\LotteryClient\View\User\CustomizeProfileView.xaml.cs
 C:\Users\carlo\source\repos\LotteryClient\View\Friends\FriendRequestsView.xaml.cs
 C:\Users\carlo\source\repos\LotteryClient\View\Friends\InviteFriendsView.xaml.cs
-C:\Users\carlo\source\repos\LotteryClient\View\User\GuestRegisterView.xaml.cs
+C:\Users\carlo\source\repos\LotteryClient\View\User\GuestLoginView.xaml.cs
 C:\Users\carlo\source\repos\LotteryClient\View\Lobby\JoinLobbyByCodeView.xaml.cs
 C:\Users\carlo\source\repos\LotteryClient\View\Lobby\LobbyView.xaml.cs
 C:\Users\carlo\source\repos\LotteryClient\View\User\LoginView.xaml.cs
@@ -35,111 +51,26 @@ C:\Users\carlo\source\repos\LotteryClient\View\User\UserRegisterView.xaml.cs
 C:\Users\carlo\source\repos\LotteryClient\App.xaml.cs
 C:\Users\carlo\source\repos\LotteryClient\MainWindow.xaml.cs
 C:\Users\carlo\source\repos\LotteryClient\Properties\AssemblyInfo.cs
-C:\Users\carlo\source\repos\LotteryClient\Properties\Langs\Lang.resx
-C:\Users\carlo\source\repos\LotteryClient\Properties\Resources.resx
 C:\Users\carlo\source\repos\LotteryClient\Properties\Langs\Lang.en.resx
 C:\Users\carlo\source\repos\LotteryClient\Properties\Langs\Lang.es.resx
-C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\item.xsd
-C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\item1.xsd
-C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\item2.xsd
-C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\item3.xsd
-C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\item4.xsd
-C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\item5.xsd
-C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.FriendDto.datasource
-C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.LobbyStateDto.datasource
-C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\Lottery.LotteryServiceReference.UserDto.datasource
-C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\LotteryService.wsdl
+C:\Users\carlo\source\repos\LotteryClient\Properties\Langs\Lang.resx
+C:\Users\carlo\source\repos\LotteryClient\Properties\Resources.resx
+C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\item6.xsd
+C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\item61.xsd
+C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\item62.xsd
+C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\item63.xsd
+C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\item64.xsd
+C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\item65.xsd
+C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\LotteryService1.wsdl
+C:\Users\carlo\source\repos\LotteryClient\packages.config
+C:\Users\carlo\source\repos\LotteryClient\Properties\DataSources\Contracts.DTOs.FriendDto.datasource
+C:\Users\carlo\source\repos\LotteryClient\Properties\DataSources\Contracts.DTOs.LeaderboardPlayerDto.datasource
+C:\Users\carlo\source\repos\LotteryClient\Properties\DataSources\Contracts.DTOs.LobbyStateDto.datasource
+C:\Users\carlo\source\repos\LotteryClient\Properties\DataSources\Contracts.DTOs.SocialMediaDto.datasource
+C:\Users\carlo\source\repos\LotteryClient\Properties\DataSources\Contracts.DTOs.UserDto.datasource
 C:\Users\carlo\source\repos\LotteryClient\Properties\Settings.settings
 C:\Users\carlo\source\repos\LotteryClient\App.config
-C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\item.disco
 C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\configuration91.svcinfo
 C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\configuration.svcinfo
 C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\Reference.svcmap
-C:\Users\carlo\source\repos\LotteryClient\MainWindow.xaml
-C:\Users\carlo\source\repos\LotteryClient\View\Game\GameView.xaml
-C:\Users\carlo\source\repos\LotteryClient\View\Game\WinnerView.xaml
-C:\Users\carlo\source\repos\LotteryClient\View\User\ChangePasswordView.xaml
-C:\Users\carlo\source\repos\LotteryClient\View\User\CustomizeProfileView.xaml
-C:\Users\carlo\source\repos\LotteryClient\View\Friends\FriendRequestsView.xaml
-C:\Users\carlo\source\repos\LotteryClient\View\Friends\InviteFriendsView.xaml
-C:\Users\carlo\source\repos\LotteryClient\View\User\GuestRegisterView.xaml
-C:\Users\carlo\source\repos\LotteryClient\View\Lobby\JoinLobbyByCodeView.xaml
-C:\Users\carlo\source\repos\LotteryClient\View\Lobby\LobbyView.xaml
-C:\Users\carlo\source\repos\LotteryClient\View\User\LoginView.xaml
-C:\Users\carlo\source\repos\LotteryClient\View\MainMenu\MainMenuView.xaml
-C:\Users\carlo\source\repos\LotteryClient\View\User\RecoverPasswordView.xaml
-C:\Users\carlo\source\repos\LotteryClient\View\MainMenu\LeaderboardView.xaml
-C:\Users\carlo\source\repos\LotteryClient\View\User\UserRegisterView.xaml
-C:\Users\carlo\source\repos\LotteryClient\Images\background.jpg
-C:\Users\carlo\source\repos\LotteryClient\Images\background2.jpg
-C:\Users\carlo\source\repos\LotteryClient\Images\corcholata.png
-C:\Users\carlo\source\repos\LotteryClient\Images\tabla.jpg
-C:\Users\carlo\source\repos\LotteryClient\Images\card01.jpg
-C:\Users\carlo\source\repos\LotteryClient\Images\CartaDeLotería.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Avatar\avatar01.jpg
-C:\Users\carlo\source\repos\LotteryClient\Images\Avatar\avatar00.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Avatar\avatar02.jpg
-C:\Users\carlo\source\repos\LotteryClient\Images\Avatar\avatar03.jpg
-C:\Users\carlo\source\repos\LotteryClient\Images\Avatar\avatar04.jpeg
-C:\Users\carlo\source\repos\LotteryClient\Images\Avatar\avatar05.jpg
-C:\Users\carlo\source\repos\LotteryClient\Images\Avatar\avatar06.jpg
-C:\Users\carlo\source\repos\LotteryClient\Images\Avatar\avatar07.jpg
-C:\Users\carlo\source\repos\LotteryClient\Images\Avatar\avatar08.jpg
-C:\Users\carlo\source\repos\LotteryClient\Images\Avatar\avatar09.jpg
-C:\Users\carlo\source\repos\LotteryClient\Images\Avatar\avatar10.jpg
-C:\Users\carlo\source\repos\LotteryClient\Images\backgroundRickAndMorty.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card01.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card02.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card03.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card04.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card05.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card06.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card07.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card08.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card09.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card10.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card11.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card12.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card13.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card14.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card15.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card16.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card17.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card18.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card19.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card20.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card21.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card22.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card23.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card24.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card25.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card26.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card27.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card28.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card29.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card30.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card31.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card32.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card33.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card34.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card35.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card36.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card37.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card38.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card39.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card40.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card41.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card42.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card43.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card44.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card45.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card46.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card47.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card48.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card49.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card50.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card51.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card52.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card53.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\card54.png
-C:\Users\carlo\source\repos\LotteryClient\Images\Cards\cardReverse.png
+C:\Users\carlo\source\repos\LotteryClient\Connected Services\LotteryServiceReference\item1.disco

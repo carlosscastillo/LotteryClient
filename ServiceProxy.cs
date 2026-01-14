@@ -1,6 +1,9 @@
 ﻿using Lottery.LotteryServiceReference;
 using System;
+using System.Collections.Generic;
 using System.ServiceModel;
+using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace Lottery
 {
@@ -11,6 +14,11 @@ namespace Lottery
 
         private ILotteryService _client;
         private ClientCallbackHandler _callbackHandler;
+
+        private readonly Queue<Func<Task>> _pendingActions = new Queue<Func<Task>>();
+        private DispatcherTimer _reconnectTimer;
+        private DispatcherTimer _offlineTimeoutTimer;
+        public bool IsOfflineMode { get; private set; } = false;
 
         public ILotteryService Client
         {
@@ -31,6 +39,24 @@ namespace Lottery
         private ServiceProxy()
         {
             CreateClient();
+            InitializeTimers();
+        }
+
+        private void InitializeTimers()
+        {
+            _reconnectTimer = new DispatcherTimer();
+            _reconnectTimer.Interval = TimeSpan.FromSeconds(2);
+            _reconnectTimer.Tick += async (s, e) => await TryFlushQueueAsync();
+
+            _offlineTimeoutTimer = new DispatcherTimer();
+            _offlineTimeoutTimer.Interval = TimeSpan.FromMinutes(1);
+            _offlineTimeoutTimer.Tick += (s, e) =>
+            {
+                StopOfflineMode();
+                _pendingActions.Clear();
+
+                ConnectionLost?.Invoke();
+            };
         }
 
         private void CreateClient()
@@ -48,6 +74,49 @@ namespace Lottery
             }
         }
 
+        public void EnqueueAction(Func<Task> action)
+        {
+            _pendingActions.Enqueue(action);
+
+            if (!IsOfflineMode)
+            {
+                IsOfflineMode = true;
+                _offlineTimeoutTimer.Start();
+                _reconnectTimer.Start();
+            }
+        }
+
+        private async Task TryFlushQueueAsync()
+        {
+            if (_pendingActions.Count == 0) return;
+
+            try
+            {
+                var action = _pendingActions.Peek();
+
+                var forceCheck = Client;
+
+                await action();
+
+                _pendingActions.Dequeue();
+
+                if (_pendingActions.Count == 0)
+                {
+                    StopOfflineMode();
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void StopOfflineMode()
+        {
+            IsOfflineMode = false;
+            _offlineTimeoutTimer.Stop();
+            _reconnectTimer.Stop();
+        }
+
         public void Reconnect()
         {
             CloseSafe();
@@ -56,6 +125,9 @@ namespace Lottery
 
         public void CloseSafe()
         {
+            StopOfflineMode();
+            _pendingActions.Clear();
+
             if (_client == null)
             {
                 return;
@@ -100,7 +172,10 @@ namespace Lottery
 
         private void OnConnectionLost(object sender, EventArgs e)
         {
-            ConnectionLost?.Invoke();
+            if (!IsOfflineMode)
+            {
+                ConnectionLost?.Invoke();
+            }
         }
     }
 }

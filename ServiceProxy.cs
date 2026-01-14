@@ -23,7 +23,6 @@ namespace Lottery
         {
             _callbackHandler = new ClientCallbackHandler();
             var context = new InstanceContext(_callbackHandler);
-
             var client = new LotteryServiceClient(context);
             Client = client;
 
@@ -42,11 +41,6 @@ namespace Lottery
 
         public void CloseSafe()
         {
-            if (Client == null)
-            {
-                return;
-            }
-
             var channel = Client as ICommunicationObject;
             if (channel == null)
             {
@@ -55,27 +49,38 @@ namespace Lottery
 
             try
             {
-                if (channel.State == CommunicationState.Faulted)
+                channel.Faulted -= OnConnectionLost;
+                channel.Closed -= OnConnectionLost;
+
+                if (channel.State == CommunicationState.Faulted || channel.State == CommunicationState.Closed)
                 {
                     channel.Abort();
                 }
                 else
                 {
-                    channel.Close();
+                    try
+                    {
+                        channel.Close();
+                    }
+                    catch
+                    {
+                        channel.Abort();
+                    }
                 }
             }
-            catch
+            catch (Exception)
             {
                 channel.Abort();
+            }
+            finally
+            {
+                Client = null;
             }
         }
 
         private void OnConnectionLost(object sender, EventArgs e)
         {
-            if (Client != null)
-            {
-                ConnectionLost?.Invoke();
-            }
+            ConnectionLost?.Invoke();
         }
     }
 }

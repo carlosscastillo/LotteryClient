@@ -76,6 +76,8 @@ namespace Lottery.ViewModel.User
             ForgotPasswordCommand = new RelayCommand<Window>(ExecuteRecoverPassword);
             SignUpCommand = new RelayCommand<Window>(ExecuteSignUp);
             GuestLoginCommand = new RelayCommand<Window>(ExecuteGuestLogin);
+
+            ServiceProxy.Instance.Reconnect();
         }
 
         public async Task Login(Window window)

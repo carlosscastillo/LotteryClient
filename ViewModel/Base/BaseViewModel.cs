@@ -5,6 +5,7 @@ using Lottery.Properties.Langs;
 using Lottery.View.User;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
@@ -68,32 +69,34 @@ namespace Lottery.ViewModel.Base
 
         private void NavigateToLoginOrExit()
         {
-            var currentWindow = Application.Current.MainWindow;
-
-            if (currentWindow != null && currentWindow.GetType().Name == "LoginView")
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                return;
-            }
+                var currentWindow = Application.Current.MainWindow;
 
-            LoginView loginScreen = new LoginView();
-
-            loginScreen.Show();
-
-            var windowsToClose = new List<Window>();
-            foreach (Window win in Application.Current.Windows)
-            {
-                if (win != loginScreen)
+                if (currentWindow != null && currentWindow.GetType() == typeof(LoginView))
                 {
-                    windowsToClose.Add(win);
+                    return;
                 }
-            }
 
-            foreach (var win in windowsToClose)
-            {
-                win.Close();
-            }
+                LoginView loginScreen = new LoginView();
+                loginScreen.Show();
 
-            Application.Current.MainWindow = loginScreen;
+                Application.Current.MainWindow = loginScreen;
+
+                var windowsToClose = new List<Window>();
+                foreach (Window win in Application.Current.Windows)
+                {
+                    if (win != loginScreen)
+                    {
+                        windowsToClose.Add(win);
+                    }
+                }
+
+                foreach (var win in windowsToClose)
+                {
+                    win.Close();
+                }
+            });
         }
 
         protected async Task ExecuteRequest(Func<Task> action, Dictionary<string, string> errorMap = null)
@@ -166,15 +169,18 @@ namespace Lottery.ViewModel.Base
             {
                 message = viewErrorMap[errorCode];
             }
-            else if (!string.IsNullOrEmpty(errorCode) && globalErrorMap.ContainsKey(errorCode))
-            {
-                message = globalErrorMap[errorCode];
-            }
             else
             {
-                message = !string.IsNullOrEmpty(serverMessage)
-                    ? serverMessage
-                    : string.Format(Lang.GlobalExceptionServerError, errorCode ?? "UNKNOWN", "Error");
+                if (!string.IsNullOrEmpty(errorCode) && globalErrorMap.ContainsKey(errorCode))
+                {
+                    message = globalErrorMap[errorCode];
+                }
+                else
+                {
+                    message = !string.IsNullOrEmpty(serverMessage)
+                        ? serverMessage
+                        : string.Format(Lang.GlobalExceptionServerError, errorCode ?? "UNKNOWN", "Error");
+                }
             }
 
             MessageBoxImage icon = MessageBoxImage.Warning;

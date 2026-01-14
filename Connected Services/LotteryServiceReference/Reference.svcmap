@@ -22,14 +22,14 @@
     <MetadataSource Address="http://localhost:8733/Lottery/" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="LotteryService.wsdl" MetadataType="Wsdl" ID="daa45f4d-2b29-4aa1-82ab-ccfd6c798e42" SourceId="1" SourceUrl="http://192.168.100.166:8733/Lottery/?wsdl" />
-    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="af28d92f-ccb6-409f-8b22-7baaf50f2234" SourceId="1" SourceUrl="http://192.168.100.166:8733/Lottery/?xsd=xsd4" />
-    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="e5966e13-66a1-4703-ac72-aeccc1353e57" SourceId="1" SourceUrl="http://192.168.100.166:8733/Lottery/?xsd=xsd5" />
-    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="6bf98858-74b6-4057-9607-a72403e3642c" SourceId="1" SourceUrl="http://192.168.100.166:8733/Lottery/?xsd=xsd0" />
-    <MetadataFile FileName="item3.xsd" MetadataType="Schema" ID="e3915548-4566-4ee7-b758-126c97a1be6a" SourceId="1" SourceUrl="http://192.168.100.166:8733/Lottery/?xsd=xsd1" />
-    <MetadataFile FileName="item4.xsd" MetadataType="Schema" ID="876339b1-6d9d-468b-a300-9c1203b2db9f" SourceId="1" SourceUrl="http://192.168.100.166:8733/Lottery/?xsd=xsd2" />
-    <MetadataFile FileName="item5.xsd" MetadataType="Schema" ID="2e3808cb-2a9d-4d0d-bb8d-95eecb3c3350" SourceId="1" SourceUrl="http://192.168.100.166:8733/Lottery/?xsd=xsd3" />
-    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="4ed34908-1f98-4f05-9b8b-5272ee553797" SourceId="1" SourceUrl="http://192.168.100.166:8733/Lottery/?disco" />
+    <MetadataFile FileName="item6.xsd" MetadataType="Schema" ID="40b277a8-9bc3-40c6-8ac0-3d2a3097eb73" SourceId="1" SourceUrl="http://localhost:8733/Lottery/?xsd=xsd4" />
+    <MetadataFile FileName="item61.xsd" MetadataType="Schema" ID="4dc14f3d-a8a8-4f76-a460-b35453b876a3" SourceId="1" SourceUrl="http://localhost:8733/Lottery/?xsd=xsd5" />
+    <MetadataFile FileName="item62.xsd" MetadataType="Schema" ID="9dc92b67-3407-431d-ba57-d523541c3e2b" SourceId="1" SourceUrl="http://localhost:8733/Lottery/?xsd=xsd2" />
+    <MetadataFile FileName="item63.xsd" MetadataType="Schema" ID="a9070557-75a4-4b8f-b3e8-ed33bb6e2a02" SourceId="1" SourceUrl="http://localhost:8733/Lottery/?xsd=xsd3" />
+    <MetadataFile FileName="item64.xsd" MetadataType="Schema" ID="779befd7-6b62-43fd-b11a-422f1413ba43" SourceId="1" SourceUrl="http://localhost:8733/Lottery/?xsd=xsd0" />
+    <MetadataFile FileName="item65.xsd" MetadataType="Schema" ID="958f9961-76db-487e-8508-45268bcfbb7b" SourceId="1" SourceUrl="http://localhost:8733/Lottery/?xsd=xsd1" />
+    <MetadataFile FileName="item1.disco" MetadataType="Disco" ID="d502f01d-f066-40ed-a1af-565866bca08e" SourceId="1" SourceUrl="http://localhost:8733/Lottery/?disco" />
+    <MetadataFile FileName="LotteryService1.wsdl" MetadataType="Wsdl" ID="9fe4ba90-45db-4c6b-a6f2-fb50c81f5e8c" SourceId="1" SourceUrl="http://localhost:8733/Lottery/?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

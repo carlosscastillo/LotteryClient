@@ -63,7 +63,7 @@
                 <Grid>
                     <TextBox x:Name="GuestNicknameTextBox"
                              Text="{Binding Nickname, UpdateSourceTrigger=PropertyChanged}"
-                             MaxLength="20"/>
+                             MaxLength="30"/>
                     <TextBlock Text="&#xE77B;" Style="{StaticResource IconStyle}"/>
                 </Grid>
 

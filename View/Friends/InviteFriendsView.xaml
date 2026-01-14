@@ -82,7 +82,7 @@
                                 Style="{StaticResource SecondaryButton}"/>
 
                         <TextBox x:Name="txtNicknameSearch" 
-                                 Text="{Binding SearchNickname, UpdateSourceTrigger=PropertyChanged}"/>
+                                 Text="{Binding SearchNickname, UpdateSourceTrigger=PropertyChanged}" MaxLength="30"/>
                     </DockPanel>
 
                     <ListView x:Name="lvSearchResults" 

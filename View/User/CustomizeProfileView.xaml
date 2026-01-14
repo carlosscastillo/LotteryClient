@@ -81,15 +81,15 @@
                     <ScrollViewer VerticalScrollBarVisibility="Auto" Height="Auto">
                         <StackPanel Width="220">
                             <Label Content="{x:Static language:Lang.GlobalLabelName}" Foreground="White" Target="{Binding ElementName=NameTextBox}"/>
-                            <TextBox x:Name="NameTextBox" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}" Margin="0,0,0,10"/>
+                            <TextBox x:Name="NameTextBox" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}" Margin="0,0,0,10" MaxLength="30"/>
                             <Label Content="{x:Static language:Lang.GlobalLabelPaternalLastName}" Foreground="White" Target="{Binding ElementName=PaternalLastNameTextBox}"/>
-                            <TextBox x:Name="PaternalLastNameTextBox" Text="{Binding PaternalLastName, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}" Margin="0,0,0,10"/>
+                            <TextBox x:Name="PaternalLastNameTextBox" Text="{Binding PaternalLastName, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}" Margin="0,0,0,10" MaxLength="30"/>
                             <Label Content="{x:Static language:Lang.GlobalLabelMaternalLastName}" Foreground="White" Target="{Binding ElementName=MaternalLastNameTextBox}"/>
-                            <TextBox x:Name="MaternalLastNameTextBox" Text="{Binding MaternalLastName, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}" Margin="0,0,0,10"/>
+                            <TextBox x:Name="MaternalLastNameTextBox" Text="{Binding MaternalLastName, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}" Margin="0,0,0,10" MaxLength="30"/>
                             <Label Content="{x:Static language:Lang.GlobalLabelNickname}" Foreground="White" Target="{Binding ElementName=NicknameTextBox}"/>
-                            <TextBox x:Name="NicknameTextBox" Text="{Binding Nickname, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}" Margin="0,0,0,10"/>
+                            <TextBox x:Name="NicknameTextBox" Text="{Binding Nickname, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}" Margin="0,0,0,10" MaxLength="30"/>
                             <Label Content="{x:Static language:Lang.GlobalLabelEmail}" Foreground="White" Target="{Binding ElementName=EmailTextBox}"/>
-                            <TextBox x:Name="EmailTextBox" Text="{Binding Email}" IsReadOnly="True" Background="#FF2D2D30" Foreground="White" Margin="0,0,0,10"/>
+                            <TextBox x:Name="EmailTextBox" Text="{Binding Email}" IsReadOnly="True" Background="#FF2D2D30" Foreground="White" Margin="0,0,0,10" MaxLength="30"/>
                         </StackPanel>
                     </ScrollViewer>
 
@@ -116,28 +116,28 @@
                                 <Label Content="Twitter:" Foreground="White" Width="80"/>
                                 <TextBox Text="{Binding Twitter, UpdateSourceTrigger=PropertyChanged}" 
                                     IsReadOnly="{Binding IsReadOnly}" 
-                                    Width="180"/>
+                                    Width="180" MaxLength="50"/>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Label Content="Facebook:" Foreground="White" Width="80"/>
                                 <TextBox Text="{Binding Facebook, UpdateSourceTrigger=PropertyChanged}" 
                                     IsReadOnly="{Binding IsReadOnly}" 
-                                    Width="180"/>
+                                    Width="180" MaxLength="50"/>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Label Content="Instagram:" Foreground="White" Width="80"/>
                                 <TextBox Text="{Binding Instagram, UpdateSourceTrigger=PropertyChanged}" 
                                     IsReadOnly="{Binding IsReadOnly}" 
-                                    Width="180"/>
+                                    Width="180" MaxLength="50"/>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                 <Label Content="TikTok:" Foreground="White" Width="80"/>
                                 <TextBox Text="{Binding TikTok, UpdateSourceTrigger=PropertyChanged}" 
                                     IsReadOnly="{Binding IsReadOnly}" 
-                                    Width="180"/>
+                                    Width="180" MaxLength="50"/>
                             </StackPanel>
                         </StackPanel>
 
@@ -179,7 +179,7 @@
                     <StackPanel x:Name="ChangeEmailPanel" Visibility="{Binding IsChangeEmailVisible, Converter={StaticResource BoolToVisibilityConverter}}">
                         <TextBlock Text="{x:Static language:Lang.GlobalLabelEmail}" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,15"/>
                         <Label Content="{x:Static language:Lang.CustomizeProfileLabelNewEmailAddress}" Foreground="White" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                        <TextBox Text="{Binding NewEmail, UpdateSourceTrigger=PropertyChanged}" Padding="6" FontSize="14" BorderThickness="0" Background="#FFFFFFFF" Foreground="Black" BorderBrush="Transparent" Margin="0,0,0,15"/>
+                        <TextBox Text="{Binding NewEmail, UpdateSourceTrigger=PropertyChanged}" Padding="6" FontSize="14" BorderThickness="0" Background="#FFFFFFFF" Foreground="Black" BorderBrush="Transparent" Margin="0,0,0,15" MaxLength="30"/>
                         <UniformGrid Columns="2" HorizontalAlignment="Center" Margin="0,15,0,0">
                             <Button Content="{x:Static language:Lang.GlobalButtonCancel}" Command="{Binding CloseOverlayCommand}" Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" Background="Gray" BorderThickness="0" Width="120" Margin="0,0,10,0">
                                 <Button.Resources>
@@ -202,7 +202,7 @@
                         <TextBlock Text="{x:Static language:Lang.GlobalLabelVerificationCode}" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,15"/>
                         <TextBlock x:Name="VerificationEmailTextBlock" Text="{Binding NewEmail}" FontSize="14" Foreground="Gray" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,0,0,25"/>
                         <TextBlock Text="{x:Static language:Lang.GlobalButtonVerificationCode}" Foreground="White" FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                        <TextBox Text="{Binding VerificationCode, UpdateSourceTrigger=PropertyChanged}" Padding="6" FontSize="14" Background="#FFFFFFFF" Foreground="Black" BorderThickness="0" Margin="0,0,0,10" Width="220" HorizontalAlignment="Center"/>
+                        <TextBox Text="{Binding VerificationCode, UpdateSourceTrigger=PropertyChanged}" Padding="6" FontSize="14" Background="#FFFFFFFF" Foreground="Black" BorderThickness="0" Margin="0,0,0,10" Width="220" HorizontalAlignment="Center" MaxLength="6"/>
                         <Button Content="{x:Static language:Lang.GlobalButtonVerifyCode}" Command="{Binding VerifyEmailCodeCommand}" Padding="8" FontSize="14" FontWeight="Bold" Foreground="White" Background="Black" BorderThickness="0" Width="150" Margin="0,15,0,10" HorizontalAlignment="Center" Cursor="Hand">
                             <Button.Resources>
                                 <Style TargetType="Border">
@@ -250,7 +250,7 @@
                                 Padding="30,6,35,6" FontSize="14"/>
                             <TextBox Text="{Binding CurrentPassword, UpdateSourceTrigger=PropertyChanged}"
                                 Visibility="{Binding IsCurrentPasswordVisible, Converter={StaticResource BoolToVisibilityConverter}}"
-                                Padding="30,6,35,6" FontSize="14"/>
+                                Padding="30,6,35,6" FontSize="14" MaxLength="30"/>
                             
                             <TextBlock Text="&#xE72E;" Style="{StaticResource IconStyle}"
                                 HorizontalAlignment="Left" VerticalAlignment="Center"
@@ -307,7 +307,7 @@
                                 Padding="30,6,35,6" FontSize="14"/>
                             <TextBox Text="{Binding NewPassword, UpdateSourceTrigger=PropertyChanged}"
                                 Visibility="{Binding IsNewPasswordVisibleEye, Converter={StaticResource BoolToVisibilityConverter}}"
-                                Padding="30,6,35,6" FontSize="14"/>
+                                Padding="30,6,35,6" FontSize="14" MaxLength="30"/>
                             <TextBlock Text="&#xE72E;" Style="{StaticResource IconStyle}"
                                 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,0,0,0" IsHitTestVisible="False"/>
                             <ToggleButton IsChecked="{Binding IsNewPasswordVisibleEye}" Width="30" Height="30" 
@@ -328,7 +328,7 @@
                                 Padding="30,6,35,6" FontSize="14"/>
                             <TextBox Text="{Binding ConfirmNewPassword, UpdateSourceTrigger=PropertyChanged}"
                                 Visibility="{Binding IsConfirmNewPasswordVisible, Converter={StaticResource BoolToVisibilityConverter}}"
-                                Padding="30,6,35,6" FontSize="14"/>
+                                Padding="30,6,35,6" FontSize="14" MaxLength="30"/>
                             <TextBlock Text="&#xE72E;" Style="{StaticResource IconStyle}"
                                 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,0,0,0" IsHitTestVisible="False"/>
                             <ToggleButton IsChecked="{Binding IsConfirmNewPasswordVisible}" Width="30" Height="30" 

@@ -46,7 +46,7 @@
                        Target="{Binding ElementName=NicknameTextBox}" 
                        Foreground="White"/>
                 <Grid>
-                    <TextBox x:Name="NicknameTextBox" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox x:Name="NicknameTextBox" MaxLength="30" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBlock Text="&#xE77B;" Style="{StaticResource IconStyle}"/>
                 </Grid>
 
@@ -59,6 +59,7 @@
                         helpers:PasswordBoxHelper.BoundPassword="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Visibility="{Binding IsPasswordVisible, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
                     <TextBox x:Name="PasswordTextBox"
+                        MaxLength="30"
                         Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Visibility="{Binding IsPasswordVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
                     <TextBlock Text="&#xE72E;" Style="{StaticResource IconStyle}"/>

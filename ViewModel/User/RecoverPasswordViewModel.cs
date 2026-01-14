@@ -115,7 +115,8 @@ namespace Lottery.ViewModel.User
                     bool result = await ServiceProxy.Instance.Client.RecoverPasswordRequestAsync(Email);
 
                     if (result)
-                    {                        
+                    {
+                        ShowSuccess(Lang.RegisterVerificationCodeSent);
                         IsEmailStepVisible = false;
                         IsCodeStepVisible = true;
                     }

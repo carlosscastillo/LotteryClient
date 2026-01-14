@@ -208,7 +208,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <TextBox Grid.Column="0" Text="{Binding ChatMessage, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" 
-                             Height="38" Background="#AAFFFFFF" BorderThickness="0" Padding="5">
+                             Height="38" Background="#AAFFFFFF" BorderThickness="0" Padding="5" MaxLength="200">
                         <TextBox.InputBindings>
                             <KeyBinding Key="Enter" Command="{Binding SendChatCommand}"/>
                         </TextBox.InputBindings>

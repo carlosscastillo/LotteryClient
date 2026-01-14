@@ -98,9 +98,8 @@ namespace Lottery.ViewModel.User
                     var result = validator.Validate(loginUser);
 
                     if (!result.IsValid)
-                    {
-                        string errors = string.Join("\n• ", result.Errors.Select(e => e.ErrorMessage));
-                        ShowError($"{Lang.LoginValidationMessage}\n\n• {errors}", Lang.LoginValidationTitle, MessageBoxImage.Warning);
+                    {                        
+                        ShowError(Lang.LoginInvalidCredentials, Lang.LoginValidationTitle, MessageBoxImage.Warning);
                     }
                     else
                     {

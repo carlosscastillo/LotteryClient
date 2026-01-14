@@ -1,4 +1,5 @@
 ﻿using Contracts.DTOs;
+using Contracts.Faults;
 using Lottery.Helpers;
 using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
@@ -11,6 +12,7 @@ using Lottery.ViewModel.Base;
 using Lottery.ViewModel.Lobby;
 using System;
 using System.Collections.Generic;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -156,12 +158,27 @@ namespace Lottery.ViewModel.MainMenu
         {
             await ExecuteRequest(async () =>
             {
-                LobbyStateDto lobbyState = await ServiceProxy.Instance.Client.JoinLobbyAsync(SessionManager.CurrentUser, lobbyCode);
-
-                _mainMenuWindow.Dispatcher.Invoke(() =>
+                try
                 {
-                    NavigateToLobby(lobbyState);
-                });
+                    LobbyStateDto lobbyState = await ServiceProxy.Instance.Client.JoinLobbyAsync(SessionManager.CurrentUser, lobbyCode);
+
+                    _mainMenuWindow.Dispatcher.Invoke(() =>
+                    {
+                        NavigateToLobby(lobbyState);
+                    });
+                }
+                catch (FaultException<ServiceFault> ex) when (ex.Detail.ErrorCode == "LOBBY_PLAYER_BANNED")
+                {
+                    _mainMenuWindow.Dispatcher.Invoke(() =>
+                    {
+                        CustomMessageBox.Show(
+                            Lang.JoinLobbyBanned,
+                            Lang.GlobalMessageBoxTitleInfo,
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning,
+                            _mainMenuWindow);
+                    });
+                }
             }, _errorMap);
         }
 

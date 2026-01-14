@@ -1285,5 +1285,10 @@ Do you want to join?</value>
   </data>
   <data name="GameMsgLeftAlone" xml:space="preserve">
     <value>The game ended because other players left.</value>
+  <data name="MainMenuExceptionUserBannedOffensive" xml:space="preserve">
+    <value>You cannot join this lobby because you have used offensive language.</value>
+  </data>
+  <data name="MainMenuExceptionUserBannedSpam" xml:space="preserve">
+    <value>You cannot join this lobby because you have spammed.</value>
   </data>
 </root>

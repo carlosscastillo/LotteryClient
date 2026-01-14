@@ -83,18 +83,14 @@ namespace Lottery.ViewModel.Base
 
                 Application.Current.MainWindow = loginScreen;
 
-                var windowsToClose = new List<Window>();
-                foreach (Window win in Application.Current.Windows)
+                var windowsToClose = Application.Current.Windows.Cast<Window>().ToList();
+
+                foreach (Window win in windowsToClose)
                 {
                     if (win != loginScreen)
                     {
-                        windowsToClose.Add(win);
+                        win.Close();
                     }
-                }
-
-                foreach (var win in windowsToClose)
-                {
-                    win.Close();
                 }
             });
         }
@@ -105,47 +101,32 @@ namespace Lottery.ViewModel.Base
             {
                 var client = ServiceProxy.Instance.Client as ICommunicationObject;
 
-                if (client == null)
-                {
-                    HandleConnectionError();
-                    return;
-                }
-                
-                if (client.State == CommunicationState.Closed)
-                {
-                    HandleConnectionError();
-                    return;
-                }
-
                 await action();
-            }
-            catch (FaultException<ServiceFault> ex)
-            {                
-                if (ex.Detail?.ErrorCode == "DB_ERROR")
-                {
-                    HandleServiceFault(ex, errorMap);
-                    return;
-                }                
-                HandleServiceFault(ex, errorMap);
-            }
-            catch (CommunicationObjectAbortedException)
-            {
-                HandleConnectionError();
-            }
-            catch (CommunicationObjectFaultedException)
-            {
-                HandleConnectionError();
-            }
-            catch (CommunicationException)
-            {
-                HandleConnectionError();
-            }
-            catch (TimeoutException)
-            {
-                HandleConnectionError();
             }
             catch (Exception ex)
             {
+                if (ex is FaultException<ServiceFault> faultEx)
+                {
+                    HandleServiceFault(faultEx, errorMap);
+                    return;
+                }
+
+                if (ex is CommunicationException || ex is TimeoutException || ex is EndpointNotFoundException)
+                {
+                    bool isUserLoggedIn = Application.Current.Windows.OfType<Window>().Any(w => w.GetType().Name != "LoginView");
+
+                    if (isUserLoggedIn)
+                    {
+                        ServiceProxy.Instance.EnqueueAction(action);
+                        return;
+                    }
+                    else
+                    {
+                        HandleConnectionError();
+                        return;
+                    }
+                }
+
                 ShowError(string.Format(Lang.GlobalMessageBoxUnexpectedError, ex.Message), Lang.GlobalMessageBoxTitleError);
             }
         }
@@ -169,18 +150,15 @@ namespace Lottery.ViewModel.Base
             {
                 message = viewErrorMap[errorCode];
             }
+            else if (!string.IsNullOrEmpty(errorCode) && globalErrorMap.ContainsKey(errorCode))
+            {
+                message = globalErrorMap[errorCode];
+            }
             else
             {
-                if (!string.IsNullOrEmpty(errorCode) && globalErrorMap.ContainsKey(errorCode))
-                {
-                    message = globalErrorMap[errorCode];
-                }
-                else
-                {
-                    message = !string.IsNullOrEmpty(serverMessage)
-                        ? serverMessage
-                        : string.Format(Lang.GlobalExceptionServerError, errorCode ?? "UNKNOWN", "Error");
-                }
+                message = !string.IsNullOrEmpty(serverMessage)
+                    ? serverMessage
+                    : string.Format(Lang.GlobalExceptionServerError, errorCode ?? "UNKNOWN", "Error");
             }
 
             MessageBoxImage icon = MessageBoxImage.Warning;

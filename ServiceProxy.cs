@@ -9,8 +9,22 @@ namespace Lottery
         private static ServiceProxy _instance;
         public static ServiceProxy Instance => _instance ?? (_instance = new ServiceProxy());
 
-        public ILotteryService Client { get; private set; }
+        private ILotteryService _client;
         private ClientCallbackHandler _callbackHandler;
+
+        public ILotteryService Client
+        {
+            get
+            {
+                if (_client == null ||
+                    (_client as ICommunicationObject)?.State == CommunicationState.Faulted ||
+                    (_client as ICommunicationObject)?.State == CommunicationState.Closed)
+                {
+                    CreateClient();
+                }
+                return _client;
+            }
+        }
 
         public event Action ConnectionLost;
 
@@ -23,10 +37,11 @@ namespace Lottery
         {
             _callbackHandler = new ClientCallbackHandler();
             var context = new InstanceContext(_callbackHandler);
-            var client = new LotteryServiceClient(context);
-            Client = client;
 
-            if (Client is ICommunicationObject channel)
+            var client = new LotteryServiceClient(context);
+            _client = client;
+
+            if (_client is ICommunicationObject channel)
             {
                 channel.Faulted += OnConnectionLost;
                 channel.Closed += OnConnectionLost;
@@ -41,7 +56,12 @@ namespace Lottery
 
         public void CloseSafe()
         {
-            var channel = Client as ICommunicationObject;
+            if (_client == null)
+            {
+                return;
+            }
+
+            var channel = _client as ICommunicationObject;
             if (channel == null)
             {
                 return;
@@ -52,7 +72,7 @@ namespace Lottery
                 channel.Faulted -= OnConnectionLost;
                 channel.Closed -= OnConnectionLost;
 
-                if (channel.State == CommunicationState.Faulted || channel.State == CommunicationState.Closed)
+                if (channel.State == CommunicationState.Faulted)
                 {
                     channel.Abort();
                 }
@@ -68,13 +88,13 @@ namespace Lottery
                     }
                 }
             }
-            catch (Exception)
+            catch
             {
                 channel.Abort();
             }
             finally
             {
-                Client = null;
+                _client = null;
             }
         }
 

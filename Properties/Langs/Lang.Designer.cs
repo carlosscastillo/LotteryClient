@@ -1249,6 +1249,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a La partida terminó porque los demás jugadores abandonaron..
+        /// </summary>
+        public static string GameMsgLeftAlone {
+            get {
+                return ResourceManager.GetString("GameMsgLeftAlone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a ¡Salió: {0}!.
         /// </summary>
         public static string GameStatusCardDrawn {
@@ -2689,6 +2698,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Lotería.
+        /// </summary>
+        public static string LotteryButton {
+            get {
+                return ResourceManager.GetString("LotteryButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Amigos.
         /// </summary>
         public static string MainMenuButtonFriends {
@@ -3321,6 +3339,51 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ¡{0} falló al acusar Falsa Lotería!.
+        /// </summary>
+        public static string SystemMsgFalseLoteriaFail {
+            get {
+                return ResourceManager.GetString("SystemMsgFalseLoteriaFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡{0} declaró Lotería falsa y fue descubierto!.
+        /// </summary>
+        public static string SystemMsgFalseLoteriaSuccess {
+            get {
+                return ResourceManager.GetString("SystemMsgFalseLoteriaSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡El invitado {0} ha ganado la partida!.
+        /// </summary>
+        public static string SystemMsgGuestWon {
+            get {
+                return ResourceManager.GetString("SystemMsgGuestWon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡El jugador {0} ha ganado la partida!.
+        /// </summary>
+        public static string SystemMsgPlayerWon {
+            get {
+                return ResourceManager.GetString("SystemMsgPlayerWon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡El jugador {0} ha ganado la partida y recibe {1} puntos!.
+        /// </summary>
+        public static string SystemMsgPlayerWonPoints {
+            get {
+                return ResourceManager.GetString("SystemMsgPlayerWonPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Ingresa tus datos para registrarte.
         /// </summary>
         public static string UserSignUpLabelDetails {
@@ -3443,6 +3506,60 @@ namespace Lottery.Properties.Langs {
         public static string WinnerLabelTitle {
             get {
                 return ResourceManager.GetString("WinnerLabelTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡Te descubrieron declarando Falsa Lotería!.
+        /// </summary>
+        public static string WinnerMsgCaughtFakeLoteria {
+            get {
+                return ResourceManager.GetString("WinnerMsgCaughtFakeLoteria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡Fallaste al acusar falsa lotería!.
+        /// </summary>
+        public static string WinnerMsgFailedAccusation {
+            get {
+                return ResourceManager.GetString("WinnerMsgFailedAccusation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡Falsa lotería correcta!.
+        /// </summary>
+        public static string WinnerMsgFakeLoteriaCorrect {
+            get {
+                return ResourceManager.GetString("WinnerMsgFakeLoteriaCorrect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡Acusaron incorrectamente tu Lotería!.
+        /// </summary>
+        public static string WinnerMsgFalseAccusation {
+            get {
+                return ResourceManager.GetString("WinnerMsgFalseAccusation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡{0} fue descubierto declarando falsa lotería!.
+        /// </summary>
+        public static string WinnerMsgPlayerCaughtFakeLoteria {
+            get {
+                return ResourceManager.GetString("WinnerMsgPlayerCaughtFakeLoteria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡{0} falló al acusar falsa lotería!.
+        /// </summary>
+        public static string WinnerMsgPlayerFailedAccusation {
+            get {
+                return ResourceManager.GetString("WinnerMsgPlayerFailedAccusation", resourceCulture);
             }
         }
     }

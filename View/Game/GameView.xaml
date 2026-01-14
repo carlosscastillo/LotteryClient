@@ -6,6 +6,7 @@
         xmlns:vm="clr-namespace:Lottery.ViewModel.Game"
         xmlns:converters="clr-namespace:Lottery.Converters"
         mc:Ignorable="d"
+        xmlns:language="clr-namespace:Lottery.Properties.Langs"
         d:DataContext="{d:DesignInstance Type=vm:GameViewModel, IsDesignTimeCreatable=False}"
         Title="Partida en curso"
         WindowStartupLocation="CenterScreen"
@@ -167,15 +168,15 @@
                 </StackPanel>
             </Border>
 
-            <Button Content="¡Lotería!"
+            <Button Content="{x:Static language:Lang.LotteryButton}"
                     Style="{StaticResource PrimaryButtonStyle2}"
                     Command="{Binding DeclareLoteriaCommand}"
                     Visibility="{Binding AllCellsSelected, Converter={StaticResource BoolToVisibilityConverter}}"
                     Margin="0,30,0,0"/>
         </StackPanel>
 
-        <Button Content="⏸ Pausa"
-                Command="{Binding PauseGameCommand}"
+        <Button Content="{x:Static language:Lang.GlobalMessageBoxTitleExit}"
+                Command="{Binding ExitGameCommand}"
                 Width="130"
                 Height="48"
                 FontSize="16"

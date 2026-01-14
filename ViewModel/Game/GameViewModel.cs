@@ -6,6 +6,7 @@ using Lottery.Properties.Langs;
 using Lottery.View.Game;
 using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;
+using Lottery.ViewModel.Lobby;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,6 +26,7 @@ namespace Lottery.ViewModel.Game
         private readonly Window _gameWindow;
         private readonly Window _lobbyWindow;
         private readonly Dictionary<string, string> _errorMap;
+        private bool _winnerDeclared = false;
 
         private ObservableCollection<PlayerGameViewModel> _otherPlayers;
         public ObservableCollection<PlayerGameViewModel> OtherPlayers
@@ -120,7 +122,7 @@ namespace Lottery.ViewModel.Game
         }
 
         public ICommand DeclareLoteriaCommand { get; }
-        public ICommand PauseGameCommand { get; }
+        public ICommand ExitGameCommand { get; }
 
         public GameViewModel(
             ObservableCollection<UserDto> players,
@@ -160,7 +162,7 @@ namespace Lottery.ViewModel.Game
             LoadBoardResource(selectedBoardId);
 
             DeclareLoteriaCommand = new RelayCommand(async () => await DeclareLoteria());
-            PauseGameCommand = new RelayCommand(async () => await LeaveGame());
+            ExitGameCommand = new RelayCommand(async () => await LeaveGame());
 
             SubscribeToGameEvents();
 
@@ -180,12 +182,15 @@ namespace Lottery.ViewModel.Game
                 bitmap.CacheOption = BitmapCacheOption.OnLoad;
                 bitmap.CreateOptions = BitmapCreateOptions.DelayCreation;
                 bitmap.EndInit();
-                if (bitmap.CanFreeze) bitmap.Freeze();
+                if (bitmap.CanFreeze)
+                {
+                    bitmap.Freeze();
+                }
                 return bitmap;
             }
-            catch 
-            { 
-                return null; 
+            catch
+            {
+                return null;
             }
         }
 
@@ -294,6 +299,7 @@ namespace Lottery.ViewModel.Game
             ClientCallbackHandler.PlayerWonReceived += OnPlayerWon;
             ClientCallbackHandler.GameEndedReceived += OnGameEnded;
             ClientCallbackHandler.GameResumedReceived += OnGameResumed;
+            ClientCallbackHandler.PlayerLeftReceived += OnPlayerLeft;
         }
 
         public void UnsubscribeFromGameEvents()
@@ -302,12 +308,14 @@ namespace Lottery.ViewModel.Game
             ClientCallbackHandler.PlayerWonReceived -= OnPlayerWon;
             ClientCallbackHandler.GameEndedReceived -= OnGameEnded;
             ClientCallbackHandler.GameResumedReceived -= OnGameResumed;
+            ClientCallbackHandler.PlayerLeftReceived -= OnPlayerLeft;
         }
 
         public void ResubscribeToGameEvents()
-        {        
+        {
             UnsubscribeFromGameEvents();
             SubscribeToGameEvents();
+            GameStatusMessage = Lang.GameStatusResumed;
         }
 
         private void OnCardDrawn(CardDto cardDto)
@@ -330,28 +338,35 @@ namespace Lottery.ViewModel.Game
             });
         }
 
-        private void OnPlayerWon(string nickname)
+        private void OnPlayerWon(string nickname, int winnerId, int winnerBoardId, List<int> markedPositions)
         {
+            _winnerDeclared = true;
             _gameWindow.Dispatcher.Invoke(() =>
             {
-                UnsubscribeFromGameEvents();                
-                var winnerCells = BoardCells.Select(c => new Cell
+                UnsubscribeFromGameEvents();
+                var winnerBoardConfig = BoardConfigurations.GetBoardById(winnerBoardId);
+                var winnerCells = new List<Cell>();
+
+                for (int i = 0; i < winnerBoardConfig.Count; i++)
                 {
-                    Id = c.Id,
-                    ImageSource = c.ImageSource,
-                    IsSelected = c.IsSelected,
-                    Position = c.Position
-                }).ToList();
+                    int cardId = winnerBoardConfig[i];
+                    string imagePath = GetImagePathFromId(cardId);
+
+                    winnerCells.Add(new Cell
+                    {
+                        Id = cardId,
+                        ImageSource = CreateBitmapImage(imagePath),
+                        IsSelected = markedPositions.Contains(i),
+                        Position = i
+                    });
+                }
 
                 var winnerViewModel = new WinnerViewModel(
-                    _currentUserId,
+                    winnerId,
                     nickname,
                     winnerCells,
                     _gameWindow,
-                    _lobbyWindow)
-                {
-                    IsCurrentUserWinner = SessionManager.CurrentUser.Nickname == nickname
-                };
+                    _lobbyWindow);
 
                 var winnerView = new WinnerView
                 {
@@ -368,20 +383,44 @@ namespace Lottery.ViewModel.Game
             _gameWindow.Dispatcher.Invoke(() =>
             {
                 UnsubscribeFromGameEvents();
-                TimedMessageBox.Show(
-                    Lang.GameMessageBoxGameEnded,
-                    Lang.GameTitleGameFinished,
+
+                if (_winnerDeclared)
+                {
+                    return;
+                }
+
+                CustomMessageBox.Show(
+                    Lang.GameMsgLeftAlone,
+                    Lang.GlobalMessageBoxTitleInfo,
                     MessageBoxButton.OK,
-                    MessageBoxImage.Information,
-                    2,
-                    NavigateToLobby);
+                    MessageBoxImage.Warning,
+                    _gameWindow);
+
+                ExecuteForcedExitToMainMenu();
             });
+        }
+
+        private async void ExecuteForcedExitToMainMenu()
+        {
+            try
+            {
+                await ServiceProxy.Instance.Client.LeaveLobbyAsync();
+            }
+            catch
+            {
+            }
+
+            NavigateToMainMenu();
         }
 
         private void NavigateToLobby()
         {
             _gameWindow.Dispatcher.Invoke(() =>
             {
+                if (_lobbyWindow.DataContext is LobbyViewModel lobbyVM)
+                {
+                    lobbyVM.SubscribeToEvents();
+                }
                 _lobbyWindow.Show();
                 _gameWindow.Close();
             });
@@ -391,7 +430,24 @@ namespace Lottery.ViewModel.Game
         {
             _gameWindow.Dispatcher.InvokeAsync(() =>
             {
-                GameStatusMessage = Lang.GameStatusResumed;                
+                GameStatusMessage = Lang.GameStatusResumed;
+            });
+        }
+
+        private void OnPlayerLeft(int playerId)
+        {
+            _gameWindow.Dispatcher.Invoke(() =>
+            {
+                var playerToRemove = Players.FirstOrDefault(p => p.UserId == playerId);
+                if (playerToRemove != null)
+                {
+                    Players.Remove(playerToRemove);
+                }
+                var visualPlayer = OtherPlayers.FirstOrDefault(p => p.Name == playerToRemove?.Nickname);
+                if (visualPlayer != null)
+                {
+                    OtherPlayers.Remove(visualPlayer);
+                }
             });
         }
 

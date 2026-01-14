@@ -116,6 +116,12 @@ namespace Lottery.LotteryServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/ValidateFalseLoteria", ReplyAction="http://tempuri.org/IGameService/ValidateFalseLoteriaResponse")]
         System.Threading.Tasks.Task<bool> ValidateFalseLoteriaAsync(int challengerUserId);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/ConfirmGameEnd", ReplyAction="http://tempuri.org/IGameService/ConfirmGameEndResponse")]
+        void ConfirmGameEnd(int winnerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/ConfirmGameEnd", ReplyAction="http://tempuri.org/IGameService/ConfirmGameEndResponse")]
+        System.Threading.Tasks.Task ConfirmGameEndAsync(int winnerId);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/CreateLobby", ReplyAction="http://tempuri.org/ILobbyService/CreateLobbyResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Contracts.Faults.ServiceFault), Action="http://tempuri.org/ILobbyService/CreateLobbyServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         Contracts.DTOs.LobbyStateDto CreateLobby();
@@ -149,6 +155,12 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/ChooseBoard", ReplyAction="http://tempuri.org/ILobbyService/ChooseBoardResponse")]
         System.Threading.Tasks.Task ChooseBoardAsync(Contracts.DTOs.UserDto user, int boardId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/GetLobbyState", ReplyAction="http://tempuri.org/ILobbyService/GetLobbyStateResponse")]
+        Contracts.DTOs.LobbyStateDto GetLobbyState(string lobbyCode);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/GetLobbyState", ReplyAction="http://tempuri.org/ILobbyService/GetLobbyStateResponse")]
+        System.Threading.Tasks.Task<Contracts.DTOs.LobbyStateDto> GetLobbyStateAsync(string lobbyCode);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/LoginUser", ReplyAction="http://tempuri.org/IAuthenticationService/LoginUserResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Contracts.Faults.ServiceFault), Action="http://tempuri.org/IAuthenticationService/LoginUserServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
@@ -294,7 +306,7 @@ namespace Lottery.LotteryServiceReference {
         void NotifyCard(int cardId);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/NotifyWinner")]
-        void NotifyWinner(string nickname);
+        void NotifyWinner(string nickname, int winnerId, int winnerBoardId, int[] markedPositions);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ILotteryService/PlayerJoined")]
         void PlayerJoined(Contracts.DTOs.UserDto newPlayer);
@@ -484,6 +496,14 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.ValidateFalseLoteriaAsync(challengerUserId);
         }
         
+        public void ConfirmGameEnd(int winnerId) {
+            base.Channel.ConfirmGameEnd(winnerId);
+        }
+        
+        public System.Threading.Tasks.Task ConfirmGameEndAsync(int winnerId) {
+            return base.Channel.ConfirmGameEndAsync(winnerId);
+        }
+        
         public Contracts.DTOs.LobbyStateDto CreateLobby() {
             return base.Channel.CreateLobby();
         }
@@ -522,6 +542,14 @@ namespace Lottery.LotteryServiceReference {
         
         public System.Threading.Tasks.Task ChooseBoardAsync(Contracts.DTOs.UserDto user, int boardId) {
             return base.Channel.ChooseBoardAsync(user, boardId);
+        }
+        
+        public Contracts.DTOs.LobbyStateDto GetLobbyState(string lobbyCode) {
+            return base.Channel.GetLobbyState(lobbyCode);
+        }
+        
+        public System.Threading.Tasks.Task<Contracts.DTOs.LobbyStateDto> GetLobbyStateAsync(string lobbyCode) {
+            return base.Channel.GetLobbyStateAsync(lobbyCode);
         }
         
         public Contracts.DTOs.UserDto LoginUser(string username, string password) {

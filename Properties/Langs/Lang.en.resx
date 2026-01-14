@@ -1247,4 +1247,43 @@ Do you want to join?</value>
   <data name="GameStatusResumed" xml:space="preserve">
     <value>The game continues!</value>
   </data>
+  <data name="SystemMsgPlayerWonPoints" xml:space="preserve">
+    <value>Player {0} won the game and gets {1} points!</value>
+  </data>
+  <data name="SystemMsgGuestWon" xml:space="preserve">
+    <value>Guest {0} won the game!</value>
+  </data>
+  <data name="SystemMsgPlayerWon" xml:space="preserve">
+    <value>Player {0} won the game!</value>
+  </data>
+  <data name="SystemMsgFalseLoteriaFail" xml:space="preserve">
+    <value>{0} failed the False Loteria accusation!</value>
+  </data>
+  <data name="SystemMsgFalseLoteriaSuccess" xml:space="preserve">
+    <value>{0} declared a False Loteria and was caught!</value>
+  </data>
+  <data name="WinnerMsgCaughtFakeLoteria" xml:space="preserve">
+    <value>You were caught declaring a Fake Loteria!</value>
+  </data>
+  <data name="WinnerMsgFakeLoteriaCorrect" xml:space="preserve">
+    <value>Correct Fake Loteria accusation!</value>
+  </data>
+  <data name="WinnerMsgPlayerCaughtFakeLoteria" xml:space="preserve">
+    <value>{0} was caught declaring a Fake Loteria!</value>
+  </data>
+  <data name="WinnerMsgFalseAccusation" xml:space="preserve">
+    <value>Your Loteria was incorrectly accused!</value>
+  </data>
+  <data name="WinnerMsgFailedAccusation" xml:space="preserve">
+    <value>You failed to accuse a Fake Loteria!</value>
+  </data>
+  <data name="WinnerMsgPlayerFailedAccusation" xml:space="preserve">
+    <value>{0} failed to accuse a Fake Loteria!</value>
+  </data>
+  <data name="LotteryButton" xml:space="preserve">
+    <value>Lottery!</value>
+  </data>
+  <data name="GameMsgLeftAlone" xml:space="preserve">
+    <value>The game ended because other players left.</value>
+  </data>
 </root>

@@ -69,7 +69,10 @@ namespace Lottery.ViewModel.Game
             _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
             _timer.Tick += (_, __) =>
             {
-                if (!_timerRunning) return;
+                if (!_timerRunning)
+                {
+                    return;
+                }
                 _remainingTime = _remainingTime.Subtract(TimeSpan.FromSeconds(1));
                 TimerText = _remainingTime.ToString(@"mm\:ss");
                 if (_remainingTime <= TimeSpan.Zero)
@@ -116,60 +119,68 @@ namespace Lottery.ViewModel.Game
                 if (!declarerWasCorrect)
                 {
                     if (isDeclarer)
+                    {
                         TimedMessageBox.Show(
-                            "¡Te descubrieron declarando Falsa Lotería!",
-                            "Info",
+                            Lang.WinnerMsgCaughtFakeLoteria,
+                            Lang.GlobalMessageBoxTitleInfo,
                             MessageBoxButton.OK,
                             MessageBoxImage.Warning,
                             2,
                             ReturnToGameplay);
-
+                    }
                     else if (isChallenger)
+                    {
                         TimedMessageBox.Show(
-                            "¡Falsa lotería correcta!",
-                            "Info",
+                            Lang.WinnerMsgFakeLoteriaCorrect,
+                            Lang.GlobalMessageBoxTitleInfo,
                             MessageBoxButton.OK,
                             MessageBoxImage.Information,
                             2,
                             ReturnToGameplay);
-
+                    }
                     else
+                    {
                         TimedMessageBox.Show(
-                            $"¡{declarerNickname} fue descubierto declarando falsa lotería!",
-                            "Info",
+                            string.Format(Lang.WinnerMsgPlayerCaughtFakeLoteria, declarerNickname),
+                            Lang.GlobalMessageBoxTitleInfo,
                             MessageBoxButton.OK,
                             MessageBoxImage.Information,
                             2,
                             ReturnToGameplay);
+                    }
                 }
                 else
                 {
                     if (isDeclarer)
+                    {
                         TimedMessageBox.Show(
-                            "¡Acusaron incorrectamente tu Lotería!",
-                            "Info",
+                            Lang.WinnerMsgFalseAccusation,
+                            Lang.GlobalMessageBoxTitleInfo,
                             MessageBoxButton.OK,
                             MessageBoxImage.Information,
                             2,
                             RedirectToLobby);
-
+                    }
                     else if (isChallenger)
+                    {
                         TimedMessageBox.Show(
-                            "¡Fallaste al acusar falsa lotería!",
-                            "Info",
+                            Lang.WinnerMsgFailedAccusation,
+                            Lang.GlobalMessageBoxTitleInfo,
                             MessageBoxButton.OK,
                             MessageBoxImage.Warning,
                             2,
                             RedirectToLobby);
-
+                    }
                     else
+                    {
                         TimedMessageBox.Show(
-                            $"¡{challengerNickname} falló al acusar falsa lotería!",
-                            "Info",
+                            string.Format(Lang.WinnerMsgPlayerFailedAccusation, challengerNickname),
+                            Lang.GlobalMessageBoxTitleInfo,
                             MessageBoxButton.OK,
                             MessageBoxImage.Warning,
                             2,
                             RedirectToLobby);
+                    }
                 }
             });
         }
@@ -184,10 +195,14 @@ namespace Lottery.ViewModel.Game
             Application.Current.Dispatcher.Invoke(() =>
             {
                 if (_gameWindow.DataContext is GameViewModel gameVM)
+                {
                     gameVM.ResubscribeToGameEvents();
+                }
 
                 foreach (Window window in Application.Current.Windows.OfType<WinnerView>().ToList())
+                {
                     window.Close();
+                }
 
                 _gameWindow.Show();
             });
@@ -200,16 +215,33 @@ namespace Lottery.ViewModel.Game
                 _timer.Stop();
                 _timerRunning = false;
             }
-            Application.Current.Dispatcher.Invoke(() =>
+            Application.Current.Dispatcher.Invoke(async () =>
             {
+                try
+                {
+                    if (IsCurrentUserWinner)
+                    {
+                        await ServiceProxy.Instance.Client.ConfirmGameEndAsync(PlayerId);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error cerrando partida: " + ex.Message);
+                }
+
                 if (_lobbyWindow.DataContext is LobbyViewModel lobbyVM)
+                {
                     lobbyVM.SubscribeToEvents();
+                    await lobbyVM.RefreshLobbyState();
+                }
 
                 _lobbyWindow.Show();
                 _gameWindow.Close();
 
                 foreach (Window window in Application.Current.Windows.OfType<WinnerView>().ToList())
+                {
                     window.Close();
+                }
             });
         }
 

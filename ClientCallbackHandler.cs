@@ -1,8 +1,10 @@
-﻿using Lottery.LotteryServiceReference;
+﻿using Contracts.DTOs;
+using Lottery.LotteryServiceReference;
 using System;
-using System.Windows;
+using System.Collections.Generic;
+using System.Linq;
 using System.ServiceModel;
-using Contracts.DTOs;
+using System.Windows;
 
 namespace Lottery
 {
@@ -21,7 +23,7 @@ namespace Lottery
 
         public static event Action<GameSettingsDto> GameStartedReceived;
         public static event Action<CardDto> CardDrawnReceived;
-        public static event Action<string> PlayerWonReceived;
+        public static event Action<string, int, int, List<int>> PlayerWonReceived;
         public static event Action GameEndedReceived;
         public static event Action GameResumedReceived;
         public static event Action<string, string, bool> FalseLoteriaResultReceived;
@@ -37,9 +39,10 @@ namespace Lottery
             RunOnUI(() => CardDrawnReceived?.Invoke(tempDto));
         }
 
-        public void NotifyWinner(string nickname)
+        public void NotifyWinner(string nickname, int winnerId, int winnerBoardId, int[] markedPositions)
         {
-            RunOnUI(() => PlayerWonReceived?.Invoke(nickname));
+            var positionsList = markedPositions?.ToList() ?? new List<int>();
+            RunOnUI(() => PlayerWonReceived?.Invoke(nickname, winnerId, winnerBoardId, positionsList));
         }
 
         public void ReceiveChatMessage(string nickname, string message)

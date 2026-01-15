@@ -60,10 +60,10 @@ namespace Lottery.ViewModel.Lobby
         public SelectBoardViewModel(int currentBoardId, List<int> occupiedBoards = null)
         {
             AvailableBoards = new ObservableCollection<BoardItemViewModel>();
-            var configurations = BoardConfigurations.FixedBoards;
-            
+            var configurations = BoardConfigurations.GetAllBoards();
+
             foreach (var kvp in configurations)
-            {                
+            {
                 var isOccupied = occupiedBoards != null && occupiedBoards.Contains(kvp.Key);
 
                 var boardItem = new BoardItemViewModel
@@ -77,7 +77,7 @@ namespace Lottery.ViewModel.Lobby
 
                 AvailableBoards.Add(boardItem);
             }
-           
+
             SelectedBoard = AvailableBoards.FirstOrDefault(b => b.BoardId == currentBoardId);
 
             ConfirmSelectionCommand = new RelayCommand(ConfirmSelection);

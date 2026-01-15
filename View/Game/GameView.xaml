@@ -103,7 +103,6 @@
                                             FontWeight="Bold"
                                             FontSize="16"
                                             TextWrapping="Wrap"/>
-                                        <TextBlock Text="Fichas: 0" Foreground="#DDD" FontSize="12"/>
                                     </StackPanel>
                                 </Grid>
                             </Border>

@@ -12,8 +12,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.ServiceModel; // Necesario para FaultException
-using Contracts.Faults;    // Necesario para ServiceFault
+using System.ServiceModel;
+using Contracts.Faults;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -354,10 +354,29 @@ namespace Lottery.ViewModel.Game
 
         public void ResubscribeToGameEvents()
         {
-            UnsubscribeFromGameEvents();
             _winnerDeclared = false;
             SubscribeToGameEvents();
-            GameStatusMessage = Lang.GameStatusResumed;
+            GameStatusMessage = Lang.GameStatusResumed;            
+            SyncGameStateWithServer();
+        }
+
+        private async void SyncGameStateWithServer()
+        {
+            if (_lobbyWindow.DataContext is LobbyViewModel lobbyVM)
+            {                
+                await lobbyVM.RefreshLobbyState();
+                try
+                {
+                    var drawnCards = await ServiceProxy.Instance.Client.GetScoreboardAsync();
+                    _cardsDrawnCount = drawnCards.Length;
+                    if (drawnCards != null)
+                    {
+                        _cardsDrawnCount = drawnCards.Length;
+                        CheckGracePeriod();
+                    }
+                }
+                catch { }
+            }
         }
 
         private void OnCardDrawn(CardDto cardDto)
@@ -378,11 +397,16 @@ namespace Lottery.ViewModel.Game
                     CurrentCardName = "Carta " + cardDto.Id;
                 }
 
-                if (_cardsDrawnCount >= TOTAL_CARDS_IN_DECK)
-                {
-                    GameStatusMessage = Lang.GameStatusDeckFinishedGracePeriod;
-                }
+                CheckGracePeriod();
             });
+        }
+
+        private void CheckGracePeriod()
+        {
+            if (_cardsDrawnCount >= TOTAL_CARDS_IN_DECK)
+            {
+                GameStatusMessage = Lang.GameStatusDeckFinishedGracePeriod;
+            }
         }
 
         private void OnPlayerWon(string nickname, int winnerId, int winnerBoardId, List<int> markedPositions)
@@ -479,7 +503,6 @@ namespace Lottery.ViewModel.Game
                 _winnerDeclared = true;
                 UnsubscribeFromGameEvents();
 
-                // Aquí usamos CustomMessageBox con botón OK para que sea modal y manual.
                 CustomMessageBox.Show(
                     Lang.GameMsgLeftAlone,
                     Lang.GlobalMessageBoxTitleInfo,
@@ -513,17 +536,7 @@ namespace Lottery.ViewModel.Game
                 _gameWindow.Close();
             });
         }
-
-        private void NavigateToMainMenu()
-        {
-            _gameWindow.Dispatcher.Invoke(() =>
-            {
-                MainMenuView mainMenuView = new MainMenuView();
-                mainMenuView.Show();
-                _gameWindow.Close();
-            });
-        }
-
+        
         private void NavigateToLobby()
         {
             _gameWindow.Dispatcher.Invoke(() =>
@@ -548,8 +561,7 @@ namespace Lottery.ViewModel.Game
             {
                 _winnerDeclared = false;
                 GameStatusMessage = Lang.GameStatusResumed;
-                UnsubscribeFromGameEvents();
-                SubscribeToGameEvents();
+                ResubscribeToGameEvents();
             });
         }
 
@@ -578,7 +590,6 @@ namespace Lottery.ViewModel.Game
                     .ToList()
             };
 
-            // CORRECCION PARA ATRAPAR FAULTCONTRACT
             try
             {
                 await ServiceProxy.Instance.Client.DeclareWinAsync(playerBoardDto);
@@ -589,7 +600,6 @@ namespace Lottery.ViewModel.Game
             }
             catch (Exception)
             {
-                // Errores genéricos se manejan o ignoran
             }
         }
 

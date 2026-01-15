@@ -105,10 +105,10 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task UpdateGameSettingsAsync(Contracts.DTOs.GameSettingsDto settings);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/GetScoreboard", ReplyAction="http://tempuri.org/IGameService/GetScoreboardResponse")]
-        void GetScoreboard();
+        int[] GetScoreboard();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/GetScoreboard", ReplyAction="http://tempuri.org/IGameService/GetScoreboardResponse")]
-        System.Threading.Tasks.Task GetScoreboardAsync();
+        System.Threading.Tasks.Task<int[]> GetScoreboardAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/DeclareWin", ReplyAction="http://tempuri.org/IGameService/DeclareWinResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(Contracts.Faults.ServiceFault), Action="http://tempuri.org/IGameService/DeclareWinServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
@@ -501,11 +501,11 @@ namespace Lottery.LotteryServiceReference {
             return base.Channel.UpdateGameSettingsAsync(settings);
         }
         
-        public void GetScoreboard() {
-            base.Channel.GetScoreboard();
+        public int[] GetScoreboard() {
+            return base.Channel.GetScoreboard();
         }
         
-        public System.Threading.Tasks.Task GetScoreboardAsync() {
+        public System.Threading.Tasks.Task<int[]> GetScoreboardAsync() {
             return base.Channel.GetScoreboardAsync();
         }
         

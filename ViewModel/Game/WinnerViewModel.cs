@@ -176,7 +176,7 @@ namespace Lottery.ViewModel.Game
                 Lang.GlobalMessageBoxTitleInfo,
                 MessageBoxButton.OK,
                 MessageBoxImage.Information,
-                2,
+                3,
                 () =>
                 {
                     RedirectToLobby();
@@ -187,11 +187,16 @@ namespace Lottery.ViewModel.Game
         {
             Cleanup();
 
-            Application.Current.Dispatcher.Invoke(() =>
+            Application.Current.Dispatcher.Invoke(async () =>
             {
                 if (_gameWindow.DataContext is GameViewModel gameVM)
                 {
                     gameVM.ResubscribeToGameEvents();
+                }
+
+                if (_lobbyWindow.DataContext is LobbyViewModel lobbyVM)
+                {
+                    await lobbyVM.RefreshLobbyState();
                 }
 
                 CloseWinnerWindows();

@@ -1292,4 +1292,7 @@
   <data name="MainMenuExceptionUserBannedSpam" xml:space="preserve">
     <value>No puedes unirte a este lobby porque has hecho spam.</value>
   </data>
+  <data name="GameStatusDeckFinishedGracePeriod" xml:space="preserve">
+    <value>¡Mazo terminado! Tienes 10 segundos extra para ganar...</value>
+  </data>
 </root>

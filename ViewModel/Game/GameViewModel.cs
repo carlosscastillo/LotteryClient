@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.ServiceModel; // Necesario para FaultException
+using Contracts.Faults;    // Necesario para ServiceFault
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -27,6 +29,8 @@ namespace Lottery.ViewModel.Game
         private readonly Window _lobbyWindow;
         private readonly Dictionary<string, string> _errorMap;
         private bool _winnerDeclared = false;
+        private int _cardsDrawnCount = 0;
+        private const int TOTAL_CARDS_IN_DECK = 54;
 
         private ObservableCollection<PlayerGameViewModel> _otherPlayers;
         public ObservableCollection<PlayerGameViewModel> OtherPlayers
@@ -38,7 +42,7 @@ namespace Lottery.ViewModel.Game
         private readonly string _gameMode;
         private int _selectedBoardId;
 
-        private static readonly Dictionary<int, string> _cardResourceKeys = new Dictionary<int, string>
+        private static readonly Dictionary<int, string> CARD_RESOURCE_KEYS = new Dictionary<int, string>
         {
             { 1, "CardTextBlockAang" }, { 2, "CardTextBlockArnold" }, { 3, "CardTextBlockAshKetchum" },
             { 4, "CardTextBlockBartSimpson" }, { 5, "CardTextBlockBenTen" }, { 6, "CardTextBlockBilly" },
@@ -137,6 +141,7 @@ namespace Lottery.ViewModel.Game
             _lobbyWindow = lobbyWindow;
             Players = players;
             _gameMode = settings.GameMode;
+            _cardsDrawnCount = 0;
 
             _errorMap = new Dictionary<string, string>
             {
@@ -154,7 +159,7 @@ namespace Lottery.ViewModel.Game
                 players
                 .Where(p => p.UserId != _currentUserId)
                 .GroupBy(p => p.UserId)
-                .Select(g => new PlayerGameViewModel(g.First()))
+                .Select(g => new PlayerGameViewModel(g.First(), this))
                 );
 
             LoadTokenResource(selectedTokenKey);
@@ -172,7 +177,7 @@ namespace Lottery.ViewModel.Game
             Task.Run(() => LoadBoardResourcesAsync(_selectedBoardId));
         }
 
-        private BitmapImage CreateBitmapImage(string uriSource)
+        public BitmapImage CreateBitmapImage(string uriSource)
         {
             try
             {
@@ -235,29 +240,41 @@ namespace Lottery.ViewModel.Game
             switch (tokenKey)
             {
                 case "beans":
-                    singleFile = "token00.png";
-                    pileFile = "token00-background.png";
-                    break;
+                    {
+                        singleFile = "token00.png";
+                        pileFile = "token00-background.png";
+                        break;
+                    }
                 case "bottle_caps":
-                    singleFile = "token01.png";
-                    pileFile = "token01-background.png";
-                    break;
+                    {
+                        singleFile = "token01.png";
+                        pileFile = "token01-background.png";
+                        break;
+                    }
                 case "pou":
-                    singleFile = "token02.png";
-                    pileFile = "token02-background.png";
-                    break;
+                    {
+                        singleFile = "token02.png";
+                        pileFile = "token02-background.png";
+                        break;
+                    }
                 case "corn":
-                    singleFile = "token03.png";
-                    pileFile = "token03-background.png";
-                    break;
+                    {
+                        singleFile = "token03.png";
+                        pileFile = "token03-background.png";
+                        break;
+                    }
                 case "coins":
-                    singleFile = "token04.png";
-                    pileFile = "token04-background.png";
-                    break;
+                    {
+                        singleFile = "token04.png";
+                        pileFile = "token04-background.png";
+                        break;
+                    }
                 default:
-                    singleFile = "token00.png";
-                    pileFile = "token00-background.png";
-                    break;
+                    {
+                        singleFile = "token00.png";
+                        pileFile = "token00-background.png";
+                        break;
+                    }
             }
 
             TokenImagePath = $"pack://application:,,,/Lottery;component/Images/Tokens/{singleFile}";
@@ -271,7 +288,6 @@ namespace Lottery.ViewModel.Game
         {
             string path = $"pack://application:,,,/Lottery;component/Images/Boards/board_{boardId}.png";
             BoardBackgroundImage = CreateBitmapImage(path);
-
             LoadBoardData(boardId);
         }
 
@@ -293,13 +309,36 @@ namespace Lottery.ViewModel.Game
             }
         }
 
+        public string GetImagePathFromId(int cardId)
+        {
+            string fileId = cardId.ToString("D2");
+            return "pack://application:,,,/Lottery;component/Images/Cards/card" + fileId + ".png";
+        }
+
+        private string GetCardBackPath()
+        {
+            return "pack://application:,,,/Lottery;component/Images/Cards/cardReverse.png";
+        }
+
+        private string GetResourceKeyForCard(int cardId)
+        {
+            if (CARD_RESOURCE_KEYS.TryGetValue(cardId, out var key))
+            {
+                return key;
+            }
+            return null;
+        }
+
         private void SubscribeToGameEvents()
         {
+            UnsubscribeFromGameEvents();
             ClientCallbackHandler.CardDrawnReceived += OnCardDrawn;
             ClientCallbackHandler.PlayerWonReceived += OnPlayerWon;
             ClientCallbackHandler.GameEndedReceived += OnGameEnded;
             ClientCallbackHandler.GameResumedReceived += OnGameResumed;
             ClientCallbackHandler.PlayerLeftReceived += OnPlayerLeft;
+            ClientCallbackHandler.GameCancelledByAbandonmentReceived += HandleForcedExitToMainMenu;
+            ClientCallbackHandler.LobbyClosedReceived += HandleForcedExitToMainMenu;
         }
 
         public void UnsubscribeFromGameEvents()
@@ -309,11 +348,14 @@ namespace Lottery.ViewModel.Game
             ClientCallbackHandler.GameEndedReceived -= OnGameEnded;
             ClientCallbackHandler.GameResumedReceived -= OnGameResumed;
             ClientCallbackHandler.PlayerLeftReceived -= OnPlayerLeft;
+            ClientCallbackHandler.GameCancelledByAbandonmentReceived -= HandleForcedExitToMainMenu;
+            ClientCallbackHandler.LobbyClosedReceived -= HandleForcedExitToMainMenu;
         }
 
         public void ResubscribeToGameEvents()
         {
             UnsubscribeFromGameEvents();
+            _winnerDeclared = false;
             SubscribeToGameEvents();
             GameStatusMessage = Lang.GameStatusResumed;
         }
@@ -322,8 +364,8 @@ namespace Lottery.ViewModel.Game
         {
             _gameWindow.Dispatcher.InvokeAsync(() =>
             {
+                _cardsDrawnCount++;
                 string cardImagePath = GetImagePathFromId(cardDto.Id);
-
                 CurrentCardImage = CreateBitmapImage(cardImagePath);
 
                 var key = GetResourceKeyForCard(cardDto.Id);
@@ -335,15 +377,26 @@ namespace Lottery.ViewModel.Game
                 {
                     CurrentCardName = "Carta " + cardDto.Id;
                 }
+
+                if (_cardsDrawnCount >= TOTAL_CARDS_IN_DECK)
+                {
+                    GameStatusMessage = Lang.GameStatusDeckFinishedGracePeriod;
+                }
             });
         }
 
         private void OnPlayerWon(string nickname, int winnerId, int winnerBoardId, List<int> markedPositions)
         {
-            _winnerDeclared = true;
             _gameWindow.Dispatcher.Invoke(() =>
             {
+                if (_winnerDeclared)
+                {
+                    return;
+                }
+
+                _winnerDeclared = true;
                 UnsubscribeFromGameEvents();
+
                 var winnerBoardConfig = BoardConfigurations.GetBoardById(winnerBoardId);
                 var winnerCells = new List<Cell>();
 
@@ -378,17 +431,55 @@ namespace Lottery.ViewModel.Game
             });
         }
 
-        private void OnGameEnded()
+        private async void OnGameEnded()
         {
-            _gameWindow.Dispatcher.Invoke(() =>
+            await _gameWindow.Dispatcher.InvokeAsync(() =>
             {
-                UnsubscribeFromGameEvents();
-
                 if (_winnerDeclared)
                 {
                     return;
                 }
 
+                TimedMessageBox.Show(
+                    Lang.GameGameIsOver,
+                    Lang.GlobalMessageBoxTitleInfo,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information,
+                    3,
+                    () =>
+                    {
+                        UnsubscribeFromGameEvents();
+                        NavigateToLobby();
+                    });
+            });
+        }
+
+        private void OnPlayerLeft(int playerId)
+        {
+            _gameWindow.Dispatcher.Invoke(() =>
+            {
+                var playerToRemove = Players.FirstOrDefault(p => p.UserId == playerId);
+                if (playerToRemove != null)
+                {
+                    Players.Remove(playerToRemove);
+                }
+
+                var visualPlayer = OtherPlayers.FirstOrDefault(p => p.Name == playerToRemove?.Nickname);
+                if (visualPlayer != null)
+                {
+                    OtherPlayers.Remove(visualPlayer);
+                }
+            });
+        }
+
+        private void HandleForcedExitToMainMenu()
+        {
+            _gameWindow.Dispatcher.Invoke(() =>
+            {
+                _winnerDeclared = true;
+                UnsubscribeFromGameEvents();
+
+                // Aquí usamos CustomMessageBox con botón OK para que sea modal y manual.
                 CustomMessageBox.Show(
                     Lang.GameMsgLeftAlone,
                     Lang.GlobalMessageBoxTitleInfo,
@@ -396,27 +487,52 @@ namespace Lottery.ViewModel.Game
                     MessageBoxImage.Warning,
                     _gameWindow);
 
-                ExecuteForcedExitToMainMenu();
+                ExecuteForcedExitAndCleanUp();
             });
         }
 
-        private async void ExecuteForcedExitToMainMenu()
+        private async void ExecuteForcedExitAndCleanUp()
         {
             try
             {
                 await ServiceProxy.Instance.Client.LeaveLobbyAsync();
             }
-            catch
+            catch (Exception)
             {
             }
 
-            NavigateToMainMenu();
+            _gameWindow.Dispatcher.Invoke(() =>
+            {
+                MainMenuView mainMenuView = new MainMenuView();
+                mainMenuView.Show();
+
+                if (_lobbyWindow != null)
+                {
+                    _lobbyWindow.Close();
+                }
+                _gameWindow.Close();
+            });
+        }
+
+        private void NavigateToMainMenu()
+        {
+            _gameWindow.Dispatcher.Invoke(() =>
+            {
+                MainMenuView mainMenuView = new MainMenuView();
+                mainMenuView.Show();
+                _gameWindow.Close();
+            });
         }
 
         private void NavigateToLobby()
         {
             _gameWindow.Dispatcher.Invoke(() =>
             {
+                if (_winnerDeclared)
+                {
+                    return;
+                }
+
                 if (_lobbyWindow.DataContext is LobbyViewModel lobbyVM)
                 {
                     lobbyVM.SubscribeToEvents();
@@ -430,30 +546,11 @@ namespace Lottery.ViewModel.Game
         {
             _gameWindow.Dispatcher.InvokeAsync(() =>
             {
+                _winnerDeclared = false;
                 GameStatusMessage = Lang.GameStatusResumed;
+                UnsubscribeFromGameEvents();
+                SubscribeToGameEvents();
             });
-        }
-
-        private void OnPlayerLeft(int playerId)
-        {
-            _gameWindow.Dispatcher.Invoke(() =>
-            {
-                var playerToRemove = Players.FirstOrDefault(p => p.UserId == playerId);
-                if (playerToRemove != null)
-                {
-                    Players.Remove(playerToRemove);
-                }
-                var visualPlayer = OtherPlayers.FirstOrDefault(p => p.Name == playerToRemove?.Nickname);
-                if (visualPlayer != null)
-                {
-                    OtherPlayers.Remove(visualPlayer);
-                }
-            });
-        }
-
-        public void OnWindowLoaded()
-        {
-            ShowStartMessageSequence();
         }
 
         private async Task DeclareLoteria()
@@ -481,10 +578,19 @@ namespace Lottery.ViewModel.Game
                     .ToList()
             };
 
-            await ExecuteRequest(async () =>
+            // CORRECCION PARA ATRAPAR FAULTCONTRACT
+            try
             {
                 await ServiceProxy.Instance.Client.DeclareWinAsync(playerBoardDto);
-            }, _errorMap);
+            }
+            catch (FaultException<ServiceFault> fault)
+            {
+                CustomMessageBox.Show(fault.Detail.Message, "Error de Base de Datos", MessageBoxButton.OK, MessageBoxImage.Error, _gameWindow);
+            }
+            catch (Exception)
+            {
+                // Errores genéricos se manejan o ignoran
+            }
         }
 
         private bool CheckWinCondition()
@@ -497,29 +603,34 @@ namespace Lottery.ViewModel.Game
             switch (_gameMode)
             {
                 case "Esquinas":
-                    return BoardCells[0].IsSelected && BoardCells[3].IsSelected &&
-                           BoardCells[12].IsSelected && BoardCells[15].IsSelected;
-
+                    {
+                        return BoardCells[0].IsSelected && BoardCells[3].IsSelected &&
+                               BoardCells[12].IsSelected && BoardCells[15].IsSelected;
+                    }
                 case "Centro":
-                    return BoardCells[5].IsSelected && BoardCells[6].IsSelected &&
-                           BoardCells[9].IsSelected && BoardCells[10].IsSelected;
-
+                    {
+                        return BoardCells[5].IsSelected && BoardCells[6].IsSelected &&
+                               BoardCells[9].IsSelected && BoardCells[10].IsSelected;
+                    }
                 case "Marco":
-                    bool top = BoardCells[0].IsSelected && BoardCells[1].IsSelected && BoardCells[2].IsSelected && BoardCells[3].IsSelected;
-                    bool bottom = BoardCells[12].IsSelected && BoardCells[13].IsSelected && BoardCells[14].IsSelected
-                        && BoardCells[15].IsSelected;
-                    bool left = BoardCells[4].IsSelected && BoardCells[8].IsSelected;
-                    bool right = BoardCells[7].IsSelected && BoardCells[11].IsSelected;
-                    return top && bottom && left && right;
-
+                    {
+                        bool top = BoardCells[0].IsSelected && BoardCells[1].IsSelected && BoardCells[2].IsSelected && BoardCells[3].IsSelected;
+                        bool bottom = BoardCells[12].IsSelected && BoardCells[13].IsSelected && BoardCells[14].IsSelected && BoardCells[15].IsSelected;
+                        bool left = BoardCells[4].IsSelected && BoardCells[8].IsSelected;
+                        bool right = BoardCells[7].IsSelected && BoardCells[11].IsSelected;
+                        return top && bottom && left && right;
+                    }
                 case "Diagonales":
-                    bool diag1 = BoardCells[0].IsSelected && BoardCells[5].IsSelected && BoardCells[10].IsSelected && BoardCells[15].IsSelected;
-                    bool diag2 = BoardCells[3].IsSelected && BoardCells[6].IsSelected && BoardCells[9].IsSelected && BoardCells[12].IsSelected;
-                    return diag1 && diag2;
-
+                    {
+                        bool diag1 = BoardCells[0].IsSelected && BoardCells[5].IsSelected && BoardCells[10].IsSelected && BoardCells[15].IsSelected;
+                        bool diag2 = BoardCells[3].IsSelected && BoardCells[6].IsSelected && BoardCells[9].IsSelected && BoardCells[12].IsSelected;
+                        return diag1 && diag2;
+                    }
                 case "Normal":
                 default:
-                    return BoardCells.All(c => c.IsSelected);
+                    {
+                        return BoardCells.All(c => c.IsSelected);
+                    }
             }
         }
 
@@ -535,44 +646,27 @@ namespace Lottery.ViewModel.Game
             if (result == MessageBoxResult.Yes)
             {
                 UnsubscribeFromGameEvents();
-
                 await ExecuteRequest(async () =>
                 {
                     await ServiceProxy.Instance.Client.LeaveLobbyAsync();
                 }, _errorMap);
 
-                NavigateToMainMenu();
+                _gameWindow.Dispatcher.Invoke(() =>
+                {
+                    MainMenuView mainMenuView = new MainMenuView();
+                    mainMenuView.Show();
+                    if (_lobbyWindow != null)
+                    {
+                        _lobbyWindow.Close();
+                    }
+                    _gameWindow.Close();
+                });
             }
         }
 
-        private void NavigateToMainMenu()
+        public void OnWindowLoaded()
         {
-            _gameWindow.Dispatcher.Invoke(() =>
-            {
-                MainMenuView mainMenuView = new MainMenuView();
-                mainMenuView.Show();
-                _gameWindow.Close();
-            });
-        }
-
-        private string GetImagePathFromId(int cardId)
-        {
-            string fileId = cardId.ToString("D2");
-            return "pack://application:,,,/Lottery;component/Images/Cards/card" + fileId + ".png";
-        }
-
-        private string GetCardBackPath()
-        {
-            return "pack://application:,,,/Lottery;component/Images/Cards/cardReverse.png";
-        }
-
-        private string GetResourceKeyForCard(int cardId)
-        {
-            if (_cardResourceKeys.TryGetValue(cardId, out var key))
-            {
-                return key;
-            }
-            return null;
+            ShowStartMessageSequence();
         }
 
         private async void ShowStartMessageSequence()
@@ -593,8 +687,8 @@ namespace Lottery.ViewModel.Game
             set => SetProperty(ref _id, value);
         }
 
-        private System.Windows.Media.ImageSource _imageSource;
-        public System.Windows.Media.ImageSource ImageSource
+        private ImageSource _imageSource;
+        public ImageSource ImageSource
         {
             get => _imageSource;
             set => SetProperty(ref _imageSource, value);
@@ -612,14 +706,27 @@ namespace Lottery.ViewModel.Game
     public class PlayerGameViewModel : BaseViewModel
     {
         public string Name { get; set; }
-        public List<int> CardIds { get; set; }
+        public ObservableCollection<Cell> BoardCells { get; } = new ObservableCollection<Cell>();
         public int TokensLeft { get; set; }
 
-        public PlayerGameViewModel(UserDto user)
+        public PlayerGameViewModel(UserDto user, GameViewModel mainVM)
         {
             Name = user.Nickname;
-            CardIds = BoardConfigurations.GetBoardById(user.SelectedBoardId);
-            TokensLeft = 5;
+            TokensLeft = 0;
+            if (user.SelectedBoardId > 0)
+            {
+                var cardIds = BoardConfigurations.GetBoardById(user.SelectedBoardId);
+                for (int i = 0; i < cardIds.Count; i++)
+                {
+                    BoardCells.Add(new Cell
+                    {
+                        Id = cardIds[i],
+                        ImageSource = mainVM.CreateBitmapImage(mainVM.GetImagePathFromId(cardIds[i])),
+                        IsSelected = false,
+                        Position = i
+                    });
+                }
+            }
         }
     }
 }

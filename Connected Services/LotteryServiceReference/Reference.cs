@@ -111,18 +111,21 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task GetScoreboardAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/DeclareWin", ReplyAction="http://tempuri.org/IGameService/DeclareWinResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Contracts.Faults.ServiceFault), Action="http://tempuri.org/IGameService/DeclareWinServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         void DeclareWin(Contracts.DTOs.PlayerBoardDto playerBoard);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/DeclareWin", ReplyAction="http://tempuri.org/IGameService/DeclareWinResponse")]
         System.Threading.Tasks.Task DeclareWinAsync(Contracts.DTOs.PlayerBoardDto playerBoard);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/ValidateFalseLoteria", ReplyAction="http://tempuri.org/IGameService/ValidateFalseLoteriaResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Contracts.Faults.ServiceFault), Action="http://tempuri.org/IGameService/ValidateFalseLoteriaServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         bool ValidateFalseLoteria(int challengerUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/ValidateFalseLoteria", ReplyAction="http://tempuri.org/IGameService/ValidateFalseLoteriaResponse")]
         System.Threading.Tasks.Task<bool> ValidateFalseLoteriaAsync(int challengerUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/ConfirmGameEnd", ReplyAction="http://tempuri.org/IGameService/ConfirmGameEndResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Contracts.Faults.ServiceFault), Action="http://tempuri.org/IGameService/ConfirmGameEndServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         void ConfirmGameEnd(int winnerId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/ConfirmGameEnd", ReplyAction="http://tempuri.org/IGameService/ConfirmGameEndResponse")]
@@ -251,6 +254,7 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task<Contracts.DTOs.UserDto> GetUserProfileAsync(int currentUserId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/ChangeEmailWithCode", ReplyAction="http://tempuri.org/IUserService/ChangeEmailWithCodeResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Contracts.Faults.ServiceFault), Action="http://tempuri.org/IUserService/ChangeEmailWithCodeServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         bool ChangeEmailWithCode(int currentUserId, string newEmail, string verificationCode);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/ChangeEmailWithCode", ReplyAction="http://tempuri.org/IUserService/ChangeEmailWithCodeResponse")]
@@ -264,10 +268,18 @@ namespace Lottery.LotteryServiceReference {
         System.Threading.Tasks.Task<bool> RecoverPasswordRequestAsync(string email);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetLeaderboard", ReplyAction="http://tempuri.org/IUserService/GetLeaderboardResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Contracts.Faults.ServiceFault), Action="http://tempuri.org/IUserService/GetLeaderboardServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
         Contracts.DTOs.LeaderboardPlayerDto[] GetLeaderboard();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/GetLeaderboard", ReplyAction="http://tempuri.org/IUserService/GetLeaderboardResponse")]
         System.Threading.Tasks.Task<Contracts.DTOs.LeaderboardPlayerDto[]> GetLeaderboardAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RequestEmailChangeVerification", ReplyAction="http://tempuri.org/IUserService/RequestEmailChangeVerificationResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(Contracts.Faults.ServiceFault), Action="http://tempuri.org/IUserService/RequestEmailChangeVerificationServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults")]
+        bool RequestEmailChangeVerification(string newEmail);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IUserService/RequestEmailChangeVerification", ReplyAction="http://tempuri.org/IUserService/RequestEmailChangeVerificationResponse")]
+        System.Threading.Tasks.Task<bool> RequestEmailChangeVerificationAsync(string newEmail);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVerificationService/SendVerificationCode", ReplyAction="http://tempuri.org/IVerificationService/SendVerificationCodeResponse")]
         bool SendVerificationCode(string email);
@@ -352,6 +364,9 @@ namespace Lottery.LotteryServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/ReceiveChatMessage")]
         void ReceiveChatMessage(string nickname, string message);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/OnGameCancelledByAbandonment")]
+        void OnGameCancelledByAbandonment();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -684,6 +699,14 @@ namespace Lottery.LotteryServiceReference {
         
         public System.Threading.Tasks.Task<Contracts.DTOs.LeaderboardPlayerDto[]> GetLeaderboardAsync() {
             return base.Channel.GetLeaderboardAsync();
+        }
+        
+        public bool RequestEmailChangeVerification(string newEmail) {
+            return base.Channel.RequestEmailChangeVerification(newEmail);
+        }
+        
+        public System.Threading.Tasks.Task<bool> RequestEmailChangeVerificationAsync(string newEmail) {
+            return base.Channel.RequestEmailChangeVerificationAsync(newEmail);
         }
         
         public bool SendVerificationCode(string email) {

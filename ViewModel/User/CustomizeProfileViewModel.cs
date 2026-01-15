@@ -4,6 +4,7 @@ using Lottery.LotteryServiceReference;
 using Lottery.Properties.Langs;
 using Lottery.View.MainMenu;
 using Lottery.ViewModel.Base;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -266,7 +267,9 @@ namespace Lottery.ViewModel.User
                 { "AUTH_INVALID_CREDENTIALS", Lang.LoginInvalidCredentials },
                 { "VERIFY_ERROR", Lang.RegisterVerifyError },
                 { "VERIFY_EMAIL_SEND_FAILED", Lang.RegisterEmailSendFailed },
-                { "USER_NOT_FOUND", Lang.LoginGenericError }
+                { "USER_NOT_FOUND", Lang.LoginGenericError },
+                { "DB_ERROR", Lang.GlobalExceptionConnectionDatabaseMessage },
+                { "AUTH_INTERNAL_500", Lang.GlobalExceptionInternalServerError }
             };
 
             EditCommand = new RelayCommand(EditProfile);
@@ -339,22 +342,29 @@ namespace Lottery.ViewModel.User
         {
             if (_currentUserFull != null && _socialMedia != null)
             {
-                _currentUserFull.UserId = IdUser;
-                _currentUserFull.Nickname = Nickname;
-                _currentUserFull.FirstName = FirstName;
-                _currentUserFull.PaternalLastName = PaternalLastName;
-                _currentUserFull.MaternalLastName = MaternalLastName;
-                _currentUserFull.AvatarId = IdAvatar;
+                var tempUser = new UserDto
+                {
+                    UserId = IdUser,
+                    Nickname = Nickname,
+                    FirstName = FirstName,
+                    PaternalLastName = PaternalLastName,
+                    MaternalLastName = MaternalLastName,
+                    AvatarId = IdAvatar,
+                    Email = _currentUserFull.Email,
+                    AvatarUrl = _currentUserFull.AvatarUrl
+                };
 
-                _socialMedia.IdUser = IdUser;
-                _socialMedia.Twitter = Twitter;
-                _socialMedia.Facebook = Facebook;
-                _socialMedia.Instagram = Instagram;
-                _socialMedia.TikTok = TikTok;
+                var tempSocial = new SocialMediaDto
+                {
+                    IdUser = IdUser,
+                    Twitter = Twitter,
+                    Facebook = Facebook,
+                    Instagram = Instagram,
+                    TikTok = TikTok
+                };
 
                 var userValidator = new UserValidator().ValidateProfileUpdate();
-                var userValResult = userValidator.Validate(_currentUserFull);
-
+                var userValResult = userValidator.Validate(tempUser);
                 if (!userValResult.IsValid)
                 {
                     string errores = string.Join("\n", userValResult.Errors.Select(e => e.ErrorMessage));
@@ -363,8 +373,7 @@ namespace Lottery.ViewModel.User
                 else
                 {
                     var socialValidator = new SocialMediaValidator().ValidateAll();
-                    var socialValResult = socialValidator.Validate(_socialMedia);
-
+                    var socialValResult = socialValidator.Validate(tempSocial);
                     if (!socialValResult.IsValid)
                     {
                         string errores = string.Join("\n", socialValResult.Errors.Select(e => e.ErrorMessage));
@@ -375,7 +384,7 @@ namespace Lottery.ViewModel.User
                         IsBusy = true;
                         await ExecuteRequest(async () =>
                         {
-                            var (successUser, msgUser) = await ServiceProxy.Instance.Client.UpdateProfileAsync(_currentUserFull.UserId, _currentUserFull);
+                            var (successUser, msgUser) = await ServiceProxy.Instance.Client.UpdateProfileAsync(tempUser.UserId, tempUser);
 
                             if (!successUser)
                             {
@@ -383,11 +392,12 @@ namespace Lottery.ViewModel.User
                             }
                             else
                             {
-                                bool successSocial = await ServiceProxy.Instance.Client.SaveOrUpdateSocialMediaAsync(_socialMedia);
-
+                                bool successSocial = await ServiceProxy.Instance.Client.SaveOrUpdateSocialMediaAsync(tempSocial);
                                 if (successSocial)
                                 {
                                     ShowSuccess(Lang.GlobalMessageBoxTitleSuccess);
+                                    UpdateLocalBackups(tempUser, tempSocial);
+
                                     IsEditing = false;
                                     SessionManager.CurrentUser.Nickname = Nickname;
                                 }
@@ -403,6 +413,20 @@ namespace Lottery.ViewModel.User
             }
         }
 
+        private void UpdateLocalBackups(UserDto newUserData, SocialMediaDto newSocialData)
+        {
+            _currentUserFull.Nickname = newUserData.Nickname;
+            _currentUserFull.FirstName = newUserData.FirstName;
+            _currentUserFull.PaternalLastName = newUserData.PaternalLastName;
+            _currentUserFull.MaternalLastName = newUserData.MaternalLastName;
+            _currentUserFull.AvatarId = newUserData.AvatarId;
+
+            _socialMedia.Twitter = newSocialData.Twitter;
+            _socialMedia.Facebook = newSocialData.Facebook;
+            _socialMedia.Instagram = newSocialData.Instagram;
+            _socialMedia.TikTok = newSocialData.TikTok;
+        }
+
         private async Task SendVerifyEmail()
         {
             if (_currentUserFull != null)
@@ -416,38 +440,54 @@ namespace Lottery.ViewModel.User
                     return;
                 }
 
+                IsBusy = true;
+
                 await ExecuteRequest(async () =>
                 {
-                    bool sent = await ServiceProxy.Instance.Client.SendVerificationCodeAsync(NewEmail);
+                    bool sent = await ServiceProxy.Instance.Client.RequestEmailChangeVerificationAsync(NewEmail);
+
                     if (sent)
                     {
                         IsChangeEmailVisible = false;
-                        IsVerifyEmailVisible = true;                        
-                    }
-                    else
-                    {
-                        ShowError(Lang.RegisterEmailSendFailed, Lang.GlobalMessageBoxTitleError);
+                        IsVerifyEmailVisible = true;
                     }
                 }, _errorMap);
+
+                IsBusy = false;
             }
         }
 
         private async Task VerifyEmailCode()
         {
+            if (string.IsNullOrWhiteSpace(VerificationCode))
+            {
+                ShowError(Lang.RegisterCodeExpiredOrIncorrect, Lang.LoginValidationTitle, MessageBoxImage.Warning);
+                return;
+            }
+
+            IsBusy = true;
+
             await ExecuteRequest(async () =>
             {
                 bool ok = await ServiceProxy.Instance.Client.ChangeEmailWithCodeAsync(IdUser, NewEmail, VerificationCode);
+
                 if (ok)
                 {
                     Email = NewEmail;
+                    _currentUserFull.Email = NewEmail;
+
                     IsVerifyEmailVisible = false;
-                    IsEmailVerifiedVisible = true;                    
+                    IsEmailVerifiedVisible = true;
+
+                    ShowSuccess(Lang.GlobalMessageBoxTitleSuccess);
                 }
                 else
                 {
                     ShowError(Lang.RegisterCodeExpiredOrIncorrect, Lang.LoginValidationTitle, MessageBoxImage.Warning);
                 }
             }, _errorMap);
+
+            IsBusy = false;
         }
 
         private async Task VerifyCurrentPassword()
@@ -469,12 +509,13 @@ namespace Lottery.ViewModel.User
 
         private async Task SaveNewPassword()
         {
-            var userValidator = new UserValidator().ValidatePasswordOnly();            
+            var userValidator = new UserValidator().ValidatePasswordOnly();
             var userValResult = userValidator.Validate(new UserDto { Password = NewPassword });
 
             if (!userValResult.IsValid)
-            {                
-                ShowError(userValResult.Errors.First().ErrorMessage, Lang.LoginValidationTitle, MessageBoxImage.Warning);
+            {
+                string errorList = string.Join("\n• ", userValResult.Errors.Select(e => e.ErrorMessage));
+                ShowError($"{Lang.LoginValidationMessage}\n\n• {errorList}", Lang.LoginValidationTitle, MessageBoxImage.Warning);
             }
             else if (NewPassword != ConfirmNewPassword)
             {
@@ -482,15 +523,17 @@ namespace Lottery.ViewModel.User
             }
             else
             {
+                IsBusy = true;
                 await ExecuteRequest(async () =>
                 {
                     bool ok = await ServiceProxy.Instance.Client.ChangePasswordAsync(IdUser, NewPassword);
                     if (ok)
-                    {                        
+                    {
                         ShowSuccess(Lang.GlobalMessageBoxTitleSuccess);
                         CloseOverlay();
                     }
                 }, _errorMap);
+                IsBusy = false;
             }
         }
 
@@ -541,7 +584,11 @@ namespace Lottery.ViewModel.User
             IsNewPasswordVisible = false;
 
             ResetPasswordPanelState();
+            ResetEmailPanelState();
+        }
 
+        private void ResetEmailPanelState()
+        {
             NewEmail = string.Empty;
             VerificationCode = string.Empty;
         }
@@ -555,11 +602,11 @@ namespace Lottery.ViewModel.User
         }
 
         private void ResetPasswordPanelState()
-        {           
+        {
             IsCurrentPasswordVisible = false;
             IsNewPasswordVisibleEye = false;
             IsConfirmNewPasswordVisible = false;
-            
+
             CurrentPassword = string.Empty;
             NewPassword = string.Empty;
             ConfirmNewPassword = string.Empty;

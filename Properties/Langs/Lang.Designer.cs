@@ -1267,6 +1267,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ¡Mazo terminado! Tienes 10 segundos extra para ganar....
+        /// </summary>
+        public static string GameStatusDeckFinishedGracePeriod {
+            get {
+                return ResourceManager.GetString("GameStatusDeckFinishedGracePeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a ¡{0} ha ganado la partida!.
         /// </summary>
         public static string GameStatusPlayerWon {

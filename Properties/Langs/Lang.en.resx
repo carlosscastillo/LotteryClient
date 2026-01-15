@@ -1292,4 +1292,7 @@ Do you want to join?</value>
   <data name="MainMenuExceptionUserBannedSpam" xml:space="preserve">
     <value>You cannot join this lobby because you have spammed.</value>
   </data>
+  <data name="GameStatusDeckFinishedGracePeriod" xml:space="preserve">
+    <value>Deck finished! You have 10 extra seconds to win...</value>
+  </data>
 </root>

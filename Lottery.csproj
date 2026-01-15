@@ -276,28 +276,16 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Connected Services\LotteryServiceReference\item.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LotteryServiceReference\item1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LotteryServiceReference\item2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LotteryServiceReference\item3.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LotteryServiceReference\item4.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LotteryServiceReference\item5.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Connected Services\LotteryServiceReference\item6.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\LotteryServiceReference\item61.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LotteryServiceReference\item610.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LotteryServiceReference\item611.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\LotteryServiceReference\item62.xsd">
@@ -312,8 +300,20 @@
     <None Include="Connected Services\LotteryServiceReference\item65.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LotteryServiceReference\LotteryService.wsdl" />
+    <None Include="Connected Services\LotteryServiceReference\item66.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LotteryServiceReference\item67.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LotteryServiceReference\item68.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LotteryServiceReference\item69.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\LotteryServiceReference\LotteryService1.wsdl" />
+    <None Include="Connected Services\LotteryServiceReference\LotteryService11.wsdl" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Contracts.DTOs.FriendDto.datasource" />
     <None Include="Properties\DataSources\Contracts.DTOs.LeaderboardPlayerDto.datasource" />
@@ -479,7 +479,7 @@
     <None Include="Connected Services\LotteryServiceReference\item1.disco" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\LotteryServiceReference\item.disco" />
+    <None Include="Connected Services\LotteryServiceReference\item11.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

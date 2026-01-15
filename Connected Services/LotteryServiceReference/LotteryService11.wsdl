@@ -10,12 +10,12 @@
   </wsp:Policy>
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
-      <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd0" namespace="http://tempuri.org/" />
-      <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults" />
-      <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-      <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs" />
-      <xsd:import schemaLocation="http://localhost:8733/Lottery/?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/System" />
+      <xsd:import schemaLocation="http://192.168.1.8:8733/Lottery/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://192.168.1.8:8733/Lottery/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Contracts.Faults" />
+      <xsd:import schemaLocation="http://192.168.1.8:8733/Lottery/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://192.168.1.8:8733/Lottery/?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://192.168.1.8:8733/Lottery/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Contracts.DTOs" />
+      <xsd:import schemaLocation="http://192.168.1.8:8733/Lottery/?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/System" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="ILotteryService_SendMessage_InputMessage">
@@ -80,9 +80,6 @@
   </wsdl:message>
   <wsdl:message name="ILotteryService_ReceiveChatMessage_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:ReceiveChatMessage" />
-  </wsdl:message>
-  <wsdl:message name="ILotteryService_OnGameCancelledByAbandonment_OutputCallbackMessage">
-    <wsdl:part name="parameters" element="tns:OnGameCancelledByAbandonment" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_SendRequestFriendship_InputMessage">
     <wsdl:part name="parameters" element="tns:SendRequestFriendship" />
@@ -192,26 +189,17 @@
   <wsdl:message name="ILotteryService_DeclareWin_OutputMessage">
     <wsdl:part name="parameters" element="tns:DeclareWinResponse" />
   </wsdl:message>
-  <wsdl:message name="ILotteryService_DeclareWin_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q12:ServiceFault" />
-  </wsdl:message>
   <wsdl:message name="ILotteryService_ValidateFalseLoteria_InputMessage">
     <wsdl:part name="parameters" element="tns:ValidateFalseLoteria" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_ValidateFalseLoteria_OutputMessage">
     <wsdl:part name="parameters" element="tns:ValidateFalseLoteriaResponse" />
   </wsdl:message>
-  <wsdl:message name="ILotteryService_ValidateFalseLoteria_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q13="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q13:ServiceFault" />
-  </wsdl:message>
   <wsdl:message name="ILotteryService_ConfirmGameEnd_InputMessage">
     <wsdl:part name="parameters" element="tns:ConfirmGameEnd" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_ConfirmGameEnd_OutputMessage">
     <wsdl:part name="parameters" element="tns:ConfirmGameEndResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILotteryService_ConfirmGameEnd_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q14="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q14:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_CreateLobby_InputMessage">
     <wsdl:part name="parameters" element="tns:CreateLobby" />
@@ -220,7 +208,7 @@
     <wsdl:part name="parameters" element="tns:CreateLobbyResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_CreateLobby_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q15="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q15:ServiceFault" />
+    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q12:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_JoinLobby_InputMessage">
     <wsdl:part name="parameters" element="tns:JoinLobby" />
@@ -229,7 +217,7 @@
     <wsdl:part name="parameters" element="tns:JoinLobbyResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_JoinLobby_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q16="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q16:ServiceFault" />
+    <wsdl:part xmlns:q13="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q13:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_LeaveLobby_InputMessage">
     <wsdl:part name="parameters" element="tns:LeaveLobby" />
@@ -241,7 +229,7 @@
     <wsdl:part name="parameters" element="tns:KickPlayerResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_KickPlayer_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q17="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q17:ServiceFault" />
+    <wsdl:part xmlns:q14="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q14:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_ChooseBoard_InputMessage">
     <wsdl:part name="parameters" element="tns:ChooseBoard" />
@@ -250,7 +238,7 @@
     <wsdl:part name="parameters" element="tns:ChooseBoardResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_ChooseBoard_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q18="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q18:ServiceFault" />
+    <wsdl:part xmlns:q15="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q15:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_GetLobbyState_InputMessage">
     <wsdl:part name="parameters" element="tns:GetLobbyState" />
@@ -265,7 +253,7 @@
     <wsdl:part name="parameters" element="tns:LoginUserResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_LoginUser_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q19="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q19:ServiceFault" />
+    <wsdl:part xmlns:q16="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q16:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_LoginGuest_InputMessage">
     <wsdl:part name="parameters" element="tns:LoginGuest" />
@@ -274,7 +262,7 @@
     <wsdl:part name="parameters" element="tns:LoginGuestResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_LoginGuest_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q20="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q20:ServiceFault" />
+    <wsdl:part xmlns:q17="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q17:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_LogoutUser_InputMessage">
     <wsdl:part name="parameters" element="tns:LogoutUser" />
@@ -289,7 +277,7 @@
     <wsdl:part name="parameters" element="tns:RequestUserVerificationResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RequestUserVerification_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q21="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q21:ServiceFault" />
+    <wsdl:part xmlns:q18="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q18:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RegisterUserWithCode_InputMessage">
     <wsdl:part name="parameters" element="tns:RegisterUserWithCode" />
@@ -298,7 +286,7 @@
     <wsdl:part name="parameters" element="tns:RegisterUserWithCodeResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RegisterUserWithCode_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q22="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q22:ServiceFault" />
+    <wsdl:part xmlns:q19="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q19:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RegisterGuest_InputMessage">
     <wsdl:part name="parameters" element="tns:RegisterGuest" />
@@ -307,7 +295,7 @@
     <wsdl:part name="parameters" element="tns:RegisterGuestResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RegisterGuest_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q23="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q23:ServiceFault" />
+    <wsdl:part xmlns:q20="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q20:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_VerifyPassword_InputMessage">
     <wsdl:part name="parameters" element="tns:VerifyPassword" />
@@ -322,7 +310,7 @@
     <wsdl:part name="parameters" element="tns:ChangePasswordResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_ChangePassword_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q24="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q24:ServiceFault" />
+    <wsdl:part xmlns:q21="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q21:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RecoverPassword_InputMessage">
     <wsdl:part name="parameters" element="tns:RecoverPassword" />
@@ -331,7 +319,7 @@
     <wsdl:part name="parameters" element="tns:RecoverPasswordResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RecoverPassword_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q25="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q25:ServiceFault" />
+    <wsdl:part xmlns:q22="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q22:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_UpdateProfile_InputMessage">
     <wsdl:part name="parameters" element="tns:UpdateProfile" />
@@ -340,7 +328,7 @@
     <wsdl:part name="parameters" element="tns:UpdateProfileResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_UpdateProfile_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q26="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q26:ServiceFault" />
+    <wsdl:part xmlns:q23="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q23:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_FindUserByNickname_InputMessage">
     <wsdl:part name="parameters" element="tns:FindUserByNickname" />
@@ -349,7 +337,7 @@
     <wsdl:part name="parameters" element="tns:FindUserByNicknameResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_FindUserByNickname_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q27="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q27:ServiceFault" />
+    <wsdl:part xmlns:q24="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q24:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_GetUserProfile_InputMessage">
     <wsdl:part name="parameters" element="tns:GetUserProfile" />
@@ -358,16 +346,13 @@
     <wsdl:part name="parameters" element="tns:GetUserProfileResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_GetUserProfile_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q28="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q28:ServiceFault" />
+    <wsdl:part xmlns:q25="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q25:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_ChangeEmailWithCode_InputMessage">
     <wsdl:part name="parameters" element="tns:ChangeEmailWithCode" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_ChangeEmailWithCode_OutputMessage">
     <wsdl:part name="parameters" element="tns:ChangeEmailWithCodeResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILotteryService_ChangeEmailWithCode_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q29="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q29:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RecoverPasswordRequest_InputMessage">
     <wsdl:part name="parameters" element="tns:RecoverPasswordRequest" />
@@ -376,25 +361,13 @@
     <wsdl:part name="parameters" element="tns:RecoverPasswordRequestResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_RecoverPasswordRequest_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q30="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q30:ServiceFault" />
+    <wsdl:part xmlns:q26="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q26:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_GetLeaderboard_InputMessage">
     <wsdl:part name="parameters" element="tns:GetLeaderboard" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_GetLeaderboard_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetLeaderboardResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILotteryService_GetLeaderboard_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q31="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q31:ServiceFault" />
-  </wsdl:message>
-  <wsdl:message name="ILotteryService_RequestEmailChangeVerification_InputMessage">
-    <wsdl:part name="parameters" element="tns:RequestEmailChangeVerification" />
-  </wsdl:message>
-  <wsdl:message name="ILotteryService_RequestEmailChangeVerification_OutputMessage">
-    <wsdl:part name="parameters" element="tns:RequestEmailChangeVerificationResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILotteryService_RequestEmailChangeVerification_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q32="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q32:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_SendVerificationCode_InputMessage">
     <wsdl:part name="parameters" element="tns:SendVerificationCode" />
@@ -421,7 +394,7 @@
     <wsdl:part name="parameters" element="tns:GetSocialMediaResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_GetSocialMedia_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q33="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q33:ServiceFault" />
+    <wsdl:part xmlns:q27="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q27:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_SaveOrUpdateSocialMedia_InputMessage">
     <wsdl:part name="parameters" element="tns:SaveOrUpdateSocialMedia" />
@@ -430,7 +403,7 @@
     <wsdl:part name="parameters" element="tns:SaveOrUpdateSocialMediaResponse" />
   </wsdl:message>
   <wsdl:message name="ILotteryService_SaveOrUpdateSocialMedia_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q34="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q34:ServiceFault" />
+    <wsdl:part xmlns:q28="http://schemas.datacontract.org/2004/07/Contracts.Faults" name="detail" element="q28:ServiceFault" />
   </wsdl:message>
   <wsdl:portType name="ILotteryService">
     <wsdl:operation name="SendMessage">
@@ -489,9 +462,6 @@
     </wsdl:operation>
     <wsdl:operation name="ReceiveChatMessage">
       <wsdl:output wsaw:Action="http://tempuri.org/IChatService/ReceiveChatMessage" message="tns:ILotteryService_ReceiveChatMessage_OutputCallbackMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="OnGameCancelledByAbandonment">
-      <wsdl:output wsaw:Action="http://tempuri.org/IChatService/OnGameCancelledByAbandonment" message="tns:ILotteryService_OnGameCancelledByAbandonment_OutputCallbackMessage" />
     </wsdl:operation>
     <wsdl:operation name="SendRequestFriendship">
       <wsdl:input wsaw:Action="http://tempuri.org/IFriendService/SendRequestFriendship" message="tns:ILotteryService_SendRequestFriendship_InputMessage" />
@@ -554,17 +524,14 @@
     <wsdl:operation name="DeclareWin">
       <wsdl:input wsaw:Action="http://tempuri.org/IGameService/DeclareWin" message="tns:ILotteryService_DeclareWin_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGameService/DeclareWinResponse" message="tns:ILotteryService_DeclareWin_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IGameService/DeclareWinServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_DeclareWin_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="ValidateFalseLoteria">
       <wsdl:input wsaw:Action="http://tempuri.org/IGameService/ValidateFalseLoteria" message="tns:ILotteryService_ValidateFalseLoteria_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGameService/ValidateFalseLoteriaResponse" message="tns:ILotteryService_ValidateFalseLoteria_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IGameService/ValidateFalseLoteriaServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_ValidateFalseLoteria_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="ConfirmGameEnd">
       <wsdl:input wsaw:Action="http://tempuri.org/IGameService/ConfirmGameEnd" message="tns:ILotteryService_ConfirmGameEnd_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGameService/ConfirmGameEndResponse" message="tns:ILotteryService_ConfirmGameEnd_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IGameService/ConfirmGameEndServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_ConfirmGameEnd_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="CreateLobby">
       <wsdl:input wsaw:Action="http://tempuri.org/ILobbyService/CreateLobby" message="tns:ILotteryService_CreateLobby_InputMessage" />
@@ -654,7 +621,6 @@
     <wsdl:operation name="ChangeEmailWithCode">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/ChangeEmailWithCode" message="tns:ILotteryService_ChangeEmailWithCode_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/ChangeEmailWithCodeResponse" message="tns:ILotteryService_ChangeEmailWithCode_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/ChangeEmailWithCodeServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_ChangeEmailWithCode_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="RecoverPasswordRequest">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/RecoverPasswordRequest" message="tns:ILotteryService_RecoverPasswordRequest_InputMessage" />
@@ -664,12 +630,6 @@
     <wsdl:operation name="GetLeaderboard">
       <wsdl:input wsaw:Action="http://tempuri.org/IUserService/GetLeaderboard" message="tns:ILotteryService_GetLeaderboard_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IUserService/GetLeaderboardResponse" message="tns:ILotteryService_GetLeaderboard_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/GetLeaderboardServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_GetLeaderboard_ServiceFaultFault_FaultMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="RequestEmailChangeVerification">
-      <wsdl:input wsaw:Action="http://tempuri.org/IUserService/RequestEmailChangeVerification" message="tns:ILotteryService_RequestEmailChangeVerification_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IUserService/RequestEmailChangeVerificationResponse" message="tns:ILotteryService_RequestEmailChangeVerification_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IUserService/RequestEmailChangeVerificationServiceFaultFault" name="ServiceFaultFault" message="tns:ILotteryService_RequestEmailChangeVerification_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="SendVerificationCode">
       <wsdl:input wsaw:Action="http://tempuri.org/IVerificationService/SendVerificationCode" message="tns:ILotteryService_SendVerificationCode_InputMessage" />
@@ -810,12 +770,6 @@
     </wsdl:operation>
     <wsdl:operation name="ReceiveChatMessage">
       <soap12:operation soapAction="http://tempuri.org/IChatService/ReceiveChatMessage" style="document" />
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="OnGameCancelledByAbandonment">
-      <soap12:operation soapAction="http://tempuri.org/IChatService/OnGameCancelledByAbandonment" style="document" />
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
@@ -966,9 +920,6 @@
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
-      <wsdl:fault name="ServiceFaultFault">
-        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
-      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="ValidateFalseLoteria">
       <soap12:operation soapAction="http://tempuri.org/IGameService/ValidateFalseLoteria" style="document" />
@@ -978,9 +929,6 @@
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
-      <wsdl:fault name="ServiceFaultFault">
-        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
-      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="ConfirmGameEnd">
       <soap12:operation soapAction="http://tempuri.org/IGameService/ConfirmGameEnd" style="document" />
@@ -990,9 +938,6 @@
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
-      <wsdl:fault name="ServiceFaultFault">
-        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
-      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="CreateLobby">
       <soap12:operation soapAction="http://tempuri.org/ILobbyService/CreateLobby" style="document" />
@@ -1203,9 +1148,6 @@
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
-      <wsdl:fault name="ServiceFaultFault">
-        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
-      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="RecoverPasswordRequest">
       <soap12:operation soapAction="http://tempuri.org/IUserService/RecoverPasswordRequest" style="document" />
@@ -1227,21 +1169,6 @@
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
-      <wsdl:fault name="ServiceFaultFault">
-        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="RequestEmailChangeVerification">
-      <soap12:operation soapAction="http://tempuri.org/IUserService/RequestEmailChangeVerification" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-      <wsdl:fault name="ServiceFaultFault">
-        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
-      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="SendVerificationCode">
       <soap12:operation soapAction="http://tempuri.org/IVerificationService/SendVerificationCode" style="document" />
@@ -1297,9 +1224,9 @@
   </wsdl:binding>
   <wsdl:service name="LotteryService">
     <wsdl:port name="NetTcpBinding_ILotteryService" binding="tns:NetTcpBinding_ILotteryService">
-      <soap12:address location="net.tcp://localhost:8080/Lottery/LotteryService" />
+      <soap12:address location="net.tcp://192.168.1.8:8080/Lottery/LotteryService" />
       <wsa10:EndpointReference>
-        <wsa10:Address>net.tcp://localhost:8080/Lottery/LotteryService</wsa10:Address>
+        <wsa10:Address>net.tcp://192.168.1.8:8080/Lottery/LotteryService</wsa10:Address>
       </wsa10:EndpointReference>
     </wsdl:port>
   </wsdl:service>

@@ -63,7 +63,27 @@ namespace Lottery
 
         private bool IsNetworkAvailable()
         {
-            return System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable();
+            if (System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable())
+            {
+                return true;
+            }
+
+            try
+            {
+                if (_client is LotteryServiceClient concreteClient && concreteClient.Endpoint != null)
+                {
+                    var host = concreteClient.Endpoint.Address.Uri.Host.ToLower();
+                    if (host == "localhost" || host == "127.0.0.1")
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+            return false;
         }
 
         private void CreateClient()

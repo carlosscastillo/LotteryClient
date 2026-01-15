@@ -455,10 +455,25 @@ namespace Lottery.ViewModel.Game
             });
         }
 
-        private async void OnGameEnded()
+        private void OnGameEnded(GameResultDto result)
         {
-            await _gameWindow.Dispatcher.InvokeAsync(() =>
+            _gameWindow.Dispatcher.Invoke(() =>
             {
+                if (result.IsDbConnectionError)
+                {
+                    UnsubscribeFromGameEvents();
+
+                    CustomMessageBox.Show(
+                        "La partida ha finalizado, pero no se ha podido establecer conexión con la base de datos para guardar las puntuaciones. Serás redirigido al menú principal.",
+                        Lang.GlobalMessageBoxTitleError,
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning,
+                        _gameWindow);
+
+                    NavigateToMainMenu();
+                    return;
+                }
+
                 if (_winnerDeclared)
                 {
                     return;

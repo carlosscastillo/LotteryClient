@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="9.1" CheckSum="LIfd8n6iIYsnBroGq9mGmjqH7iQYRdRFpBrFeYa6kjw=">
+<SavedWcfConfigurationInformation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="9.1" CheckSum="XoQrD+DtdrcgzN7NpE1cH2P0kTBPVLMQuh9mVFuc3vs=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="netTcpBinding" name="NetTcpBinding_ILotteryService">
       <properties>
@@ -73,7 +73,7 @@
           <serializedValue>True</serializedValue>
         </property>
         <property path="/reliableSession/inactivityTimeout" isComplexType="false" isExplicitlyDefined="true" clrType="System.TimeSpan, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>00:20:00</serializedValue>
+          <serializedValue>00:01:00</serializedValue>
         </property>
         <property path="/reliableSession/enabled" isComplexType="false" isExplicitlyDefined="true" clrType="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>True</serializedValue>
@@ -121,10 +121,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="NetTcpBinding_ILotteryService" contract="LotteryServiceReference.ILotteryService" bindingType="netTcpBinding" address="net.tcp://localhost:8080/Lottery/LotteryService" bindingConfiguration="NetTcpBinding_ILotteryService">
+    <endpoint name="NetTcpBinding_ILotteryService" contract="LotteryServiceReference.ILotteryService" bindingType="netTcpBinding" address="net.tcp://192.168.1.67:8080/Lottery/LotteryService" bindingConfiguration="NetTcpBinding_ILotteryService">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>net.tcp://localhost:8080/Lottery/LotteryService</serializedValue>
+          <serializedValue>net.tcp://192.168.1.67:8080/Lottery/LotteryService</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

@@ -27,6 +27,7 @@ namespace Lottery
         public static event Action<string, int, int, List<int>> PlayerWonReceived;
 
         public static event Action GameEndedReceived;
+        public static string PendingGameError { get; set; }
 
         public static event Action GameResumedReceived;
         public static event Action<string, string, bool> FalseLoteriaResultReceived;
@@ -93,9 +94,14 @@ namespace Lottery
             RunOnUI(() => CardDrawnReceived?.Invoke(card));
         }
 
-        public void OnGameFinished()
+        public void OnGameFinished(string message)
         {
-            RunOnUI(() => GameEndedReceived?.Invoke());
+            if (!string.IsNullOrEmpty(message) && message.Contains("DB_ERROR"))
+            {
+                PendingGameError = "DB_ERROR";
+            }
+
+            GameEndedReceived?.Invoke();
         }
 
         public void OnGameResumed()

@@ -61,6 +61,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Regresando al lobby en....
+        /// </summary>
+        public static string BackToLobbyMessage {
+            get {
+                return ResourceManager.GetString("BackToLobbyMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Aang.
         /// </summary>
         public static string CardTextBlockAang {
@@ -610,6 +619,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Segundos.
+        /// </summary>
+        public static string CreateLobbyComboBoxTime {
+            get {
+                return ResourceManager.GetString("CreateLobbyComboBoxTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a 1 Segundo.
         /// </summary>
         public static string CreateLobbyLabelCardDisplayOneSecond {
@@ -1096,6 +1114,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a No se pudo guardar su puntuación, ocurrió un error con la base de datos. :(.
+        /// </summary>
+        public static string GameConnectionDatabaseMessage {
+            get {
+                return ResourceManager.GetString("GameConnectionDatabaseMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Error de conexión al declarar victoria:.
         /// </summary>
         public static string GameConnectionErrorVictory {
@@ -1110,6 +1137,16 @@ namespace Lottery.Properties.Langs {
         public static string GameEndGame {
             get {
                 return ResourceManager.GetString("GameEndGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El mazo se ha agotado.
+        ///¡Nadie presionó Lotería!.
+        /// </summary>
+        public static string GameEndNoWinner {
+            get {
+                return ResourceManager.GetString("GameEndNoWinner", resourceCulture);
             }
         }
         
@@ -1312,6 +1349,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Salir ya.
+        /// </summary>
+        public static string GameSummaryLeaveNowButton {
+            get {
+                return ResourceManager.GetString("GameSummaryLeaveNowButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Juego Finalizado.
         /// </summary>
         public static string GameTitleGameFinished {
@@ -1362,6 +1408,15 @@ namespace Lottery.Properties.Langs {
         public static string GameWarningNotAllCellsSelected {
             get {
                 return ResourceManager.GetString("GameWarningNotAllCellsSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡Victoria para {0}!.
+        /// </summary>
+        public static string GameWinnerMessage {
+            get {
+                return ResourceManager.GetString("GameWinnerMessage", resourceCulture);
             }
         }
         

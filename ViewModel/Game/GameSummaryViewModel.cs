@@ -48,7 +48,6 @@ namespace Lottery.ViewModel.Game
             }
 
             TimerText = _countdown.ToString();            
-            
             if (!HasWinner)
             {
                 CheckAndShowPendingDbErrorForDeckEnd();
@@ -59,7 +58,7 @@ namespace Lottery.ViewModel.Game
         }
 
         private void CheckAndShowPendingDbErrorForDeckEnd()
-        {            
+        {
             Application.Current.Dispatcher.BeginInvoke(new Action(async () =>
             {
                 await Task.Delay(1000);
@@ -70,7 +69,7 @@ namespace Lottery.ViewModel.Game
                     ClientCallbackHandler.PendingGameError = null;
 
                     if (error == "DB_ERROR")
-                    {                        
+                    {
                         ShowAutoCloseDbError();
                     }
                 }
@@ -78,7 +77,7 @@ namespace Lottery.ViewModel.Game
         }
 
         private void ShowAutoCloseDbError()
-        {            
+        {
             var errorTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(3) };
             var msgBox = CustomMessageBox.Show(
                 Lang.GameConnectionDatabaseMessage,
@@ -89,7 +88,7 @@ namespace Lottery.ViewModel.Game
 
             errorTimer.Tick += (s, e) =>
             {
-                errorTimer.Stop();                
+                errorTimer.Stop();
                 foreach (Window window in Application.Current.Windows)
                 {
                     if (window.GetType().Name == "CustomMessageBox")
@@ -130,11 +129,11 @@ namespace Lottery.ViewModel.Game
         }
 
         private void ExecuteExitNow(object obj)
-        {            
+        {
             if (_timer != null && _timer.IsEnabled)
             {
                 _timer.Stop();
-            }            
+            }
             ReturnToLobby();
         }
     }

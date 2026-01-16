@@ -35,8 +35,14 @@ namespace Lottery.ViewModel.Game
         private ObservableCollection<PlayerGameViewModel> _otherPlayers;
         public ObservableCollection<PlayerGameViewModel> OtherPlayers
         {
-            get => _otherPlayers;
-            set => SetProperty(ref _otherPlayers, value);
+            get
+            {
+                return _otherPlayers;
+            }
+            set
+            {
+                SetProperty(ref _otherPlayers, value);
+            }
         }
 
         private readonly string _gameMode;
@@ -64,69 +70,134 @@ namespace Lottery.ViewModel.Game
             { 52, "CardTextBlockTommy" }, { 53, "CardTextBlockWanda" }, { 54, "CardTextBlockWoodyWoodpecker" }
         };
 
-        public ObservableCollection<UserDto> Players { get; }
-        public ObservableCollection<Cell> BoardCells { get; } = new ObservableCollection<Cell>();
+        public ObservableCollection<UserDto> Players
+        {
+            get;
+        }
 
-        public bool IsHost { get; }
+        public ObservableCollection<Cell> BoardCells
+        {
+            get;
+        } = new ObservableCollection<Cell>();
+
+        public bool IsHost
+        {
+            get;
+        }
 
         private ImageSource _boardBackgroundImage;
         public ImageSource BoardBackgroundImage
         {
-            get => _boardBackgroundImage;
-            set => SetProperty(ref _boardBackgroundImage, value);
+            get
+            {
+                return _boardBackgroundImage;
+            }
+            set
+            {
+                SetProperty(ref _boardBackgroundImage, value);
+            }
         }
 
         private string _tokenImagePath;
         public string TokenImagePath
         {
-            get => _tokenImagePath;
-            set => SetProperty(ref _tokenImagePath, value);
+            get
+            {
+                return _tokenImagePath;
+            }
+            set
+            {
+                SetProperty(ref _tokenImagePath, value);
+            }
         }
 
         private string _tokenPileImagePath;
         public string TokenPileImagePath
         {
-            get => _tokenPileImagePath;
-            set => SetProperty(ref _tokenPileImagePath, value);
+            get
+            {
+                return _tokenPileImagePath;
+            }
+            set
+            {
+                SetProperty(ref _tokenPileImagePath, value);
+            }
         }
 
         private BitmapImage _currentCardImage;
         public BitmapImage CurrentCardImage
         {
-            get => _currentCardImage;
-            set => SetProperty(ref _currentCardImage, value);
+            get
+            {
+                return _currentCardImage;
+            }
+            set
+            {
+                SetProperty(ref _currentCardImage, value);
+            }
         }
 
         private string _currentCardName = "Esperando carta...";
         public string CurrentCardName
         {
-            get => _currentCardName;
-            set => SetProperty(ref _currentCardName, value);
+            get
+            {
+                return _currentCardName;
+            }
+            set
+            {
+                SetProperty(ref _currentCardName, value);
+            }
         }
 
         private string _gameStatusMessage;
         public string GameStatusMessage
         {
-            get => _gameStatusMessage;
-            set => SetProperty(ref _gameStatusMessage, value);
+            get
+            {
+                return _gameStatusMessage;
+            }
+            set
+            {
+                SetProperty(ref _gameStatusMessage, value);
+            }
         }
 
         private bool _isStartMessageVisible;
         public bool IsStartMessageVisible
         {
-            get => _isStartMessageVisible;
-            set => SetProperty(ref _isStartMessageVisible, value);
+            get
+            {
+                return _isStartMessageVisible;
+            }
+            set
+            {
+                SetProperty(ref _isStartMessageVisible, value);
+            }
         }
 
         private string _startMessageText;
         public string StartMessageText
         {
-            get => _startMessageText;
-            set => SetProperty(ref _startMessageText, value);
+            get
+            {
+                return _startMessageText;
+            }
+            set
+            {
+                SetProperty(ref _startMessageText, value);
+            }
         }
 
-        public ICommand DeclareLoteriaCommand { get; }
-        public ICommand ExitGameCommand { get; }
+        public ICommand DeclareLoteriaCommand
+        {
+            get;
+        }
+
+        public ICommand ExitGameCommand
+        {
+            get;
+        }
 
         public GameViewModel(
             ObservableCollection<UserDto> players,
@@ -181,16 +252,18 @@ namespace Lottery.ViewModel.Game
         {
             try
             {
-                var bitmap = new BitmapImage();
+                BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();
                 bitmap.UriSource = new Uri(uriSource, UriKind.Absolute);
                 bitmap.CacheOption = BitmapCacheOption.OnLoad;
                 bitmap.CreateOptions = BitmapCreateOptions.DelayCreation;
                 bitmap.EndInit();
+
                 if (bitmap.CanFreeze)
                 {
                     bitmap.Freeze();
                 }
+
                 return bitmap;
             }
             catch
@@ -202,15 +275,15 @@ namespace Lottery.ViewModel.Game
         private async Task LoadBoardResourcesAsync(int boardId)
         {
             string bgPath = $"pack://application:,,,/Lottery;component/Images/Boards/board_{boardId}.png";
-            var bgImage = CreateBitmapImage(bgPath);
+            BitmapImage bgImage = CreateBitmapImage(bgPath);
 
             List<int> cardIds = BoardConfigurations.GetBoardById(boardId);
-            var tempCells = new List<Cell>();
+            List<Cell> tempCells = new List<Cell>();
 
             for (int i = 0; i < cardIds.Count; i++)
             {
                 string path = GetImagePathFromId(cardIds[i]);
-                var img = CreateBitmapImage(path);
+                BitmapImage img = CreateBitmapImage(path);
 
                 tempCells.Add(new Cell
                 {
@@ -225,7 +298,8 @@ namespace Lottery.ViewModel.Game
             {
                 BoardBackgroundImage = bgImage;
                 BoardCells.Clear();
-                foreach (var cell in tempCells)
+
+                foreach (Cell cell in tempCells)
                 {
                     BoardCells.Add(cell);
                 }
@@ -298,7 +372,7 @@ namespace Lottery.ViewModel.Game
 
             for (int i = 0; i < cardIds.Count; i++)
             {
-                var cell = new Cell
+                Cell cell = new Cell
                 {
                     Id = cardIds[i],
                     ImageSource = CreateBitmapImage(GetImagePathFromId(cardIds[i])),
@@ -322,10 +396,11 @@ namespace Lottery.ViewModel.Game
 
         private string GetResourceKeyForCard(int cardId)
         {
-            if (CARD_RESOURCE_KEYS.TryGetValue(cardId, out var key))
+            if (CARD_RESOURCE_KEYS.TryGetValue(cardId, out string key))
             {
                 return key;
             }
+
             return null;
         }
 
@@ -367,8 +442,8 @@ namespace Lottery.ViewModel.Game
                 _cardsDrawnCount++;
                 string cardImagePath = GetImagePathFromId(cardDto.Id);
                 CurrentCardImage = CreateBitmapImage(cardImagePath);
+                string key = GetResourceKeyForCard(cardDto.Id);
 
-                var key = GetResourceKeyForCard(cardDto.Id);
                 if (key != null)
                 {
                     CurrentCardName = Lang.ResourceManager.GetString(key) ?? ("Carta " + cardDto.Id);
@@ -397,8 +472,8 @@ namespace Lottery.ViewModel.Game
                 _winnerDeclared = true;
                 UnsubscribeFromGameEvents();
 
-                var winnerBoardConfig = BoardConfigurations.GetBoardById(winnerBoardId);
-                var winnerCells = new List<Cell>();
+                List<int> winnerBoardConfig = BoardConfigurations.GetBoardById(winnerBoardId);
+                List<Cell> winnerCells = new List<Cell>();
 
                 for (int i = 0; i < winnerBoardConfig.Count; i++)
                 {
@@ -414,14 +489,14 @@ namespace Lottery.ViewModel.Game
                     });
                 }
 
-                var winnerViewModel = new WinnerViewModel(
+                WinnerViewModel winnerViewModel = new WinnerViewModel(
                     winnerId,
                     nickname,
                     winnerCells,
                     _gameWindow,
                     _lobbyWindow);
 
-                var winnerView = new WinnerView
+                WinnerView winnerView = new WinnerView
                 {
                     DataContext = winnerViewModel
                 };
@@ -431,26 +506,38 @@ namespace Lottery.ViewModel.Game
             });
         }
 
-        private async void OnGameEnded()
+        private async void OnGameEnded(string finalMessage)
         {
-            await _gameWindow.Dispatcher.InvokeAsync(() =>
+            await _gameWindow.Dispatcher.InvokeAsync(async () =>
             {
                 if (_winnerDeclared)
                 {
                     return;
                 }
 
-                TimedMessageBox.Show(
-                    Lang.GameGameIsOver,
-                    Lang.GlobalMessageBoxTitleInfo,
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information,
-                    3,
-                    () =>
+                _winnerDeclared = true;
+                UnsubscribeFromGameEvents();
+
+                if (!string.IsNullOrEmpty(finalMessage) && finalMessage.StartsWith("DB_ERROR"))
+                {
+                    string[] parts = finalMessage.Split('|');
+
+                    if (parts.Length > 1)
                     {
-                        UnsubscribeFromGameEvents();
-                        NavigateToLobby();
-                    });
+                        string[] affectedIds = parts[1].Split(',');
+
+                        if (affectedIds.Contains(_currentUserId.ToString()))
+                        {
+                            ClientCallbackHandler.PendingGameError = "DB_ERROR";
+                        }
+                    }
+                }
+
+                GameSummaryView summaryView = new GameSummaryView();
+                GameSummaryViewModel summaryVM = new GameSummaryViewModel(null, null, summaryView, _lobbyWindow);
+                summaryView.DataContext = summaryVM;
+                summaryView.Show();
+                _gameWindow.Close();
             });
         }
 
@@ -458,13 +545,15 @@ namespace Lottery.ViewModel.Game
         {
             _gameWindow.Dispatcher.Invoke(() =>
             {
-                var playerToRemove = Players.FirstOrDefault(p => p.UserId == playerId);
+                UserDto playerToRemove = Players.FirstOrDefault(p => p.UserId == playerId);
+
                 if (playerToRemove != null)
                 {
                     Players.Remove(playerToRemove);
                 }
 
-                var visualPlayer = OtherPlayers.FirstOrDefault(p => p.Name == playerToRemove?.Nickname);
+                PlayerGameViewModel visualPlayer = OtherPlayers.FirstOrDefault(p => p.Name == playerToRemove?.Nickname);
+
                 if (visualPlayer != null)
                 {
                     OtherPlayers.Remove(visualPlayer);
@@ -509,34 +598,7 @@ namespace Lottery.ViewModel.Game
                 {
                     _lobbyWindow.Close();
                 }
-                _gameWindow.Close();
-            });
-        }
 
-        private void NavigateToMainMenu()
-        {
-            _gameWindow.Dispatcher.Invoke(() =>
-            {
-                MainMenuView mainMenuView = new MainMenuView();
-                mainMenuView.Show();
-                _gameWindow.Close();
-            });
-        }
-
-        private void NavigateToLobby()
-        {
-            _gameWindow.Dispatcher.Invoke(() =>
-            {
-                if (_winnerDeclared)
-                {
-                    return;
-                }
-
-                if (_lobbyWindow.DataContext is LobbyViewModel lobbyVM)
-                {
-                    lobbyVM.SubscribeToEvents();
-                }
-                _lobbyWindow.Show();
                 _gameWindow.Close();
             });
         }
@@ -567,7 +629,7 @@ namespace Lottery.ViewModel.Game
 
             GameStatusMessage = Lang.GameStatusVerifyingWin;
 
-            var playerBoardDto = new PlayerBoardDto
+            PlayerBoardDto playerBoardDto = new PlayerBoardDto
             {
                 PlayerId = _currentUserId,
                 BoardId = _selectedBoardId,
@@ -583,7 +645,12 @@ namespace Lottery.ViewModel.Game
             }
             catch (FaultException<ServiceFault> fault)
             {
-                CustomMessageBox.Show(fault.Detail.Message, "Error de Base de Datos", MessageBoxButton.OK, MessageBoxImage.Error, _gameWindow);
+                CustomMessageBox.Show(
+                    fault.Detail.Message,
+                    "Error de Base de Datos",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error,
+                    _gameWindow);
             }
             catch (Exception)
             {
@@ -611,16 +678,20 @@ namespace Lottery.ViewModel.Game
                     }
                 case "Marco":
                     {
-                        bool top = BoardCells[0].IsSelected && BoardCells[1].IsSelected && BoardCells[2].IsSelected && BoardCells[3].IsSelected;
-                        bool bottom = BoardCells[12].IsSelected && BoardCells[13].IsSelected && BoardCells[14].IsSelected && BoardCells[15].IsSelected;
+                        bool top = BoardCells[0].IsSelected && BoardCells[1].IsSelected &&
+                                   BoardCells[2].IsSelected && BoardCells[3].IsSelected;
+                        bool bottom = BoardCells[12].IsSelected && BoardCells[13].IsSelected &&
+                                      BoardCells[14].IsSelected && BoardCells[15].IsSelected;
                         bool left = BoardCells[4].IsSelected && BoardCells[8].IsSelected;
                         bool right = BoardCells[7].IsSelected && BoardCells[11].IsSelected;
                         return top && bottom && left && right;
                     }
                 case "Diagonales":
                     {
-                        bool diag1 = BoardCells[0].IsSelected && BoardCells[5].IsSelected && BoardCells[10].IsSelected && BoardCells[15].IsSelected;
-                        bool diag2 = BoardCells[3].IsSelected && BoardCells[6].IsSelected && BoardCells[9].IsSelected && BoardCells[12].IsSelected;
+                        bool diag1 = BoardCells[0].IsSelected && BoardCells[5].IsSelected &&
+                                     BoardCells[10].IsSelected && BoardCells[15].IsSelected;
+                        bool diag2 = BoardCells[3].IsSelected && BoardCells[6].IsSelected &&
+                                     BoardCells[9].IsSelected && BoardCells[12].IsSelected;
                         return diag1 && diag2;
                     }
                 case "Normal":
@@ -633,7 +704,7 @@ namespace Lottery.ViewModel.Game
 
         private async Task LeaveGame()
         {
-            var result = CustomMessageBox.Show(
+            MessageBoxResult result = CustomMessageBox.Show(
                 Lang.GameWarningLeaveGame,
                 Lang.GlobalMessageBoxTitleExit,
                 MessageBoxButton.YesNo,
@@ -652,10 +723,12 @@ namespace Lottery.ViewModel.Game
                 {
                     MainMenuView mainMenuView = new MainMenuView();
                     mainMenuView.Show();
+
                     if (_lobbyWindow != null)
                     {
                         _lobbyWindow.Close();
                     }
+
                     _gameWindow.Close();
                 });
             }
@@ -680,39 +753,77 @@ namespace Lottery.ViewModel.Game
         private int _id;
         public int Id
         {
-            get => _id;
-            set => SetProperty(ref _id, value);
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                SetProperty(ref _id, value);
+            }
         }
 
         private ImageSource _imageSource;
         public ImageSource ImageSource
         {
-            get => _imageSource;
-            set => SetProperty(ref _imageSource, value);
+            get
+            {
+                return _imageSource;
+            }
+            set
+            {
+                SetProperty(ref _imageSource, value);
+            }
         }
 
         private bool _isSelected;
         public bool IsSelected
         {
-            get => _isSelected;
-            set => SetProperty(ref _isSelected, value);
+            get
+            {
+                return _isSelected;
+            }
+            set
+            {
+                SetProperty(ref _isSelected, value);
+            }
         }
-        public int Position { get; set; }
+
+        public int Position
+        {
+            get;
+            set;
+        }
     }
 
     public class PlayerGameViewModel : BaseViewModel
     {
-        public string Name { get; set; }
-        public ObservableCollection<Cell> BoardCells { get; } = new ObservableCollection<Cell>();
-        public int TokensLeft { get; set; }
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        public ObservableCollection<Cell> BoardCells
+        {
+            get;
+        } = new ObservableCollection<Cell>();
+
+        public int TokensLeft
+        {
+            get;
+            set;
+        }
 
         public PlayerGameViewModel(UserDto user, GameViewModel mainVM)
         {
             Name = user.Nickname;
             TokensLeft = 0;
+
             if (user.SelectedBoardId > 0)
             {
-                var cardIds = BoardConfigurations.GetBoardById(user.SelectedBoardId);
+                List<int> cardIds = BoardConfigurations.GetBoardById(user.SelectedBoardId);
+
                 for (int i = 0; i < cardIds.Count; i++)
                 {
                     BoardCells.Add(new Cell

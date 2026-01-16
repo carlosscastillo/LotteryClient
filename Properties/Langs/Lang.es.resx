@@ -1297,4 +1297,23 @@
   <data name="GameStatusDeckFinishedGracePeriod" xml:space="preserve">
     <value>¡Mazo terminado! Tienes 10 segundos extra para ganar...</value>
   </data>
+  <data name="GameConnectionDatabaseMessage" xml:space="preserve">
+    <value>No se pudo guardar su puntuación, ocurrió un error con la base de datos. :(</value>
+  </data>
+  <data name="BackToLobbyMessage" xml:space="preserve">
+    <value>Regresando al lobby en...</value>
+  </data>
+  <data name="GameEndNoWinner" xml:space="preserve">
+    <value>El mazo se ha agotado.
+¡Nadie presionó Lotería!</value>
+  </data>
+  <data name="GameWinnerMessage" xml:space="preserve">
+    <value>¡Victoria para {0}!</value>
+  </data>
+  <data name="CreateLobbyComboBoxTime" xml:space="preserve">
+    <value>Segundos</value>
+  </data>
+  <data name="GameSummaryLeaveNowButton" xml:space="preserve">
+    <value>Exit now</value>
+  </data>
 </root>

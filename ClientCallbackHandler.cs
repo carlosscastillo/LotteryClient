@@ -10,7 +10,7 @@ namespace Lottery
 {
     [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, UseSynchronizationContext = false)]
     public class ClientCallbackHandler : ILotteryServiceCallback
-    {
+    {        
         public static event Action<UserDto> PlayerJoinedReceived;
         public static event Action<int> PlayerLeftReceived;
         public static event Action<int> PlayerKickedReceived;
@@ -25,16 +25,18 @@ namespace Lottery
         public static event Action<GameSettingsDto> GameStartedReceived;
         public static event Action<CardDto> CardDrawnReceived;
         public static event Action<string, int, int, List<int>> PlayerWonReceived;
-
-        public static event Action GameEndedReceived;
+        
+        public static event Action<string> GameEndedReceived;
         public static string PendingGameError { get; set; }
 
         public static event Action GameResumedReceived;
-        public static event Action<string, string, bool> FalseLoteriaResultReceived;
-
+        public static event Action<string, string, bool> FalseLoteriaResultReceived;        
         private void RunOnUI(Action action)
         {
-            Application.Current?.Dispatcher.BeginInvoke(action);
+            if (Application.Current != null && Application.Current.Dispatcher != null)
+            {
+                Application.Current.Dispatcher.BeginInvoke(action);
+            }
         }
 
         public void NotifyCard(int cardId)
@@ -93,15 +95,14 @@ namespace Lottery
         {
             RunOnUI(() => CardDrawnReceived?.Invoke(card));
         }
-
+        
         public void OnGameFinished(string message)
         {
             if (!string.IsNullOrEmpty(message) && message.Contains("DB_ERROR"))
             {
                 PendingGameError = "DB_ERROR";
-            }
-
-            GameEndedReceived?.Invoke();
+            }            
+            RunOnUI(() => GameEndedReceived?.Invoke(message));
         }
 
         public void OnGameResumed()

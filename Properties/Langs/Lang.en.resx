@@ -1295,4 +1295,23 @@ Do you want to join?</value>
   <data name="GameStatusDeckFinishedGracePeriod" xml:space="preserve">
     <value>Deck finished! You have 10 extra seconds to win...</value>
   </data>
+  <data name="GameConnectionDatabaseMessage" xml:space="preserve">
+    <value>Unable to save your score, a database error occurred. :(</value>
+  </data>
+  <data name="BackToLobbyMessage" xml:space="preserve">
+    <value>Returning to lobby in...</value>
+  </data>
+  <data name="GameEndNoWinner" xml:space="preserve">
+    <value>The deck has been exhausted.
+No one pressed Lottery!</value>
+  </data>
+  <data name="GameWinnerMessage" xml:space="preserve">
+    <value>Victory for {0}!</value>
+  </data>
+  <data name="CreateLobbyComboBoxTime" xml:space="preserve">
+    <value>Seconds</value>
+  </data>
+  <data name="GameSummaryLeaveNowButton" xml:space="preserve">
+    <value>Salir ya</value>
+  </data>
 </root>

@@ -1314,4 +1314,7 @@
   <data name="GameSummaryLeaveNowButton" xml:space="preserve">
     <value>Salir ya</value>
   </data>
+  <data name="LobbyLabelClosed" xml:space="preserve">
+    <value>El Host ha desconectado o cerrado el lobby. Serás redirigido al menú.</value>
+  </data>
 </root>

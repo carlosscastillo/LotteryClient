@@ -602,8 +602,8 @@ namespace Lottery.ViewModel.Lobby
             {
                 UnsubscribeFromEvents();
                 CustomMessageBox.Show(
-                    "El Host ha desconectado o cerrado el lobby. Serás redirigido al menú.",
-                    "Lobby Cerrado",
+                    Lang.LobbyLabelClosed,
+                    Lang.LobbyTitleClosed,
                     MessageBoxButton.OK,
                     MessageBoxImage.Information,
                     _lobbyWindow);

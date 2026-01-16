@@ -1314,4 +1314,7 @@ No one pressed Lottery!</value>
   <data name="GameSummaryLeaveNowButton" xml:space="preserve">
     <value>Salir ya</value>
   </data>
+  <data name="LobbyLabelClosed" xml:space="preserve">
+    <value>The host has disconnected or closed the lobby. You will be redirected to the menu.</value>
+  </data>
 </root>

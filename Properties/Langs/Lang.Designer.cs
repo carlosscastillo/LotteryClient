@@ -2573,6 +2573,15 @@ namespace Lottery.Properties.Langs {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a El Host ha desconectado o cerrado el lobby. Serás redirigido al menú..
+        /// </summary>
+        public static string LobbyLabelClosed {
+            get {
+                return ResourceManager.GetString("LobbyLabelClosed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Modo de juego.
         /// </summary>
         public static string LobbyLabelGameMode {

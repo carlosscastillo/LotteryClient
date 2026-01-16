@@ -19,7 +19,7 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:8733/Lottery/" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://192.168.1.67:8733/Lottery/" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
     <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="aded0d2f-b13c-46f8-8c05-44164e4e6b86" SourceId="1" SourceUrl="http://localhost:8733/Lottery/?xsd=xsd4" />

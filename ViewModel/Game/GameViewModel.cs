@@ -354,29 +354,10 @@ namespace Lottery.ViewModel.Game
 
         public void ResubscribeToGameEvents()
         {
+            UnsubscribeFromGameEvents();
             _winnerDeclared = false;
             SubscribeToGameEvents();
-            GameStatusMessage = Lang.GameStatusResumed;            
-            SyncGameStateWithServer();
-        }
-
-        private async void SyncGameStateWithServer()
-        {
-            if (_lobbyWindow.DataContext is LobbyViewModel lobbyVM)
-            {                
-                await lobbyVM.RefreshLobbyState();
-                try
-                {
-                    var drawnCards = await ServiceProxy.Instance.Client.GetScoreboardAsync();
-                    _cardsDrawnCount = drawnCards.Length;
-                    if (drawnCards != null)
-                    {
-                        _cardsDrawnCount = drawnCards.Length;
-                        CheckGracePeriod();
-                    }
-                }
-                catch { }
-            }
+            GameStatusMessage = Lang.GameStatusResumed;
         }
 
         private void OnCardDrawn(CardDto cardDto)
@@ -397,16 +378,11 @@ namespace Lottery.ViewModel.Game
                     CurrentCardName = "Carta " + cardDto.Id;
                 }
 
-                CheckGracePeriod();
+                if (_cardsDrawnCount >= TOTAL_CARDS_IN_DECK)
+                {
+                    GameStatusMessage = Lang.GameStatusDeckFinishedGracePeriod;
+                }
             });
-        }
-
-        private void CheckGracePeriod()
-        {
-            if (_cardsDrawnCount >= TOTAL_CARDS_IN_DECK)
-            {
-                GameStatusMessage = Lang.GameStatusDeckFinishedGracePeriod;
-            }
         }
 
         private void OnPlayerWon(string nickname, int winnerId, int winnerBoardId, List<int> markedPositions)
@@ -455,25 +431,10 @@ namespace Lottery.ViewModel.Game
             });
         }
 
-        private void OnGameEnded(GameResultDto result)
+        private async void OnGameEnded()
         {
-            _gameWindow.Dispatcher.Invoke(() =>
+            await _gameWindow.Dispatcher.InvokeAsync(() =>
             {
-                if (result.IsDbConnectionError)
-                {
-                    UnsubscribeFromGameEvents();
-
-                    CustomMessageBox.Show(
-                        "La partida ha finalizado, pero no se ha podido establecer conexión con la base de datos para guardar las puntuaciones. Serás redirigido al menú principal.",
-                        Lang.GlobalMessageBoxTitleError,
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Warning,
-                        _gameWindow);
-
-                    NavigateToMainMenu();
-                    return;
-                }
-
                 if (_winnerDeclared)
                 {
                     return;
@@ -551,7 +512,17 @@ namespace Lottery.ViewModel.Game
                 _gameWindow.Close();
             });
         }
-        
+
+        private void NavigateToMainMenu()
+        {
+            _gameWindow.Dispatcher.Invoke(() =>
+            {
+                MainMenuView mainMenuView = new MainMenuView();
+                mainMenuView.Show();
+                _gameWindow.Close();
+            });
+        }
+
         private void NavigateToLobby()
         {
             _gameWindow.Dispatcher.Invoke(() =>
@@ -576,7 +547,8 @@ namespace Lottery.ViewModel.Game
             {
                 _winnerDeclared = false;
                 GameStatusMessage = Lang.GameStatusResumed;
-                ResubscribeToGameEvents();
+                UnsubscribeFromGameEvents();
+                SubscribeToGameEvents();
             });
         }
 

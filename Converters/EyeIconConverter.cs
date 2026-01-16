@@ -10,16 +10,16 @@ namespace Lottery.Converters
 {
     public class EyeIconConverter : IValueConverter
     {
-        private const string EyeOpenIcon = "pack://application:,,,/Images/Icons/eye_open.png";
-        private const string EyeClosedIcon = "pack://application:,,,/Images/Icons/eye_closed.png";
+        private const string EYE_OPEN_ICON = "pack://application:,,,/Images/Icons/eye_open.png";
+        private const string EYE_CLOSED_ICON = "pack://application:,,,/Images/Icons/eye_closed.png";
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is bool isVisible)
             {     
-                return isVisible ? EyeOpenIcon : EyeClosedIcon;
+                return isVisible ? EYE_OPEN_ICON : EYE_CLOSED_ICON;
             }
-            return EyeClosedIcon;
+            return EYE_CLOSED_ICON;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

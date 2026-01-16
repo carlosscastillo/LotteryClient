@@ -25,6 +25,7 @@ namespace Lottery.ViewModel.MainMenu
         private readonly Dictionary<string, string> _errorMap;
 
         private bool _isShowingInvitation = false;
+        private bool _isExplicitLogout = false;
 
         public string Nickname { get; }
 
@@ -70,11 +71,43 @@ namespace Lottery.ViewModel.MainMenu
             ShowSettingsCommand = new RelayCommand(ExecuteShowSettings);
 
             ClientCallbackHandler.LobbyInviteReceived += OnLobbyInvite;
+
+            if (ServiceProxy.Instance.Client is ICommunicationObject channel)
+            {
+                channel.Faulted += OnServerConnectionLost;
+            }
         }
 
         private void Cleanup()
         {
             ClientCallbackHandler.LobbyInviteReceived -= OnLobbyInvite;
+
+            if (ServiceProxy.Instance.Client is ICommunicationObject channel)
+            {
+                channel.Faulted -= OnServerConnectionLost;
+            }
+        }
+
+        private void OnServerConnectionLost(object sender, EventArgs e)
+        {
+            if (_isExplicitLogout) return;
+
+            _mainMenuWindow.Dispatcher.Invoke(() =>
+            {
+                Cleanup();
+
+                CustomMessageBox.Show(
+                    "Se ha perdido la conexión con el servidor.",
+                    Lang.GlobalMessageBoxTitleError,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning,
+                    _mainMenuWindow);
+
+                SessionManager.Logout();
+                LoginView loginView = new LoginView();
+                loginView.Show();
+                _mainMenuWindow.Close();
+            });
         }
 
         private void ExecuteShowFriendsView()
@@ -228,6 +261,7 @@ namespace Lottery.ViewModel.MainMenu
 
         private async Task Logout()
         {
+            _isExplicitLogout = true;
             Cleanup();
 
             try

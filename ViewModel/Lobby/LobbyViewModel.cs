@@ -39,7 +39,11 @@ namespace Lottery.ViewModel.Lobby
         private bool _isShowingFriendsList;
         private int _selectedBoardId;
         private string _selectedGameMode;
-        private int _cardDrawSpeedSeconds = 1;
+
+        // Usamos el default de 3 segundos del compañero para mayor estabilidad, 
+        // pero puedes cambiarlo si prefieres 1.
+        private int _cardDrawSpeedSeconds = 3;
+
         private string _selectedToken = "beans";
         private ObservableCollection<FriendDto> _friendsList;
 
@@ -75,6 +79,10 @@ namespace Lottery.ViewModel.Lobby
         public ObservableCollection<string> ChatHistory { get; } = new ObservableCollection<string>();
         public ObservableCollection<FriendDto> FriendsList { get => _friendsList; set => SetProperty(ref _friendsList, value); }
         public List<string> AvailableTokens { get; } = new List<string> { "beans", "bottle_caps", "pou", "corn", "coins" };
+
+        // Agregado del compañero: Lista de velocidades disponibles
+        public List<int> AvailableSpeeds { get; } = new List<int> { 1, 2, 3, 4, 5 };
+
         public string SelectedToken
         {
             get => _selectedToken;
@@ -178,9 +186,36 @@ namespace Lottery.ViewModel.Lobby
                     {
                         ChatHistory.Add(rawMsg);
                     }
-                }             
+                }
                 Task.Delay(100).ContinueWith(_ =>
                     Application.Current.Dispatcher.Invoke(ScrollChatToEnd));
+            }
+
+            // CRÍTICO: Verificación de errores pendientes (del compañero)
+            CheckForPendingGameErrors();
+        }
+
+        // --- MÉTODO DEL COMPAÑERO: Manejo de errores diferidos ---
+        private void CheckForPendingGameErrors()
+        {
+            // Nota: Asegúrate de que ClientCallbackHandler tenga la propiedad estática PendingGameError
+            // Si no la tiene, agrégala: public static string PendingGameError { get; set; }
+            if (!string.IsNullOrEmpty(ClientCallbackHandler.PendingGameError))
+            {
+                string error = ClientCallbackHandler.PendingGameError;
+                ClientCallbackHandler.PendingGameError = null;
+
+                if (error == "DB_ERROR")
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        CustomMessageBox.Show(
+                            Lang.GlobalExceptionConnectionDatabaseMessage,
+                            Lang.GlobalMessageBoxTitleError,
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error);
+                    });
+                }
             }
         }
 
@@ -211,12 +246,12 @@ namespace Lottery.ViewModel.Lobby
 
             _eventsSubscribed = false;
         }
-        
+
         private void OnPlayerKicked(int playerId)
         {
             _lobbyWindow.Dispatcher.Invoke(() =>
             {
-                RemovePlayerFromList(playerId);                
+                RemovePlayerFromList(playerId);
             });
         }
 
@@ -344,6 +379,7 @@ namespace Lottery.ViewModel.Lobby
             });
         }
 
+        // --- MÉTODO FUSIONADO: Soporta la lógica compleja del servidor ---
         private string FormatSystemMessage(string rawMessage)
         {
             if (string.IsNullOrEmpty(rawMessage) || !rawMessage.Contains("|"))
@@ -401,11 +437,20 @@ namespace Lottery.ViewModel.Lobby
             });
         }
 
+        // --- MÉTODO TUYO: Conserva el mensaje amigable de desconexión del host ---
         private void OnLobbyClosed()
         {
             _lobbyWindow.Dispatcher.Invoke(() =>
             {
                 UnsubscribeFromEvents();
+
+                CustomMessageBox.Show(
+                    "El Host ha desconectado o cerrado el lobby. Serás redirigido al menú.",
+                    "Lobby Cerrado",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information,
+                    _lobbyWindow);
+
                 NavigateToMainMenu();
             });
         }
@@ -482,7 +527,7 @@ namespace Lottery.ViewModel.Lobby
             }
 
             var result = CustomMessageBox.Show(
-            string.Format(Lang.LobbyKickConfirmationMessage, playerToKick.Nickname), 
+            string.Format(Lang.LobbyKickConfirmationMessage, playerToKick.Nickname),
             Lang.GlobalMessageBoxTitleConfirm,
             MessageBoxButton.YesNo,
             MessageBoxImage.Warning,
@@ -632,6 +677,13 @@ namespace Lottery.ViewModel.Lobby
             try
             {
                 var lobbyState = await ServiceProxy.Instance.Client.GetLobbyStateAsync(LobbyCode);
+
+                // CRÍTICO: Verificamos si hay errores pendientes tras la actualización
+                if (lobbyState.Players.Any(p => p.UserId == _currentUserId))
+                {
+                    CheckForPendingGameErrors();
+                }
+
                 OnLobbyStateUpdated(lobbyState);
             }
             catch (Exception ex)

@@ -351,7 +351,7 @@ namespace Lottery.LotteryServiceReference {
         void OnCardDrawn(Contracts.DTOs.CardDto card);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/OnGameFinished")]
-        void OnGameFinished();
+        void OnGameFinished(string message);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatService/LobbyStateUpdated")]
         void LobbyStateUpdated(Contracts.DTOs.LobbyStateDto lobbyState);

@@ -11,7 +11,7 @@ namespace Lottery.Helpers
 
         public static void ChangeCulture(string cultureName)
         {
-            var culture = new CultureInfo(cultureName);
+            CultureInfo culture = new CultureInfo(cultureName);
 
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;

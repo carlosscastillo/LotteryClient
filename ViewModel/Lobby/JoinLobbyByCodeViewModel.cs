@@ -20,13 +20,26 @@ namespace Lottery.ViewModel.Lobby
         private string _lobbyCode;
         public string LobbyCode
         {
-            get => _lobbyCode;
-            set => SetProperty(ref _lobbyCode, value);
+            get
+            {
+                return _lobbyCode;
+            }
+            set
+            {
+                SetProperty(ref _lobbyCode, value);
+            }
         }
 
-        public LobbyStateDto ResultLobbyState { get; private set; }
+        public LobbyStateDto ResultLobbyState
+        {
+            get;
+            private set;
+        }
 
-        public ICommand JoinLobbyCommand { get; }
+        public ICommand JoinLobbyCommand
+        {
+            get;
+        }
 
         public JoinLobbyByCodeViewModel()
         {
@@ -64,7 +77,9 @@ namespace Lottery.ViewModel.Lobby
                 {
                     try
                     {
-                        var lobbyState = await ServiceProxy.Instance.Client.JoinLobbyAsync(SessionManager.CurrentUser, LobbyCode);
+                        LobbyStateDto lobbyState = await ServiceProxy.Instance.Client.JoinLobbyAsync(
+                            SessionManager.CurrentUser,
+                            LobbyCode);
 
                         ResultLobbyState = lobbyState;
 

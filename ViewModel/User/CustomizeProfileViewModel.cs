@@ -23,154 +23,283 @@ namespace Lottery.ViewModel.User
         private int _idAvatar;
         public int IdAvatar
         {
-            get => _idAvatar;
-            set => SetProperty(ref _idAvatar, value);
+            get
+            {
+                return _idAvatar;
+            }
+            set
+            {
+                SetProperty(ref _idAvatar, value);
+            }
         }
 
         private int _idUser;
         public int IdUser
         {
-            get => _idUser;
-            set => SetProperty(ref _idUser, value);
+            get
+            {
+                return _idUser;
+            }
+            set
+            {
+                SetProperty(ref _idUser, value);
+            }
         }
 
         private string _nickname;
         public string Nickname
         {
-            get => _nickname;
-            set => SetProperty(ref _nickname, value);
+            get
+            {
+                return _nickname;
+            }
+            set
+            {
+                SetProperty(ref _nickname, value);
+            }
         }
 
         private string _firstName;
         public string FirstName
         {
-            get => _firstName;
-            set => SetProperty(ref _firstName, value);
+            get
+            {
+                return _firstName;
+            }
+            set
+            {
+                SetProperty(ref _firstName, value);
+            }
         }
 
         private string _paternalLastName;
         public string PaternalLastName
         {
-            get => _paternalLastName;
-            set => SetProperty(ref _paternalLastName, value);
+            get
+            {
+                return _paternalLastName;
+            }
+            set
+            {
+                SetProperty(ref _paternalLastName, value);
+            }
         }
 
         private string _maternalLastName;
         public string MaternalLastName
         {
-            get => _maternalLastName;
-            set => SetProperty(ref _maternalLastName, value);
+            get
+            {
+                return _maternalLastName;
+            }
+            set
+            {
+                SetProperty(ref _maternalLastName, value);
+            }
         }
 
         private string _email;
         public string Email
         {
-            get => _email;
-            set => SetProperty(ref _email, value);
+            get
+            {
+                return _email;
+            }
+            set
+            {
+                SetProperty(ref _email, value);
+            }
         }
 
         private string _twitter;
         public string Twitter
         {
-            get => _twitter;
-            set => SetProperty(ref _twitter, value);
+            get
+            {
+                return _twitter;
+            }
+            set
+            {
+                SetProperty(ref _twitter, value);
+            }
         }
 
         private string _facebook;
         public string Facebook
         {
-            get => _facebook;
-            set => SetProperty(ref _facebook, value);
+            get
+            {
+                return _facebook;
+            }
+            set
+            {
+                SetProperty(ref _facebook, value);
+            }
         }
 
         private string _instagram;
         public string Instagram
         {
-            get => _instagram;
-            set => SetProperty(ref _instagram, value);
+            get
+            {
+                return _instagram;
+            }
+            set
+            {
+                SetProperty(ref _instagram, value);
+            }
         }
 
         private string _tikTok;
         public string TikTok
         {
-            get => _tikTok;
-            set => SetProperty(ref _tikTok, value);
+            get
+            {
+                return _tikTok;
+            }
+            set
+            {
+                SetProperty(ref _tikTok, value);
+            }
         }
 
         private string _newEmail;
         public string NewEmail
         {
-            get => _newEmail;
-            set => SetProperty(ref _newEmail, value);
+            get
+            {
+                return _newEmail;
+            }
+            set
+            {
+                SetProperty(ref _newEmail, value);
+            }
         }
 
         private string _verificationCode;
         public string VerificationCode
         {
-            get => _verificationCode;
-            set => SetProperty(ref _verificationCode, value);
+            get
+            {
+                return _verificationCode;
+            }
+            set
+            {
+                SetProperty(ref _verificationCode, value);
+            }
         }
 
         private string _avatarUrl;
         public string AvatarUrl
         {
-            get => _avatarUrl;
-            set => SetProperty(ref _avatarUrl, value);
+            get
+            {
+                return _avatarUrl;
+            }
+            set
+            {
+                SetProperty(ref _avatarUrl, value);
+            }
         }
 
         private string _currentPassword;
         public string CurrentPassword
         {
-            get => _currentPassword;
-            set => SetProperty(ref _currentPassword, value);
+            get
+            {
+                return _currentPassword;
+            }
+            set
+            {
+                SetProperty(ref _currentPassword, value);
+            }
         }
 
         private string _newPassword;
         public string NewPassword
         {
-            get => _newPassword;
-            set => SetProperty(ref _newPassword, value);
+            get
+            {
+                return _newPassword;
+            }
+            set
+            {
+                SetProperty(ref _newPassword, value);
+            }
         }
 
         private string _confirmNewPassword;
         public string ConfirmNewPassword
         {
-            get => _confirmNewPassword;
-            set => SetProperty(ref _confirmNewPassword, value);
+            get
+            {
+                return _confirmNewPassword;
+            }
+            set
+            {
+                SetProperty(ref _confirmNewPassword, value);
+            }
         }
 
         private bool _isCurrentPasswordVisible;
         public bool IsCurrentPasswordVisible
         {
-            get => _isCurrentPasswordVisible;
-            set => SetProperty(ref _isCurrentPasswordVisible, value);
+            get
+            {
+                return _isCurrentPasswordVisible;
+            }
+            set
+            {
+                SetProperty(ref _isCurrentPasswordVisible, value);
+            }
         }
 
         private bool _isNewPasswordVisibleEye;
         public bool IsNewPasswordVisibleEye
         {
-            get => _isNewPasswordVisibleEye;
-            set => SetProperty(ref _isNewPasswordVisibleEye, value);
+            get
+            {
+                return _isNewPasswordVisibleEye;
+            }
+            set
+            {
+                SetProperty(ref _isNewPasswordVisibleEye, value);
+            }
         }
 
         private bool _isConfirmNewPasswordVisible;
         public bool IsConfirmNewPasswordVisible
         {
-            get => _isConfirmNewPasswordVisible;
-            set => SetProperty(ref _isConfirmNewPasswordVisible, value);
+            get
+            {
+                return _isConfirmNewPasswordVisible;
+            }
+            set
+            {
+                SetProperty(ref _isConfirmNewPasswordVisible, value);
+            }
         }
 
         private ObservableCollection<AvatarItemViewModel> _avatars;
         public ObservableCollection<AvatarItemViewModel> Avatars
         {
-            get => _avatars;
-            set => SetProperty(ref _avatars, value);
+            get
+            {
+                return _avatars;
+            }
+            set
+            {
+                SetProperty(ref _avatars, value);
+            }
         }
 
         private bool _isEditing;
         public bool IsEditing
         {
-            get => _isEditing;
+            get
+            {
+                return _isEditing;
+            }
             set
             {
                 SetProperty(ref _isEditing, value);
@@ -183,63 +312,138 @@ namespace Lottery.ViewModel.User
         private bool _isBusy;
         public bool IsBusy
         {
-            get => _isBusy;
-            set => SetProperty(ref _isBusy, value);
+            get
+            {
+                return _isBusy;
+            }
+            set
+            {
+                SetProperty(ref _isBusy, value);
+            }
         }
 
         private bool _isOverlayVisible;
         public bool IsOverlayVisible
         {
-            get => _isOverlayVisible;
-            set => SetProperty(ref _isOverlayVisible, value);
+            get
+            {
+                return _isOverlayVisible;
+            }
+            set
+            {
+                SetProperty(ref _isOverlayVisible, value);
+            }
         }
 
         private bool _isChangeEmailVisible;
         public bool IsChangeEmailVisible
         {
-            get => _isChangeEmailVisible;
-            set => SetProperty(ref _isChangeEmailVisible, value);
+            get
+            {
+                return _isChangeEmailVisible;
+            }
+            set
+            {
+                SetProperty(ref _isChangeEmailVisible, value);
+            }
         }
 
         private bool _isVerifyEmailVisible;
         public bool IsVerifyEmailVisible
         {
-            get => _isVerifyEmailVisible;
-            set => SetProperty(ref _isVerifyEmailVisible, value);
+            get
+            {
+                return _isVerifyEmailVisible;
+            }
+            set
+            {
+                SetProperty(ref _isVerifyEmailVisible, value);
+            }
         }
 
         private bool _isEmailVerifiedVisible;
         public bool IsEmailVerifiedVisible
         {
-            get => _isEmailVerifiedVisible;
-            set => SetProperty(ref _isEmailVerifiedVisible, value);
+            get
+            {
+                return _isEmailVerifiedVisible;
+            }
+            set
+            {
+                SetProperty(ref _isEmailVerifiedVisible, value);
+            }
         }
 
         private bool _isChangePasswordVisible;
         public bool IsChangePasswordVisible
         {
-            get => _isChangePasswordVisible;
-            set => SetProperty(ref _isChangePasswordVisible, value);
+            get
+            {
+                return _isChangePasswordVisible;
+            }
+            set
+            {
+                SetProperty(ref _isChangePasswordVisible, value);
+            }
         }
 
         private bool _isNewPasswordVisible;
         public bool IsNewPasswordVisible
         {
-            get => _isNewPasswordVisible;
-            set => SetProperty(ref _isNewPasswordVisible, value);
+            get
+            {
+                return _isNewPasswordVisible;
+            }
+            set
+            {
+                SetProperty(ref _isNewPasswordVisible, value);
+            }
         }
 
         private bool _isAvatarOverlayVisible;
         public bool IsAvatarOverlayVisible
         {
-            get => _isAvatarOverlayVisible;
-            set => SetProperty(ref _isAvatarOverlayVisible, value);
+            get
+            {
+                return _isAvatarOverlayVisible;
+            }
+            set
+            {
+                SetProperty(ref _isAvatarOverlayVisible, value);
+            }
         }
 
-        public bool IsAvatarSelected => _selectedAvatar != null && _selectedAvatar.AvatarId != this.IdAvatar;
-        public bool IsReadOnly => !IsEditing;
-        public Visibility EditButtonVisibility => IsEditing ? Visibility.Collapsed : Visibility.Visible;
-        public Visibility SaveCancelVisibility => IsEditing ? Visibility.Visible : Visibility.Collapsed;
+        public bool IsAvatarSelected
+        {
+            get
+            {
+                return _selectedAvatar != null && _selectedAvatar.AvatarId != this.IdAvatar;
+            }
+        }
+
+        public bool IsReadOnly
+        {
+            get
+            {
+                return !IsEditing;
+            }
+        }
+
+        public Visibility EditButtonVisibility
+        {
+            get
+            {
+                return IsEditing ? Visibility.Collapsed : Visibility.Visible;
+            }
+        }
+
+        public Visibility SaveCancelVisibility
+        {
+            get
+            {
+                return IsEditing ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
 
         public RelayCommand EditCommand { get; }
         public RelayCommand SaveChangesCommand { get; }
@@ -315,8 +519,8 @@ namespace Lottery.ViewModel.User
                 await ExecuteRequest(async () =>
                 {
                     int userId = SessionManager.CurrentUser.UserId;
-                    var fullUser = await ServiceProxy.Instance.Client.GetUserProfileAsync(userId);
-                    var socialData = await ServiceProxy.Instance.Client.GetSocialMediaAsync(userId);
+                    UserDto fullUser = await ServiceProxy.Instance.Client.GetUserProfileAsync(userId);
+                    SocialMediaDto socialData = await ServiceProxy.Instance.Client.GetSocialMediaAsync(userId);
 
                     if (fullUser != null)
                     {
@@ -342,7 +546,7 @@ namespace Lottery.ViewModel.User
         {
             if (_currentUserFull != null && _socialMedia != null)
             {
-                var tempUser = new UserDto
+                UserDto tempUser = new UserDto
                 {
                     UserId = IdUser,
                     Nickname = Nickname,
@@ -354,7 +558,7 @@ namespace Lottery.ViewModel.User
                     AvatarUrl = _currentUserFull.AvatarUrl
                 };
 
-                var tempSocial = new SocialMediaDto
+                SocialMediaDto tempSocial = new SocialMediaDto
                 {
                     IdUser = IdUser,
                     Twitter = Twitter,
@@ -363,8 +567,9 @@ namespace Lottery.ViewModel.User
                     TikTok = TikTok
                 };
 
-                var userValidator = new UserValidator().ValidateProfileUpdate();
-                var userValResult = userValidator.Validate(tempUser);
+                UserValidator userValidator = new UserValidator().ValidateProfileUpdate();
+                FluentValidation.Results.ValidationResult userValResult = userValidator.Validate(tempUser);
+
                 if (!userValResult.IsValid)
                 {
                     string errores = string.Join("\n", userValResult.Errors.Select(e => e.ErrorMessage));
@@ -372,8 +577,9 @@ namespace Lottery.ViewModel.User
                 }
                 else
                 {
-                    var socialValidator = new SocialMediaValidator().ValidateAll();
-                    var socialValResult = socialValidator.Validate(tempSocial);
+                    SocialMediaValidator socialValidator = new SocialMediaValidator().ValidateAll();
+                    FluentValidation.Results.ValidationResult socialValResult = socialValidator.Validate(tempSocial);
+
                     if (!socialValResult.IsValid)
                     {
                         string errores = string.Join("\n", socialValResult.Errors.Select(e => e.ErrorMessage));
@@ -384,7 +590,9 @@ namespace Lottery.ViewModel.User
                         IsBusy = true;
                         await ExecuteRequest(async () =>
                         {
-                            var (successUser, msgUser) = await ServiceProxy.Instance.Client.UpdateProfileAsync(tempUser.UserId, tempUser);
+                            (bool, string) result = await ServiceProxy.Instance.Client.UpdateProfileAsync(tempUser.UserId, tempUser);
+                            bool successUser = result.Item1;
+                            string msgUser = result.Item2;
 
                             if (!successUser)
                             {
@@ -392,7 +600,9 @@ namespace Lottery.ViewModel.User
                             }
                             else
                             {
-                                bool successSocial = await ServiceProxy.Instance.Client.SaveOrUpdateSocialMediaAsync(tempSocial);
+                                bool successSocial = await ServiceProxy.Instance.Client.SaveOrUpdateSocialMediaAsync(
+                                    tempSocial);
+
                                 if (successSocial)
                                 {
                                     ShowSuccess(Lang.GlobalMessageBoxTitleSuccess);
@@ -403,7 +613,10 @@ namespace Lottery.ViewModel.User
                                 }
                                 else
                                 {
-                                    ShowError(Lang.GlobalMessageBoxTitleWarning, Lang.GlobalMessageBoxTitleWarning, MessageBoxImage.Warning);
+                                    ShowError(
+                                        Lang.GlobalMessageBoxTitleWarning,
+                                        Lang.GlobalMessageBoxTitleWarning,
+                                        MessageBoxImage.Warning);
                                 }
                             }
                         }, _errorMap);
@@ -431,12 +644,15 @@ namespace Lottery.ViewModel.User
         {
             if (_currentUserFull != null)
             {
-                var validator = new UserValidator().ValidateEmailOnly();
-                var result = validator.Validate(new UserDto { Email = NewEmail });
+                UserValidator validator = new UserValidator().ValidateEmailOnly();
+                FluentValidation.Results.ValidationResult result = validator.Validate(new UserDto { Email = NewEmail });
 
                 if (!result.IsValid)
                 {
-                    ShowError(result.Errors.First().ErrorMessage, Lang.LoginValidationTitle, MessageBoxImage.Warning);
+                    ShowError(
+                        result.Errors.First().ErrorMessage,
+                        Lang.LoginValidationTitle,
+                        MessageBoxImage.Warning);
                     return;
                 }
 
@@ -461,7 +677,10 @@ namespace Lottery.ViewModel.User
         {
             if (string.IsNullOrWhiteSpace(VerificationCode))
             {
-                ShowError(Lang.RegisterCodeExpiredOrIncorrect, Lang.LoginValidationTitle, MessageBoxImage.Warning);
+                ShowError(
+                    Lang.RegisterCodeExpiredOrIncorrect,
+                    Lang.LoginValidationTitle,
+                    MessageBoxImage.Warning);
                 return;
             }
 
@@ -469,7 +688,10 @@ namespace Lottery.ViewModel.User
 
             await ExecuteRequest(async () =>
             {
-                bool ok = await ServiceProxy.Instance.Client.ChangeEmailWithCodeAsync(IdUser, NewEmail, VerificationCode);
+                bool ok = await ServiceProxy.Instance.Client.ChangeEmailWithCodeAsync(
+                    IdUser,
+                    NewEmail,
+                    VerificationCode);
 
                 if (ok)
                 {
@@ -483,7 +705,10 @@ namespace Lottery.ViewModel.User
                 }
                 else
                 {
-                    ShowError(Lang.RegisterCodeExpiredOrIncorrect, Lang.LoginValidationTitle, MessageBoxImage.Warning);
+                    ShowError(
+                        Lang.RegisterCodeExpiredOrIncorrect,
+                        Lang.LoginValidationTitle,
+                        MessageBoxImage.Warning);
                 }
             }, _errorMap);
 
@@ -509,13 +734,17 @@ namespace Lottery.ViewModel.User
 
         private async Task SaveNewPassword()
         {
-            var userValidator = new UserValidator().ValidatePasswordOnly();
-            var userValResult = userValidator.Validate(new UserDto { Password = NewPassword });
+            UserValidator userValidator = new UserValidator().ValidatePasswordOnly();
+            FluentValidation.Results.ValidationResult userValResult = userValidator.Validate(
+                new UserDto { Password = NewPassword });
 
             if (!userValResult.IsValid)
             {
                 string errorList = string.Join("\n• ", userValResult.Errors.Select(e => e.ErrorMessage));
-                ShowError($"{Lang.LoginValidationMessage}\n\n• {errorList}", Lang.LoginValidationTitle, MessageBoxImage.Warning);
+                ShowError(
+                    $"{Lang.LoginValidationMessage}\n\n• {errorList}",
+                    Lang.LoginValidationTitle,
+                    MessageBoxImage.Warning);
             }
             else if (NewPassword != ConfirmNewPassword)
             {
@@ -648,7 +877,7 @@ namespace Lottery.ViewModel.User
         {
             if (av != null)
             {
-                foreach (var a in Avatars)
+                foreach (AvatarItemViewModel a in Avatars)
                 {
                     a.IsSelected = false;
                 }
@@ -663,7 +892,7 @@ namespace Lottery.ViewModel.User
         {
             if (windowObj is Window window)
             {
-                var mainMenuView = new MainMenuView();
+                MainMenuView mainMenuView = new MainMenuView();
                 mainMenuView.Show();
                 window.Close();
             }
@@ -699,7 +928,11 @@ namespace Lottery.ViewModel.User
                 {
                     ext = "png";
                 }
-                Avatars.Add(new AvatarItemViewModel { AvatarId = i, AvatarUrl = $"/Images/Avatar/avatar{i:D2}.{ext}" });
+                Avatars.Add(new AvatarItemViewModel
+                {
+                    AvatarId = i,
+                    AvatarUrl = $"/Images/Avatar/avatar{i:D2}.{ext}"
+                });
             }
             _selectedAvatar = Avatars.FirstOrDefault(a => a.AvatarId == IdAvatar);
             if (_selectedAvatar != null)
@@ -717,8 +950,14 @@ namespace Lottery.ViewModel.User
         private bool _isSelected;
         public bool IsSelected
         {
-            get => _isSelected;
-            set => SetProperty(ref _isSelected, value);
+            get
+            {
+                return _isSelected;
+            }
+            set
+            {
+                SetProperty(ref _isSelected, value);
+            }
         }
     }
 }

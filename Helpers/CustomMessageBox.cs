@@ -20,7 +20,7 @@ namespace Lottery.Helpers
 
         private static MessageBoxResult ShowInternal(string message, string title, MessageBoxButton buttons, MessageBoxImage icon, Window owner)
         {
-            var msgBox = new CustomMessageBoxView(message, title, buttons, icon);
+            CustomMessageBoxView msgBox = new CustomMessageBoxView(message, title, buttons, icon);
 
             if (owner != null)
             {
@@ -29,7 +29,7 @@ namespace Lottery.Helpers
             }
             else
             {
-                var activeWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+                Window activeWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
                 if (activeWindow != null)
                 {
                     msgBox.Owner = activeWindow;

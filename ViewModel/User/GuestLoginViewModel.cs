@@ -22,23 +22,44 @@ namespace Lottery.ViewModel.User
 
         public string Nickname
         {
-            get => _nickname;
-            set => SetProperty(ref _nickname, value);
+            get
+            {
+                return _nickname;
+            }
+            set
+            {
+                SetProperty(ref _nickname, value);
+            }
         }
 
         public bool IsBusy
         {
-            get => _isBusy;
-            set => SetProperty(ref _isBusy, value);
+            get
+            {
+                return _isBusy;
+            }
+            set
+            {
+                SetProperty(ref _isBusy, value);
+            }
         }
 
         public string ErrorMessage
         {
-            get => _errorMessage;
-            set => SetProperty(ref _errorMessage, value);
+            get
+            {
+                return _errorMessage;
+            }
+            set
+            {
+                SetProperty(ref _errorMessage, value);
+            }
         }
 
-        public ICommand LoginGuestCommand { get; }
+        public ICommand LoginGuestCommand
+        {
+            get;
+        }
 
         public GuestLoginViewModel()
         {
@@ -61,7 +82,10 @@ namespace Lottery.ViewModel.User
             if (string.IsNullOrWhiteSpace(Nickname))
             {
                 ErrorMessage = Lang.GuestLoginEmptyNickname;
-                ShowError(Lang.GuestLoginEmptyNickname, Lang.GlobalMessageBoxTitleWarning, MessageBoxImage.Warning);
+                ShowError(
+                    Lang.GuestLoginEmptyNickname,
+                    Lang.GlobalMessageBoxTitleWarning,
+                    MessageBoxImage.Warning);
             }
             else
             {
@@ -70,7 +94,7 @@ namespace Lottery.ViewModel.User
 
                 await ExecuteRequest(async () =>
                 {
-                    var client = ServiceProxy.Instance.Client;
+                    ILotteryService client = ServiceProxy.Instance.Client;
                     UserDto guestUser = await client.LoginGuestAsync(Nickname);
 
                     if (guestUser != null)

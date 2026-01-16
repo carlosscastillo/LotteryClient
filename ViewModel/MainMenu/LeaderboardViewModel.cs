@@ -17,19 +17,28 @@ namespace Lottery.ViewModel.MainMenu
         private readonly int _currentUserId;
         private readonly Dictionary<string, string> _errorMap;
 
-        public ObservableCollection<LeaderboardPlayerViewModel> Players { get; }
-            = new ObservableCollection<LeaderboardPlayerViewModel>();
+        public ObservableCollection<LeaderboardPlayerViewModel> Players
+        {
+            get;
+        } = new ObservableCollection<LeaderboardPlayerViewModel>();
 
-        public ICommand LoadLeaderboardCommand { get; }
-        public ICommand GoBackToMenuCommand { get; }
+        public ICommand LoadLeaderboardCommand
+        {
+            get;
+        }
+
+        public ICommand GoBackToMenuCommand
+        {
+            get;
+        }
 
         public LeaderboardViewModel()
         {
-            _currentUserId = SessionManager.CurrentUser.UserId;            
+            _currentUserId = SessionManager.CurrentUser.UserId;
             _errorMap = new Dictionary<string, string>
             {
                 { "DB_ERROR", Lang.GlobalExceptionConnectionDatabaseMessage },
-                { "SERVER_ERROR", Lang.FriendRequestsExceptionFR500 }                
+                { "SERVER_ERROR", Lang.FriendRequestsExceptionFR500 }
             };
 
             LoadLeaderboardCommand = new RelayCommand(async () => await LoadLeaderboard());
@@ -42,15 +51,19 @@ namespace Lottery.ViewModel.MainMenu
         {
             await ExecuteRequest(async () =>
             {
-                var leaderboard = await ServiceProxy.Instance.Client.GetLeaderboardAsync();
+                LeaderboardPlayerDto[] leaderboard = await ServiceProxy.Instance.Client.GetLeaderboardAsync();
 
                 Players.Clear();
 
                 if (leaderboard == null || leaderboard.Length == 0)
+                {
                     return;
+                }
 
                 for (int i = 0; i < leaderboard.Length; i++)
+                {
                     Players.Add(new LeaderboardPlayerViewModel(i + 1, leaderboard[i]));
+                }
 
             }, _errorMap);
         }
@@ -62,23 +75,69 @@ namespace Lottery.ViewModel.MainMenu
 
         private void ExecuteGoBackToMenu(Window leaderboardWindow)
         {
-            var mainMenuView = new MainMenuView();
+            MainMenuView mainMenuView = new MainMenuView();
             mainMenuView.Show();
-            leaderboardWindow?.Close();
+
+            if (leaderboardWindow != null)
+            {
+                leaderboardWindow.Close();
+            }
         }
     }
 
     public class LeaderboardPlayerViewModel : ObservableObject
     {
-        public int Position { get; }
-        public int UserId { get; }
-        public string Nickname { get; }
-        public int Score { get; }
+        public int Position
+        {
+            get;
+        }
 
-        public bool IsFirst => Position == 1;
-        public bool IsSecond => Position == 2;
-        public bool IsThird => Position == 3;
-        public bool IsCurrentUser => UserId == SessionManager.CurrentUser.UserId;
+        public int UserId
+        {
+            get;
+        }
+
+        public string Nickname
+        {
+            get;
+        }
+
+        public int Score
+        {
+            get;
+        }
+
+        public bool IsFirst
+        {
+            get
+            {
+                return Position == 1;
+            }
+        }
+
+        public bool IsSecond
+        {
+            get
+            {
+                return Position == 2;
+            }
+        }
+
+        public bool IsThird
+        {
+            get
+            {
+                return Position == 3;
+            }
+        }
+
+        public bool IsCurrentUser
+        {
+            get
+            {
+                return UserId == SessionManager.CurrentUser.UserId;
+            }
+        }
 
         public LeaderboardPlayerViewModel(int position, LeaderboardPlayerDto dto)
         {

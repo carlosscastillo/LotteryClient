@@ -27,15 +27,45 @@ namespace Lottery.ViewModel.MainMenu
         private bool _isShowingInvitation = false;
         private bool _isExplicitLogout = false;
 
-        public string Nickname { get; }
+        public string Nickname
+        {
+            get;
+        }
 
-        public ICommand ShowFriendsViewCommand { get; }
-        public ICommand CreateLobbyCommand { get; }
-        public ICommand JoinLobbyCommand { get; }
-        public ICommand LogoutCommand { get; }
-        public ICommand ProfileCommand { get; }
-        public ICommand ShowLeaderboardCommand { get; }
-        public ICommand ShowSettingsCommand { get; }
+        public ICommand ShowFriendsViewCommand
+        {
+            get;
+        }
+
+        public ICommand CreateLobbyCommand
+        {
+            get;
+        }
+
+        public ICommand JoinLobbyCommand
+        {
+            get;
+        }
+
+        public ICommand LogoutCommand
+        {
+            get;
+        }
+
+        public ICommand ProfileCommand
+        {
+            get;
+        }
+
+        public ICommand ShowLeaderboardCommand
+        {
+            get;
+        }
+
+        public ICommand ShowSettingsCommand
+        {
+            get;
+        }
 
         public MainMenuViewModel(Window window)
         {
@@ -90,7 +120,10 @@ namespace Lottery.ViewModel.MainMenu
 
         private void OnServerConnectionLost(object sender, EventArgs e)
         {
-            if (_isExplicitLogout) return;
+            if (_isExplicitLogout)
+            {
+                return;
+            }
 
             _mainMenuWindow.Dispatcher.Invoke(() =>
             {
@@ -114,7 +147,10 @@ namespace Lottery.ViewModel.MainMenu
         {
             if (IsGuestSession())
             {
-                ShowError(Lang.MainMenuGuestFriends, Lang.MainMenuRestrictedAccess, MessageBoxImage.Warning);
+                ShowError(
+                    Lang.MainMenuGuestFriends,
+                    Lang.MainMenuRestrictedAccess,
+                    MessageBoxImage.Warning);
             }
             else
             {
@@ -129,7 +165,10 @@ namespace Lottery.ViewModel.MainMenu
         {
             if (IsGuestSession())
             {
-                ShowError(Lang.MainMenuGuestProfile, Lang.MainMenuRestrictedAccess, MessageBoxImage.Warning);
+                ShowError(
+                    Lang.MainMenuGuestProfile,
+                    Lang.MainMenuRestrictedAccess,
+                    MessageBoxImage.Warning);
             }
             else
             {
@@ -150,7 +189,7 @@ namespace Lottery.ViewModel.MainMenu
 
         private void ExecuteShowSettings()
         {
-            var view = new SettingsView
+            SettingsView view = new SettingsView
             {
                 Owner = _mainMenuWindow
             };
@@ -174,8 +213,8 @@ namespace Lottery.ViewModel.MainMenu
 
         private void ExecuteJoinLobbyByCode()
         {
-            var joinView = new JoinLobbyByCodeView();
-            var joinVm = new JoinLobbyByCodeViewModel();
+            JoinLobbyByCodeView joinView = new JoinLobbyByCodeView();
+            JoinLobbyByCodeViewModel joinVm = new JoinLobbyByCodeViewModel();
             joinView.DataContext = joinVm;
 
             if (joinView.ShowDialog() == true)
@@ -193,7 +232,9 @@ namespace Lottery.ViewModel.MainMenu
             {
                 try
                 {
-                    LobbyStateDto lobbyState = await ServiceProxy.Instance.Client.JoinLobbyAsync(SessionManager.CurrentUser, lobbyCode);
+                    LobbyStateDto lobbyState = await ServiceProxy.Instance.Client.JoinLobbyAsync(
+                        SessionManager.CurrentUser,
+                        lobbyCode);
 
                     _mainMenuWindow.Dispatcher.Invoke(() =>
                     {
@@ -239,7 +280,7 @@ namespace Lottery.ViewModel.MainMenu
 
                     try
                     {
-                        var result = CustomMessageBox.Show(
+                        MessageBoxResult result = CustomMessageBox.Show(
                             string.Format(Lang.MainMenuHasInvited, inviterNickname),
                             Lang.MainMenuInvitationReceived,
                             MessageBoxButton.YesNo,

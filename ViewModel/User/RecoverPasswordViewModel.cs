@@ -17,50 +17,124 @@ namespace Lottery.ViewModel.User
     {
         private readonly Dictionary<string, string> _errorMap;
         private string _verifiedEmail;
-        
+
         private bool _isEmailStepVisible;
-        public bool IsEmailStepVisible { get => _isEmailStepVisible; set => SetProperty(ref _isEmailStepVisible, value); }
+        public bool IsEmailStepVisible
+        {
+            get
+            {
+                return _isEmailStepVisible;
+            }
+            set
+            {
+                SetProperty(ref _isEmailStepVisible, value);
+            }
+        }
 
         private bool _isCodeStepVisible;
-        public bool IsCodeStepVisible { get => _isCodeStepVisible; set => SetProperty(ref _isCodeStepVisible, value); }
+        public bool IsCodeStepVisible
+        {
+            get
+            {
+                return _isCodeStepVisible;
+            }
+            set
+            {
+                SetProperty(ref _isCodeStepVisible, value);
+            }
+        }
 
         private bool _isNewPasswordStepVisible;
-        public bool IsNewPasswordStepVisible { get => _isNewPasswordStepVisible; set => SetProperty(ref _isNewPasswordStepVisible, value); }
-        
+        public bool IsNewPasswordStepVisible
+        {
+            get
+            {
+                return _isNewPasswordStepVisible;
+            }
+            set
+            {
+                SetProperty(ref _isNewPasswordStepVisible, value);
+            }
+        }
+
         private string _email;
-        public string Email { get => _email; set => SetProperty(ref _email, value); }
+        public string Email
+        {
+            get
+            {
+                return _email;
+            }
+            set
+            {
+                SetProperty(ref _email, value);
+            }
+        }
 
         private string _verificationCode;
-        public string VerificationCode { get => _verificationCode; set => SetProperty(ref _verificationCode, value); }
-        
+        public string VerificationCode
+        {
+            get
+            {
+                return _verificationCode;
+            }
+            set
+            {
+                SetProperty(ref _verificationCode, value);
+            }
+        }
+
         private string _newPassword;
         public string NewPassword
         {
-            get => _newPassword;
-            set => SetProperty(ref _newPassword, value);
+            get
+            {
+                return _newPassword;
+            }
+            set
+            {
+                SetProperty(ref _newPassword, value);
+            }
         }
 
         private string _confirmNewPassword;
         public string ConfirmNewPassword
         {
-            get => _confirmNewPassword;
-            set => SetProperty(ref _confirmNewPassword, value);
-        }        
-        
+            get
+            {
+                return _confirmNewPassword;
+            }
+            set
+            {
+                SetProperty(ref _confirmNewPassword, value);
+            }
+        }
+
         private bool _isNewPasswordVisible;
         public bool IsNewPasswordVisible
         {
-            get => _isNewPasswordVisible;
-            set => SetProperty(ref _isNewPasswordVisible, value);
+            get
+            {
+                return _isNewPasswordVisible;
+            }
+            set
+            {
+                SetProperty(ref _isNewPasswordVisible, value);
+            }
         }
 
         private bool _isConfirmNewPasswordVisible;
         public bool IsConfirmNewPasswordVisible
         {
-            get => _isConfirmNewPasswordVisible;
-            set => SetProperty(ref _isConfirmNewPasswordVisible, value);
+            get
+            {
+                return _isConfirmNewPasswordVisible;
+            }
+            set
+            {
+                SetProperty(ref _isConfirmNewPasswordVisible, value);
+            }
         }
-        
+
         public ICommand SendCodeCommand { get; }
         public ICommand VerifyCodeCommand { get; }
         public ICommand FinishCommand { get; }
@@ -75,7 +149,7 @@ namespace Lottery.ViewModel.User
                 { "DB_ERROR", Lang.GlobalExceptionConnectionDatabaseMessage },
                 { "INVALID_CODE", Lang.RegisterCodeExpiredOrIncorrect }
             };
-            
+
             IsNewPasswordVisible = false;
             IsConfirmNewPasswordVisible = false;
 
@@ -88,7 +162,7 @@ namespace Lottery.ViewModel.User
             FinishCommand = new RelayCommand(async () => await Finish());
             BackCommand = new RelayCommand(GoBackToEmail);
         }
-        
+
         public void UpdateNewPassword(string password)
         {
             NewPassword = password;
@@ -98,18 +172,22 @@ namespace Lottery.ViewModel.User
         {
             ConfirmNewPassword = password;
         }
-        
+
         private async Task SendCode()
-        {           
-            var validator = new UserValidator().ValidateEmailOnly();
-            var validationResult = validator.Validate(new UserDto { Email = Email });
+        {
+            UserValidator validator = new UserValidator().ValidateEmailOnly();
+            FluentValidation.Results.ValidationResult validationResult = validator.Validate(
+                new UserDto { Email = Email });
 
             if (!validationResult.IsValid)
-            {                
-                ShowError(validationResult.Errors.First().ErrorMessage, Lang.LoginValidationTitle, MessageBoxImage.Warning);
+            {
+                ShowError(
+                    validationResult.Errors.First().ErrorMessage,
+                    Lang.LoginValidationTitle,
+                    MessageBoxImage.Warning);
             }
             else
-            {             
+            {
                 await ExecuteRequest(async () =>
                 {
                     bool result = await ServiceProxy.Instance.Client.RecoverPasswordRequestAsync(Email);
@@ -121,7 +199,7 @@ namespace Lottery.ViewModel.User
                         IsCodeStepVisible = true;
                     }
                     else
-                    {                     
+                    {
                         ShowError(Lang.RegisterEmailSendFailed, Lang.GlobalMessageBoxTitleError);
                     }
                 }, _errorMap);
@@ -129,18 +207,23 @@ namespace Lottery.ViewModel.User
         }
 
         private async Task VerifyCode()
-        {            
-            var result = new CodeValidator().Validate(VerificationCode);
+        {
+            CodeValidator codeValidator = new CodeValidator();
+            FluentValidation.Results.ValidationResult result = codeValidator.Validate(VerificationCode);
+
             if (!result.IsValid)
             {
-                ShowError(result.Errors.First().ErrorMessage, Lang.RegisterInvalidCodeTitle, MessageBoxImage.Warning);
+                ShowError(
+                    result.Errors.First().ErrorMessage,
+                    Lang.RegisterInvalidCodeTitle,
+                    MessageBoxImage.Warning);
             }
             else
             {
                 await ExecuteRequest(async () =>
                 {
-                    var client = ServiceProxy.Instance.Client;
-                                        
+                    ILotteryService client = ServiceProxy.Instance.Client;
+
                     bool verified = await client.VerifyCodeAsync(Email, VerificationCode);
 
                     if (verified)
@@ -152,7 +235,10 @@ namespace Lottery.ViewModel.User
                     }
                     else
                     {
-                        ShowError(Lang.RegisterCodeExpiredOrIncorrect, Lang.RegisterVerificationFailedTitle, MessageBoxImage.Warning);                        
+                        ShowError(
+                            Lang.RegisterCodeExpiredOrIncorrect,
+                            Lang.RegisterVerificationFailedTitle,
+                            MessageBoxImage.Warning);
                     }
                 }, _errorMap);
             }
@@ -160,12 +246,16 @@ namespace Lottery.ViewModel.User
 
         private async Task Finish()
         {
-            var userValidator = new UserValidator().ValidatePasswordOnly();            
-            var userValResult = userValidator.Validate(new UserDto { Password = NewPassword });
+            UserValidator userValidator = new UserValidator().ValidatePasswordOnly();
+            FluentValidation.Results.ValidationResult userValResult = userValidator.Validate(
+                new UserDto { Password = NewPassword });
 
             if (!userValResult.IsValid)
             {
-                ShowError(userValResult.Errors.First().ErrorMessage, Lang.LoginValidationTitle, MessageBoxImage.Warning);
+                ShowError(
+                    userValResult.Errors.First().ErrorMessage,
+                    Lang.LoginValidationTitle,
+                    MessageBoxImage.Warning);
             }
             else if (NewPassword != ConfirmNewPassword)
             {
@@ -174,16 +264,21 @@ namespace Lottery.ViewModel.User
             else
             {
                 await ExecuteRequest(async () =>
-                {                    
+                {
                     bool ok = await ServiceProxy.Instance.Client.RecoverPasswordAsync(_verifiedEmail, NewPassword);
 
                     if (ok)
                     {
                         await ServiceProxy.Instance.Client.ConsumeVerificationCodeAsync(_verifiedEmail);
                         ShowSuccess(Lang.GlobalMessageBoxTitleSuccess);
-                        
-                        Application.Current.Windows.OfType<Window>()
-                            .SingleOrDefault(w => w.DataContext == this)?.Close();
+
+                        Window currentWindow = Application.Current.Windows.OfType<Window>()
+                            .SingleOrDefault(w => w.DataContext == this);
+
+                        if (currentWindow != null)
+                        {
+                            currentWindow.Close();
+                        }
                     }
                     else
                     {
@@ -192,10 +287,11 @@ namespace Lottery.ViewModel.User
                 }, _errorMap);
             }
         }
+
         private void GoBackToEmail()
         {
             IsCodeStepVisible = false;
-            IsEmailStepVisible = true;            
+            IsEmailStepVisible = true;
             VerificationCode = string.Empty;
         }
     }

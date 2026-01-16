@@ -12,40 +12,77 @@ namespace Lottery.ViewModel.Lobby
 {
     public class BoardItemViewModel : BaseViewModel
     {
-        public int BoardId { get; set; }
-        public string BoardName { get; set; }
-        public List<int> CardIds { get; set; }
+        public int BoardId
+        {
+            get;
+            set;
+        }
+
+        public string BoardName
+        {
+            get;
+            set;
+        }
+
+        public List<int> CardIds
+        {
+            get;
+            set;
+        }
 
         private bool _isSelected;
         public bool IsSelected
         {
-            get => _isSelected;
-            set => SetProperty(ref _isSelected, value);
+            get
+            {
+                return _isSelected;
+            }
+            set
+            {
+                SetProperty(ref _isSelected, value);
+            }
         }
 
         private bool _isOccupied;
         public bool IsOccupied
         {
-            get => _isOccupied;
-            set => SetProperty(ref _isOccupied, value);
+            get
+            {
+                return _isOccupied;
+            }
+            set
+            {
+                SetProperty(ref _isOccupied, value);
+            }
         }
     }
 
     public class SelectBoardViewModel : BaseViewModel
     {
-        public ObservableCollection<BoardItemViewModel> AvailableBoards { get; set; }
+        public ObservableCollection<BoardItemViewModel> AvailableBoards
+        {
+            get;
+            set;
+        }
 
         private BoardItemViewModel _selectedBoard;
         public BoardItemViewModel SelectedBoard
         {
-            get => _selectedBoard;
+            get
+            {
+                return _selectedBoard;
+            }
             set
             {
                 if (value == null || value.IsOccupied)
+                {
                     return;
+                }
 
-                foreach (var board in AvailableBoards)
+                foreach (BoardItemViewModel board in AvailableBoards)
+                {
                     board.IsSelected = false;
+                }
 
                 if (SetProperty(ref _selectedBoard, value))
                 {
@@ -54,19 +91,24 @@ namespace Lottery.ViewModel.Lobby
             }
         }
 
-        public ICommand ConfirmSelectionCommand { get; set; }
+        public ICommand ConfirmSelectionCommand
+        {
+            get;
+            set;
+        }
+
         public Action<int> OnBoardSelected;
 
         public SelectBoardViewModel(int currentBoardId, List<int> occupiedBoards = null)
         {
             AvailableBoards = new ObservableCollection<BoardItemViewModel>();
-            var configurations = BoardConfigurations.GetAllBoards();
+            Dictionary<int, List<int>> configurations = BoardConfigurations.GetAllBoards();
 
-            foreach (var kvp in configurations)
+            foreach (KeyValuePair<int, List<int>> kvp in configurations)
             {
-                var isOccupied = occupiedBoards != null && occupiedBoards.Contains(kvp.Key);
+                bool isOccupied = occupiedBoards != null && occupiedBoards.Contains(kvp.Key);
 
-                var boardItem = new BoardItemViewModel
+                BoardItemViewModel boardItem = new BoardItemViewModel
                 {
                     BoardId = kvp.Key,
                     BoardName = string.Format(Lang.SelectBoardLabelBoardIndividual, kvp.Key),
@@ -91,9 +133,12 @@ namespace Lottery.ViewModel.Lobby
             }
             else
             {
+                string message = Lang.SelectBoardMessageSelectAvailable ?? "Por favor selecciona un tablero disponible.";
+                string title = Lang.SelectBoardTitleError ?? "Error";
+
                 MessageBox.Show(
-                    Lang.SelectBoardMessageSelectAvailable ?? "Por favor selecciona un tablero disponible.",
-                    Lang.SelectBoardTitleError ?? "Error",
+                    message,
+                    title,
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning
                 );
@@ -102,7 +147,7 @@ namespace Lottery.ViewModel.Lobby
 
         public void UpdateOccupiedBoards(List<int> occupiedBoards, int currentBoardId)
         {
-            foreach (var board in AvailableBoards)
+            foreach (BoardItemViewModel board in AvailableBoards)
             {
                 board.IsOccupied = occupiedBoards.Contains(board.BoardId);
             }

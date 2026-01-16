@@ -13,10 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace Lottery.View.Game
-{
-    /// <summary>
-    /// Lógica de interacción para GameSummaryView.xaml
-    /// </summary>
+{    
     public partial class GameSummaryView : Window
     {
         public GameSummaryView()

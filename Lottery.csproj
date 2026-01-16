@@ -158,8 +158,8 @@
     <Compile Include="View\MainMenu\LeaderboardView.xaml.cs">
       <DependentUpon>LeaderboardView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User\UserRegisterView.xaml.cs">
-      <DependentUpon>UserRegisterView.xaml</DependentUpon>
+    <Compile Include="View\User\UserRegister.xaml.cs">
+      <DependentUpon>UserRegister.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -245,9 +245,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User\UserRegisterView.xaml">
+    <Page Include="View\User\UserRegister.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

@@ -14,7 +14,7 @@ namespace Lottery
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            var langCode = Lottery.Properties.Settings.Default.languageCode;
+            string langCode = Lottery.Properties.Settings.Default.languageCode;
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(langCode);
 
             base.OnStartup(e);

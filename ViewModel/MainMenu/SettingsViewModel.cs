@@ -36,7 +36,7 @@ public class SettingsViewModel : BaseViewModel
     {
         LocalizationManager.ChangeCulture(SelectedLanguage);
 
-        var lang = (LangProxy)Application.Current.Resources["Lang"];
+        LangProxy lang = (LangProxy)Application.Current.Resources["Lang"];
         lang.Refresh();
 
         _window.Close();

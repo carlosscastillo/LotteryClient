@@ -4,10 +4,7 @@ using Lottery.ViewModel.Lobby;
 using System.Windows;
 
 namespace Lottery.View.Lobby
-{
-    /// <summary>
-    /// Lógica de interacción para LobbyView.xaml
-    /// </summary>
+{        
     public partial class LobbyView : Window
     {
         public LobbyView()

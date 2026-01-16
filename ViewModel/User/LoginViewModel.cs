@@ -21,36 +21,66 @@ namespace Lottery.ViewModel.User
         private string _username;
         public string Username
         {
-            get => _username;
-            set => SetProperty(ref _username, value);
+            get
+            {
+                return _username;
+            }
+            set
+            {
+                SetProperty(ref _username, value);
+            }
         }
 
         private string _password;
         public string Password
         {
-            get => _password;
-            set => SetProperty(ref _password, value);
+            get
+            {
+                return _password;
+            }
+            set
+            {
+                SetProperty(ref _password, value);
+            }
         }
 
         private string _errorMessage;
         public string ErrorMessage
         {
-            get => _errorMessage;
-            set => SetProperty(ref _errorMessage, value);
+            get
+            {
+                return _errorMessage;
+            }
+            set
+            {
+                SetProperty(ref _errorMessage, value);
+            }
         }
 
         private bool _isLoggingIn;
         public bool IsLoggingIn
         {
-            get => _isLoggingIn;
-            set => SetProperty(ref _isLoggingIn, value);
+            get
+            {
+                return _isLoggingIn;
+            }
+            set
+            {
+                SetProperty(ref _isLoggingIn, value);
+            }
         }
 
         private bool _isPasswordVisible;
         public bool IsPasswordVisible
         {
-            get => _isPasswordVisible;
-            set => SetProperty(ref _isPasswordVisible, value);
+            get
+            {
+                return _isPasswordVisible;
+            }
+            set
+            {
+                SetProperty(ref _isPasswordVisible, value);
+            }
         }
 
         public ICommand LoginCommand { get; }
@@ -84,9 +114,13 @@ namespace Lottery.ViewModel.User
         {
             if (!IsLoggingIn)
             {
-                if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
+                bool isIncomplete = string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password);
+                if (isIncomplete)
                 {
-                    ShowError(Lang.LoginIncompleteData, Lang.GlobalMessageBoxTitleWarning, MessageBoxImage.Warning);
+                    ShowError(
+                        Lang.LoginIncompleteData,
+                        Lang.GlobalMessageBoxTitleWarning,
+                        MessageBoxImage.Warning);
                 }
                 else
                 {
@@ -96,12 +130,15 @@ namespace Lottery.ViewModel.User
                         Password = Password
                     };
 
-                    var validator = new UserValidator().ValidateLogin();
-                    var result = validator.Validate(loginUser);
+                    UserValidator validator = new UserValidator().ValidateLogin();
+                    FluentValidation.Results.ValidationResult result = validator.Validate(loginUser);
 
                     if (!result.IsValid)
-                    {                        
-                        ShowError(Lang.LoginInvalidCredentials, Lang.LoginValidationTitle, MessageBoxImage.Warning);
+                    {
+                        ShowError(
+                            Lang.LoginInvalidCredentials,
+                            Lang.LoginValidationTitle,
+                            MessageBoxImage.Warning);
                     }
                     else
                     {
@@ -110,7 +147,7 @@ namespace Lottery.ViewModel.User
 
                         await ExecuteRequest(async () =>
                         {
-                            var client = ServiceProxy.Instance.Client;
+                            ILotteryService client = ServiceProxy.Instance.Client;
                             UserDto user = await client.LoginUserAsync(Username, Password);
 
                             if (user != null)
@@ -140,19 +177,30 @@ namespace Lottery.ViewModel.User
         {
             UserRegisterView registerView = new UserRegisterView();
             registerView.Show();
-            loginWindow?.Close();
+            if (loginWindow != null)
+            {
+                loginWindow.Close();
+            }
         }
+
         private void ExecuteGuestLogin(Window loginWindow)
         {
             GuestLoginView guestView = new GuestLoginView();
             guestView.Show();
-            loginWindow?.Close();
+            if (loginWindow != null)
+            {
+                loginWindow.Close();
+            }
         }
+
         private void ExecuteRecoverPassword(Window loginWindow)
         {
             RecoverPasswordView recoverPasswordView = new RecoverPasswordView();
             recoverPasswordView.Show();
-            loginWindow?.Close();
+            if (loginWindow != null)
+            {
+                loginWindow.Close();
+            }
         }
     }
 }

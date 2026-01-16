@@ -1,4 +1,5 @@
-﻿using Lottery.ViewModel.User;
+﻿using Lottery.View.MainMenu;
+using Lottery.ViewModel.User;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -11,13 +12,10 @@ namespace Lottery.View.User
             InitializeComponent();            
             this.DataContext = new ViewModel.User.CustomizeProfileViewModel();
         }
-
-        /// <summary>
-        /// Maneja el botón de volver al menú principal
-        /// </summary>
+        
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            var mainMenuView = new MainMenu.MainMenuView();
+            MainMenuView mainMenuView = new MainMenu.MainMenuView();
             mainMenuView.Show();
             this.Close();
         }

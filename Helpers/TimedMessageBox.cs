@@ -11,7 +11,7 @@ namespace Lottery.Helpers
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                var msgWindow = new CustomMessageBoxView(message, title, buttons, icon, hideButtons: true);
+                CustomMessageBoxView msgWindow = new CustomMessageBoxView(message, title, buttons, icon, hideButtons: true);
                 msgWindow.Show();
 
                 Task.Run(async () =>

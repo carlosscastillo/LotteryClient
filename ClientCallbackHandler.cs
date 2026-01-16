@@ -41,13 +41,13 @@ namespace Lottery
 
         public void NotifyCard(int cardId)
         {
-            var tempDto = new CardDto { Id = cardId };
+            CardDto tempDto = new CardDto { Id = cardId };
             RunOnUI(() => CardDrawnReceived?.Invoke(tempDto));
         }
 
         public void NotifyWinner(string nickname, int winnerId, int winnerBoardId, int[] markedPositions)
         {
-            var positionsList = markedPositions?.ToList() ?? new List<int>();
+            List<int> positionsList = markedPositions?.ToList() ?? new List<int>();
             RunOnUI(() => PlayerWonReceived?.Invoke(nickname, winnerId, winnerBoardId, positionsList));
         }
 

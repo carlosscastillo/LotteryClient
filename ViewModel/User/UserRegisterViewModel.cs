@@ -17,7 +17,7 @@ namespace Lottery.ViewModel.User
     public class UserRegisterViewModel : BaseViewModel
     {
         private readonly Dictionary<string, string> _errorMap;
-        private  UserDto _pendingUser;
+        private UserDto _pendingUser;
         private bool _isRegistering;
 
         public event Action NavigateToLogin;
@@ -25,85 +25,160 @@ namespace Lottery.ViewModel.User
         private string _name;
         public string Name
         {
-            get => _name;
-            set => SetProperty(ref _name, value);
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                SetProperty(ref _name, value);
+            }
         }
 
         private string _paternalLastName;
         public string PaternalLastName
         {
-            get => _paternalLastName;
-            set => SetProperty(ref _paternalLastName, value);
+            get
+            {
+                return _paternalLastName;
+            }
+            set
+            {
+                SetProperty(ref _paternalLastName, value);
+            }
         }
 
         private string _maternalLastName;
         public string MaternalLastName
         {
-            get => _maternalLastName;
-            set => SetProperty(ref _maternalLastName, value);
+            get
+            {
+                return _maternalLastName;
+            }
+            set
+            {
+                SetProperty(ref _maternalLastName, value);
+            }
         }
 
         private string _nickname;
         public string Nickname
         {
-            get => _nickname;
-            set => SetProperty(ref _nickname, value);
+            get
+            {
+                return _nickname;
+            }
+            set
+            {
+                SetProperty(ref _nickname, value);
+            }
         }
 
         private string _email;
         public string Email
         {
-            get => _email;
-            set => SetProperty(ref _email, value);
+            get
+            {
+                return _email;
+            }
+            set
+            {
+                SetProperty(ref _email, value);
+            }
         }
 
         private string _verificationCode;
         public string VerificationCode
         {
-            get => _verificationCode;
-            set => SetProperty(ref _verificationCode, value);
+            get
+            {
+                return _verificationCode;
+            }
+            set
+            {
+                SetProperty(ref _verificationCode, value);
+            }
         }
 
         private string _password;
         public string Password
         {
-            get => _password;
-            set => SetProperty(ref _password, value);
+            get
+            {
+                return _password;
+            }
+            set
+            {
+                SetProperty(ref _password, value);
+            }
         }
 
         private string _confirmPassword;
         public string ConfirmPassword
         {
-            get => _confirmPassword;
-            set => SetProperty(ref _confirmPassword, value);
+            get
+            {
+                return _confirmPassword;
+            }
+            set
+            {
+                SetProperty(ref _confirmPassword, value);
+            }
         }
 
         private bool _isPasswordVisible;
         public bool IsPasswordVisible
         {
-            get => _isPasswordVisible;
-            set => SetProperty(ref _isPasswordVisible, value);
+            get
+            {
+                return _isPasswordVisible;
+            }
+            set
+            {
+                SetProperty(ref _isPasswordVisible, value);
+            }
         }
 
         private bool _isConfirmPasswordVisible;
         public bool IsConfirmPasswordVisible
         {
-            get => _isConfirmPasswordVisible;
-            set => SetProperty(ref _isConfirmPasswordVisible, value);
+            get
+            {
+                return _isConfirmPasswordVisible;
+            }
+            set
+            {
+                SetProperty(ref _isConfirmPasswordVisible, value);
+            }
         }
 
         public bool IsRegistering
         {
-            get => _isRegistering;
-            set => SetProperty(ref _isRegistering, value);
+            get
+            {
+                return _isRegistering;
+            }
+            set
+            {
+                SetProperty(ref _isRegistering, value);
+            }
         }
 
-        public enum RegistrationState { Form, Verification, Completed }
+        public enum RegistrationState
+        {
+            Form,
+            Verification,
+            Completed
+        }
+
         private RegistrationState _currentState;
 
         public RegistrationState CurrentState
         {
-            get => _currentState;
+            get
+            {
+                return _currentState;
+            }
             set
             {
                 if (SetProperty(ref _currentState, value))
@@ -115,9 +190,29 @@ namespace Lottery.ViewModel.User
             }
         }
 
-        public bool IsFormVisible => CurrentState == RegistrationState.Form;
-        public bool IsVerificationVisible => CurrentState == RegistrationState.Verification;
-        public bool IsCompletedVisible => CurrentState == RegistrationState.Completed;
+        public bool IsFormVisible
+        {
+            get
+            {
+                return CurrentState == RegistrationState.Form;
+            }
+        }
+
+        public bool IsVerificationVisible
+        {
+            get
+            {
+                return CurrentState == RegistrationState.Verification;
+            }
+        }
+
+        public bool IsCompletedVisible
+        {
+            get
+            {
+                return CurrentState == RegistrationState.Completed;
+            }
+        }
 
         public ICommand RegisterCommand { get; }
         public ICommand VerifyCommand { get; }
@@ -161,7 +256,7 @@ namespace Lottery.ViewModel.User
 
         private async Task Register()
         {
-            var newUser = new UserDto
+            UserDto newUser = new UserDto
             {
                 FirstName = Name,
                 PaternalLastName = PaternalLastName,
@@ -172,11 +267,16 @@ namespace Lottery.ViewModel.User
             };
 
             if (!ValidateForm(newUser))
+            {
                 return;
+            }
 
             if (Password != ConfirmPassword)
             {
-                ShowError(Lang.RegisterPasswordsDoNotMatch, Lang.RegisterPasswordErrorTitle, MessageBoxImage.Warning);
+                ShowError(
+                    Lang.RegisterPasswordsDoNotMatch,
+                    Lang.RegisterPasswordErrorTitle,
+                    MessageBoxImage.Warning);
                 return;
             }
 
@@ -203,22 +303,30 @@ namespace Lottery.ViewModel.User
 
         private async Task VerifyCode()
         {
-            var result = new CodeValidator().Validate(VerificationCode);
+            CodeValidator codeValidator = new CodeValidator();
+            FluentValidation.Results.ValidationResult result = codeValidator.Validate(VerificationCode);
+
             if (!result.IsValid)
             {
-                ShowError(result.Errors.First().ErrorMessage, Lang.RegisterInvalidCodeTitle, MessageBoxImage.Warning);
+                ShowError(
+                    result.Errors.First().ErrorMessage,
+                    Lang.RegisterInvalidCodeTitle,
+                    MessageBoxImage.Warning);
             }
             else
             {
                 IsRegistering = true;
                 await ExecuteRequest(async () =>
                 {
-                    var client = ServiceProxy.Instance.Client;
+                    ILotteryService client = ServiceProxy.Instance.Client;
                     bool verified = await client.VerifyCodeAsync(Email, VerificationCode);
 
                     if (!verified)
                     {
-                        ShowError(Lang.RegisterCodeExpiredOrIncorrect, Lang.RegisterVerificationFailedTitle, MessageBoxImage.Warning);
+                        ShowError(
+                            Lang.RegisterCodeExpiredOrIncorrect,
+                            Lang.RegisterVerificationFailedTitle,
+                            MessageBoxImage.Warning);
                     }
                     else
                     {
@@ -228,9 +336,14 @@ namespace Lottery.ViewModel.User
 
                             if (userId > 0)
                             {
-                                var session = await client.LoginUserAsync(_pendingUser.Nickname, _pendingUser.Password);
+                                UserDto session = await client.LoginUserAsync(
+                                    _pendingUser.Nickname,
+                                    _pendingUser.Password);
+
                                 if (session != null)
+                                {
                                     SessionManager.Login(session);
+                                }
 
                                 _pendingUser = null;
                                 CurrentState = RegistrationState.Completed;
@@ -244,13 +357,16 @@ namespace Lottery.ViewModel.User
 
         private bool ValidateForm(UserDto user)
         {
-            var validator = new UserValidator().ValidateRegister();
-            var validationResult = validator.Validate(user);
+            UserValidator validator = new UserValidator().ValidateRegister();
+            FluentValidation.Results.ValidationResult validationResult = validator.Validate(user);
 
             if (!validationResult.IsValid)
             {
                 string errorList = string.Join("\n• ", validationResult.Errors.Select(e => e.ErrorMessage));
-                ShowError($"{Lang.LoginValidationMessage}\n\n• {errorList}", Lang.LoginValidationTitle, MessageBoxImage.Warning);
+                ShowError(
+                    $"{Lang.LoginValidationMessage}\n\n• {errorList}",
+                    Lang.LoginValidationTitle,
+                    MessageBoxImage.Warning);
                 return false;
             }
             return true;
@@ -258,11 +374,16 @@ namespace Lottery.ViewModel.User
 
         private void OpenMainMenu()
         {
-            var mainMenu = new MainMenuView();
+            MainMenuView mainMenu = new MainMenuView();
             mainMenu.Show();
 
-            Application.Current.Windows.OfType<Window>()
-                .SingleOrDefault(w => w.DataContext == this)?.Close();
+            Window currentWindow = Application.Current.Windows.OfType<Window>()
+                .SingleOrDefault(w => w.DataContext == this);
+
+            if (currentWindow != null)
+            {
+                currentWindow.Close();
+            }
         }
     }
 }

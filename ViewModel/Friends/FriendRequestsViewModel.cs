@@ -15,11 +15,25 @@ namespace Lottery.ViewModel.Friends
         private readonly int _currentUserId;
         private readonly Dictionary<string, string> _errorMap;
 
-        public ObservableCollection<FriendDto> PendingRequests { get; } = new ObservableCollection<FriendDto>();
+        public ObservableCollection<FriendDto> PendingRequests
+        {
+            get;
+        } = new ObservableCollection<FriendDto>();
 
-        public ICommand LoadRequestsCommand { get; }
-        public ICommand AcceptCommand { get; }
-        public ICommand RejectCommand { get; }
+        public ICommand LoadRequestsCommand
+        {
+            get;
+        }
+
+        public ICommand AcceptCommand
+        {
+            get;
+        }
+
+        public ICommand RejectCommand
+        {
+            get;
+        }
 
         public FriendRequestsViewModel()
         {
@@ -46,14 +60,14 @@ namespace Lottery.ViewModel.Friends
         {
             await ExecuteRequest(async () =>
             {
-                var requests = await ServiceProxy.Instance.Client.GetPendingRequestsAsync(_currentUserId);
+                IEnumerable<FriendDto> requests = await ServiceProxy.Instance.Client.GetPendingRequestsAsync(_currentUserId);
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     PendingRequests.Clear();
                     if (requests != null)
                     {
-                        foreach (var req in requests)
+                        foreach (FriendDto req in requests)
                         {
                             PendingRequests.Add(req);
                         }

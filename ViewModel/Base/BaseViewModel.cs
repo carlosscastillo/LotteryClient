@@ -53,7 +53,10 @@ namespace Lottery.ViewModel.Base
                     {
                         ServiceProxy.Instance.CloseSafe();
                     }
-                    catch { }
+                    catch (Exception)
+                    {
+                        /* Empty catch handled per proxy logic */
+                    }
 
                     NavigateToLoginOrExit();
                 }
@@ -74,7 +77,7 @@ namespace Lottery.ViewModel.Base
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                var currentWindow = Application.Current.MainWindow;
+                Window currentWindow = Application.Current.MainWindow;
 
                 if (currentWindow != null && currentWindow.GetType() == typeof(LoginView))
                 {
@@ -86,7 +89,7 @@ namespace Lottery.ViewModel.Base
 
                 Application.Current.MainWindow = loginScreen;
 
-                var windowsToClose = Application.Current.Windows.Cast<Window>().ToList();
+                List<Window> windowsToClose = Application.Current.Windows.Cast<Window>().ToList();
 
                 foreach (Window win in windowsToClose)
                 {
@@ -108,8 +111,8 @@ namespace Lottery.ViewModel.Base
 
             try
             {
-                var client = ServiceProxy.Instance.Client;
-                var channel = client as ICommunicationObject;
+                ILotteryService client = ServiceProxy.Instance.Client;
+                ICommunicationObject channel = client as ICommunicationObject;
 
                 if (channel == null ||
                     channel.State == CommunicationState.Faulted ||
@@ -135,13 +138,11 @@ namespace Lottery.ViewModel.Base
                     ex is ObjectDisposedException)
                 {
                     ServiceProxy.Instance.EnqueueAction(action);
-
                     return;
                 }
 
-                ShowError(
-                    string.Format(Lang.GlobalMessageBoxUnexpectedError, ex.Message),
-                    Lang.GlobalMessageBoxTitleError);
+                string errorMessage = string.Format(Lang.GlobalMessageBoxUnexpectedError, ex.Message);
+                ShowError(errorMessage, Lang.GlobalMessageBoxTitleError);
             }
         }
 
@@ -151,7 +152,7 @@ namespace Lottery.ViewModel.Base
             string errorCode = fault.Detail?.ErrorCode;
             string serverMessage = fault.Detail?.Message;
 
-            var globalErrorMap = new Dictionary<string, string>
+            Dictionary<string, string> globalErrorMap = new Dictionary<string, string>
             {
                 { "DB_ERROR", Lang.GlobalExceptionConnectionDatabaseMessage },
                 { "INTERNAL_SERVER_ERROR", Lang.GlobalExceptionInternalServerError },
@@ -160,23 +161,35 @@ namespace Lottery.ViewModel.Base
                 { "GLOBAL_BAD_REQUEST", Lang.GlobalMessageBoxUnexpectedError }
             };
 
-            if (!string.IsNullOrEmpty(errorCode) && viewErrorMap != null && viewErrorMap.ContainsKey(errorCode))
+            bool hasCode = !string.IsNullOrEmpty(errorCode);
+
+            if (hasCode && viewErrorMap != null && viewErrorMap.ContainsKey(errorCode))
             {
                 message = viewErrorMap[errorCode];
             }
-            else if (!string.IsNullOrEmpty(errorCode) && globalErrorMap.ContainsKey(errorCode))
+            else if (hasCode && globalErrorMap.ContainsKey(errorCode))
             {
                 message = globalErrorMap[errorCode];
             }
             else
             {
-                message = !string.IsNullOrEmpty(serverMessage)
-                    ? serverMessage
-                    : string.Format(Lang.GlobalExceptionServerError, errorCode ?? "UNKNOWN", "Error");
+                if (!string.IsNullOrEmpty(serverMessage))
+                {
+                    message = serverMessage;
+                }
+                else
+                {
+                    message = string.Format(Lang.GlobalExceptionServerError, errorCode ?? "UNKNOWN", "Error");
+                }
             }
 
             MessageBoxImage icon = MessageBoxImage.Warning;
-            if (errorCode == "DB_ERROR" || errorCode == "INTERNAL_SERVER_ERROR" || errorCode == "USER_OFFLINE")
+
+            bool isFatalError = errorCode == "DB_ERROR" ||
+                               errorCode == "INTERNAL_SERVER_ERROR" ||
+                               errorCode == "USER_OFFLINE";
+
+            if (isFatalError)
             {
                 icon = MessageBoxImage.Error;
             }
@@ -186,7 +199,11 @@ namespace Lottery.ViewModel.Base
 
         protected void ShowSuccess(string message)
         {
-            CustomMessageBox.Show(message, Lang.GlobalMessageBoxTitleSuccess, MessageBoxButton.OK, MessageBoxImage.Information);
+            CustomMessageBox.Show(
+                message,
+                Lang.GlobalMessageBoxTitleSuccess,
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
         }
 
         protected void ShowError(string message)

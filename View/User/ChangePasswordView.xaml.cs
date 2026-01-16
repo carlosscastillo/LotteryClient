@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 
 namespace Lottery.View.User
 {
-    /// <summary>
+    /// 
     /// Lógica de interacción para ChangePasswordView.xaml
     /// </summary>
     public partial class ChangePasswordView : Window
@@ -29,8 +29,8 @@ namespace Lottery.View.User
         {
             if (sender is Button btn && btn.Parent is Grid grid)
             {
-                var pb = grid.Children.OfType<PasswordBox>().FirstOrDefault();
-                var tb = grid.Children.OfType<TextBox>().FirstOrDefault();
+                PasswordBox pb = grid.Children.OfType<PasswordBox>().FirstOrDefault();
+                TextBox tb = grid.Children.OfType<TextBox>().FirstOrDefault();
 
                 if (pb.Visibility == Visibility.Visible)
                 {

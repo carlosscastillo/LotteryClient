@@ -16,9 +16,27 @@ namespace Lottery.ViewModel.Friends
 {
     public class FriendViewModel : ObservableObject
     {
-        public FriendDto Dto { get; }
-        public string Nickname => Dto.Nickname;
-        public int UserId => Dto.FriendId;
+        public FriendDto Dto
+        {
+            get;
+        }
+
+        public string Nickname
+        {
+            get
+            {
+                return Dto.Nickname;
+            }
+        }
+
+        public int UserId
+        {
+            get
+            {
+                return Dto.FriendId;
+            }
+        }
+
         public FriendViewModel(FriendDto dto)
         {
             Dto = dto;
@@ -27,14 +45,34 @@ namespace Lottery.ViewModel.Friends
 
     public class FoundUserViewModel : ObservableObject
     {
-        public FriendDto Dto { get; }
-        public string Nickname => Dto.Nickname;
-        public int UserId => Dto.UserId;
+        public FriendDto Dto
+        {
+            get;
+        }
+
+        public string Nickname
+        {
+            get
+            {
+                return Dto.Nickname;
+            }
+        }
+
+        public int UserId
+        {
+            get
+            {
+                return Dto.UserId;
+            }
+        }
 
         private bool _isFriend;
         public bool IsFriend
         {
-            get => _isFriend;
+            get
+            {
+                return _isFriend;
+            }
             set
             {
                 if (SetProperty(ref _isFriend, value))
@@ -47,7 +85,10 @@ namespace Lottery.ViewModel.Friends
         private bool _hasPendingRequest;
         public bool HasPendingRequest
         {
-            get => _hasPendingRequest;
+            get
+            {
+                return _hasPendingRequest;
+            }
             set
             {
                 if (SetProperty(ref _hasPendingRequest, value))
@@ -60,7 +101,10 @@ namespace Lottery.ViewModel.Friends
         private int _pendingRequestSenderId = 0;
         public int PendingRequestSenderId
         {
-            get => _pendingRequestSenderId;
+            get
+            {
+                return _pendingRequestSenderId;
+            }
             set
             {
                 if (SetProperty(ref _pendingRequestSenderId, value))
@@ -72,11 +116,42 @@ namespace Lottery.ViewModel.Friends
 
         private readonly int _currentUserId;
 
-        public bool CanSendRequest => !IsFriend && !HasPendingRequest;
-        public bool CanCancelRequest => !IsFriend && HasPendingRequest && PendingRequestSenderId == _currentUserId;
-        public bool CanAcceptRequest => !IsFriend && HasPendingRequest 
-            && PendingRequestSenderId != _currentUserId && PendingRequestSenderId != 0;
-        public bool CanRejectRequest => CanAcceptRequest;
+        public bool CanSendRequest
+        {
+            get
+            {
+                return !IsFriend && !HasPendingRequest;
+            }
+        }
+
+        public bool CanCancelRequest
+        {
+            get
+            {
+                return !IsFriend && HasPendingRequest && PendingRequestSenderId == _currentUserId;
+            }
+        }
+
+        public bool CanAcceptRequest
+        {
+            get
+            {
+                bool isNotFriend = !IsFriend;
+                bool hasRequest = HasPendingRequest;
+                bool isNotSender = PendingRequestSenderId != _currentUserId;
+                bool isValidSender = PendingRequestSenderId != 0;
+
+                return isNotFriend && hasRequest && isNotSender && isValidSender;
+            }
+        }
+
+        public bool CanRejectRequest
+        {
+            get
+            {
+                return CanAcceptRequest;
+            }
+        }
 
         public FoundUserViewModel(FriendDto dto, int currentUserId)
         {
@@ -104,24 +179,76 @@ namespace Lottery.ViewModel.Friends
         private string _searchNickname;
         public string SearchNickname
         {
-            get => _searchNickname;
-            set => SetProperty(ref _searchNickname, value);
+            get
+            {
+                return _searchNickname;
+            }
+            set
+            {
+                SetProperty(ref _searchNickname, value);
+            }
         }
 
-        public ObservableCollection<FoundUserViewModel> SearchResults { get; } = new ObservableCollection<FoundUserViewModel>();
-        public ObservableCollection<FriendViewModel> FriendsList { get; } = new ObservableCollection<FriendViewModel>();
+        public ObservableCollection<FoundUserViewModel> SearchResults
+        {
+            get;
+        } = new ObservableCollection<FoundUserViewModel>();
 
-        public ICommand SearchCommand { get; }
-        public RelayCommand<FoundUserViewModel> SendRequestCommand { get; }
-        public RelayCommand<FoundUserViewModel> CancelRequestCommand { get; }
-        public RelayCommand<FoundUserViewModel> AcceptRequestCommand { get; }
-        public RelayCommand<FoundUserViewModel> RejectRequestCommand { get; }
-        public RelayCommand<FriendViewModel> RemoveFriendCommand { get; }
-        public RelayCommand<FriendViewModel> InviteFriendCommand { get; private set; }
+        public ObservableCollection<FriendViewModel> FriendsList
+        {
+            get;
+        } = new ObservableCollection<FriendViewModel>();
 
-        public ICommand ViewRequestsCommand { get; }
-        public ICommand LoadFriendsCommand { get; }
-        public ICommand GoBackToMenuCommand { get; }
+        public ICommand SearchCommand
+        {
+            get;
+        }
+
+        public RelayCommand<FoundUserViewModel> SendRequestCommand
+        {
+            get;
+        }
+
+        public RelayCommand<FoundUserViewModel> CancelRequestCommand
+        {
+            get;
+        }
+
+        public RelayCommand<FoundUserViewModel> AcceptRequestCommand
+        {
+            get;
+        }
+
+        public RelayCommand<FoundUserViewModel> RejectRequestCommand
+        {
+            get;
+        }
+
+        public RelayCommand<FriendViewModel> RemoveFriendCommand
+        {
+            get;
+        }
+
+        public RelayCommand<FriendViewModel> InviteFriendCommand
+        {
+            get;
+            private set;
+        }
+
+        public ICommand ViewRequestsCommand
+        {
+            get;
+        }
+
+        public ICommand LoadFriendsCommand
+        {
+            get;
+        }
+
+        public ICommand GoBackToMenuCommand
+        {
+            get;
+        }
 
         public InviteFriendsViewModel()
         {
@@ -162,12 +289,12 @@ namespace Lottery.ViewModel.Friends
         {
             await ExecuteRequest(async () =>
             {
-                var friends = await ServiceProxy.Instance.Client.GetFriendsAsync(_currentUserId);
+                IEnumerable<FriendDto> friends = await ServiceProxy.Instance.Client.GetFriendsAsync(_currentUserId);
 
                 FriendsList.Clear();
                 if (friends != null)
                 {
-                    foreach (var friend in friends)
+                    foreach (FriendDto friend in friends)
                     {
                         FriendsList.Add(new FriendViewModel(friend));
                     }
@@ -183,8 +310,8 @@ namespace Lottery.ViewModel.Friends
 
                 await ExecuteRequest(async () =>
                 {
-                    var client = ServiceProxy.Instance.Client;
-                    var user = await client.FindUserByNicknameAsync(SearchNickname);
+                    ILotteryService client = ServiceProxy.Instance.Client;
+                    FriendDto user = await client.FindUserByNicknameAsync(SearchNickname);
 
                     if (user != null)
                     {
@@ -194,21 +321,30 @@ namespace Lottery.ViewModel.Friends
                         }
                         else
                         {
-                            var friends = await client.GetFriendsAsync(_currentUserId);
-                            var pendingSent = await client.GetSentRequestsAsync(_currentUserId);
-                            var pendingReceived = await client.GetPendingRequestsAsync(_currentUserId);
+                            IEnumerable<FriendDto> friends = await client.GetFriendsAsync(_currentUserId);
+                            IEnumerable<FriendDto> pendingSent = await client.GetSentRequestsAsync(_currentUserId);
+                            IEnumerable<FriendDto> pendingReceived = await client.GetPendingRequestsAsync(_currentUserId);
 
                             bool isFriend = friends.Any(f => f.FriendId == user.UserId);
                             bool hasPendingSent = pendingSent.Any(r => r.UserId == user.UserId);
-                            var receivedRequest = pendingReceived.FirstOrDefault(r => r.FriendId == user.UserId);
+                            FriendDto receivedRequest = pendingReceived.FirstOrDefault(r => r.FriendId == user.UserId);
 
                             SearchResults.Clear();
-                            SearchResults.Add(new FoundUserViewModel(user, _currentUserId)
+
+                            FoundUserViewModel foundUser = new FoundUserViewModel(user, _currentUserId);
+                            foundUser.IsFriend = isFriend;
+                            foundUser.HasPendingRequest = hasPendingSent || (receivedRequest != null);
+
+                            if (hasPendingSent)
                             {
-                                IsFriend = isFriend,
-                                HasPendingRequest = hasPendingSent || (receivedRequest != null),
-                                PendingRequestSenderId = hasPendingSent ? _currentUserId : receivedRequest?.FriendId ?? 0
-                            });
+                                foundUser.PendingRequestSenderId = _currentUserId;
+                            }
+                            else
+                            {
+                                foundUser.PendingRequestSenderId = receivedRequest?.FriendId ?? 0;
+                            }
+
+                            SearchResults.Add(foundUser);
                         }
                     }
                 }, _errorMap);
@@ -281,7 +417,7 @@ namespace Lottery.ViewModel.Friends
         {
             if (selectedFriend != null)
             {
-                var result = CustomMessageBox.Show(
+                MessageBoxResult result = CustomMessageBox.Show(
                     string.Format(Lang.InviteFriendsAreYouSure, selectedFriend.Nickname),
                     Lang.GlobalMessageBoxTitleConfirm,
                     MessageBoxButton.YesNo,
@@ -300,7 +436,9 @@ namespace Lottery.ViewModel.Friends
 
         private async Task InviteFriendToLobby(FriendViewModel friend)
         {
-            if (_isInviteMode && !string.IsNullOrEmpty(_inviteLobbyCode) && friend != null)
+            bool isValidLobby = !string.IsNullOrEmpty(_inviteLobbyCode);
+
+            if (_isInviteMode && isValidLobby && friend != null)
             {
                 await ExecuteRequest(async () =>
                 {
@@ -318,7 +456,7 @@ namespace Lottery.ViewModel.Friends
 
         private void ViewRequests()
         {
-            var requestsView = new FriendRequestsView();
+            FriendRequestsView requestsView = new FriendRequestsView();
             requestsView.ShowDialog();
             _ = LoadFriends();
         }
@@ -327,10 +465,14 @@ namespace Lottery.ViewModel.Friends
         {
             if (!_isInviteMode)
             {
-                var mainMenuView = new MainMenuView();
+                MainMenuView mainMenuView = new MainMenuView();
                 mainMenuView.Show();
             }
-            friendsWindow?.Close();
+
+            if (friendsWindow != null)
+            {
+                friendsWindow.Close();
+            }
         }
     }
 }

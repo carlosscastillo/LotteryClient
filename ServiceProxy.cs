@@ -72,7 +72,7 @@ namespace Lottery
             {
                 if (_client is LotteryServiceClient concreteClient && concreteClient.Endpoint != null)
                 {
-                    var host = concreteClient.Endpoint.Address.Uri.Host.ToLower();
+                    string host = concreteClient.Endpoint.Address.Uri.Host.ToLower();
                     if (host == "localhost" || host == "127.0.0.1")
                     {
                         return true;
@@ -89,9 +89,9 @@ namespace Lottery
         private void CreateClient()
         {
             _callbackHandler = new ClientCallbackHandler();
-            var context = new InstanceContext(_callbackHandler);
+            InstanceContext context = new InstanceContext(_callbackHandler);
 
-            var client = new LotteryServiceClient(context);
+            LotteryServiceClient client = new LotteryServiceClient(context);
             _client = client;
 
             if (_client is ICommunicationObject channel)
@@ -133,9 +133,9 @@ namespace Lottery
 
             try
             {
-                var action = _pendingActions.Peek();
+                Func<Task> action = _pendingActions.Peek();
 
-                var clientCheck = Client;
+                ILotteryService clientCheck = Client;
 
                 await action();
 
@@ -148,7 +148,7 @@ namespace Lottery
             }
             catch (Exception)
             {
-                var channel = _client as ICommunicationObject;
+                ICommunicationObject channel = _client as ICommunicationObject;
                 channel?.Abort();
                 _client = null;
             }
@@ -192,7 +192,7 @@ namespace Lottery
                 return;
             }
 
-            var channel = _client as ICommunicationObject;
+            ICommunicationObject channel = _client as ICommunicationObject;
             if (channel == null)
             {
                 return;

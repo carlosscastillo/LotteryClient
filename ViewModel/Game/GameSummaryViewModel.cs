@@ -18,18 +18,39 @@ namespace Lottery.ViewModel.Game
         private readonly Window _summaryWindow;
         private readonly Window _lobbyWindow;
 
-        public string SummaryMessage { get; }
-        public ObservableCollection<Cell> WinnerBoard { get; }
-        public bool HasWinner { get; }
+        public string SummaryMessage
+        {
+            get;
+        }
+
+        public ObservableCollection<Cell> WinnerBoard
+        {
+            get;
+        }
+
+        public bool HasWinner
+        {
+            get;
+        }
 
         private string _timerText;
         public string TimerText
         {
-            get { return _timerText; }
-            set { SetProperty(ref _timerText, value); }
+            get
+            {
+                return _timerText;
+            }
+            set
+            {
+                SetProperty(ref _timerText, value);
+            }
         }
 
-        public ICommand ExitNowCommand { get; private set; }
+        public ICommand ExitNowCommand
+        {
+            get;
+            private set;
+        }
 
         public GameSummaryViewModel(string winnerName, ObservableCollection<Cell> board, Window summaryWindow, Window lobbyWindow)
         {
@@ -47,7 +68,8 @@ namespace Lottery.ViewModel.Game
                 SummaryMessage = string.Format(Lang.GameWinnerMessage, winnerName);
             }
 
-            TimerText = _countdown.ToString();            
+            TimerText = _countdown.ToString();
+
             if (!HasWinner)
             {
                 CheckAndShowPendingDbErrorForDeckEnd();
@@ -78,15 +100,19 @@ namespace Lottery.ViewModel.Game
 
         private void ShowAutoCloseDbError()
         {
-            var errorTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(3) };
-            var msgBox = CustomMessageBox.Show(
+            DispatcherTimer errorTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(3)
+            };
+
+            CustomMessageBox.Show(
                 Lang.GameConnectionDatabaseMessage,
                 Lang.GlobalMessageBoxTitleError,
                 MessageBoxButton.OK,
                 MessageBoxImage.Error,
                 _summaryWindow);
 
-            errorTimer.Tick += (s, e) =>
+            errorTimer.Tick += (object sender, EventArgs e) =>
             {
                 errorTimer.Stop();
                 foreach (Window window in Application.Current.Windows)
@@ -102,8 +128,12 @@ namespace Lottery.ViewModel.Game
 
         private void StartTimer()
         {
-            _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
-            _timer.Tick += (s, e) =>
+            _timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+
+            _timer.Tick += (object sender, EventArgs e) =>
             {
                 _countdown--;
                 TimerText = _countdown.ToString();

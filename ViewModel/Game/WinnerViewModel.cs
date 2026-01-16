@@ -24,30 +24,65 @@ namespace Lottery.ViewModel.Game
         private bool _timerRunning;
         private bool _isNavigating = false;
 
-        public int PlayerId { get; }
-        public string WinnerPlayerName { get; }
-        public ObservableCollection<Cell> WinnerBoard { get; }
+        public int PlayerId
+        {
+            get;
+        }
+
+        public string WinnerPlayerName
+        {
+            get;
+        }
+
+        public ObservableCollection<Cell> WinnerBoard
+        {
+            get;
+        }
 
         private string _timerText;
         public string TimerText
         {
-            get => _timerText;
-            set => SetProperty(ref _timerText, value);
+            get
+            {
+                return _timerText;
+            }
+            set
+            {
+                SetProperty(ref _timerText, value);
+            }
         }
 
         private bool _isCurrentUserWinner;
         public bool IsCurrentUserWinner
         {
-            get => _isCurrentUserWinner;
-            set => SetProperty(ref _isCurrentUserWinner, value);
+            get
+            {
+                return _isCurrentUserWinner;
+            }
+            set
+            {
+                SetProperty(ref _isCurrentUserWinner, value);
+            }
         }
 
-        public ICommand FalseLoteriaCommand { get; }
-        public ICommand ConfirmWinCommand { get; }
+        public ICommand FalseLoteriaCommand
+        {
+            get;
+        }
+
+        public ICommand ConfirmWinCommand
+        {
+            get;
+        }
 
         private readonly Dictionary<string, string> _errorMap;
 
-        public WinnerViewModel(int playerId, string winnerPlayerName, List<Cell> boardCells, Window gameWindow, Window lobbyWindow)
+        public WinnerViewModel(
+            int playerId,
+            string winnerPlayerName,
+            List<Cell> boardCells,
+            Window gameWindow,
+            Window lobbyWindow)
         {
             PlayerId = playerId;
             WinnerPlayerName = winnerPlayerName;
@@ -61,6 +96,9 @@ namespace Lottery.ViewModel.Game
             _errorMap = new Dictionary<string, string>
             {
                 { "GAME_ACTION_INVALID", Lang.GameExceptionInvalidAction },
+                { "GAME_ALREADY_ACTIVE", Lang.GameExceptionAlreadyActive },
+                { "GAME_LOBBY_NOT_FOUND", Lang.GameExceptionLobbyNotFound },
+                { "USER_OFFLINE", Lang.GameExceptionUserOffline },
                 { "DB_ERROR", Lang.GlobalExceptionConnectionDatabaseMessage },
                 { "GAME_INTERNAL_ERROR", Lang.GameExceptionInternalError }
             };
@@ -72,7 +110,7 @@ namespace Lottery.ViewModel.Game
 
             _remainingTime = TimeSpan.FromSeconds(10);
             StartTimer();
-            
+
             ClientCallbackHandler.FalseLoteriaResultReceived += OnFalseLoteriaResultReceived;
             ClientCallbackHandler.GameEndedReceived += OnGameEnded;
         }
@@ -82,24 +120,27 @@ namespace Lottery.ViewModel.Game
             TimerText = _remainingTime.ToString(@"mm\:ss");
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromSeconds(1);
-            _timer.Tick += Timer_Tick;
-            _timer.Start();
-            _timerRunning = true;
-        }
 
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            if (_remainingTime > TimeSpan.Zero)
+            _timer.Tick += (sender, e) =>
             {
+                if (!_timerRunning)
+                {
+                    return;
+                }
+
                 _remainingTime = _remainingTime.Subtract(TimeSpan.FromSeconds(1));
                 TimerText = _remainingTime.ToString(@"mm\:ss");
-            }
-            else
-            {
-                _timer.Stop();
-                _timerRunning = false;
-                RedirectToLobby();
-            }
+
+                if (_remainingTime <= TimeSpan.Zero)
+                {
+                    _timer.Stop();
+                    _timerRunning = false;
+                    RedirectToLobby();
+                }
+            };
+
+            _timerRunning = true;
+            _timer.Start();
         }
 
         private async Task ChallengeFalseLoteria()
@@ -117,55 +158,125 @@ namespace Lottery.ViewModel.Game
                     await ServiceProxy.Instance.Client.ValidateFalseLoteriaAsync(SessionManager.CurrentUser.UserId);
                 }, _errorMap);
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+            }
         }
-        
-        private void OnFalseLoteriaResultReceived(string declarerNickname, string challengerNickname, bool wasCorrect)
+
+        private void OnFalseLoteriaResultReceived(string declarerNickname, string challengerNickname, bool declarerWasCorrect)
         {
             _gameWindow.Dispatcher.Invoke(() =>
             {
-                if (_timerRunning) { _timer.Stop(); _timerRunning = false; }
-
-                if (!wasCorrect)
+                if (_timerRunning)
                 {
-                    CustomMessageBox.Show(Lang.WinnerMsgFakeLoteriaCorrect, Lang.GlobalMessageBoxTitleInfo, MessageBoxButton.OK, MessageBoxImage.Information);
+                    _timer.Stop();
+                    _timerRunning = false;
+                }
 
-                    _gameWindow.Show();
-                    CloseWinnerWindows();
+                bool isChallenger = SessionManager.CurrentUser.Nickname == challengerNickname;
+                bool isDeclarer = SessionManager.CurrentUser.Nickname == declarerNickname;
 
-                    if (_gameWindow.DataContext is GameViewModel gameVM)
+                if (!declarerWasCorrect)
+                {
+                    string message;
+
+                    if (isDeclarer)
                     {
-                        gameVM.ResubscribeToGameEvents();
+                        message = Lang.WinnerMsgFalseAccusation;
                     }
+                    else if (isChallenger)
+                    {
+                        message = Lang.WinnerMsgFakeLoteriaCorrect;
+                    }
+                    else
+                    {
+                        message = string.Format(Lang.WinnerMsgPlayerCaughtFakeLoteria, declarerNickname);
+                    }
+
+                    TimedMessageBox.Show(
+                        message,
+                        Lang.GlobalMessageBoxTitleInfo,
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information,
+                        3,
+                        () => ReturnToGameplay());
                 }
                 else
                 {
-                    CustomMessageBox.Show(Lang.WinnerMsgFailedAccusation, Lang.GlobalMessageBoxTitleInfo, MessageBoxButton.OK, MessageBoxImage.Information);
-                    RedirectToLobby();
+                    if (isDeclarer)
+                    {
+                        RedirectToLobby();
+                    }
+                    else
+                    {
+                        string message = isChallenger
+                            ? Lang.WinnerMsgFailedAccusation
+                            : string.Format(Lang.WinnerMsgPlayerFailedAccusation, challengerNickname);
+
+                        TimedMessageBox.Show(
+                            message,
+                            Lang.GlobalMessageBoxTitleInfo,
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Information,
+                            3,
+                            () => RedirectToLobby());
+                    }
                 }
             });
         }
-        
-        private void OnGameEnded(string finalMessage)
-        {            
+
+        private void ReturnToGameplay()
+        {
+            Cleanup();
+
+            Application.Current.Dispatcher.Invoke(async () =>
+            {
+                if (_gameWindow.DataContext is GameViewModel gameVM)
+                {
+                    gameVM.ResubscribeToGameEvents();
+                }
+
+                if (_lobbyWindow.DataContext is LobbyViewModel lobbyVM)
+                {
+                    await lobbyVM.RefreshLobbyState();
+                }
+
+                CloseWinnerWindows();
+                _gameWindow.Show();
+            });
         }
 
         private async void RedirectToLobby()
         {
-            if (_isNavigating) return;
+            if (_isNavigating)
+            {
+                return;
+            }
+
             _isNavigating = true;
 
-            if (_timerRunning) { _timer.Stop(); _timerRunning = false; }
+            if (_timerRunning)
+            {
+                _timer.Stop();
+                _timerRunning = false;
+            }
 
             bool dbErrorReceived = false;
+
             Action<string> tempHandler = (finalMessage) =>
             {
                 if (!string.IsNullOrEmpty(finalMessage) && finalMessage.StartsWith("DB_ERROR"))
                 {
                     string[] parts = finalMessage.Split('|');
-                    if (parts.Length > 1 && parts[1].Split(',').Contains(SessionManager.CurrentUser.UserId.ToString()))
+
+                    if (parts.Length > 1)
                     {
-                        dbErrorReceived = true;
+                        string[] affectedIds = parts[1].Split(',');
+
+                        if (affectedIds.Contains(SessionManager.CurrentUser.UserId.ToString()))
+                        {
+                            dbErrorReceived = true;
+                        }
                     }
                 }
             };
@@ -176,26 +287,46 @@ namespace Lottery.ViewModel.Game
             {
                 if (IsCurrentUserWinner)
                 {
-                    await ExecuteRequest(async () => {
+                    await ExecuteRequest(async () =>
+                    {
                         await ServiceProxy.Instance.Client.ConfirmGameEndAsync(PlayerId);
                     }, _errorMap);
+
                     await Task.Delay(1500);
                 }
-                else { await Task.Delay(500); }
+                else
+                {
+                    await Task.Delay(500);
+                }
             }
-            finally { ClientCallbackHandler.GameEndedReceived -= tempHandler; }
+            finally
+            {
+                ClientCallbackHandler.GameEndedReceived -= tempHandler;
+            }
 
             Application.Current.Dispatcher.Invoke(() =>
             {
                 Cleanup();
+
                 if (dbErrorReceived)
                 {
-                    CustomMessageBox.Show(Lang.GameConnectionDatabaseMessage, Lang.GlobalMessageBoxTitleError, MessageBoxButton.OK, MessageBoxImage.Error);
-                }                
-                Lottery.View.Game.GameSummaryView summaryView = new Lottery.View.Game.GameSummaryView();
-                GameSummaryViewModel summaryVM = new GameSummaryViewModel(WinnerPlayerName, WinnerBoard, summaryView, _lobbyWindow);
-                summaryView.DataContext = summaryVM;
+                    ClientCallbackHandler.PendingGameError = null;
 
+                    CustomMessageBox.Show(
+                        Lang.GameConnectionDatabaseMessage,
+                        Lang.GlobalMessageBoxTitleError,
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+
+                GameSummaryView summaryView = new GameSummaryView();
+                GameSummaryViewModel summaryVM = new GameSummaryViewModel(
+                    WinnerPlayerName,
+                    WinnerBoard,
+                    summaryView,
+                    _lobbyWindow);
+
+                summaryView.DataContext = summaryVM;
                 summaryView.Show();
                 _gameWindow.Close();
                 CloseWinnerWindows();
@@ -208,6 +339,10 @@ namespace Lottery.ViewModel.Game
             {
                 window.Close();
             }
+        }
+
+        private void OnGameEnded(string finalMessage)
+        {
         }
 
         public void Cleanup()

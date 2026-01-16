@@ -25,7 +25,9 @@ namespace Lottery
         public static event Action<GameSettingsDto> GameStartedReceived;
         public static event Action<CardDto> CardDrawnReceived;
         public static event Action<string, int, int, List<int>> PlayerWonReceived;
-        public static event Action GameEndedReceived;
+
+        public static event Action<GameResultDto> GameEndedReceived;
+
         public static event Action GameResumedReceived;
         public static event Action<string, string, bool> FalseLoteriaResultReceived;
 
@@ -93,16 +95,27 @@ namespace Lottery
 
         public void OnGameFinished()
         {
-            RunOnUI(() => GameEndedReceived?.Invoke());
+            var emptyResult = new GameResultDto
+            {
+                IsDbConnectionError = false,
+                WinnerId = 0,
+                PointsEarned = 0,
+                WinnerNickname = string.Empty
+            };
+
+            RunOnUI(() => GameEndedReceived?.Invoke(emptyResult));
         }
+
         public void OnGameResumed()
         {
             RunOnUI(() => GameResumedReceived?.Invoke());
-        }   
+        }
+
         public void OnFalseLoteriaResult(string declarerNickname, string challengerNickname, bool wasCorrect)
         {
             RunOnUI(() => FalseLoteriaResultReceived?.Invoke(declarerNickname, challengerNickname, wasCorrect));
         }
+
         public void BoardSelected(int userId, int boardId)
         {
             RunOnUI(() => BoardSelectedReceived?.Invoke(userId, boardId));
@@ -116,6 +129,11 @@ namespace Lottery
         public void OnGameCancelledByAbandonment()
         {
             RunOnUI(() => GameCancelledByAbandonmentReceived?.Invoke());
+        }
+
+        public void OnGameEnded(GameResultDto result)
+        {
+            RunOnUI(() => GameEndedReceived?.Invoke(result));
         }
     }
 }
